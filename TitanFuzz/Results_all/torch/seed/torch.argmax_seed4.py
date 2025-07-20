@@ -1,0 +1,3 @@
+input = torch.randn(3, 5)
+index = torch.argmax(input, dim=1)
+index_keepdim = torch.argmax(input, dim=1, keepdim=True)

@@ -1,0 +1,7 @@
+input = torch.randn(2, 3)
+output = torch.randn_like(input)
+input = torch.randn(2, 3)
+output = torch.randn_like(input, dtype=torch.float)
+input = torch.randn(2, 3)
+output = torch.randn_like(input, dtype=torch.float, device=torch.device('cpu'))
+input = torch.randn(2, 3)

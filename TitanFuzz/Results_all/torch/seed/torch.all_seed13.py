@@ -1,0 +1,7 @@
+input = torch.randn(3, 4)
+output = torch.all((input > 0))
+output = torch.all((input > 0), dim=0)
+output = torch.all((input > 0), dim=1)
+output = torch.all((input > 0), dim=1, keepdim=True)
+output = torch.all((input > 0), dim=(- 1))
+output = torch.all((input > 0), dim=(- 1), keepdim=True)

@@ -1,0 +1,5 @@
+input = Variable(torch.randn(3, 5), requires_grad=True)
+target = Variable(torch.randn(3, 5))
+loss = torch.nn.L1Loss(size_average=False)
+output = loss.forward(input, target)
+output.backward()

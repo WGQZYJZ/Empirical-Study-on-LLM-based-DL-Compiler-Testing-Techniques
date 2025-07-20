@@ -1,0 +1,5 @@
+input_tensor = torch.randn(4, 4)
+input2 = torch.randn(4, 4)
+output = torch.Tensor.cholesky_solve(input_tensor, input2, upper=False)
+input_tensor = torch.randn(4, 4)
+input2 = torch.randn(4, 4)

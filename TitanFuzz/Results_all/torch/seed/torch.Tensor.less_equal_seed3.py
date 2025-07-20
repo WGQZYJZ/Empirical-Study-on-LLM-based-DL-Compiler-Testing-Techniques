@@ -1,0 +1,3 @@
+input_tensor = torch.rand(2, 3, 4)
+other = torch.rand(3, 4)
+torch.Tensor.less_equal(input_tensor, other)

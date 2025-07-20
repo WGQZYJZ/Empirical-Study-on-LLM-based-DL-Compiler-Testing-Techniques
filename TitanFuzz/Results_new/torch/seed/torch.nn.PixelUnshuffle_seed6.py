@@ -1,0 +1,6 @@
+input_data = torch.randn(1, 3, 16, 16)
+input_data = torch.randn(1, 3, 16, 16)
+unshuffle = torch.nn.PixelUnshuffle(2)
+output = unshuffle(input_data)
+input_data = torch.randn(1, 3, 16, 16)
+input_data = torch.randn(1, 3, 16, 16)

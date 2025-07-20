@@ -1,0 +1,2 @@
+_input_tensor = torch.rand(size=(2, 3))
+_output_tensor = torch.Tensor.absolute(_input_tensor)

@@ -1,0 +1,5 @@
+tensor1 = torch.rand(3, 3)
+tensor2 = torch.rand(3, 3)
+tensor3 = torch.rand(3, 3)
+torch.Tensor.addcdiv(tensor1, tensor2, tensor3, value=1)
+tensor1.addcdiv(tensor2, tensor3, value=1)

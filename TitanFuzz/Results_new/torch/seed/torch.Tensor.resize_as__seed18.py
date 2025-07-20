@@ -1,0 +1,6 @@
+input_tensor = torch.randn(2, 3, 4)
+tensor = torch.randn(5, 6)
+torch.Tensor.resize_as_(input_tensor, tensor)
+input_tensor = torch.randn(2, 3, 4)
+size = (5, 6)
+torch.Tensor.resize_(input_tensor, size)

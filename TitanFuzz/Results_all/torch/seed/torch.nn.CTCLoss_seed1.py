@@ -1,0 +1,6 @@
+log_probs = torch.FloatTensor([[[0.1, 0.6, 0.1, 0.1, 0.1], [0.1, 0.1, 0.6, 0.1, 0.1]], [[0.1, 0.1, 0.1, 0.6, 0.1], [0.6, 0.1, 0.1, 0.1, 0.1]]])
+targets = torch.IntTensor([1, 2, 1, 2])
+input_lengths = torch.IntTensor([2, 2])
+target_lengths = torch.IntTensor([2, 2])
+loss_fn = torch.nn.CTCLoss()
+loss = loss_fn(log_probs, targets, input_lengths, target_lengths)

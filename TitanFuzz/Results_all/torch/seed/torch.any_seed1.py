@@ -1,0 +1,5 @@
+input = torch.randn(4, 4)
+result = torch.any(input, dim=1)
+result = torch.any(input, dim=1, keepdim=True)
+result = torch.any(input, dim=(- 1))
+result = torch.any(input, dim=(- 1), keepdim=True)

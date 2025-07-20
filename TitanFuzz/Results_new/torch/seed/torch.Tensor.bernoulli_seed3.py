@@ -1,0 +1,5 @@
+input_data = torch.randn(1, 3)
+torch.Tensor.bernoulli(input_data)
+torch.Tensor.bernoulli(input_data, 0.5)
+torch.Tensor.bernoulli(input_data, torch.empty(1, 3).uniform_(0.3, 0.7))
+torch.Tensor.bernoulli(input_data, torch.empty(1, 3).uniform_(0.3, 0.7), generator=torch.Generator())

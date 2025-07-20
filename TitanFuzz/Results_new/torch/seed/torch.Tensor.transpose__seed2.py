@@ -1,0 +1,6 @@
+input_tensor = torch.randn(2, 3, 4)
+transposed_tensor = torch.Tensor.transpose_(input_tensor, 0, 2)
+input_tensor = torch.randn(2, 3, 4)
+transposed_tensor = torch.Tensor.transpose(input_tensor, 0, 2)
+input_tensor = torch.randn(2, 3, 4)
+transposed_tensor = torch.transpose(input_tensor, 0, 2)

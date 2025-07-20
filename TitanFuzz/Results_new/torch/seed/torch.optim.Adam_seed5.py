@@ -1,0 +1,5 @@
+input_data = torch.tensor([[0.0], [1.0], [2.0], [3.0], [4.0]])
+target_data = torch.tensor([[0.0], [1.0], [2.0], [3.0], [4.0]])
+model = torch.nn.Linear(1, 1)
+loss_fn = torch.nn.MSELoss(reduction='sum')
+optimizer = torch.optim.Adam(model.parameters(), lr=0.001)

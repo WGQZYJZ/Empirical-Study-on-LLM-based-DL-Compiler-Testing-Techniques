@@ -1,0 +1,4 @@
+input1 = torch.randn(3, 3)
+input2 = torch.randn(3, 3)
+input3 = torch.randn(3, 3)
+output = torch.block_diag(input1, input2, input3)

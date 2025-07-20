@@ -1,0 +1,1 @@
+output = torch.nn.functional.silu(input)

@@ -1,0 +1,12 @@
+input_data = torch.randn(10, 3)
+output_data = torch.randn(10, 2)
+loss_fn = torch.nn.MSELoss(reduction='sum')
+model = torch.nn.Linear(3, 2)
+optimizer = torch.optim.SGD(model.parameters(), lr=0.0001)
+for t in range(500):
+    y_pred = model(input_data)
+    loss = loss_fn(y_pred, output_data)
+    print(t, loss.item())
+    optimizer.zero_grad()
+    loss.backward()
+    optimizer.step()

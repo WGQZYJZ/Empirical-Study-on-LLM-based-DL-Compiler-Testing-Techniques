@@ -1,0 +1,6 @@
+input = torch.randn(2, 3)
+index = torch.tensor([[0, 1, 0], [1, 0, 0]])
+output = torch.zeros(2, 3)
+torch.scatter(output, 0, index, input)
+output = torch.zeros(2, 3)
+torch.scatter(output, 1, index, input)

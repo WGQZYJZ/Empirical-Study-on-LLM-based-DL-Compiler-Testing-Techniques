@@ -1,0 +1,6 @@
+input_data = torch.randn(2, 3, 4)
+torch.nn.init.normal_(input_data)
+input_data = torch.randn(2, 3, 4)
+torch.nn.init.uniform_(input_data)
+input_data = torch.randn(2, 3, 4)
+torch.nn.init.constant_(input_data, 0)

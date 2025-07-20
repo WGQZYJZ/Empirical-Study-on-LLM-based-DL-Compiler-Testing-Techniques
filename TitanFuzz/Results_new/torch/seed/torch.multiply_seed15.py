@@ -1,0 +1,6 @@
+x = torch.tensor([1, 2, 3, 4], dtype=torch.float32)
+y = torch.tensor([2, 2, 2, 2], dtype=torch.float32)
+z = torch.multiply(x, y)
+x = torch.tensor([1, 2, 3, 4], dtype=torch.float32)
+y = torch.tensor([2, 2, 2, 2], dtype=torch.float32)
+z = torch.div(x, y)

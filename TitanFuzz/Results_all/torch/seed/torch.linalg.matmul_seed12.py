@@ -1,0 +1,1 @@
+output = torch.linalg.matmul(input, other)

@@ -1,0 +1,5 @@
+_input_tensor = torch.randn(2, 3)
+_any = torch.Tensor.any(_input_tensor)
+_any = torch.Tensor.any(_input_tensor, dim=0)
+_any = torch.Tensor.any(_input_tensor, dim=1)
+_any = torch.Tensor.any(_input_tensor, dim=1, keepdim=True)

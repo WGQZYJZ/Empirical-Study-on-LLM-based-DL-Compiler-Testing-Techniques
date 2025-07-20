@@ -1,0 +1,8 @@
+input_tensor = torch.randn(4, 4)
+other = torch.randn(4, 4)
+input_tensor = torch.randn(4, 4)
+other = torch.randn(4, 4)
+torch.Tensor.copysign_(input_tensor, other)
+input_tensor = torch.randn(4, 4)
+input_tensor = torch.randn(4, 4)
+torch.Tensor

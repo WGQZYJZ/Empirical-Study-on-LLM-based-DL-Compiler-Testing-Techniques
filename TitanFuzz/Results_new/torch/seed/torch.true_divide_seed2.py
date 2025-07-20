@@ -1,0 +1,2 @@
+input_data = torch.randn(2, 3)
+output_data = torch.true_divide(input_data, 0.5)

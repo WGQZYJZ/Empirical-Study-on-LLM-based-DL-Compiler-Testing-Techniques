@@ -1,0 +1,2 @@
+input = torch.randn(3, 4)
+output = torch.roll(input, 1, dims=1)

@@ -1,0 +1,7 @@
+x = torch.eye(3, 3)
+x = torch.eye(3, 4)
+x = torch.eye(3, 4, out=None)
+x = torch.eye(3, 4, out=None, dtype=torch.int32)
+x = torch.eye(3, 4, out=None, dtype=torch.int32, layout=torch.strided)
+x = torch.eye(3, 4, out=None, dtype=torch.int32, layout=torch.strided, device=None)
+x = torch.eye(3, 4, out=None, dtype=torch.int32, layout=torch.strided, device=None, requires_grad=False)

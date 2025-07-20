@@ -1,0 +1,5 @@
+input_data = torch.rand(size=(1000, 1000))
+torch.set_num_interop_threads(4)
+start_time = time.time()
+output_data = torch.matmul(input_data, input_data)
+duration = (time.time() - start_time)

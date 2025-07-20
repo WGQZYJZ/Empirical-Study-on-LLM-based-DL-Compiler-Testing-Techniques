@@ -1,0 +1,2 @@
+x = torch.randn(3, 3, 3)
+y = torch.as_strided(x, (2, 2, 2), (1, 1, 1))

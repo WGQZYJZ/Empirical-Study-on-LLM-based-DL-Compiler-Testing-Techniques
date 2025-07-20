@@ -1,0 +1,4 @@
+tensor = torch.ones(2, 2)
+torch.nn.init.ones_(tensor)
+tensor = torch.ones(2, 2)
+torch.nn.init.zeros_(tensor)

@@ -1,0 +1,5 @@
+input_data = torch.randn(2, 3)
+torch.set_default_tensor_type(torch.DoubleTensor)
+input_data = torch.randn(2, 3)
+torch.set_default_dtype(torch.float32)
+input_data = torch.randn(2, 3)

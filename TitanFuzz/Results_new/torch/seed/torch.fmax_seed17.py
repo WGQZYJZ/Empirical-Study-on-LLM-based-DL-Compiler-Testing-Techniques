@@ -1,0 +1,5 @@
+input = torch.randn(2, 3)
+other = torch.randn(2, 3)
+torch.fmax(input, other)
+out = torch.empty(2, 3)
+torch.fmax(input, other, out=out)

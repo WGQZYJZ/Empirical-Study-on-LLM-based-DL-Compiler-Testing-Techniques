@@ -1,0 +1,5 @@
+input_data = torch.randn(1000, 1000)
+torch.set_num_threads(4)
+start = time.time()
+output_data = torch.mm(input_data, input_data)
+end = time.time()

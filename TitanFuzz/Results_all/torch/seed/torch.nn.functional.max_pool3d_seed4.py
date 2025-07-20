@@ -1,0 +1,4 @@
+dtype = torch.FloatTensor
+(N, C, D, H, W) = (2, 3, 4, 5, 6)
+x = Variable(torch.randn(N, C, D, H, W).type(dtype), requires_grad=True)
+max_pool3d = torch.nn.functional.max_pool3d(x, kernel_size=3, stride=2, padding=1)

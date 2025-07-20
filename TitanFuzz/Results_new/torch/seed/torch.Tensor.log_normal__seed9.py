@@ -1,0 +1,2 @@
+_input_tensor = torch.tensor([[1, 2, 3], [4, 5, 6]])
+_output_tensor = torch.Tensor.log_normal_(_input_tensor, mean=1, std=2)

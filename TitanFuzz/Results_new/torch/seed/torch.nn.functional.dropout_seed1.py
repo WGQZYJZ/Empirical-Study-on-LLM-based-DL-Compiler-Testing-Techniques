@@ -1,0 +1,6 @@
+x = torch.randn(100, 100)
+y = torch.nn.functional.dropout(x, p=0.5, training=True)
+dropout = torch.nn.Dropout(p=0.5)
+y = dropout(x)
+dropout = torch.nn.Dropout2d(p=0.5)
+y = dropout(x.view(100, 1, 100, 1))

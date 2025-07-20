@@ -1,0 +1,2 @@
+input_data = torch.rand(3, 3)
+output_data = torch.Tensor.expm1(input_data)

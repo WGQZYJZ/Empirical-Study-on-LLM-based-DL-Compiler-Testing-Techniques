@@ -1,0 +1,7 @@
+input = Variable(torch.randn(2, 2, 3, 3))
+upsample = torch.nn.Upsample(scale_factor=2)
+output = upsample(input)
+upsample = torch.nn.Upsample(size=(7, 7))
+output = upsample(input)
+upsample = torch.nn.Upsample(size=(7, 7), mode='bilinear')
+output = upsample(input)

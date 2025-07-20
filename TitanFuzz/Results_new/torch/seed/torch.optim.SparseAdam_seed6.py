@@ -1,0 +1,7 @@
+weight = torch.tensor([[0.1, 0.2], [0.3, 0.4]], requires_grad=True)
+weight_sparse = torch.tensor([[0.1, 0.0], [0.0, 0.4]], requires_grad=True)
+optimizer = torch.optim.SparseAdam([weight_sparse], lr=0.001)
+optimizer.zero_grad()
+loss = weight.pow(2).sum()
+loss.backward()
+optimizer.step()

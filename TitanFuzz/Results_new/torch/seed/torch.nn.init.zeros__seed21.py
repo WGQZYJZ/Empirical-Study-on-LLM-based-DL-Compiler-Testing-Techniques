@@ -1,0 +1,5 @@
+tensor = torch.empty(2, 3)
+torch.nn.init.zeros_(tensor)
+tensor = torch.empty(2, 3)
+torch.nn.init.ones_(tensor)
+tensor = torch.empty(2, 3)

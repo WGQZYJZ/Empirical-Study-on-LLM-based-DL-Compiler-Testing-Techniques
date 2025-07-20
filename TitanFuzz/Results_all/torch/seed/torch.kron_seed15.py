@@ -1,0 +1,5 @@
+input = torch.randn(2, 3)
+other = torch.randn(4, 5)
+output = torch.kron(input, other)
+output = torch.kron(input, other, out=None)
+output = torch.kron(input, other, out=torch.empty(8, 15))

@@ -1,0 +1,5 @@
+input_tensor = torch.rand(4, 4)
+other = torch.rand(4, 4)
+torch.Tensor.nextafter(input_tensor, other)
+input_tensor = torch.rand(4, 4)
+torch.Tensor.nonzero(input_tensor)

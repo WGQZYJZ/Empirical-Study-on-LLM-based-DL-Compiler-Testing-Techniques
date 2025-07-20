@@ -1,0 +1,6 @@
+input = torch.tensor([[1, 2, 3], [4, 5, 6]])
+mat2 = torch.tensor([[1, 2], [3, 4], [5, 6]])
+torch.mm(input, mat2)
+input = torch.randn(10, 3, 4)
+mat2 = torch.randn(10, 4, 5)
+torch.bmm(input, mat2)

@@ -1,0 +1,5 @@
+size = (3, 3)
+torch.rand(*size)
+torch.rand(size=size)
+torch.rand(size=size, dtype=torch.float32)
+torch.rand(size=size, dtype=torch.float32, layout=torch.strided)

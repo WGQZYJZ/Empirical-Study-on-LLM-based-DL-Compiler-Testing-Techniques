@@ -1,0 +1,6 @@
+input_tensor = torch.randn(2, 3)
+other = torch.randn(2, 3)
+torch.Tensor.gt_(input_tensor, other)
+input_tensor = torch.randn(2, 3)
+other = torch.randn(2, 3)
+torch.Tensor.lt_(input_tensor, other)

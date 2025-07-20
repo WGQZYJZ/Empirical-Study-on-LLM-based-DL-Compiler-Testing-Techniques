@@ -1,0 +1,2 @@
+input_data = torch.rand(2, 3, 5)
+output_data = torch.Tensor.normal_(input_data, mean=0, std=1)

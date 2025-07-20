@@ -1,0 +1,5 @@
+input_data = torch.randn(1, 1, 3, 3)
+output = torch.fft.fft(input_data, n=None, dim=(- 1), norm=None, out=None)
+output = torch.fft.fft(input_data, n=None, dim=(- 2), norm=None, out=None)
+output = torch.fft.fft(input_data, n=None, dim=(- 3), norm=None, out=None)
+output = torch.fft.fft(input_data, n=None, dim=(- 4), norm=None, out=None)

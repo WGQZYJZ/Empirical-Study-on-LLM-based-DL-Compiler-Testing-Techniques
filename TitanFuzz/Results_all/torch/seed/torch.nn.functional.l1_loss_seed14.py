@@ -1,0 +1,6 @@
+input = torch.tensor([1.0, 2.0, 3.0, 4.0, 5.0])
+target = torch.tensor([1.0, 2.0, 3.0, 4.0, 5.0])
+l1_loss = torch.nn.functional.l1_loss(input, target)
+l1_loss = torch.nn.functional.l1_loss(input, target, size_average=False)
+l1_loss = torch.nn.functional.l1_loss(input, target, reduce=True)
+l1_loss = torch.nn.functional.l1_loss(input, target, reduction='sum')

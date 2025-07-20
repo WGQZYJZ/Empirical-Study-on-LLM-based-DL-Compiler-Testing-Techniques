@@ -1,0 +1,6 @@
+x = torch.rand(2, 3, 4)
+torch.real(x)
+x = torch.rand(2, 3, 4)
+torch.real(x)
+x = torch.rand(2, 3, 4)
+torch.real(x)

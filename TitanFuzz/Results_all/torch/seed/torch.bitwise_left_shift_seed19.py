@@ -1,0 +1,5 @@
+input = torch.randint(low=0, high=2, size=(4, 4), dtype=torch.int8)
+other = torch.randint(low=0, high=2, size=(4, 4), dtype=torch.int8)
+out = torch.bitwise_left_shift(input, other)
+out = torch.bitwise_left_shift(input, other, out=input)
+out = torch.bitwise_left_shift(input, other, out=input.byte())

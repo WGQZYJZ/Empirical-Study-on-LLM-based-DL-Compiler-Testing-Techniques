@@ -1,0 +1,6 @@
+x1 = torch.tensor([True, False, True, False])
+x2 = torch.tensor([True, True, False, False])
+y = torch.logical_xor(x1, x2)
+x1 = torch.tensor([[True, False, True, False], [True, True, False, False]])
+x2 = torch.tensor([[True, True, False, False], [True, False, True, False]])
+y = torch.logical_xor(x1, x2)

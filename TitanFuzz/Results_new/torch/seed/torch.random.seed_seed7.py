@@ -1,0 +1,5 @@
+x = torch.rand(3, 3)
+torch.random.seed()
+y = torch.rand(3, 3)
+torch.random.seed()
+z = torch.rand(3, 3)

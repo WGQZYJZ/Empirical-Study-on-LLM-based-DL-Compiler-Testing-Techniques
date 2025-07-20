@@ -1,0 +1,7 @@
+x = torch.tensor([1, 2, 3, 4, 5, 6, 7, 8])
+y = torch.diff(x, n=1, dim=(- 1))
+y = torch.diff(x, n=2, dim=(- 1))
+y = torch.diff(x, n=1, dim=0)
+y = torch.diff(x, n=2, dim=0)
+y = torch.diff(x, n=1, dim=0, prepend=torch.tensor([0]))
+y = torch.diff(x, n=1, dim=0, prepend=torch.tensor([0]), append=torch.tensor([0]))

@@ -1,0 +1,6 @@
+data = torch.rand(10, dtype=torch.float64)
+torch.Tensor.igammac_(data, 1.0)
+torch.Tensor.igammac_(data, 0.5)
+torch.Tensor.igammac_(data, 0.0)
+torch.Tensor.igammac_(data, (- 0.5))
+torch.Tensor.igammac_(data, (- 1.0))

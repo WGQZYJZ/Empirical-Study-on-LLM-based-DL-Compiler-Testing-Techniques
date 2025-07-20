@@ -1,0 +1,5 @@
+input_data = torch.randn(1, 3, 224, 224, dtype=torch.float32)
+quantized_input = torch.quantize_per_tensor(input_data, scale=0.3, zero_point=2, dtype=torch.quint8)
+dequantized_input = quantized_input.dequantize()
+quantized_input = torch.quantize_per_tensor(input_data, scale=0.3, zero_point=2, dtype=torch.qint8)
+dequantized_input = quantized_input.dequantize()

@@ -1,0 +1,1 @@
+a = torch.randint(0, 10, (3, 3))

@@ -1,0 +1,3 @@
+input = torch.randn(2, 3)
+mat2 = torch.randn(3, 4)
+output = torch.mm(input, mat2)

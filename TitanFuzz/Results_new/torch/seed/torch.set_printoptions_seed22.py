@@ -1,0 +1,7 @@
+a = torch.rand(4, 3)
+torch.set_printoptions(precision=4)
+torch.set_printoptions(precision=2, threshold=3)
+torch.set_printoptions(precision=2, threshold=3, edgeitems=2)
+torch.set_printoptions(precision=2, threshold=3, edgeitems=2, linewidth=20)
+torch.set_printoptions(precision=2, threshold=3, edgeitems=2, linewidth=20, profile='full')
+torch.set_printoptions(precision=2, threshold=3, edgeitems=2, linewidth=20, profile='full', sci_mode=True)

@@ -1,0 +1,3 @@
+input_tensor = torch.rand(10, 3)
+cov_result = torch.Tensor.cov(input_tensor)
+cov_result_2 = torch.Tensor.cov(input_tensor, correction=0)

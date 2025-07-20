@@ -1,0 +1,5 @@
+(N, C) = (5, 4)
+input = torch.randn(N, C, requires_grad=True)
+target = torch.empty(N, dtype=torch.long).random_(C)
+loss = torch.nn.NLLLoss()
+output = loss(input, target)

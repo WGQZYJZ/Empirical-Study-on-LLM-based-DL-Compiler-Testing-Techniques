@@ -1,0 +1,5 @@
+input_data = torch.randn(2, 3, 4, 4)
+upsample = torch.nn.Upsample(size=(8, 8), mode='nearest')
+output = upsample(input_data)
+upsample = torch.nn.Upsample(size=(8, 8), mode='bilinear')
+output = upsample(input_data)

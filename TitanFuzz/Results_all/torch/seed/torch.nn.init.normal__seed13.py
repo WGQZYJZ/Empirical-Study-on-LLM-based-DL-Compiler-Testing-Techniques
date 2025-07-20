@@ -1,0 +1,6 @@
+data = torch.randn(2, 3)
+torch.nn.init.normal_(data, mean=0.0, std=1.0)
+data = torch.zeros(2, 3)
+torch.nn.init.normal_(data, mean=0.0, std=1.0)
+data = torch.ones(2, 3)
+torch.nn.init.normal_(data, mean=0.0, std=1.0)

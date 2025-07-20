@@ -1,0 +1,6 @@
+input_data = np.array([(- 1), (- 2), 1, 2])
+input_data = torch.tensor(input_data, dtype=torch.float)
+output = torch.negative(input_data)
+input_data = np.array([(- 1), (- 2), 1, 2])
+input_data = torch.tensor(input_data, dtype=torch.float)
+output = torch.reciprocal(input_data)

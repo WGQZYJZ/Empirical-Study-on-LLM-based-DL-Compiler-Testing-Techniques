@@ -1,0 +1,6 @@
+input = torch.randn(2, 2)
+target = torch.randn(2, 2)
+input = torch.randn(2, 2)
+target = torch.randn(2, 2)
+loss = torch.nn.functional.huber_loss(input, target)
+loss = torch.nn.functional.huber_loss(input, target, reduction='sum')

@@ -1,0 +1,6 @@
+x = torch.randn(3, 3)
+y = torch.norm(x, p='fro')
+y = torch.norm(x, dim=1)
+y = torch.norm(x, dim=0)
+y = torch.norm(x, dim=1, keepdim=True)
+y = torch.norm(x, dim=0, keepdim=True)

@@ -1,0 +1,5 @@
+input = torch.rand(10, 2)
+torch.random.fork_rng(devices=[0, 1])
+input2 = torch.rand(10, 2)
+torch.random.fork_rng(devices=None)
+input3 = torch.rand(10, 2)

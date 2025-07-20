@@ -1,0 +1,5 @@
+torch.set_num_interop_threads(4)
+a = torch.rand(1000000, 1)
+b = torch.rand(1000000, 1)
+start = time.time()
+c = torch.add(a, b)

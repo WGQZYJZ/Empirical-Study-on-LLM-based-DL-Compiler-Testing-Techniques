@@ -1,0 +1,5 @@
+input_data = torch.Tensor([[1, 2, 3, 4], [5, 6, 7, 8]])
+input_data = torch.Tensor([[1, 2, 3, 4], [5, 6, 7, 8]])
+gelu = torch.nn.GELU()
+output = gelu(input_data)
+input_data = torch.Tensor([[1, 2, 3, 4], [5, 6, 7, 8]])

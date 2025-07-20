@@ -1,0 +1,5 @@
+input_data = torch.tensor([1.1, 2.2, 3.3, 4.4, 5.5])
+torch.round(input_data)
+input_data = torch.tensor([1.1, 2.2, 3.3, 4.4, 5.5])
+torch.rsqrt(input_data)
+input_data = torch.tensor([1.1, 2.2, 3.3, 4.4, 5.5])

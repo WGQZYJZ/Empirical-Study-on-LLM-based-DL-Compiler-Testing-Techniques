@@ -1,0 +1,1 @@
+torch.Tensor.fix(_input_tensor)

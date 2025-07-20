@@ -1,0 +1,5 @@
+input_data = torch.tensor([2.0, 3.0, 4.0])
+output_data = torch.square(input_data)
+output_data = torch.sqrt(input_data)
+output_data = torch.pow(input_data, 2)
+output_data = torch.exp(input_data)

@@ -1,0 +1,6 @@
+np.random.seed(42)
+x = np.random.randn(100, 20)
+y = np.random.randn(100, 20)
+elu = torch.nn.ELU()
+x_tensor = torch.tensor(x, dtype=torch.float)
+y_tensor = torch.tensor(y, dtype=torch.float)

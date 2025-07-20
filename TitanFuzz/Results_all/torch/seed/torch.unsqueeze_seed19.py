@@ -1,0 +1,9 @@
+input = torch.randn(2, 3, 4)
+dim = 0
+output = torch.unsqueeze(input, dim)
+dim = 1
+output = torch.unsqueeze(input, dim)
+dim = 2
+output = torch.unsqueeze(input, dim)
+dim = 3
+output = torch.unsqueeze(input, dim)

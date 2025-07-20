@@ -1,0 +1,5 @@
+x = torch.tensor([[1, 2, 3], [4, 5, 6]], dtype=torch.float32)
+y = torch.pow(x, 2)
+y = torch.pow(x, 2, out=x)
+y = torch.pow(x, 3)
+y = torch.pow(x, 3, out=x)

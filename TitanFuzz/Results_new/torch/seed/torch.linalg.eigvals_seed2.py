@@ -1,0 +1,7 @@
+A = torch.randn(2, 2)
+eigvals = torch.linalg.eigvals(A)
+eigvals_np = np.linalg.eigvals(A.numpy())
+eigvals_np = np.linalg.eigvals(A.numpy())
+eigvals_np = np.linalg.eigvals(A.numpy())
+eigvals_np = np.linalg.eigvals(A.numpy())
+eigvals_np = np.linalg.eigvals(A.numpy())

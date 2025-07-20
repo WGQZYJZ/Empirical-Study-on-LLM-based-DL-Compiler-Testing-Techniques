@@ -1,0 +1,5 @@
+x = torch.randn(1, 4)
+prelu = torch.nn.PReLU(num_parameters=1, init=0.25)
+y = prelu(x)
+prelu = torch.nn.PReLU(num_parameters=4, init=0.25)
+y = prelu(x)

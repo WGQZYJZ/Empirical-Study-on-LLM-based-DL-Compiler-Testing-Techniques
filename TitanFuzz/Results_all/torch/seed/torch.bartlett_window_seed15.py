@@ -1,0 +1,2 @@
+input_data = torch.rand(10)
+output = torch.bartlett_window(window_length=10, periodic=True)

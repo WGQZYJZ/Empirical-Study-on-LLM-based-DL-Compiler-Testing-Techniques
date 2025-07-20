@@ -1,0 +1,5 @@
+x = torch.randn(3, requires_grad=True)
+y = torch.logit(x)
+y.backward(torch.tensor([1, 1, 1]))
+y = torch.logit(x, eps=1e-06)
+y.backward(torch.tensor([1, 1, 1]))

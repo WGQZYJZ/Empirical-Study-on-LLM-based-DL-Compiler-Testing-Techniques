@@ -1,0 +1,6 @@
+input = torch.rand(3, 4, dtype=torch.float32)
+vec = torch.rand(4, dtype=torch.float32)
+torch.mv(input, vec)
+input = torch.rand(3, 4, dtype=torch.float32)
+mat2 = torch.rand(4, 5, dtype=torch.float32)
+torch.mm(input, mat2)

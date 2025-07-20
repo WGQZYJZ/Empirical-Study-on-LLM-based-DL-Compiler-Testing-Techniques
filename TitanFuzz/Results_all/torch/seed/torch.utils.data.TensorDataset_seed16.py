@@ -1,0 +1,3 @@
+x = torch.tensor([[1, 2], [3, 4], [5, 6], [7, 8]])
+y = torch.tensor([[1], [2], [3], [4]])
+tensor_dataset = torch.utils.data.TensorDataset(x, y)

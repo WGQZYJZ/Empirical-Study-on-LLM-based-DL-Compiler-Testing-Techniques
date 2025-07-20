@@ -1,0 +1,2 @@
+_input_tensor = torch.rand(4, 4)
+_output_tensor = torch.Tensor.rsqrt_(_input_tensor)

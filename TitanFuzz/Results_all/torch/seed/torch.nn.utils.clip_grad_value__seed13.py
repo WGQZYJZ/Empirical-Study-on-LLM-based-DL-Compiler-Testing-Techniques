@@ -1,0 +1,6 @@
+x = torch.arange((- 10), 10, dtype=torch.float32)
+y = torch.arange((- 10), 10, dtype=torch.float32)
+torch.nn.utils.clip_grad_value_(x, clip_value=1.0)
+x = torch.arange((- 10), 10, dtype=torch.float32)
+y = torch.arange((- 10), 10, dtype=torch.float32)
+torch.nn.utils.clip_grad_norm_(x, max_norm=1.0, norm_type=2)

@@ -1,0 +1,1 @@
+torch.Tensor.detach_(torch.randn(2, 3, 4))

@@ -1,0 +1,5 @@
+x = torch.tensor([[True, False], [False, False]], dtype=torch.bool)
+y = torch.tensor([[True, False], [True, False]], dtype=torch.bool)
+torch.bitwise_and(x, y)
+x = torch.tensor([[True, False], [False, False]], dtype=torch.bool)
+y = torch.tensor([[True, False], [True, False]], dtype=torch.bool)

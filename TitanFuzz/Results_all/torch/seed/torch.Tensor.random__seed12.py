@@ -1,0 +1,2 @@
+input_tensor = torch.arange(0, 12, dtype=torch.float32)
+output_tensor = torch.Tensor.random_(input_tensor)

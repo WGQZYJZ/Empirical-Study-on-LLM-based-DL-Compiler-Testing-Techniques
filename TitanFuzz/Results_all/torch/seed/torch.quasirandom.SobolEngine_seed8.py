@@ -1,0 +1,5 @@
+sobol_engine = torch.quasirandom.SobolEngine(dimension=2)
+sobol_engine = torch.quasirandom.SobolEngine(dimension=3)
+sobol_engine = torch.quasirandom.SobolEngine(dimension=4)
+sobol_engine = torch.quasirandom.SobolEngine(dimension=5)
+sobol_engine = torch.quasirandom.SobolEngine(dimension=6)

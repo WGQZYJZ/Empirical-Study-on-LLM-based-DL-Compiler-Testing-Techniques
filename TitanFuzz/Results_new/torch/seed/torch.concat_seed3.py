@@ -1,0 +1,6 @@
+tensor_1 = torch.rand(2, 3)
+tensor_2 = torch.rand(2, 3)
+tensor_3 = torch.rand(2, 3)
+concat_1 = torch.concat((tensor_1, tensor_2, tensor_3), dim=0)
+concat_2 = torch.cat((tensor_1, tensor_2, tensor_3), dim=0)
+concat_3 = torch.cat((tensor_1, tensor_2, tensor_3), dim=1)

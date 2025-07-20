@@ -1,0 +1,5 @@
+_input_tensor = torch.randn(2, 3, 4)
+_input_tensor[(0, 1, 1)] = float('nan')
+_input_tensor[(0, 1, 2)] = float('nan')
+_input_tensor[(1, 2, 1)] = float('nan')
+_output_tensor = torch.Tensor.nanmean(_input_tensor, dim=1, keepdim=False)

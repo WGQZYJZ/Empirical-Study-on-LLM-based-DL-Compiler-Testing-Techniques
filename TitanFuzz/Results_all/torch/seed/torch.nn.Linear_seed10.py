@@ -1,0 +1,7 @@
+x = torch.randn(5, 3)
+linear = torch.nn.Linear(3, 2)
+linear.weight = torch.nn.Parameter(torch.Tensor([[1, 2, 3], [4, 5, 6]]))
+y = linear(x)
+y.backward(torch.ones(5, 2))
+linear.weight.grad.zero_()
+linear.bias.grad.zero_()

@@ -1,0 +1,7 @@
+input = Variable(torch.randn(1, 1, 28, 28))
+conv1 = torch.nn.Conv2d(1, 1, 3, 1, 1)
+output = conv1(input)
+pool1 = torch.nn.MaxPool2d(2, 2)
+output = pool1(output)
+relu1 = torch.nn.ReLU()
+output = relu1(output)

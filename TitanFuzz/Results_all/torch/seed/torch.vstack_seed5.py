@@ -1,0 +1,4 @@
+a = torch.randn(2, 3)
+b = torch.randn(2, 3)
+c = torch.randn(2, 3)
+d = torch.vstack((a, b, c))

@@ -1,0 +1,5 @@
+input_data = torch.randn(2, 3, 4)
+input_data[0][0][0] = float('nan')
+input_data[0][1][1] = float('nan')
+input_data[1][2][2] = float('nan')
+output = torch.isnan(input_data)

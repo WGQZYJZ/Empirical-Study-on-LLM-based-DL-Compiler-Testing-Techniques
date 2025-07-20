@@ -1,0 +1,8 @@
+input_tensor = torch.randn(4, 4)
+input_tensor[0][0] = float('nan')
+input_tensor[0][1] = float('inf')
+input_tensor[0][2] = float('-inf')
+input_tensor[1][0] = float('nan')
+input_tensor[1][1] = float('inf')
+input_tensor[1][2] = float('-inf')
+output = torch.Tensor.nan_to_num_(input_tensor, nan=0.0, posinf=None, neginf=None)

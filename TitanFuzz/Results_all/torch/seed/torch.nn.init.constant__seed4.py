@@ -1,0 +1,6 @@
+input_data = np.array([[1, 2, 3], [4, 5, 6]])
+input_data = torch.from_numpy(input_data)
+torch.nn.init.constant_(input_data, val=0)
+torch.nn.init.constant_(input_data, val=1)
+torch.nn.init.constant_(input_data, val=2)
+torch.nn.init.constant_(input_data, val=3)

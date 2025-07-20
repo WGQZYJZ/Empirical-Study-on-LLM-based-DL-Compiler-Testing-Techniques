@@ -1,0 +1,2 @@
+input_tensor = torch.randn(1, 3, 3)
+torch.Tensor.cosh_(input_tensor)

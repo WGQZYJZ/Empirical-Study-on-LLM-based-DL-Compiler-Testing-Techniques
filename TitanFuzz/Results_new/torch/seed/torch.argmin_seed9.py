@@ -1,0 +1,5 @@
+input = torch.randn(3, 4)
+output = torch.argmin(input, dim=1, keepdim=True)
+output = torch.argmin(input, dim=1, keepdim=False)
+output = torch.argmin(input, dim=0, keepdim=True)
+output = torch.argmin(input, dim=0, keepdim=False)

@@ -1,0 +1,2 @@
+_input_tensor = torch.randn(3, 3)
+torch.Tensor.greater_(_input_tensor, 0)

@@ -1,0 +1,6 @@
+input_tensor = torch.randn((2, 3))
+output_tensor = torch.Tensor.square_(input_tensor)
+input_tensor = torch.randn((2, 3))
+output_tensor = torch.Tensor.add_(input_tensor, 1)
+input_tensor = torch.randn((2, 3))
+output_tensor = torch.Tensor.mul_(input_tensor, 2)

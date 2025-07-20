@@ -1,0 +1,2 @@
+input = torch.randn(1, 3, 3)
+output = torch.fft.ifftshift(input, dim=None)

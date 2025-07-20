@@ -1,0 +1,1 @@
+output = torch.Tensor.q_zero_point(input_tensor)

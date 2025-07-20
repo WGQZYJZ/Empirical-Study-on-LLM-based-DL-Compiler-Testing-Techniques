@@ -1,0 +1,6 @@
+input = torch.randn(1, 1, 5, 5)
+weight = torch.randn(1, 1, 3, 3)
+conv2d_output = torch.nn.functional.conv2d(input, weight)
+input = torch.randn(1, 1, 5, 5)
+weight = torch.randn(1, 1, 3, 3)
+conv2d_output = torch.nn.functional.conv2d(input, weight)

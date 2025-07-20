@@ -1,0 +1,8 @@
+torch.hub.set_dir('/tmp/torch_hub')
+input = torch.randn(1, 3, 224, 224)
+model = torch.hub.load('pytorch/vision:v0.5.0', 'alexnet', pretrained=True)
+model.eval()
+torch.hub.set_dir('/tmp/torch_hub')
+model = torch.hub.load('pytorch/vision:v0.5.0', 'alexnet', pretrained=True)
+model.eval()
+output = model(input)

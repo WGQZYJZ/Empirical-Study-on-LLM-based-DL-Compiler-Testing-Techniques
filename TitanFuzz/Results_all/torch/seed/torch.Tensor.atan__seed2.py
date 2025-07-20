@@ -1,0 +1,5 @@
+input_data = torch.Tensor([(- 1), 1])
+output_data = torch.Tensor.atan_(input_data)
+input_data = torch.Tensor([(- 1), 1])
+input_data2 = torch.Tensor([(- 1), 1])
+output_data = torch.Tensor.atan2(input_data, input_data2)

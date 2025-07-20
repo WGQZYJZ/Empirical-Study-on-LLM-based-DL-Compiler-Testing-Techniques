@@ -1,0 +1,6 @@
+x = torch.arange(10)
+freq = torch.fft.fftfreq(x.size()[0])
+y = torch.fft.fft(x)
+z = torch.fft.ifft(y)
+freq_shift = torch.fft.fftshift(freq)
+freq_shift_reverse = torch.fft.ifftshift(freq_shift)

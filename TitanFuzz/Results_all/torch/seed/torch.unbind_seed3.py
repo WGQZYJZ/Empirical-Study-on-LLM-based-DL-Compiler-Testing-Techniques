@@ -1,0 +1,3 @@
+input = torch.randn(1, 3)
+output = torch.unbind(input, dim=0)
+output = torch.unbind(input, dim=1)

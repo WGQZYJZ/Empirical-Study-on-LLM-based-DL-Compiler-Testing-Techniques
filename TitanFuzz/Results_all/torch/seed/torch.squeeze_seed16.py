@@ -1,0 +1,5 @@
+input = torch.randn(4, 1, 3, 1, 5)
+output = torch.squeeze(input)
+output = torch.squeeze(input, dim=0)
+output = torch.squeeze(input, dim=1)
+output = torch.squeeze(input, dim=2)

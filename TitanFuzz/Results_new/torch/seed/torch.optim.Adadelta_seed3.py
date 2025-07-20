@@ -1,0 +1,8 @@
+x = torch.tensor(1.0, requires_grad=True)
+w = torch.tensor(2.0, requires_grad=True)
+b = torch.tensor(3.0, requires_grad=True)
+optimizer = torch.optim.Adadelta([w, b], lr=0.1)
+y = ((w * x) + b)
+loss = (y - 4)
+loss.backward()
+optimizer.step()

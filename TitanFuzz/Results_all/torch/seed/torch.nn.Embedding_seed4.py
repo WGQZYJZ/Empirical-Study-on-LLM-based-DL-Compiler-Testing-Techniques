@@ -1,0 +1,5 @@
+input = torch.LongTensor([[1, 2, 4, 5], [4, 3, 2, 9]])
+embedding = torch.nn.Embedding(10, 3)
+output = embedding(input)
+embedding = torch.nn.EmbeddingBag(10, 3, mode='mean')
+output = embedding(input)

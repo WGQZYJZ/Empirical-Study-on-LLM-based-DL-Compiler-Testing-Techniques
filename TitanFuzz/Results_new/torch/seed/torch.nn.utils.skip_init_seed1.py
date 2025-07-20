@@ -1,0 +1,1 @@
+torch.nn.utils.skip_init(nn.Linear, *(2, 3), **{'bias': False})

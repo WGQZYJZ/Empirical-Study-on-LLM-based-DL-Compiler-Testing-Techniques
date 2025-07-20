@@ -1,0 +1,2 @@
+_input_tensor = torch.randn(1, 1, 100)
+output_tensor = torch.Tensor.istft(_input_tensor, n_fft=100, hop_length=1, win_length=100, window=None, center=True, normalized=False, onesided=None, length=None, return_complex=False)

@@ -1,0 +1,5 @@
+input_tensor = torch.rand(3, 3)
+input_tensor = torch.rand(3, 3)
+torch.Tensor.atanh_(input_tensor)
+input_tensor = torch.rand(3, 3)
+input_tensor = torch.rand(3, 3)

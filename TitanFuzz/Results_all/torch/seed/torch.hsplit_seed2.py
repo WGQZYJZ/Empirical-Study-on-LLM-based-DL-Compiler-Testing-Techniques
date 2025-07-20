@@ -1,0 +1,5 @@
+input = torch.randn(2, 4, 3)
+torch.hsplit(input, 2)
+input = torch.randn(2, 4, 3)
+torch.split(input, 2, dim=0)
+input = torch.randn(2, 4, 3)

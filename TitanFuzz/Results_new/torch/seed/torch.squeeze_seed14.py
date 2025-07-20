@@ -1,0 +1,5 @@
+x = torch.randn(1, 3, 1, 1)
+y = torch.squeeze(x)
+y = torch.squeeze(x, dim=0)
+y = torch.squeeze(x, dim=2)
+y = torch.squeeze(x, dim=3)

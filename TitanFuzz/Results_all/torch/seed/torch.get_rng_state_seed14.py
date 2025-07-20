@@ -1,0 +1,5 @@
+x = torch.rand(3, 3)
+rng_state = torch.get_rng_state()
+y = torch.rand(3, 3)
+torch.set_rng_state(rng_state)
+z = torch.rand(3, 3)

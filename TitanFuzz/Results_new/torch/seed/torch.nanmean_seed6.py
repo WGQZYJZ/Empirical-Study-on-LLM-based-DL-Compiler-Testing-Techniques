@@ -1,0 +1,5 @@
+x = torch.randn(4, 4)
+mean = torch.nanmean(x, dim=1, keepdim=True)
+mean = torch.nanmean(x, dim=1, keepdim=False)
+mean = torch.nanmean(x, dim=None, keepdim=False)
+mean = torch.nanmean(x, dim=None, keepdim=True)

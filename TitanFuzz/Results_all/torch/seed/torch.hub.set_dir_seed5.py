@@ -1,0 +1,1 @@
+torch.hub.set_dir('./hub')

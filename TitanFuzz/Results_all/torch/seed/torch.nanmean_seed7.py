@@ -1,0 +1,5 @@
+input_data = torch.arange(1, 10, dtype=torch.float)
+input_data[3] = float('nan')
+input_data[4] = float('nan')
+input_data[5] = float('nan')
+output_data = torch.nanmean(input_data)

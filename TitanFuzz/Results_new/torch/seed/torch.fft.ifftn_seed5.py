@@ -1,0 +1,7 @@
+input = torch.randn(2, 3, 4)
+output = torch.fft.ifftn(input)
+output = torch.fft.ifftn(input, dim=0)
+output = torch.fft.ifftn(input, dim=1)
+output = torch.fft.ifftn(input, dim=2)
+input = torch.randn(2, 3, 4)
+output = torch.fft.ifftn(input, s=(2, 3, 4))

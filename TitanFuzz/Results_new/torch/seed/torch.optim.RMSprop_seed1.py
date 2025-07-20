@@ -1,0 +1,6 @@
+x = torch.tensor(data=[2.0, 3.0], requires_grad=True)
+optimizer = torch.optim.RMSprop([x], lr=0.01)
+for step in range(201):
+    optimizer.zero_grad()
+    y = (x * x)
+    loss = ((y - 4) ** 2)

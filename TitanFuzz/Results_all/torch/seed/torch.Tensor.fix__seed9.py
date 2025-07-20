@@ -1,0 +1,8 @@
+_input_tensor = torch.randn(3, 3)
+torch.Tensor.fix_(_input_tensor)
+_input_tensor = torch.randn(3, 3)
+torch.Tensor.fix_(_input_tensor, precision=3)
+_input_tensor = torch.randn(3, 3)
+torch.Tensor.fix_(_input_tensor, precision=3, mode='round')
+_input_tensor = torch.randn(3, 3)
+torch.Tensor.fix_(_input_tensor, precision=3, mode='floor')

@@ -1,0 +1,6 @@
+input_tensor = torch.arange(1, 11)
+other_tensor = torch.arange(1, 11)
+torch.Tensor.greater_equal_(input_tensor, other_tensor)
+input_tensor = torch.arange(1, 11)
+other_tensor = torch.arange(2, 12)
+torch.Tensor.greater_equal_(input_tensor, other_tensor)

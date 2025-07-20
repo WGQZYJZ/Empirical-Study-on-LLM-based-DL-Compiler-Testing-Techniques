@@ -1,0 +1,6 @@
+x = torch.rand(2, 2)
+y = torch.rand(2, 2)
+torch.use_deterministic_algorithms(mode=True)
+z = (x + y)
+torch.use_deterministic_algorithms(mode=False)
+z = (x + y)

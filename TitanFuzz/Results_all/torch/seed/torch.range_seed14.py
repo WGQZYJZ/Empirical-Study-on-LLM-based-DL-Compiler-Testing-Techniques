@@ -1,0 +1,12 @@
+start = 0
+end = 10
+step = 1
+torch.range(start, end, step)
+start = 0
+end = 10
+step = 1
+torch.arange(start, end, step)
+start = 0
+end = 10
+steps = 100
+torch.linspace(start, end, steps)

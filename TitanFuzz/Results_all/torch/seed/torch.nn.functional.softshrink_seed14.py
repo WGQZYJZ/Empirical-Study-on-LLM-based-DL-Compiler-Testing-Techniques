@@ -1,0 +1,6 @@
+x = torch.randn(2, 3)
+torch.nn.functional.softshrink(x)
+torch.nn.functional.softshrink(x, lambd=0.5)
+torch.nn.functional.softshrink(x, lambd=1.0)
+torch.nn.functional.softshrink(x, lambd=1.5)
+torch.nn.functional.softshrink(x, lambd=2.0)

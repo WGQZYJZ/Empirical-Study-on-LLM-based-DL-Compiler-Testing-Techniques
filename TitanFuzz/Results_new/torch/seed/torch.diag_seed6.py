@@ -1,0 +1,2 @@
+input = torch.randn(3, 3)
+output = torch.diag(input)

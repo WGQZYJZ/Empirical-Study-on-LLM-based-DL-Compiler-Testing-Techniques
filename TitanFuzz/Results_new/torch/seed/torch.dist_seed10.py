@@ -1,0 +1,8 @@
+input = torch.randn(4, 3)
+other = torch.randn(4, 3)
+torch.dist(input, other, p=2)
+input = torch.randn(4, 3)
+other = torch.randn(4, 3)
+torch.div(input, other)
+tensor1 = torch.randn(4, 3)
+tensor2 = torch.randn(4, 3)

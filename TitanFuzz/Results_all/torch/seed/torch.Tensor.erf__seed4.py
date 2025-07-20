@@ -1,0 +1,2 @@
+input_tensor = torch.tensor([(- 1.0), 0.0, 1.0])
+output_tensor = torch.Tensor.erf_(input_tensor)

@@ -1,0 +1,6 @@
+input = torch.randn(3, 3)
+other = torch.randn(3, 3)
+torch.logical_and(input, other)
+torch.logical_or(input, other)
+torch.logical_xor(input, other)
+torch.logical_not(input)

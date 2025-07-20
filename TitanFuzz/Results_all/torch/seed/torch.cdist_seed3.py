@@ -1,0 +1,3 @@
+x1 = torch.randn(100, 128)
+x2 = torch.randn(200, 128)
+d = torch.cdist(x1, x2, p=2.0, compute_mode='use_mm_for_euclid_dist_if_necessary')

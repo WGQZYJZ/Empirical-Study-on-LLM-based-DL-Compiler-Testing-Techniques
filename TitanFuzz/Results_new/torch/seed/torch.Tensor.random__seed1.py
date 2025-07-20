@@ -1,0 +1,5 @@
+x = torch.empty(5, 3)
+torch.Tensor.random_(x, from_=0, to=1)
+x = torch.empty(5, 3)
+torch.Tensor.random_(x, from_=0, to=1)
+x = torch.empty(5, 3)

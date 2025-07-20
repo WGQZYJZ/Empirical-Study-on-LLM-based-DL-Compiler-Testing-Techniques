@@ -1,0 +1,6 @@
+x = torch.randn(4, 4)
+y = torch.randn(4, 4)
+torch.div(x, y)
+torch.div(x, y, out=x)
+torch.div(x, y, rounding_mode='floor')
+torch.div(x, y, out=x, rounding_mode='floor')

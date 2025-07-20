@@ -1,0 +1,6 @@
+a = torch.randn(1, 2, 1, 3, 1)
+b = torch.squeeze(a, dim=0)
+c = torch.squeeze(a, dim=1)
+d = torch.squeeze(a, dim=2)
+e = torch.squeeze(a, dim=3)
+f = torch.squeeze(a, dim=4)

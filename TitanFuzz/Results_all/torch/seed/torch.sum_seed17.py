@@ -1,0 +1,6 @@
+a = torch.ones(3, 3)
+b = torch.ones(3, 3)
+c = torch.sum((a + b))
+d = torch.mean((a + b))
+e = torch.max((a + b))
+f = torch.min((a + b))

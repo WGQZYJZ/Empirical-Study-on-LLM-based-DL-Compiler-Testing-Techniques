@@ -1,0 +1,5 @@
+input_tensor = torch.randn(2, 3)
+other = torch.randn(2, 3)
+input_tensor = torch.randn(2, 3)
+other = torch.randn(2, 3)
+torch.Tensor.hypot(input_tensor, other)

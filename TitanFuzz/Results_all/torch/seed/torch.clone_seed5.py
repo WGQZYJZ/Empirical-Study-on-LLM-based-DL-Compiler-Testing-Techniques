@@ -1,0 +1,6 @@
+x = torch.ones(2, 2, requires_grad=True)
+y = (x + 2)
+z = ((y * y) * 3)
+out = z.mean()
+out.backward()
+x_clone = torch.clone(x, memory_format=torch.preserve_format)

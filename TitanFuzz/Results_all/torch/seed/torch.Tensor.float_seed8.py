@@ -1,0 +1,5 @@
+_input_tensor = torch.rand(2, 3)
+_output_tensor = torch.Tensor.float(_input_tensor, memory_format=torch.preserve_format)
+_input_tensor = torch.rand(2, 3)
+_output_tensor = torch.Tensor.to(_input_tensor, dtype=None, non_blocking=False, copy=False)
+_input_tensor = torch.rand(2, 3)

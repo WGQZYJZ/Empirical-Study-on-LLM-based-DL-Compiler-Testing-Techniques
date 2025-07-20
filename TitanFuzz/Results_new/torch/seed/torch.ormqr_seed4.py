@@ -1,0 +1,1 @@
+output = torch.ormqr(input, tau, other, left=True, transpose=False)

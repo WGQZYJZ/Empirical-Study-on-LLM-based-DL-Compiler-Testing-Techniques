@@ -1,0 +1,6 @@
+input_data = torch.randn(5, 3)
+torch.nn.init.zeros_(input_data)
+input_data = torch.randn(5, 3)
+torch.nn.init.ones_(input_data)
+input_data = torch.randn(5, 3)
+torch.nn.init.normal_(input_data)

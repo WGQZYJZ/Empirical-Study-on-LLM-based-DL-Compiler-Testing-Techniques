@@ -1,0 +1,6 @@
+A = torch.rand(10, 20)
+B = torch.rand(20, 30)
+C = torch.rand(30, 40)
+D = torch.rand(40, 50)
+E = torch.linalg.multi_dot([A, B, C, D])
+E_ = torch.matmul(A, torch.matmul(B, torch.matmul(C, D)))

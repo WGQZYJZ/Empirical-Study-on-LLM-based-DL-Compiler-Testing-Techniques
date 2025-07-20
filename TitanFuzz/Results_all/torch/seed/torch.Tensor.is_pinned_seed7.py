@@ -1,0 +1,2 @@
+_input_tensor = torch.rand(size=(2, 3))
+torch.Tensor.is_pinned(_input_tensor)

@@ -1,0 +1,3 @@
+input = torch.randn(1, 3, 3)
+output = torch.matrix_power(input, 2)
+output = torch.matrix_power(input, 3)

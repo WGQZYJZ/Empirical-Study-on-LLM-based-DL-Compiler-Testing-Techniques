@@ -1,0 +1,6 @@
+x_data = torch.tensor([[1.0], [2.0], [3.0]], dtype=torch.float32)
+y_data = torch.tensor([[2.0], [4.0], [6.0]], dtype=torch.float32)
+w = torch.tensor([[0.0]], dtype=torch.float32, requires_grad=True)
+optimizer = torch.optim.SparseAdam([w], lr=0.1)
+y_pred = x_data.mm(w)
+loss = (y_pred - y_data).pow(2).sum()

@@ -1,0 +1,5 @@
+input_tensor = torch.randn(2, 3)
+torch.Tensor.multiply_(input_tensor, 2)
+torch.Tensor.div_(input_tensor, 2)
+torch.Tensor.zero_(input_tensor)
+torch.Tensor.fill_(input_tensor, 2)

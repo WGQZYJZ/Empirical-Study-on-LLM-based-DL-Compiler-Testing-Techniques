@@ -1,0 +1,1 @@
+input_data = torch.rand(2, 3)

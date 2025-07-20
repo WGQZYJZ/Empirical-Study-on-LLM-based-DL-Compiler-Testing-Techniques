@@ -1,0 +1,6 @@
+input = torch.randn(4, 3)
+mat2 = torch.randn(3, 5)
+output = torch.mm(input, mat2)
+input1 = torch.randn(10, 3, 4)
+input2 = torch.randn(10, 4, 5)
+output = torch.bmm(input1, input2)

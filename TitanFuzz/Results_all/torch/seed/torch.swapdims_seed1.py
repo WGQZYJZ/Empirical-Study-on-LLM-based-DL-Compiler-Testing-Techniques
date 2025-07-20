@@ -1,0 +1,7 @@
+input = torch.randn(2, 3, 5)
+output = torch.swapdims(input, 0, 1)
+x = torch.randn(3, 3)
+y = torch.randn(3, 3)
+condition = (torch.randn(3, 3) > 0)
+output = torch.where(condition, x, y)
+x = torch.randn(3, 3)

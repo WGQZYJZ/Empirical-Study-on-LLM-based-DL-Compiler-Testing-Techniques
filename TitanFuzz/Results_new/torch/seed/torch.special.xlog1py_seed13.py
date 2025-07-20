@@ -1,0 +1,5 @@
+input = torch.randn(4, 4)
+other = torch.randn(4, 4)
+input = torch.randn(4, 4)
+other = torch.randn(4, 4)
+output = torch.special.xlog1py(input, other)

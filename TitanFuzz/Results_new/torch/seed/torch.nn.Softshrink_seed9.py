@@ -1,0 +1,3 @@
+input_data = torch.randn(2, 3)
+softshrink = torch.nn.Softshrink(lambd=0.5)
+output = softshrink(input_data)

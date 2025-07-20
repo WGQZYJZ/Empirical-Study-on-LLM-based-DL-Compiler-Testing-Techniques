@@ -1,0 +1,5 @@
+input = torch.randn(2, 3)
+other = torch.randn(2, 3)
+input = torch.randn(2, 3)
+other = torch.randn(2, 3)
+torch.special.gammainc(input, other)

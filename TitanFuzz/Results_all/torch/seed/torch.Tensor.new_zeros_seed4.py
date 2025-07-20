@@ -1,0 +1,5 @@
+input_data = torch.randn(3, 3)
+torch.Tensor.new_zeros(input_data, size=(3, 3))
+input_data = torch.randn(3, 3)
+torch.Tensor.new_ones(input_data, size=(3, 3))
+input_data = torch.randn(3, 3)

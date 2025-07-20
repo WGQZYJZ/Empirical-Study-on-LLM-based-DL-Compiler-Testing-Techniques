@@ -1,0 +1,5 @@
+data = torch.randn(1, 2, 3)
+torch.nn.functional.relu6(data)
+data = torch.randn(1, 2, 3)
+torch.nn.functional.relu6(data, inplace=True)
+data = torch.randn(1, 2, 3)

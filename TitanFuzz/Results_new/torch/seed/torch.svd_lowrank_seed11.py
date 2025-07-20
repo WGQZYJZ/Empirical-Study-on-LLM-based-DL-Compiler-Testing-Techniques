@@ -1,0 +1,2 @@
+A = torch.randn(64, 32)
+(U, S, V) = torch.svd_lowrank(A, q=6, niter=2, M=None)

@@ -1,0 +1,1 @@
+torch.Tensor.q_per_channel_scales(input_tensor)

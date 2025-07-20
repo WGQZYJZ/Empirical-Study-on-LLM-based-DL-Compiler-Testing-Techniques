@@ -1,0 +1,2 @@
+_input_tensor = torch.randn(3, 3)
+_output_tensor = torch.Tensor.to_sparse(_input_tensor, sparseDims=1)

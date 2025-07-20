@@ -1,0 +1,8 @@
+input = torch.randn(3, 5, requires_grad=True)
+target = torch.empty(3, dtype=torch.long).random_(5)
+loss = torch.nn.MultiMarginLoss()
+output = loss(input, target)
+loss = torch.nn.MultiMarginLoss(p=2, margin=2.0)
+output = loss(input, target)
+loss = torch.nn.MultiMarginLoss(p=2, margin=2.0, weight=torch.Tensor([1, 0.5, 0.2]))
+output = loss(input, target)

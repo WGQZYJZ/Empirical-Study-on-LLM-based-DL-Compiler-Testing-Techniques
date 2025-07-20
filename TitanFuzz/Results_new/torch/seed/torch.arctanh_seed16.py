@@ -1,0 +1,6 @@
+x = torch.randn(4)
+x = torch.randn(4)
+torch.arctanh(x)
+x = torch.randn(4)
+x = torch.randn(4)
+torch.asin(x)

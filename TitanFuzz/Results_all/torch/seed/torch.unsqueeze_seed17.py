@@ -1,0 +1,6 @@
+input = torch.ones(1, 1, 2, 2, 2)
+output = torch.unsqueeze(input, dim=0)
+output = torch.unsqueeze(input, dim=1)
+output = torch.unsqueeze(input, dim=4)
+output = torch.unsqueeze(input, dim=(- 1))
+output = torch.unsqueeze(input, dim=(- 3))

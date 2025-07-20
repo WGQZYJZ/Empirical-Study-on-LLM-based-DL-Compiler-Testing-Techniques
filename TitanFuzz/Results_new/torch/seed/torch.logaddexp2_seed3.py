@@ -1,0 +1,8 @@
+input = torch.randn(2, 3)
+other = torch.randn(2, 3)
+torch.logaddexp2(input, other)
+input = torch.randn(3, 5)
+torch.logcumsumexp(input, dim=1)
+input = torch.tensor([[True, False], [True, True]])
+other = torch.tensor([[False, False], [True, True]])
+torch.logical_and(input, other)

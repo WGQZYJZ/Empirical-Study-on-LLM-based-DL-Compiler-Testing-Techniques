@@ -1,0 +1,6 @@
+x = torch.tensor(1.0, requires_grad=True)
+y = torch.tensor(2.0)
+z = (x * y)
+torch.set_grad_enabled(True)
+z.backward()
+torch.set_grad_enabled(False)

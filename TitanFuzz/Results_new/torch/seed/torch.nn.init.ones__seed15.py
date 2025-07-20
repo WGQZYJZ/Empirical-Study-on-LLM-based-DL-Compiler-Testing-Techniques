@@ -1,0 +1,4 @@
+input_data = torch.randn(1, 3)
+torch.nn.init.ones_(input_data)
+input_data = torch.randn(1, 3)
+torch.nn.init.zeros_(input_data)

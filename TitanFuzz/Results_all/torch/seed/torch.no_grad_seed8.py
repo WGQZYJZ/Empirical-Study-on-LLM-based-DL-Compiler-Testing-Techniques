@@ -1,0 +1,3 @@
+x = torch.rand(3, requires_grad=True)
+with torch.no_grad():
+    y = (x * 2)

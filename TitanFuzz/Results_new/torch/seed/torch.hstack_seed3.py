@@ -1,0 +1,5 @@
+a = torch.rand(1, 3)
+b = torch.rand(1, 3)
+c = torch.hstack((a, b))
+out = torch.zeros(1, 6)
+torch.hstack((a, b), out=out)

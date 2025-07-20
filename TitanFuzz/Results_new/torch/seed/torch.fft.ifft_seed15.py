@@ -1,0 +1,6 @@
+input = torch.randn(3, 4, 5, 6)
+output = torch.fft.ifft(input)
+output = torch.fft.ifft(input, n=2)
+output = torch.fft.ifft(input, dim=1)
+output = torch.fft.ifft(input, norm='ortho')
+output = torch.zeros(3, 4, 5, 6, dtype=torch.complex64)

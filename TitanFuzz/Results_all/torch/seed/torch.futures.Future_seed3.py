@@ -1,0 +1,5 @@
+input_data = torch.rand(100, 100)
+future = torch.futures.Future(devices=None)
+start_time = time.time()
+output_data = input_data.mm(input_data)
+end_time = time.time()

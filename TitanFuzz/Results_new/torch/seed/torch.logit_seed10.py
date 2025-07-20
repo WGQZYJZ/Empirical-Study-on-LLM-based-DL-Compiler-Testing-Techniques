@@ -1,0 +1,6 @@
+x = torch.rand(1, requires_grad=True)
+torch.logit(x)
+x.retain_grad()
+x.retain_grad()
+y = torch.logit(x)
+y.backward()

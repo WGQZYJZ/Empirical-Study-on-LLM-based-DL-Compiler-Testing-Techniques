@@ -1,0 +1,6 @@
+input_data = Variable(torch.randn(2, 3))
+target = Variable(torch.FloatTensor(2, 3).random_(2))
+loss = torch.nn.BCEWithLogitsLoss()
+output = loss(input_data, target)
+loss = torch.nn.BCELoss()
+output = loss(torch.sigmoid(input_data), target)

@@ -1,0 +1,5 @@
+A = torch.arange(1, 5).view(2, 2)
+B = torch.arange(5, 9).view(2, 2)
+C = torch.arange(9, 13).view(2, 2)
+D = torch.arange(13, 17).view(2, 2)
+result = torch.einsum('ij,jk,kl,lm->im', A, B, C, D)

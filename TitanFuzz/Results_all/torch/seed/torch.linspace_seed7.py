@@ -1,0 +1,1 @@
+input_data = torch.linspace(1, 10, steps=10)

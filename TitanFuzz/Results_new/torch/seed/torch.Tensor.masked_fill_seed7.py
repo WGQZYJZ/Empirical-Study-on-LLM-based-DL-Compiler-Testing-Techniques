@@ -1,0 +1,5 @@
+input_tensor = torch.rand(3, 3)
+mask = torch.tensor([[1, 0, 1], [0, 1, 0], [1, 0, 1]])
+value = torch.tensor(1.0)
+result = torch.Tensor.masked_fill(input_tensor, mask, value)
+input_tensor = torch.rand(3, 3)

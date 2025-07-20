@@ -1,0 +1,3 @@
+input_data = Variable(torch.tensor([[1, 2, 3, 4, 5, 6], [7, 8, 9, 10, 11, 12]]))
+pad = torch.nn.ConstantPad1d(2, 0)
+output = pad(input_data)

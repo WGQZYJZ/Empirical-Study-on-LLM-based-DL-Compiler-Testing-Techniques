@@ -1,0 +1,2 @@
+input_tensor = torch.randn(10, 10)
+output_tensor = torch.Tensor.aminmax(input_tensor, dim=0, keepdim=True)

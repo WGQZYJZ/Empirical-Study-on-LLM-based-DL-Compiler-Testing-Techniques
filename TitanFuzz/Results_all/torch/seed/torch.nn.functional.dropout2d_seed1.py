@@ -1,0 +1,2 @@
+input = torch.randn(1, 1, 3, 3)
+torch.nn.functional.dropout2d(input, p=0.5, training=True, inplace=False)

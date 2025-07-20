@@ -1,0 +1,6 @@
+x = torch.rand(1, 2, 3, 3, requires_grad=True)
+softshrink = torch.nn.Softshrink(lambd=0.5)
+output = softshrink(x)
+x = torch.rand(1, 2, 3, 3, requires_grad=True)
+softsign = torch.nn.Softsign()
+output = softsign(x)

@@ -1,0 +1,6 @@
+input = torch.tensor([[0.1, 0.2, 0.3, 0.4, 0.5]])
+torch.multinomial(input, num_samples=1)
+input = torch.tensor([[0.1, 0.2, 0.3, 0.4, 0.5]])
+torch.multinomial(input, num_samples=1)
+input = torch.tensor([[0.1, 0.2, 0.3, 0.4, 0.5]])
+torch.multinomial(input, num_samples=1)

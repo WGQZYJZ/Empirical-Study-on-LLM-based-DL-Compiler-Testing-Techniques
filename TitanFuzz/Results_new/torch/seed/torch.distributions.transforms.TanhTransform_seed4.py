@@ -1,0 +1,2 @@
+x = torch.tensor([1.0, 2.0, 3.0])
+transform = torch.distributions.transforms.TanhTransform(cache_size=0)

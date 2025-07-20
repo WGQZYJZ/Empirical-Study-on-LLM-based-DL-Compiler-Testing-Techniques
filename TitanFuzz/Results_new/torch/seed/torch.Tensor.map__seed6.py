@@ -1,0 +1,2 @@
+_input_tensor = torch.tensor([[1, 2], [3, 4]])
+torch.Tensor.map_(_input_tensor, (lambda x: (x + 1)))

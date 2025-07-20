@@ -1,0 +1,2 @@
+input_data = [1, 2, 3, 4, 5]
+output_tensor = torch.Tensor.new_tensor(input_data, dtype=torch.float32, device=None, requires_grad=False)

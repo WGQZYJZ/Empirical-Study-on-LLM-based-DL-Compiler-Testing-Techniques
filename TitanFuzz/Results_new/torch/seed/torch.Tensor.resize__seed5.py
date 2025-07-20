@@ -1,0 +1,5 @@
+input_tensor = torch.randn(4, 4, 4)
+resize_tensor = torch.Tensor.resize_(input_tensor, 2, 3, 4)
+resize_tensor = torch.Tensor.resize_(input_tensor, 2, 3)
+resize_tensor = torch.Tensor.resize_(input_tensor, 2)
+resize_tensor = torch.Tensor.resize_(input_tensor, 2, 3, 4, memory_format=torch.channels_last)

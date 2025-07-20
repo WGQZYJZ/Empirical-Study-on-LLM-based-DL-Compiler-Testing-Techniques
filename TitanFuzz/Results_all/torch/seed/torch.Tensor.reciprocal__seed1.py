@@ -1,0 +1,5 @@
+input_tensor = torch.tensor([1.0, 2.0, 3.0, 4.0])
+torch.Tensor.reciprocal_(input_tensor)
+input_tensor = torch.tensor([1.0, 2.0, 3.0, 4.0])
+divisor = torch.tensor([2.0])
+torch.Tensor.remainder_(input_tensor, divisor)

@@ -1,0 +1,6 @@
+inp = torch.rand(5, 3)
+torch.overrides.is_tensor_like(inp)
+torch.overrides.is_tensor_like(1)
+torch.overrides.is_tensor_like([1, 2, 3])
+torch.overrides.is_tensor_like(torch.tensor(1))
+torch.overrides.is_tensor_like(torch.tensor([1, 2, 3]))

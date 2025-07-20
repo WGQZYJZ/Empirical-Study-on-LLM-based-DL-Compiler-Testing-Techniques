@@ -1,0 +1,7 @@
+input = torch.randn(4, 4)
+output = torch.fix(input)
+input = torch.randn(4, 4)
+out = torch.randn(4, 4)
+output = torch.fix(input, out=out)
+input = torch.randn(4, 4)
+input.fix_()

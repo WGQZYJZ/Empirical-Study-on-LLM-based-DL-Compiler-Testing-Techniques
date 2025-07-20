@@ -1,0 +1,6 @@
+x = torch.rand(5000, 5000)
+y = torch.rand(5000, 5000)
+torch.set_num_threads(4)
+start = time.time()
+z = torch.mm(x, y)
+end = time.time()

@@ -1,0 +1,2 @@
+input_tensor = torch.rand(2, 3)
+tensor_power = torch.Tensor.float_power(input_tensor, 2)

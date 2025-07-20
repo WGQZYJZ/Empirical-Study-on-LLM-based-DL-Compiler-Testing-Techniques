@@ -1,0 +1,5 @@
+input = torch.tensor([[1.0, 1.0, 1.0], [1.0, 2.0, 3.0], [1.0, 3.0, 6.0]], dtype=torch.float64)
+A = torch.tensor([[1.0, 2.0, 3.0, 4.0], [2.0, 4.0, 6.0, 8.0], [3.0, 6.0, 9.0, 12.0]], dtype=torch.float64)
+output = torch.lstsq(input, A)
+input = torch.tensor([[1.0, 1.0, 1.0], [1.0, 2.0, 3.0], [1.0, 3.0, 6.0]], dtype=torch.float64)
+output = torch.svd(input)

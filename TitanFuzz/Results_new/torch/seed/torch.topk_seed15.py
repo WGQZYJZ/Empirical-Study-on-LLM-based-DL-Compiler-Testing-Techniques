@@ -1,0 +1,5 @@
+x = torch.randn(4, 5)
+topk_output = torch.topk(x, 2)
+topk_output = torch.topk(x, 2, dim=1)
+topk_output = torch.topk(x, 2, dim=1, largest=False)
+topk_output = torch.topk(x, 2, dim=1, largest=False, sorted=False)

@@ -1,0 +1,2 @@
+input_tensor = torch.randn(2, 3, 4)
+output_tensor = torch.Tensor.moveaxis(input_tensor, 1, 2)

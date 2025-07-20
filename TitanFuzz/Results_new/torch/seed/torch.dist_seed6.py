@@ -1,0 +1,3 @@
+input_data = torch.randn(1, 3)
+other_data = torch.randn(1, 3)
+torch.dist(input_data, other_data, p=2)

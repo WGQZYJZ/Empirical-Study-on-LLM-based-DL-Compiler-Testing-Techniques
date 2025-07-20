@@ -1,0 +1,7 @@
+input = torch.randn(3, requires_grad=True)
+target = torch.randn(3)
+loss = torch.nn.functional.smooth_l1_loss(input, target)
+input = torch.randn(3, requires_grad=True)
+output = torch.nn.functional.softshrink(input)
+input = torch.randn(3, requires_grad=True)
+output = torch.nn.functional.softsign(input)

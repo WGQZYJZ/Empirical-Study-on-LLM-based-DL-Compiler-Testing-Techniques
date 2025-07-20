@@ -1,0 +1,7 @@
+input_tensor = torch.randn(3, 3)
+other = torch.randn(3, 3)
+input_tensor = torch.randn(3, 3)
+other = torch.randn(3, 3)
+torch.Tensor.igamma(input_tensor, other)
+input_tensor = torch.randn(3, 3)
+other = torch.randn(3, 3)

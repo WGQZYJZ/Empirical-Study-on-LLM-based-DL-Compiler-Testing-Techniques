@@ -1,0 +1,5 @@
+x = torch.tensor([1, 2, 3])
+y = torch.tensor([4, 5, 6])
+torch.cartesian_prod(x, y)
+torch.cartesian_prod(x, y, x)
+torch.cartesian_prod(x, y, x, y)

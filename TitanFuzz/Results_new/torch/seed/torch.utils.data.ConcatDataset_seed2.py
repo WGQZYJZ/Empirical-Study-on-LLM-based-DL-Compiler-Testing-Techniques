@@ -1,0 +1,7 @@
+x = torch.randn(100, 3)
+y = torch.randint(low=0, high=2, size=(100, 1))
+dataset1 = TensorDataset(x, y)
+x = torch.randn(100, 3)
+y = torch.randint(low=0, high=2, size=(100, 1))
+dataset2 = TensorDataset(x, y)
+dataset = torch.utils.data.ConcatDataset([dataset1, dataset2])

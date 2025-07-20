@@ -1,0 +1,7 @@
+x = torch.tensor(1.0, requires_grad=True)
+w = torch.tensor(2.0, requires_grad=True)
+b = torch.tensor(3.0, requires_grad=True)
+with torch.set_grad_enabled(True):
+    y = ((w * x) + b)
+    z = y.mean()
+z.backward()

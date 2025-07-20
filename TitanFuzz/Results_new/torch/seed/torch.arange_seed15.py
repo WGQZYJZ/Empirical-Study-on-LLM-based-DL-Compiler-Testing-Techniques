@@ -1,0 +1,5 @@
+input_data = torch.arange(start=0, end=100, step=1)
+output_data = torch.arange(start=0, end=100, step=1, dtype=torch.int16)
+output_data = torch.arange(start=0, end=100, step=1, dtype=torch.float32)
+output_data = torch.arange(start=0, end=100, step=1, dtype=torch.float64)
+output_data = torch.arange(start=0, end=100, step=1, dtype=torch.int64)

@@ -1,0 +1,4 @@
+x = np.array([[1, 2], [3, 4], [5, 6]])
+y = np.array([[1, 2], [3, 4], [5, 6]])
+datasets = [torch.utils.data.TensorDataset(torch.from_numpy(x), torch.from_numpy(y)), torch.utils.data.TensorDataset(torch.from_numpy(x), torch.from_numpy(y))]
+chain_dataset = torch.utils.data.ChainDataset(datasets)

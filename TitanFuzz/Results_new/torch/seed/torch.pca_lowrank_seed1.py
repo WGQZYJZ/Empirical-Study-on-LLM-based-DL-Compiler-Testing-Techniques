@@ -1,0 +1,6 @@
+A = torch.randn(10, 20)
+torch.pca_lowrank(A, q=None, center=True, niter=2)
+A = torch.randn(10, 20)
+torch.pca_lowrank(A, q=None, center=True, niter=2)
+A = torch.randn(10, 20)
+torch.pca_lowrank(A, q=None, center=True, niter=2)

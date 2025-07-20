@@ -1,0 +1,7 @@
+input = torch.randn(2, 3)
+output = torch.nn.functional.tanhshrink(input)
+input = torch.randn(2, 3)
+output = torch.nn.functional.threshold(input, 0.5, 0.5)
+anchor = torch.randn(2, 3)
+positive = torch.randn(2, 3)
+negative = torch.randn(2, 3)

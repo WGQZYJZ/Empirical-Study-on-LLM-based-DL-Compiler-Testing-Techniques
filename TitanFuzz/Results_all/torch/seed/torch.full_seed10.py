@@ -1,0 +1,7 @@
+input_data = torch.tensor([[1, 2, 3], [4, 5, 6]])
+output_data = torch.full(input_data.size(), 7)
+output_data = torch.zeros(input_data.size())
+output_data = torch.ones(input_data.size())
+output_data = torch.eye(3)
+output_data = torch.rand(3, 3)
+output_data = torch.randn(3, 3)

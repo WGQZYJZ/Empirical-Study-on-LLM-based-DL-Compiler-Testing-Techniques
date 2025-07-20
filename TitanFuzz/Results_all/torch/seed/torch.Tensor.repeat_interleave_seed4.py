@@ -1,0 +1,2 @@
+input_tensor = torch.tensor([[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12]])
+repeat_interleave_output = torch.Tensor.repeat_interleave(input_tensor, repeats=2, dim=0)

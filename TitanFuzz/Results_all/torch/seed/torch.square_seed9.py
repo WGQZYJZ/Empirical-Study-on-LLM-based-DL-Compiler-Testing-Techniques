@@ -1,0 +1,8 @@
+x = torch.randn(2, 3)
+y = torch.square(x)
+x1 = torch.randn(2, 3)
+x2 = torch.randn(2, 3)
+y1 = torch.add(x1, x2)
+y2 = torch.add(x1, 10)
+y3 = torch.add(10, x1)
+y4 = torch.add(x1, x2, alpha=0.5)

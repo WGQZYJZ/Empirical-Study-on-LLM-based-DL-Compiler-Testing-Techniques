@@ -1,0 +1,6 @@
+input = torch.randn(1, 3, 2, 2)
+norm = torch.nn.InstanceNorm2d(3)
+output = norm(input)
+input = torch.randn(1, 3, 2, 2)
+norm = torch.nn.LayerNorm(input.shape[1:])
+output = norm(input)

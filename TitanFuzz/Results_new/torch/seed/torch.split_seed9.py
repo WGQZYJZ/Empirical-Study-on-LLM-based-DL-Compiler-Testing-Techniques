@@ -1,0 +1,5 @@
+tensor = torch.arange(start=0, end=24, dtype=torch.float32).view(2, 3, 4)
+split_tensor = torch.split(tensor, split_size_or_sections=4, dim=0)
+split_tensor = torch.split(tensor, split_size_or_sections=4, dim=1)
+split_tensor = torch.split(tensor, split_size_or_sections=4, dim=2)
+split_tensor = torch.split(tensor, split_size_or_sections=[2, 2], dim=2)

@@ -1,0 +1,1 @@
+data = torch.zeros(2, 3)

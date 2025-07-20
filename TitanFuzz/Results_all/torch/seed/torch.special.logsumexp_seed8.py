@@ -1,0 +1,5 @@
+input = torch.randn(3, 4)
+torch.special.logsumexp(input, dim=1, keepdim=True)
+input = torch.randn(3, 4)
+torch.special.logsumexp(input, dim=1, keepdim=False)
+input = torch.randn(3, 4)

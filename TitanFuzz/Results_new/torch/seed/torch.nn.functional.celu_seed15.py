@@ -1,0 +1,2 @@
+input_data = torch.randn(1, 3, 4, 4)
+torch.nn.functional.celu(input_data)

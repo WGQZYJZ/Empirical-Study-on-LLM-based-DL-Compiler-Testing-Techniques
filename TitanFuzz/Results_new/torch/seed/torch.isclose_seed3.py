@@ -1,0 +1,8 @@
+input = torch.rand(3, 4)
+other = torch.rand(3, 4)
+torch.isclose(input, other)
+torch.isclose(input, other, rtol=1e-05, atol=1e-08, equal_nan=False)
+torch.isclose(input, other, rtol=1e-05, atol=1e-08, equal_nan=True)
+torch.isclose(input, other, rtol=1e-05, atol=1e-05, equal_nan=False)
+torch.isclose(input, other, rtol=1e-05, atol=1e-05, equal_nan=True)
+torch.isclose(input, other, rtol=0.01, atol=1e-08, equal_nan=False)

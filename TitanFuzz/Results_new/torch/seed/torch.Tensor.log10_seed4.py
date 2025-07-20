@@ -1,0 +1,2 @@
+_input_tensor = torch.randn(4, 4)
+_output_tensor = torch.Tensor.log10(_input_tensor)

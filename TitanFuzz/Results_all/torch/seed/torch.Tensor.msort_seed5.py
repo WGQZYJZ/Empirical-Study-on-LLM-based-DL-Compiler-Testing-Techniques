@@ -1,0 +1,5 @@
+input_tensor = torch.randn(2, 3)
+sorted_tensor = torch.Tensor.msort(input_tensor)
+sorted_tensor = torch.Tensor.msort(input_tensor, dim=0)
+sorted_tensor = torch.Tensor.msort(input_tensor, dim=1)
+sorted_tensor = torch.Tensor.msort(input_tensor, dim=(- 1))

@@ -1,0 +1,8 @@
+x = torch.tensor([[1, 2, 3], [4, 5, 6]], dtype=torch.float32)
+y = torch.tensor([[2, 2, 2], [4, 4, 4]], dtype=torch.float32)
+out = torch.greater(x, y)
+out = torch.greater_equal(x, y)
+out = torch.less(x, y)
+out = torch.less_equal(x, y)
+out = torch.equal(x, y)
+out = torch.equal(x, x)

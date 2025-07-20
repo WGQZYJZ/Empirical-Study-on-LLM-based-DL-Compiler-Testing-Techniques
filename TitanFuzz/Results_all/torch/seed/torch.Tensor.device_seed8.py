@@ -1,0 +1,1 @@
+device = torch.Tensor.device(input_tensor)

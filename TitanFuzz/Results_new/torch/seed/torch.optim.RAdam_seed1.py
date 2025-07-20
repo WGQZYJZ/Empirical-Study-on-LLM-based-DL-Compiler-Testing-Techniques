@@ -1,0 +1,7 @@
+x = torch.tensor(np.random.randn(10, 10), requires_grad=True)
+y = torch.tensor(np.random.randn(10, 10), requires_grad=True)
+optimizer = torch.optim.RAdam([x, y], lr=0.001, betas=(0.9, 0.999), eps=1e-08, weight_decay=0)
+optimizer.zero_grad()
+loss = (x + y).sum()
+loss.backward()
+optimizer.step()

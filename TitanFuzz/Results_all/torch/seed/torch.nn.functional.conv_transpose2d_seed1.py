@@ -1,0 +1,6 @@
+input = torch.randn(1, 1, 5, 5)
+weight = torch.randn(1, 1, 3, 3)
+output = torch.nn.functional.conv_transpose2d(input, weight)
+bias = torch.randn(1)
+output = torch.nn.functional.conv_transpose2d(input, weight, bias=bias)
+output = torch.nn.functional.conv_transpose2d(input, weight, stride=2)

@@ -1,0 +1,6 @@
+x = torch.tensor([(- 1.0), 1.0, 2.0])
+y = torch.nn.Sigmoid()(x)
+x = torch.tensor([(- 1.0), 1.0, 2.0])
+y = torch.nn.Tanh()(x)
+x = torch.tensor([(- 1.0), 1.0, 2.0])
+y = torch.nn.ReLU()(x)

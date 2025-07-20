@@ -1,0 +1,5 @@
+input_tensor = torch.randn(2, 3)
+kth_value = torch.Tensor.kthvalue(input_tensor, 2)
+kth_value = torch.Tensor.kthvalue(input_tensor, 2, dim=0)
+kth_value = torch.Tensor.kthvalue(input_tensor, 2, dim=1)
+kth_value = torch.Tensor.kthvalue(input_tensor, 2, dim=1, keepdim=True)

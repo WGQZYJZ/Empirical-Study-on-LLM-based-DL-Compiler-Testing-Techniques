@@ -1,0 +1,7 @@
+input_data = torch.tensor([1.0, 2.0, 3.0, 4.0], requires_grad=True)
+optimizer = torch.optim.Adam([input_data], lr=0.1)
+optimizer.zero_grad()
+output = (input_data * input_data)
+loss = output.mean()
+loss.backward()
+optimizer.step()

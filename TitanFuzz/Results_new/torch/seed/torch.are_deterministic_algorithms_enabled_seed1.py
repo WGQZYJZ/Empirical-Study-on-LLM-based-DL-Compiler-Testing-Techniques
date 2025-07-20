@@ -1,0 +1,1 @@
+torch.are_deterministic_algorithms_enabled()

@@ -1,0 +1,6 @@
+x = torch.rand(2, 3, 4)
+y = torch.rand(2, 3, 4)
+z = torch.rand(2, 3, 4)
+x = torch.atleast_3d(x)
+y = torch.atleast_3d(y)
+z = torch.atleast_3d(z)

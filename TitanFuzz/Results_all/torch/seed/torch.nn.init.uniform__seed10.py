@@ -1,0 +1,5 @@
+input = torch.empty(5, 7)
+torch.nn.init.uniform_(input)
+input = torch.empty(5, 7)
+torch.nn.init.uniform_(input, 5, 10)
+input = torch.empty(5, 7)

@@ -1,0 +1,5 @@
+mat = torch.tensor([[1, 2, 3], [4, 5, 6]])
+vec = torch.tensor([[1], [2], [3]])
+torch.Tensor.addmv_(mat, mat, vec)
+mat = torch.tensor([[1, 2, 3], [4, 5, 6]])
+vec = torch.tensor([[1], [2], [3]])

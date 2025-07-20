@@ -1,0 +1,2 @@
+input_data = torch.tensor([[1, 2, 3], [4, 5, 6]], dtype=torch.int32)
+output_data = torch.bitwise_right_shift(input_data, 2)

@@ -1,0 +1,5 @@
+input_data = torch.tensor([[1, 2, 3, 4], [5, 6, 7, 8], [9, 10, 11, 12]])
+output_data = torch.sum(input_data, dim=0)
+output_data = torch.sum(input_data, dim=1)
+output_data = torch.sum(input_data, dim=1, keepdim=True)
+output_data = torch.sum(input_data, dim=1, keepdim=True, dtype=torch.float32)

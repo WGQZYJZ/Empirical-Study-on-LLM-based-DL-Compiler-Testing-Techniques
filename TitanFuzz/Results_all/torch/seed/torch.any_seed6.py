@@ -1,0 +1,8 @@
+input = torch.randn(3, 4)
+result = torch.any((input > 0.5))
+result = torch.any((input > 0.5), dim=0)
+result = torch.any((input > 0.5), dim=1)
+result = torch.any((input > 0.5), dim=(- 1))
+result = torch.any((input > 0.5), dim=(- 1), keepdim=True)
+result = torch.any((input > 0.5), dim=(- 1), keepdim=True).sum(dim=1)
+result = torch.any((input > 0.5), dim=(- 1), keepdim=True).sum(dim=1, keepdim=True)

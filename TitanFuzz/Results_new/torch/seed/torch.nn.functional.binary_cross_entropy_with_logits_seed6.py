@@ -1,0 +1,10 @@
+input = torch.randn(1, requires_grad=True)
+target = torch.empty(1).random_(2)
+loss = torch.nn.functional.binary_cross_entropy_with_logits(input, target)
+loss.backward()
+loss = torch.nn.functional.binary_cross_entropy_with_logits(input, target, reduction='sum')
+loss = torch.nn.functional.binary_cross_entropy_with_logits(input, target, reduction='none')
+input = torch.randn(3, requires_grad=True)
+target = torch.empty(3).random_(2)
+loss = torch.nn.functional.binary_cross_entropy_with_logits(input, target, reduction='mean')
+input = torch.randn

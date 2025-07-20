@@ -1,0 +1,1 @@
+torch.Tensor.is_inference(input_tensor)

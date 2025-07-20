@@ -1,0 +1,2 @@
+data = torch.randn(1, 1)
+output = torch.atanh(data)

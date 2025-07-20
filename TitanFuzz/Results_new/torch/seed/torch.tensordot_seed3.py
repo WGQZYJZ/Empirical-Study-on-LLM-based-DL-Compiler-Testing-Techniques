@@ -1,0 +1,5 @@
+A = torch.rand(3, 4, 5)
+B = torch.rand(4, 5, 6)
+torch.tensordot(A, B, dims=2)
+torch.tensordot(A, B, dims=2)
+torch.tensordot(A, B, dims=2)

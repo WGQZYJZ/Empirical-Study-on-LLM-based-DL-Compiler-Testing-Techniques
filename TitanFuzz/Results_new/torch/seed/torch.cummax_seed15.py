@@ -1,0 +1,2 @@
+input = torch.randn(2, 3, 4)
+cummax_result = torch.cummax(input, dim=1)

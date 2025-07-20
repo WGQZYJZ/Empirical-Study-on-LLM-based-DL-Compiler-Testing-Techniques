@@ -1,0 +1,6 @@
+input_tensor = torch.tensor([[True, False], [False, True]])
+other = torch.tensor([[True, True], [False, False]])
+torch.Tensor.logical_xor(input_tensor, other)
+torch.logical_xor(input_tensor, other)
+torch.Tensor.logical_not(input_tensor)
+torch.logical_not(input_tensor)

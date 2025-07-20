@@ -1,0 +1,6 @@
+input_data = np.random.randint(1, 10, (4, 4))
+output = torch.empty_strided(size=(4, 4), stride=(2, 2))
+output = torch.empty_strided(size=(4, 4), stride=(1, 1))
+output = torch.empty_strided(size=(4, 4), stride=(2, 1))
+output = torch.empty_strided(size=(4, 4), stride=(1, 2))
+output = torch.empty_strided(size=(4, 4), stride=(2, 2))

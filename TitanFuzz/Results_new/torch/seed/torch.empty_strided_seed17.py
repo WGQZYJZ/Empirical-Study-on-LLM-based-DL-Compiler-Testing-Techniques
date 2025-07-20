@@ -1,0 +1,3 @@
+size = (2, 3, 4)
+stride = (1, 2, 3)
+out = torch.empty_strided(size, stride)

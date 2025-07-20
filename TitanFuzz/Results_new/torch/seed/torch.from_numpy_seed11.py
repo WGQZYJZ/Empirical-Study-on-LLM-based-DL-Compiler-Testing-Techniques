@@ -1,0 +1,6 @@
+input_data = np.array([[3, 1, 2], [1, 1, 1]])
+torch_from_numpy = torch.from_numpy(input_data)
+torch_tensor = torch.tensor(input_data)
+torch_as_tensor = torch.as_tensor(input_data)
+eye_tensor = torch.eye(2, 3)
+zeros_tensor = torch.zeros(2, 3)

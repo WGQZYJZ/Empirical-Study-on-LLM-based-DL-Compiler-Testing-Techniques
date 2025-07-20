@@ -1,0 +1,6 @@
+a = torch.randn(3, 3)
+a = torch.matmul(a, a.t())
+(eig_vals, eig_vecs) = torch.linalg.eig(a)
+a = torch.randn(3, 3)
+a = torch.matmul(a, a.t())
+(eig_vals, eig_vecs) = torch.linalg.eig(a)

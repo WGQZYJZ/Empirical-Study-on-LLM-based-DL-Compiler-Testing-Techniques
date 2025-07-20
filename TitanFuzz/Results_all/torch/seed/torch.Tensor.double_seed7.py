@@ -1,0 +1,2 @@
+_input_tensor = torch.randn(3, 3)
+_output_tensor = torch.Tensor.double(_input_tensor, memory_format=torch.preserve_format)

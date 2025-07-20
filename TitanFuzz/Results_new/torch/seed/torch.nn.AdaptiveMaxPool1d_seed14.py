@@ -1,0 +1,6 @@
+input_data = torch.randn(1, 1, 10)
+output = torch.nn.AdaptiveMaxPool1d(3)(input_data)
+input_data = torch.randn(1, 1, 10, 10)
+output = torch.nn.AdaptiveMaxPool2d((3, 4))(input_data)
+input_data = torch.randn(1, 1, 10, 10, 10)
+output = torch.nn.AdaptiveMaxPool3d((3, 4, 5))(input_data)

@@ -1,0 +1,6 @@
+x = torch.rand(4, 1, 32, 32)
+y = torch.rand(4, 7, 32, 32)
+z = torch.broadcast_tensors(x, y)
+z = torch.broadcast_tensors(x, y)
+x = torch.rand(4, 1, 32, 32)
+y = torch.rand(4, 7, 32, 32)

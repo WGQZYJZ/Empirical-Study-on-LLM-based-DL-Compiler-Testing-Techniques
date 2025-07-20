@@ -1,0 +1,5 @@
+input_tensor = torch.rand(2, 3, 4)
+other = torch.rand(2, 3, 4)
+torch.Tensor.igamma_(input_tensor, other)
+input_tensor = torch.rand(2, 3, 4)
+other = torch.rand(2, 3, 4)

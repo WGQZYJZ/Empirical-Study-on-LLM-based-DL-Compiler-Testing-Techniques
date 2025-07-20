@@ -1,0 +1,5 @@
+x = torch.rand(2, 3, requires_grad=True)
+torch.random.manual_seed(1)
+x = torch.rand(2, 3, requires_grad=True)
+torch.random.manual_seed(1)
+x = torch.rand(2, 3, requires_grad=True)

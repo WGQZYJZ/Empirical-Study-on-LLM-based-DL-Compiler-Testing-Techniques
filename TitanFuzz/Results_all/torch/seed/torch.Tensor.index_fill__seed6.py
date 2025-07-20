@@ -1,0 +1,2 @@
+input_tensor = torch.randn(2, 3)
+torch.Tensor.index_fill_(input_tensor, 0, torch.tensor([1, 0]), torch.tensor([0, 1]))

@@ -1,0 +1,5 @@
+input = torch.randn(1, requires_grad=True)
+other = torch.randn(1, requires_grad=True)
+input = torch.randn(1, requires_grad=True)
+other = torch.randn(1, requires_grad=True)
+torch.special.xlog1py(input, other, out=None)

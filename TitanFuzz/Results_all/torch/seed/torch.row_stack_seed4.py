@@ -1,0 +1,6 @@
+tensor1 = torch.rand(2, 3)
+tensor2 = torch.rand(2, 3)
+tensor3 = torch.rand(2, 3)
+tensor_stack = torch.stack([tensor1, tensor2, tensor3])
+tensor_row_stack = torch.row_stack([tensor1, tensor2, tensor3])
+tensor_column_stack = torch.stack([tensor1, tensor2, tensor3], dim=1)

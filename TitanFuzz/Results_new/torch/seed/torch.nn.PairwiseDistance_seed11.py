@@ -1,0 +1,6 @@
+X = torch.randn(10, 3)
+Y = torch.randn(10, 3)
+pairwise_distance = torch.nn.PairwiseDistance(p=2.0, eps=1e-06, keepdim=False)
+output = pairwise_distance(X, Y)
+X = torch.randn(10, 3)
+Y = torch.randn(10, 3)

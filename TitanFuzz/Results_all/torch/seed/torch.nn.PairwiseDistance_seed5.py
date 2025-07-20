@@ -1,0 +1,5 @@
+input_data = torch.randn(2, 3)
+output_data = torch.nn.PairwiseDistance(p=2.0, eps=1e-06, keepdim=False)(input_data, input_data)
+input_data_1 = torch.randn(2, 3)
+input_data_2 = torch.randn(2, 3)
+output_data = torch.nn.PairwiseDistance(p=2.0, eps=1e-06, keepdim=False)(input_data_1, input_data_2)

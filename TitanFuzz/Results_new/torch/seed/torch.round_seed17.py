@@ -1,0 +1,2 @@
+input_data = torch.Tensor([(- 1.5), (- 1.1), (- 0.5), 0.0, 0.5, 1.1, 1.5])
+output_data = torch.round(input_data)

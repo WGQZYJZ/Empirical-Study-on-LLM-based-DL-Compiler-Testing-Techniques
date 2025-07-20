@@ -1,0 +1,2 @@
+input_data = torch.randn(100, 100)
+output = torch.lgamma(input_data)

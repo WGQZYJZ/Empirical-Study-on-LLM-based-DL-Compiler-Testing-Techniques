@@ -1,0 +1,5 @@
+x = torch.randn(100, 1000)
+y = torch.randn(100, 1000)
+linear = torch.nn.Linear(1000, 1000)
+dropout = torch.nn.Dropout(p=0.5, inplace=False)
+y_pred = dropout(linear(x))
