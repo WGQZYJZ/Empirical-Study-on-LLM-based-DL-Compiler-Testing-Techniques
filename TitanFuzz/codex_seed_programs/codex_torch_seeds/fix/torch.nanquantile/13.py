@@ -1,0 +1,16 @@
+'\nTask 1: import PyTorch\nTask 2: Generate input data\nTask 3: Call the API torch.nanquantile\ntorch.nanquantile(input, q, dim=None, keepdim=False, *, out=None)\n'
+import torch
+input = torch.randn(3, 4)
+print(input)
+print(torch.nanquantile(input, 0.5, dim=1))
+print(torch.nanquantile(input, 0.5, dim=1, keepdim=True))
+print(torch.nanquantile(input, 0.5, dim=1, keepdim=True).shape)
+input = torch.randn(3, 4, 5)
+print(input)
+print(torch.nanquantile(input, 0.5, dim=2))
+print(torch.nanquantile(input, 0.5, dim=2, keepdim=True))
+print(torch.nanquantile(input, 0.5, dim=2, keepdim=True).shape)
+input = torch.randn(3, 4, 5, 6)
+print(input)
+print(torch.nanquantile(input, 0.5, dim=3))
+print(torch.nanquantile(input, 0.5, dim=3, keepdim=True))

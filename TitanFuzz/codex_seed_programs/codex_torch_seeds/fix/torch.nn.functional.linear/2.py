@@ -1,0 +1,22 @@
+'\nTask 1: import PyTorch\nTask 2: Generate input data\nTask 3: Call the API torch.nn.functional.linear\ntorch.nn.functional.linear(input, weight, bias=None)\n'
+import torch
+import torch.nn as nn
+x = torch.randn(5, 3)
+y = torch.randn(5, 2)
+linear = nn.Linear(3, 2)
+print('w: ', linear.weight)
+print('b: ', linear.bias)
+criterion = nn.MSELoss()
+optimizer = torch.optim.SGD(linear.parameters(), lr=0.01)
+pred = linear(x)
+print('pred: ', pred)
+loss = criterion(pred, y)
+print('loss: ', loss.item())
+loss.backward()
+print('dL/dw: ', linear.weight.grad)
+print('dL/db: ', linear.bias.grad)
+optimizer.step()
+pred = linear(x)
+print('pred: ', pred)
+loss = criterion(pred, y)
+print('loss: ', loss.item())

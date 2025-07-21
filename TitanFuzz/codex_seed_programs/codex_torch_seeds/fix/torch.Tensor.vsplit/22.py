@@ -1,0 +1,9 @@
+'\nTask 1: import PyTorch\nTask 2: Generate input data\nTask 3: Call the API torch.Tensor.vsplit\ntorch.Tensor.vsplit(_input_tensor, split_size_or_sections)\n'
+import torch
+import torch
+input_tensor = torch.randn(2, 3, 4)
+print('Input Tensor:')
+print(input_tensor)
+output_tensor_list = input_tensor.vsplit(2)
+print('Output Tensor List:')
+print(output_tensor_list)

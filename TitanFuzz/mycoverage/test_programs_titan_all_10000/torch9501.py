@@ -1,0 +1,7 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+a = torch.tensor([2.0, 4.0, 8.0, 16.0, 32.0, 64.0, 128.0, 256.0, 512.0, 1024.0, 2048.0, 4096.0])
+b = torch.log2(a)
+c = torch.tensor([0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0, 0.0])
+torch.log2(a, out=c)

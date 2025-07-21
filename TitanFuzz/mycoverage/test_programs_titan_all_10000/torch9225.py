@@ -1,0 +1,5 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+input_data = torch.arange(1, 11, dtype=torch.float)
+output_data = torch.pow(input_data, 2)

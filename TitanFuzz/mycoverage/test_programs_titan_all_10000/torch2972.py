@@ -1,0 +1,8 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+_input_tensor = torch.randn(1, 2, 3)
+_output_tensor = torch.Tensor.tile(_input_tensor, dims=(1, 3))
+_output_tensor = torch.Tensor.tile(_input_tensor, dims=(2, 1))
+_output_tensor = torch.Tensor.tile(_input_tensor, dims=(2, 3))
+_output_tensor = torch.Tensor.tile(_input_tensor, dims=(3, 2))

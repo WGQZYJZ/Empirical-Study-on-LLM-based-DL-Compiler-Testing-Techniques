@@ -1,0 +1,6 @@
+import torch
+y = torch.randn(10, 10)
+y = torch.randn(10, 10)
+torch.cumulative_trapezoid(y, dim=0)
+torch.cumulative_trapezoid(y, dim=1)
+torch.cumulative_trapezoid(y, x=torch.randn(10, 10), dim=1)

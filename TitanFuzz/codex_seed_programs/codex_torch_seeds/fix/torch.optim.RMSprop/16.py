@@ -1,0 +1,11 @@
+'\nTask 1: import PyTorch\nTask 2: Generate input data\nTask 3: Call the API torch.optim.RMSprop\ntorch.optim.RMSprop(params, lr=0.01, alpha=0.99, eps=1e-08, weight_decay=0, momentum=0, centered=False)\n'
+import torch
+X = torch.tensor([[1.0], [2.0], [3.0], [4.0]], requires_grad=True)
+Y = torch.tensor([[2.0], [4.0], [6.0], [8.0]], requires_grad=True)
+rms = torch.optim.RMSprop([X, Y], lr=0.01, alpha=0.99, eps=1e-08, weight_decay=0, momentum=0, centered=False)
+print(rms.state)
+for i in range(10):
+    loss = torch.mean(((X - Y) ** 2))
+    loss.backward()
+    rms.step()
+    rms.zero_grad()

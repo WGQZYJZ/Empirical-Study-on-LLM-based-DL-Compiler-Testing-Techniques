@@ -1,0 +1,17 @@
+'\nTask 1: import PyTorch\nTask 2: Generate input data\nTask 3: Call the API torch.chunk\ntorch.chunk(input, chunks, dim=0)\n'
+import torch
+input = torch.randn(2, 3)
+print('Input:', input)
+chunks = torch.chunk(input, 2, dim=1)
+print('Chunks:', chunks)
+print('Chunk 0:', chunks[0])
+print('Chunk 1:', chunks[1])
+print('Chunk 0 shape:', chunks[0].shape)
+print('Chunk 1 shape:', chunks[1].shape)
+print('Chunk 0 size:', chunks[0].size())
+print('Chunk 1 size:', chunks[1].size())
+print('Chunk 0 shape[0]:', chunks[0].shape[0])
+print('Chunk 0 shape[1]:', chunks[0].shape[1])
+print('Chunk 1 shape[0]:', chunks[1].shape[0])
+print('Chunk 1 shape[1]:', chunks[1].shape[1])
+print('Chunk 0 size[0]:', chunks[0].size()[0])

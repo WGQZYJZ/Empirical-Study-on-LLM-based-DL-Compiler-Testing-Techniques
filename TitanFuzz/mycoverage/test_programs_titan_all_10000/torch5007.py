@@ -1,0 +1,12 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+input_tensor = torch.randn(10, 3)
+other = torch.randn(10, 3)
+input_tensor = torch.randn(10, 3)
+other = torch.randn(10, 3)
+torch.Tensor.gt_(input_tensor, other)
+input_tensor = torch.randn(10, 3)
+other = torch.randn(10, 3)
+input_tensor = torch.randn(10, 3)
+other = torch.randn(10, 3)

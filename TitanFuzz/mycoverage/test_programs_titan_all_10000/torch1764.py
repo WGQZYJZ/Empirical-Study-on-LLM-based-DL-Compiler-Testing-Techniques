@@ -1,0 +1,9 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+_input_tensor = torch.rand(10, 10)
+_input_tensor[(0, 0)] = float('nan')
+_input_tensor[(0, 1)] = float('inf')
+_input_tensor[(0, 2)] = float('-inf')
+_output_tensor = torch.Tensor.nan_to_num(_input_tensor, nan=0.0, posinf=None, neginf=None)
+_input_tensor = torch.rand(10, 10)

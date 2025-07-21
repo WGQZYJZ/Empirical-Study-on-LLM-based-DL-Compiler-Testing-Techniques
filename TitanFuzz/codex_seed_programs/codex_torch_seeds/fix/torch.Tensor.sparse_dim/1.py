@@ -1,0 +1,20 @@
+'\nTask 1: import PyTorch\nTask 2: Generate input data\nTask 3: Call the API torch.Tensor.sparse_dim\ntorch.Tensor.sparse_dim(_input_tensor)\n'
+import torch
+from torch.autograd import Variable
+input_tensor = Variable(torch.Tensor([[1, 2, 3], [4, 5, 6]]))
+print(input_tensor.sparse_dim())
+print(input_tensor.sparse_dim())
+print(input_tensor.sparse_dim())
+print(input_tensor.sparse_dim())
+print(input_tensor.sparse_dim())
+print(input_tensor.sparse_dim())
+print(input_tensor.sparse_dim())
+print(input_tensor.sparse_dim())
+print(input_tensor.sparse_dim())
+print(input_tensor.sparse_dim())
+print(input_tensor.sparse_dim())
+print(input_tensor.sparse_dim())
+print(input_tensor.sparse_dim())
+print(input_tensor.sparse_dim())
+print(input_tensor.sparse_dim())
+print(input_tensor.sparse_dim())

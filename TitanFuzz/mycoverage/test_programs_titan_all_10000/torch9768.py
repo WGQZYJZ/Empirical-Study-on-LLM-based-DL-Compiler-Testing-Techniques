@@ -1,0 +1,9 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+_input_tensor = torch.randn(2, 3, 4)
+_src = torch.randn(2, 3, 4)
+_output_tensor = torch.Tensor.copy_(_input_tensor, _src)
+_input_tensor = torch.randn(2, 3, 4)
+_src = torch.randn(2, 3, 4)
+_output_tensor = torch.Tensor.copy_(_input_tensor, _src, non_blocking=True)

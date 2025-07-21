@@ -1,0 +1,18 @@
+'\nTask 1: import PyTorch\nTask 2: Generate input data\nTask 3: Call the API torch.div\ntorch.div(input, other, *, rounding_mode=None, out=None)\n'
+import torch
+input_data = torch.randn(3, 3)
+print(input_data)
+result = torch.div(input_data, 2)
+print(result)
+torch.add(input_data, 2, out=result)
+print(result)
+result.add_(input_data)
+print(result)
+result = torch.mul(input_data, input_data)
+print(result)
+result.mul_(input_data)
+print(result)
+result = torch.pow(input_data, 2)
+print(result)
+result.pow_(2)
+print(result)

@@ -1,0 +1,10 @@
+'\nTask 1: import PyTorch\nTask 2: Generate input data\nTask 3: Call the API torch.sparse.sum\ntorch.sparse.sum(input, dim=None, dtype=None)\n'
+import torch
+import torch
+indices = torch.tensor([[0, 1, 1], [2, 0, 2]])
+values = torch.tensor([3, 4, 5], dtype=torch.float32)
+shape = torch.Size([3, 3])
+input = torch.sparse_coo_tensor(indices, values, shape)
+print('input: ', input)
+output = torch.sparse.sum(input, dim=1)
+print('output: ', output)

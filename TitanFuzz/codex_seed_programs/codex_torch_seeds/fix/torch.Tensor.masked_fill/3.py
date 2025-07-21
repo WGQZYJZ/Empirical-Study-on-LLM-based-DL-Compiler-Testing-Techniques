@@ -1,0 +1,15 @@
+'\nTask 1: import PyTorch\nTask 2: Generate input data\nTask 3: Call the API torch.Tensor.masked_fill\ntorch.Tensor.masked_fill(_input_tensor, mask, value)\n'
+import torch
+input_tensor = torch.randn(3, 3)
+mask = torch.randint(0, 2, (3, 3), dtype=torch.uint8)
+value = torch.randn(1)
+output_tensor = input_tensor.masked_fill(mask, value)
+print('input_tensor: ', input_tensor)
+print('mask: ', mask)
+print('value: ', value)
+print('output_tensor: ', output_tensor)
+'\nTask 1: import PyTorch\nTask 2: Generate input data\nTask 3: Call the API torch.Tensor.masked_scatter\ntorch.Tensor.masked_scatter(_input_tensor, mask, source)\n'
+import torch
+input_tensor = torch.randn(3, 3)
+mask = torch.randint(0, 2, (3, 3), dtype=torch.uint8)
+source = torch.rand

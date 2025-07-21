@@ -1,0 +1,18 @@
+'\nTask 1: import PyTorch\nTask 2: Generate input data\nTask 3: Call the API torch.lt\ntorch.lt(input, other, *, out=None)\n'
+import torch
+a = torch.randn(4, 4)
+b = torch.randn(4, 4)
+c = torch.lt(a, b)
+print(c)
+print('\nTask 4: Call the API torch.lt with out')
+d = torch.empty(4, 4)
+torch.lt(a, b, out=d)
+print(d)
+print('\nTask 5: Call the API torch.lt_ with out')
+a.lt_(b)
+print(a)
+print('\nTask 6: Call the API torch.lt_ with out')
+a = torch.randn(4, 4)
+b = torch.randn(4, 4)
+c = torch.lt(a, b)
+print(c)

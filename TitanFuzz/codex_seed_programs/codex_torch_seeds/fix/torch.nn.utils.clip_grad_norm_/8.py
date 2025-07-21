@@ -1,0 +1,8 @@
+'\nTask 1: import PyTorch\nTask 2: Generate input data\nTask 3: Call the API torch.nn.utils.clip_grad_norm_\ntorch.nn.utils.clip_grad_norm_(parameters, max_norm, norm_type=2.0, error_if_nonfinite=False)\n'
+import torch
+import torch.nn as nn
+import torch.nn.functional as F
+import torch
+x = torch.randn(1, 3, requires_grad=True)
+torch.nn.utils.clip_grad_norm_(x, max_norm=2, norm_type=2, error_if_nonfinite=True)
+print(x.grad)

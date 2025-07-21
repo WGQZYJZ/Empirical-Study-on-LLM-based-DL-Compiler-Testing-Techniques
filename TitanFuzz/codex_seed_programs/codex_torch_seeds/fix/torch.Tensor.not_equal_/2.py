@@ -1,0 +1,7 @@
+'\nTask 1: import PyTorch\nTask 2: Generate input data\nTask 3: Call the API torch.Tensor.not_equal_\ntorch.Tensor.not_equal_(_input_tensor, other)\n'
+import torch
+import torch
+input_tensor = torch.Tensor([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+other = torch.Tensor([[1, 1, 1], [1, 1, 1], [1, 1, 1]])
+result = torch.Tensor.not_equal_(input_tensor, other)
+print(result)

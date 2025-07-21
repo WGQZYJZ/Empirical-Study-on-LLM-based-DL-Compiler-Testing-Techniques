@@ -1,0 +1,17 @@
+'\nTask 1: import PyTorch\nTask 2: Generate input data\nTask 3: Call the API torch.moveaxis\ntorch.moveaxis(input, source, destination)\n'
+import torch
+input_data = torch.rand(2, 3, 4)
+print('Input data:', input_data)
+print('\nTask 3: Call the API torch.moveaxis')
+print('torch.moveaxis(input, source, destination)')
+print('\nExample 1: Move axis 0 to axis 2')
+print('torch.moveaxis(input_data, 0, 2)')
+print(torch.moveaxis(input_data, 0, 2))
+print('\nExample 2: Move axis 0 to axis 1')
+print('torch.moveaxis(input_data, 0, 1)')
+print(torch.moveaxis(input_data, 0, 1))
+print('\nExample 3: Move axis 1 to axis 2')
+print('torch.moveaxis(input_data, 1, 2)')
+print(torch.moveaxis(input_data, 1, 2))
+print('\nExample 4: Move axis 2 to axis 0')
+print('torch.moveaxis(input_data, 2, 0)')

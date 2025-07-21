@@ -1,0 +1,8 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+input_data = torch.randint(10, (5, 3), dtype=torch.float)
+output_data = torch.floor_divide(input_data, 2)
+input_data = torch.randint(10, (5, 3), dtype=torch.float)
+output_data = torch.fmod(input_data, 2)
+input_data = torch.randint(10, (5, 3), dtype=torch.float)

@@ -1,0 +1,11 @@
+'\nTask 1: import PyTorch\nTask 2: Generate input data\nTask 3: Call the API torch.Tensor.sign_\ntorch.Tensor.sign_(_input_tensor)\n'
+import torch
+input_tensor = torch.randn(4, 4)
+torch.Tensor.sign_(input_tensor)
+print(input_tensor)
+'\nTask 1: import PyTorch\nTask 2: Generate input data\nTask 3: Call the API torch.Tensor.sin_\ntorch.Tensor.sin_(_input_tensor)\n'
+import torch
+input_tensor = torch.randn(4, 4)
+torch.Tensor.sin_(input_tensor)
+print(input_tensor)
+'\nTask 1: import PyTorch\nTask 2: Generate input data\nTask 3: Call the API torch.Tensor.sqrt_\ntorch.Tensor.sqrt_(_input_tensor)\n'

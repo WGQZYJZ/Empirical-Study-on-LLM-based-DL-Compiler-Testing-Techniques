@@ -1,0 +1,8 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+input_tensor = torch.randint(0, 10, (3, 3))
+other = torch.randint(0, 10, (3, 3))
+torch.ge(input_tensor, other)
+torch.Tensor.ge_(input_tensor, other)
+input_tensor = torch.randint(0, 10, (3, 3))

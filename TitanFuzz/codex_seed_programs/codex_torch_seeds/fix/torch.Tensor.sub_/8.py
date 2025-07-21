@@ -1,0 +1,16 @@
+'\nTask 1: import PyTorch\nTask 2: Generate input data\nTask 3: Call the API torch.Tensor.sub_\ntorch.Tensor.sub_(_input_tensor, other, *, alpha=1)\n'
+import torch
+input_tensor = torch.randn(2, 3)
+other = torch.randn(3)
+output_tensor = torch.Tensor.sub_(input_tensor, other)
+print(output_tensor)
+other = torch.randn(2, 3)
+output_tensor = torch.Tensor.sub_(input_tensor, other)
+print(output_tensor)
+other = torch.randn(3, 2)
+output_tensor = torch.Tensor.sub_(input_tensor, other)
+print(output_tensor)
+other = torch.randn(2, 2)
+output_tensor = torch.Tensor.sub_(input_tensor, other)
+print(output_tensor)
+other = torch.randn(2, 3, 1)

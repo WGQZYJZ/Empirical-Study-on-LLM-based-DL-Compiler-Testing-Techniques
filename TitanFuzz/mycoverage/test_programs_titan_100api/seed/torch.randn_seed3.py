@@ -1,0 +1,10 @@
+features = torch.randn((1, 5))
+weights = torch.randn_like(features)
+bias = torch.randn((1, 1))
+y = ((weights.view(5, 1) * features) + bias)
+y = (torch.sum((weights * features)) + bias)
+y = (torch.mm(features, weights.view(5, 1)) + bias)
+features = torch.randn((1, 3))
+n_input = features.shape[1]
+n_hidden = 2
+n_output = 1

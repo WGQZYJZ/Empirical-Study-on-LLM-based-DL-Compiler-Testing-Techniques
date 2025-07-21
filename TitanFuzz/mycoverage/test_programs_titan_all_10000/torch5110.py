@@ -1,0 +1,9 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+x = torch.randn(1000000, dtype=torch.float32)
+y = torch.randn(1000000, dtype=torch.float32)
+torch.set_num_threads(8)
+t1 = time.time()
+z = torch.add(x, y)
+t2 = time.time()

@@ -1,0 +1,16 @@
+'\nTask 1: import PyTorch\nTask 2: Generate input data\nTask 3: Call the API torch.set_printoptions\ntorch.set_printoptions(precision=None, threshold=None, edgeitems=None, linewidth=None, profile=None, sci_mode=None)\n'
+import torch
+a = torch.rand(4, 3)
+print(a)
+torch.set_printoptions(precision=4)
+print(a)
+torch.set_printoptions(precision=2, threshold=3)
+print(a)
+torch.set_printoptions(precision=2, threshold=3, edgeitems=2)
+print(a)
+torch.set_printoptions(precision=2, threshold=3, edgeitems=2, linewidth=20)
+print(a)
+torch.set_printoptions(precision=2, threshold=3, edgeitems=2, linewidth=20, profile='full')
+print(a)
+torch.set_printoptions(precision=2, threshold=3, edgeitems=2, linewidth=20, profile='full', sci_mode=True)
+print(a)

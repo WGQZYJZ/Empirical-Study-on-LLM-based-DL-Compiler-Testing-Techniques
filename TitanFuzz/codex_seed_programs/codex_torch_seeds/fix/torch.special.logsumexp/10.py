@@ -1,0 +1,16 @@
+'\nTask 1: import PyTorch\nTask 2: Generate input data\nTask 3: Call the API torch.special.logsumexp\ntorch.special.logsumexp(input, dim, keepdim=False, *, out=None)\n'
+import torch
+input = torch.randn(2, 3)
+print('input: ', input)
+output = torch.special.logsumexp(input, dim=1)
+print('output: ', output)
+output = torch.special.logsumexp(input, dim=1, keepdim=True)
+print('output: ', output)
+output = torch.special.logsumexp(input, dim=1, keepdim=False)
+print('output: ', output)
+output = torch.special.logsumexp(input, dim=0)
+print('output: ', output)
+output = torch.special.logsumexp(input, dim=0, keepdim=True)
+print('output: ', output)
+output = torch.special.logsumexp(input, dim=0, keepdim=False)
+print('output: ', output)

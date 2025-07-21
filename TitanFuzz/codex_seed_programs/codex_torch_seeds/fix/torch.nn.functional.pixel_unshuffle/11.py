@@ -1,0 +1,7 @@
+'\nTask 1: import PyTorch\nTask 2: Generate input data\nTask 3: Call the API torch.nn.functional.pixel_unshuffle\ntorch.nn.functional.pixel_unshuffle(input, downscale_factor)\n'
+import torch
+from torch import nn
+from torch.nn import functional as F
+input = torch.randn(1, 1, 4, 4)
+output = F.pixel_unshuffle(input, 2)
+print(output)

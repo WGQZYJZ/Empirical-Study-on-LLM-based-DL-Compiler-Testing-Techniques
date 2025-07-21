@@ -1,0 +1,8 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+input_data = torch.tensor([[1, 2, 3], [4, 5, 6]], dtype=torch.float32)
+(max_value, max_index) = torch.max(input_data, dim=1)
+(max_value, max_index) = torch.max(input_data, dim=1, keepdim=True)
+(max_value, max_index) = torch.max(input_data, dim=0)
+(max_value, max_index) = torch.max(input_data, dim=0, keepdim=True)

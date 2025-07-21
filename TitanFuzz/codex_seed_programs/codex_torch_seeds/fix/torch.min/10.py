@@ -1,0 +1,16 @@
+'\nTask 1: import PyTorch\nTask 2: Generate input data\nTask 3: Call the API torch.min\ntorch.min(input, dim, keepdim=False, *, out=None)\n'
+import torch
+print('Task 1: import PyTorch')
+print('PyTorch version: {}'.format(torch.__version__))
+print('Task 2: Generate input data')
+input_data = torch.rand(4, 4)
+print('Input data: {}'.format(input_data))
+print('Task 3: Call the API torch.min')
+print('torch.min(input, dim, keepdim=False, *, out=None)')
+print('dim=0, keepdim=False')
+(min_value, min_index) = torch.min(input_data, dim=0, keepdim=False)
+print('min_value: {}'.format(min_value))
+print('min_index: {}'.format(min_index))
+print('dim=0, keepdim=True')
+(min_value, min_index) = torch.min(input_data, dim=0, keepdim=True)
+print('min_value: {}'.format(min_value))

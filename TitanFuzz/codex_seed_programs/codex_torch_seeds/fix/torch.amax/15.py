@@ -1,0 +1,20 @@
+'\nTask 1: import PyTorch\nTask 2: Generate input data\nTask 3: Call the API torch.amax\ntorch.amax(input, dim, keepdim=False, *, out=None)\n'
+import torch
+import torch
+input = torch.randn(3, 4)
+print(input)
+result = torch.amax(input, dim=0)
+print(result)
+result = torch.amax(input, dim=1)
+print(result)
+result = torch.amax(input, dim=0, keepdim=True)
+print(result)
+result = torch.amax(input, dim=1, keepdim=True)
+print(result)
+result = torch.amax(input, dim=0, keepdim=False)
+print(result)
+result = torch.amax(input, dim=1, keepdim=False)
+print(result)
+result = torch.amax(input, dim=None)
+print(result)
+print(result)

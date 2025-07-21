@@ -1,0 +1,9 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+x = torch.arange(0, 10, 0.5)
+y = torch.arange(0, 10, 0.5).reshape(4, 5)
+z = torch.arange(0, 10, 0.5).reshape(2, 2, 5)
+x = torch.linspace(0, 10, 5)
+y = torch.linspace(0, 10, 5).reshape(5, 1)
+z = torch.linspace(0, 10, 5).reshape(1, 5)

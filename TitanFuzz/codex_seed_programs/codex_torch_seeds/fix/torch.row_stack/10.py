@@ -1,0 +1,17 @@
+'\nTask 1: import PyTorch\nTask 2: Generate input data\nTask 3: Call the API torch.row_stack\ntorch.row_stack(tensors, *, out=None)\n'
+import torch
+tensor1 = torch.rand(2, 3)
+tensor2 = torch.rand(2, 3)
+tensor3 = torch.rand(2, 3)
+print(tensor1)
+print(tensor2)
+print(tensor3)
+tensor_stack = torch.stack([tensor1, tensor2, tensor3])
+print(tensor_stack)
+print(tensor_stack.shape)
+tensor_row_stack = torch.row_stack([tensor1, tensor2, tensor3])
+print(tensor_row_stack)
+print(tensor_row_stack.shape)
+tensor_column_stack = torch.stack([tensor1, tensor2, tensor3], dim=1)
+print(tensor_column_stack)
+print(tensor_column_stack.shape)

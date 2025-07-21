@@ -1,0 +1,16 @@
+'\nTask 1: import PyTorch\nTask 2: Generate input data\nTask 3: Call the API torch.Tensor.contiguous\ntorch.Tensor.contiguous(_input_tensor, memory_format=torch.contiguous_format)\n'
+import torch
+import numpy as np
+if True:
+    print('Task 1: import PyTorch')
+    print('Task 2: Generate input data')
+    print('Task 3: Call the API torch.Tensor.contiguous')
+    print('Case 1: input is a tensor')
+    input_tensor = torch.randn(2, 3, 4, 5)
+    print('input_tensor:')
+    print(input_tensor)
+    print('input_tensor.shape:')
+    print(input_tensor.shape)
+    print('torch.Tensor.contiguous(input_tensor):')
+    print(torch.Tensor.contiguous(input_tensor))
+    print('torch.Tensor.contiguous(input_tensor).shape:')

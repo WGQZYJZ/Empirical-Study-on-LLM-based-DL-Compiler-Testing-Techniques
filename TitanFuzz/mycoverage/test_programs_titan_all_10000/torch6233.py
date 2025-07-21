@@ -1,0 +1,10 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+data = torch.randn(5, 3)
+result = torch.norm(data)
+result = torch.norm(data, p=2)
+result = torch.norm(data, dim=0)
+result = torch.norm(data, dim=1)
+result = torch.norm(data, dim=1, keepdim=True)
+result = torch.norm(data, dim=1, out=torch.zeros(5))

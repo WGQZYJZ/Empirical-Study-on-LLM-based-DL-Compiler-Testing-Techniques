@@ -1,0 +1,10 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+input = torch.randn(4, 3, 3)
+input[(1, 1, 1)] = float('nan')
+input[(2, 2, 2)] = float('nan')
+mean = torch.nanmean(input, dim=1)
+mean = torch.nanmean(input, dim=2)
+mean = torch.nanmean(input, dim=0)
+mean = torch.nanmean(input, dim=0, keepdim=True)

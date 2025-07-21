@@ -1,0 +1,8 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+input_tensor = torch.randn(4, 4)
+torch.Tensor.reciprocal_(input_tensor)
+input_tensor = torch.randn(4, 4)
+divisor = torch.randn(4, 4)
+torch.Tensor.remainder_(input_tensor, divisor)

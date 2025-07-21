@@ -1,0 +1,8 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+input_data = torch.rand(2, 3)
+other_data = torch.rand(2, 3)
+result = torch.mul(input_data, other_data)
+output_data = torch.zeros(2, 3)
+result = torch.mul(input_data, other_data, out=output_data)

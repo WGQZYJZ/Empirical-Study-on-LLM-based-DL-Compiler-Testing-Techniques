@@ -1,0 +1,16 @@
+'\nTask 1: import PyTorch\nTask 2: Generate input data\nTask 3: Call the API torch.bitwise_left_shift\ntorch.bitwise_left_shift(input, other, *, out=None)\n'
+import torch
+input = torch.tensor([[1, 2, 3], [4, 5, 6]], dtype=torch.uint8)
+other = torch.tensor([[2, 3, 4], [5, 6, 7]], dtype=torch.uint8)
+print('Task 1: import PyTorch')
+print('Task 2: Generate input data')
+print('Task 3: Call the API torch.bitwise_left_shift')
+print('torch.bitwise_left_shift(input, other, *, out=None)')
+print('\nInput:')
+print(input)
+print('\nOther:')
+print(other)
+print('\nBitwise left shift:')
+print(torch.bitwise_left_shift(input, other))
+print('\nBitwise left shift with out:')
+out = torch.zeros([2, 3], dtype=torch.uint8)

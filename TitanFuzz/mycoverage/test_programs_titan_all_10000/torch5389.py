@@ -1,0 +1,10 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+z = (x * y)
+z = torch.sum(z)
+z.backward()
+torch.set_flush_denormal(True)
+z = (x * y)
+z = torch.sum(z)
+z.backward()

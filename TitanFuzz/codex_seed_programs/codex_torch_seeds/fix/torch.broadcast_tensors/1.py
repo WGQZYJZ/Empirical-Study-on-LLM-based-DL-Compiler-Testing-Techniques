@@ -1,0 +1,16 @@
+'\nTask 1: import PyTorch\nTask 2: Generate input data\nTask 3: Call the API torch.broadcast_tensors\ntorch.broadcast_tensors(*tensors)\n'
+import torch
+inp1 = torch.randn(3, 3)
+inp2 = torch.randn(3, 1)
+print(inp1)
+print(inp2)
+print(torch.broadcast_tensors(inp1, inp2))
+inp1 = torch.randn(3, 3)
+inp2 = torch.randn(3, 1)
+print(inp1)
+print(inp2)
+print(torch.broadcast_tensors(inp1, inp2))
+inp1 = torch.randn(3, 3)
+inp2 = torch.randn(3, 1)
+print(inp1)
+print(inp2)

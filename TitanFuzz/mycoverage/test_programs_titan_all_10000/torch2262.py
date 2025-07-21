@@ -1,0 +1,19 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+row = torch.tensor(3)
+col = torch.tensor(3)
+offset = torch.tensor(0)
+torch.triu_indices(row, col, offset)
+row = torch.tensor(3)
+col = torch.tensor(3)
+offset = torch.tensor(0)
+torch.triu_indices(row, col, offset)
+row = torch.tensor(3)
+col = torch.tensor(3)
+offset = torch.tensor(0)
+torch.triu_indices(row, col, offset)
+row = torch.tensor(3)
+col = torch.tensor(3)
+offset = torch.tensor(0)
+torch.triu_indices(row, col, offset)

@@ -1,0 +1,18 @@
+'\nTask 1: import PyTorch\nTask 2: Generate input data\nTask 3: Call the API torch.Tensor.random_\ntorch.Tensor.random_(_input_tensor, from=0, to=None, *, generator=None)\n'
+import torch
+print('Task 1: import PyTorch')
+print('PyTorch version: ', torch.__version__)
+print('Task 2: Generate input data')
+print('Task 3: Call the API torch.Tensor.random_')
+x = torch.empty(5, 3)
+print('x: ', x)
+torch.Tensor.random_(x, from_=0, to=1)
+print('x: ', x)
+print('Task 4: Call the API torch.Tensor.random_')
+x = torch.empty(5, 3)
+print('x: ', x)
+torch.Tensor.random_(x, from_=0, to=1)
+print('x: ', x)
+print('Task 5: Call the API torch.Tensor.random_')
+x = torch.empty(5, 3)
+print('x: ', x)

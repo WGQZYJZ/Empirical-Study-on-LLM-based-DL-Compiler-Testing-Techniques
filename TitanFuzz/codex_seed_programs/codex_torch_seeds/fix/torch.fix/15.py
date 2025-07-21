@@ -1,0 +1,15 @@
+'\nTask 1: import PyTorch\nTask 2: Generate input data\nTask 3: Call the API torch.fix\ntorch.fix(input, *, out=None)\n'
+import torch
+print('Task 1: import PyTorch')
+print('PyTorch version:', torch.__version__)
+print('')
+print('Task 2: Generate input data')
+x = torch.randn(4, 4)
+print('Input data:')
+print(x)
+print('')
+print('Task 3: Call the API torch.fix')
+y = torch.fix(x)
+print('Output data:')
+print(y)
+print('')

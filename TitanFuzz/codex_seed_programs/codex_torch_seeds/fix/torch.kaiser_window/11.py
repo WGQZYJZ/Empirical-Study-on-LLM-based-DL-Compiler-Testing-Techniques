@@ -1,0 +1,8 @@
+'\nTask 1: import PyTorch\nTask 2: Generate input data\nTask 3: Call the API torch.kaiser_window\ntorch.kaiser_window(window_length, periodic=True, beta=12.0, *, dtype=None, layout=torch.strided, device=None, requires_grad=False)\n'
+import torch
+x = torch.randn(1, 1, 3)
+print(x)
+y = torch.kaiser_window(3, periodic=True, beta=12.0)
+print(y)
+z = torch.kaiser_window(3, periodic=True, beta=12.0, dtype=torch.float64)
+print(z)

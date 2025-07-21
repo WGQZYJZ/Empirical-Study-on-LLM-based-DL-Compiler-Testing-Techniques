@@ -1,0 +1,16 @@
+'\nTask 1: import PyTorch\nTask 2: Generate input data\nTask 3: Call the API torch.aminmax\ntorch.aminmax(input, *, dim=None, keepdim=False, out=None)\n'
+import torch
+input = torch.rand(4, 4)
+print(input)
+print(torch.min(input))
+print(torch.max(input))
+print(torch.min(input, dim=0))
+print(torch.max(input, dim=1))
+print(torch.min(input, dim=1))
+print(torch.max(input, dim=0))
+print(torch.min(input, dim=0, keepdim=True))
+print(torch.max(input, dim=1, keepdim=True))
+print(torch.min(input, dim=1, keepdim=True))
+print(torch.max(input, dim=0, keepdim=True))
+print(torch.aminmax(input, dim=0))
+print(torch.aminmax(input, dim=1))

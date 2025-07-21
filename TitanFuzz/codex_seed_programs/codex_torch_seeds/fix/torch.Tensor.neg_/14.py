@@ -1,0 +1,13 @@
+'\nTask 1: import PyTorch\nTask 2: Generate input data\nTask 3: Call the API torch.Tensor.neg_\ntorch.Tensor.neg_(_input_tensor)\n'
+import torch
+input_tensor = torch.randn(1, 3, 3)
+output_tensor = torch.Tensor.neg_(input_tensor)
+print(output_tensor)
+'\nTask 1: import PyTorch\nTask 2: Generate input data\nTask 3: Call the API torch.Tensor.nelement\ntorch.Tensor.nelement(_input_tensor)\n'
+import torch
+input_tensor = torch.randn(1, 3, 3)
+output_tensor = torch.Tensor.nelement(input_tensor)
+print(output_tensor)
+'\nTask 1: import PyTorch\nTask 2: Generate input data\nTask 3: Call the API torch.Tensor.norm\ntorch.Tensor.norm(_input_tensor, _p, _dim, _keepdim, _out)\n'
+import torch
+input_tensor = torch

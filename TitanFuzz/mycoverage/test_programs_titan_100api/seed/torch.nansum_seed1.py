@@ -1,0 +1,5 @@
+input_data = torch.randn(3, 3, 3)
+input_data[(1, 1, 1)] = float('nan')
+torch.nansum(input_data, dim=1, keepdim=True)
+input_data = torch.randn(3, 3, 3)
+input_data[(1, 1, 1)] = float('nan')

@@ -1,0 +1,17 @@
+'\nTask 1: import PyTorch\nTask 2: Generate input data\nTask 3: Call the API torch.randn\ntorch.randn(*size, *, out=None, dtype=None, layout=torch.strided, device=None, requires_grad=False)\n'
+import torch
+x = torch.randn(1)
+print(x)
+print(x.item())
+x = torch.randn(3, 4, 5)
+print(x)
+x = torch.randn(5, 3, 4, 5)
+print(x)
+x = torch.randn(5, 3, 4, 5, dtype=torch.float16)
+print(x)
+x = torch.randn(5, 3, 4, 5, dtype=torch.float16, device=torch.device('cuda'))
+print(x)
+x = torch.randn(5, 3, 4, 5, dtype=torch.float16, device=torch.device('cuda'), requires_grad=True)
+print(x)
+x = torch.randn(5, 3, 4, 5, dtype=torch.float16, device=torch.device('cuda'), requires_grad=True)
+print(x)

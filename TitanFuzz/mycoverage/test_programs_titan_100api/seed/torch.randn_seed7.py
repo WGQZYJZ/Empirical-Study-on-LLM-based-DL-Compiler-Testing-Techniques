@@ -1,0 +1,6 @@
+a = torch.randn(2, 3)
+b = torch.randn(2, 3)
+c = torch.randn(2, 3)
+d = torch.randn(2, 3)
+e = torch.randn(2, 3)
+f = torch.randn(2, 3)

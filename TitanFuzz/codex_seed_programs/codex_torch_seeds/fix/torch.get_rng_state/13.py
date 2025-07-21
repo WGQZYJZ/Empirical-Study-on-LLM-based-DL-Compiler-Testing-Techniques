@@ -1,0 +1,15 @@
+'\nTask 1: import PyTorch\nTask 2: Generate input data\nTask 3: Call the API torch.get_rng_state\ntorch.get_rng_state()\n'
+import torch
+data = torch.randn(1, 2)
+print(data)
+state_before = torch.get_rng_state()
+print(state_before)
+data = torch.randn(1, 2)
+print(data)
+state_after = torch.get_rng_state()
+print(state_after)
+torch.set_rng_state(state_before)
+data = torch.randn(1, 2)
+print(data)
+state_after = torch.get_rng_state()
+print(state_after)

@@ -1,0 +1,15 @@
+'\nTask 1: import PyTorch\nTask 2: Generate input data\nTask 3: Call the API torch.float_power\ntorch.float_power(input, exponent, *, out=None)\n'
+import torch
+print('\nTask 1: import PyTorch')
+print('PyTorch version: ', torch.__version__)
+print('PyTorch version: ', torch.version.cuda)
+print('PyTorch version: ', torch.version.cuda)
+print('PyTorch version: ', torch.version.cuda)
+print('\nTask 2: Generate input data')
+x = torch.tensor([1, 2, 3, 4, 5, 6, 7, 8, 9, 10], dtype=torch.float32)
+print('Input data: ', x)
+print('\nTask 3: Call the API torch.float_power')
+print('Power of 2: ', torch.float_power(x, 2))
+print('Power of 3: ', torch.float_power(x, 3))
+print('Power of 4: ', torch.float_power(x, 4))
+print('Power of 5: ', torch.float_power(x, 5))

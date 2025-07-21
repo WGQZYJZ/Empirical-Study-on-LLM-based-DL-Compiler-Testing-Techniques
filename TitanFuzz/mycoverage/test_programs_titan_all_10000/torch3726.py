@@ -1,0 +1,8 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+input_data = torch.tensor([[True, False], [False, True]])
+result = torch.all(input_data)
+result = torch.all(input_data, dim=0)
+result = torch.all(input_data, dim=1)
+result = torch.all(input_data, dim=1, keepdim=True)

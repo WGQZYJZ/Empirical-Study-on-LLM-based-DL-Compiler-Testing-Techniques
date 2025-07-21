@@ -1,0 +1,15 @@
+'\nTask 1: import PyTorch\nTask 2: Generate input data\nTask 3: Call the API torch.nn.ModuleDict\ntorch.nn.ModuleDict(modules=None)\n'
+import torch
+x = torch.randn(2, 3)
+print(x)
+md = torch.nn.ModuleDict({'linear': torch.nn.Linear(3, 4), 'conv': torch.nn.Conv2d(3, 4, (3, 3))})
+print(md)
+print(md.keys())
+print(md.values())
+print(md.items())
+md.update({'extra_linear': torch.nn.Linear(4, 1)})
+print(md)
+md.pop('conv')
+print(md)
+md.clear()
+print(md)

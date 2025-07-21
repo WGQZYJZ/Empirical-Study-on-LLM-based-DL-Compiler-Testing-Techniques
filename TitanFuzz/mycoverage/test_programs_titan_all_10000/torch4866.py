@@ -1,0 +1,8 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+input_data = torch.tensor([[1, 2, 4, 5], [4, 3, 2, 9]])
+embedding = torch.nn.Embedding(10, 3)
+output = embedding(input_data)
+embedding_bag = torch.nn.EmbeddingBag(10, 3, mode='sum')
+output = embedding_bag(input_data)

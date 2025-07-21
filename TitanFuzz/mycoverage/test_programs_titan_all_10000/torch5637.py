@@ -1,0 +1,12 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+input_tensor = torch.randn(4, 4)
+p = 1
+dim = 0
+maxnorm = 2
+output_tensor_1 = torch.Tensor.renorm(input_tensor, p, dim, maxnorm)
+p = 2
+dim = 1
+maxnorm = 2
+output_tensor_2 = torch.Tensor.renorm(input_tensor, p, dim, maxnorm)

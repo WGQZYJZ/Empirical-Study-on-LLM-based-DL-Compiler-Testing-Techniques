@@ -1,0 +1,15 @@
+'\nTask 1: import PyTorch\nTask 2: Generate input data\nTask 3: Call the API torch.Tensor.amin\ntorch.Tensor.amin(_input_tensor, dim=None, keepdim=False)\n'
+import torch
+input_tensor = torch.tensor([[1, 2, 3, 4, 5], [6, 7, 8, 9, 10], [11, 12, 13, 14, 15]])
+print('Input tensor:')
+print(input_tensor)
+print('\nMinimum value of the input tensor:')
+print(input_tensor.amin())
+print('\nMinimum value of the input tensor along dimension 0:')
+print(input_tensor.amin(dim=0))
+print('\nMinimum value of the input tensor along dimension 1:')
+print(input_tensor.amin(dim=1))
+print('\nMinimum value of the input tensor along dimension 0, keepdim=True:')
+print(input_tensor.amin(dim=0, keepdim=True))
+print('\nMinimum value of the input tensor along dimension 1, keepdim=True:')
+print(input_tensor.amin(dim=1, keepdim=True))

@@ -1,0 +1,9 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+x = torch.Tensor([[1, 2], [3, 4]])
+y = torch.Tensor([[5, 6], [7, 8]])
+torch.Tensor.bmm(x, y)
+x = torch.Tensor([[1, 2], [3, 4]])
+y = torch.Tensor([[5, 6], [7, 8]])
+torch.Tensor.matmul(x, y)

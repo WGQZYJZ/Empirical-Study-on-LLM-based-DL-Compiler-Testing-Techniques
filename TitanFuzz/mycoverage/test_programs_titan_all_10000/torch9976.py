@@ -1,0 +1,8 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+x = np.random.randn(1000, 3)
+y = np.random.randint(0, 2, size=(1000, 1))
+dataset = torch.utils.data.TensorDataset(torch.tensor(x, dtype=torch.float32), torch.tensor(y))
+x = np.random.randn(1000, 3)
+y = np.random.randint(0, 2, size=(1000, 1))

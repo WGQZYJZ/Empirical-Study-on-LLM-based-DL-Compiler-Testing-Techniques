@@ -1,0 +1,10 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+input = torch.tensor([[0.1, 0.2, 0.3, 0.4, 0.5], [0.5, 0.4, 0.3, 0.2, 0.1]])
+target = torch.tensor([1, 0])
+loss = torch.nn.CrossEntropyLoss()
+loss_value = loss(input, target)
+weight = torch.tensor([0.1, 0.2, 0.3, 0.4, 0.5])
+loss = torch.nn.CrossEntropyLoss(weight=weight)
+loss_value = loss(input, target)

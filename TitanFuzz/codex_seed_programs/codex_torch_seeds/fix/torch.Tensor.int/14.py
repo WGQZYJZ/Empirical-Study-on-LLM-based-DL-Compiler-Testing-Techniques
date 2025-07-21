@@ -1,0 +1,18 @@
+'\nTask 1: import PyTorch\nTask 2: Generate input data\nTask 3: Call the API torch.Tensor.int\ntorch.Tensor.int(_input_tensor, memory_format=torch.preserve_format)\n'
+import torch
+input_tensor = torch.rand(2, 3)
+print(input_tensor)
+print(input_tensor.int())
+print(torch.is_tensor(input_tensor))
+print(torch.is_storage(input_tensor))
+print(torch.numel(input_tensor))
+print(torch.set_default_tensor_type(torch.FloatTensor))
+print(torch.get_default_dtype())
+print(torch.set_default_dtype(torch.float64))
+print(torch.get_default_dtype())
+print(torch.set_default_dtype(torch.float32))
+print(torch.get_default_dtype())
+print(torch.set_default_dtype(torch.float64))
+print(torch.get_default_dtype())
+print(torch.set_default_dtype(torch.float16))
+print(torch.get_default_dtype())

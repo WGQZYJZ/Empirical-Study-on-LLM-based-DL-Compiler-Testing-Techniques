@@ -1,0 +1,17 @@
+'\nTask 1: import PyTorch\nTask 2: Generate input data\nTask 3: Call the API torch.mm\ntorch.mm(input, mat2, *, out=None)\n'
+import torch
+print('Task 1')
+print('Imported PyTorch')
+print('Task 2')
+print('Generate input data')
+input = torch.randn(3, 4)
+mat2 = torch.randn(4, 5)
+print('Task 3')
+print('Call the API torch.mm')
+print('torch.mm(input, mat2, *, out=None)')
+print('Input:')
+print(input)
+print('Matrix 2:')
+print(mat2)
+print('Output:')
+print(torch.mm(input, mat2))

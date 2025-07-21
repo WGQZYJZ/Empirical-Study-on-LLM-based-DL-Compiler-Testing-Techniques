@@ -1,0 +1,7 @@
+"\nTask 1: import PyTorch\nTask 2: Generate input data\nTask 3: Call the API torch.nn.functional.kl_div\ntorch.nn.functional.kl_div(input, target, size_average=None, reduce=None, reduction='mean', log_target=False)\n"
+import torch
+import torch
+input = torch.randn(3, requires_grad=True)
+target = torch.randn(3)
+loss = torch.nn.functional.kl_div(input, target, size_average=None, reduce=None, reduction='mean', log_target=False)
+print(loss)

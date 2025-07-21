@@ -1,0 +1,10 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+input_data = np.array([1, 2, 3])
+tensor_data = torch.from_numpy(input_data)
+numpy_data = tensor_data.numpy()
+list_data = tensor_data.tolist()
+int_data = tensor_data.int()
+float_data = tensor_data.float()
+double_data = tensor_data.double()

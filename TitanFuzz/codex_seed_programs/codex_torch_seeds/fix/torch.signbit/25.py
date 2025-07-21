@@ -1,0 +1,17 @@
+'\nTask 1: import PyTorch\nTask 2: Generate input data\nTask 3: Call the API torch.signbit\ntorch.signbit(input, *, out=None)\n'
+import torch
+a = torch.randn(4)
+print('a is ', a)
+print('signbit(a) is ', torch.signbit(a))
+a = torch.tensor([(- 1), 0, 1])
+print('a is ', a)
+print('signbit(a) is ', torch.signbit(a))
+a = torch.tensor([(- 1.1), 0.0, 1.1])
+print('a is ', a)
+print('signbit(a) is ', torch.signbit(a))
+a = torch.tensor([(- 1.1), 0.0, 1.1], dtype=torch.float32)
+print('a is ', a)
+print('signbit(a) is ', torch.signbit(a))
+a = torch.tensor([(- 1.1), 0.0, 1.1], dtype=torch.float64)
+print('a is ', a)
+print('signbit(a) is ', torch.signbit(a))

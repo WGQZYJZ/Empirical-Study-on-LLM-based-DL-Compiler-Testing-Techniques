@@ -1,0 +1,16 @@
+'\nTask 1: import PyTorch\nTask 2: Generate input data\nTask 3: Call the API torch.nn.Linear\ntorch.nn.Linear(in_features, out_features, bias=True, device=None, dtype=None)\n'
+import torch
+x = torch.tensor([[1.0, 2.0], [3.0, 4.0]])
+linear = torch.nn.Linear(in_features=2, out_features=1)
+print(linear)
+y = linear(x)
+print(y)
+print(linear.weight)
+print(linear.bias)
+print(linear.weight.grad)
+print(linear.bias.grad)
+y.backward(torch.ones_like(y))
+print(linear.weight.grad)
+print(linear.bias.grad)
+print(linear.weight.grad.data)
+print(linear.bias.grad.data)

@@ -1,0 +1,21 @@
+'\nTask 1: import PyTorch\nTask 2: Generate input data\nTask 3: Call the API torch.Tensor.index_add_\ntorch.Tensor.index_add_(_input_tensor, dim, index, tensor, *, alpha=1)\n'
+import torch
+a = torch.randn(2, 3)
+b = torch.randn(2, 3)
+c = torch.randn(2, 3)
+d = torch.randn(2, 3)
+e = torch.randn(2, 3)
+print('a:', a)
+print('b:', b)
+print('c:', c)
+print('d:', d)
+print('e:', e)
+import torch
+a = torch.randn(2, 3)
+b = torch.randn(2, 3)
+c = torch.randn(2, 3)
+d = torch.randn(2, 3)
+e = torch.randn(2, 3)
+a.index_add_(1, torch.tensor([0, 2]), b)
+print('a:', a)
+a.index_add_(1, torch.tensor([0, 2]), b)

@@ -1,0 +1,9 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+a = torch.Tensor([[1, 2, 3], [4, 5, 6]])
+b = torch.unsqueeze(a, dim=0)
+c = torch.unsqueeze(a, dim=1)
+d = torch.unsqueeze(a, dim=2)
+e = torch.unsqueeze(a, dim=(- 1))
+f = torch.unsqueeze(a, dim=(- 2))

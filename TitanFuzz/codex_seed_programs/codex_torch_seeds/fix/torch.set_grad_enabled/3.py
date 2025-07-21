@@ -1,0 +1,18 @@
+'\nTask 1: import PyTorch\nTask 2: Generate input data\nTask 3: Call the API torch.set_grad_enabled\ntorch.set_grad_enabled(mode)\n'
+import torch
+x = torch.ones(2, 2, requires_grad=True)
+print(x)
+torch.set_grad_enabled(True)
+y = (x + 2)
+print(y)
+z = ((y * y) * 3)
+out = z.mean()
+print(z, out)
+torch.set_grad_enabled(False)
+a = torch.randn(2, 2)
+a = ((a * 3) / (a - 1))
+print(a.requires_grad)
+a.requires_grad_(True)
+print(a.requires_grad)
+b = (a * a).sum()
+print(b.grad_fn)

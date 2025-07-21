@@ -1,0 +1,13 @@
+"\nTask 1: import PyTorch\nTask 2: Generate input data\nTask 3: Call the API torch.nn.ConvTranspose1d\ntorch.nn.ConvTranspose1d(in_channels, out_channels, kernel_size, stride=1, padding=0, output_padding=0, groups=1, bias=True, dilation=1, padding_mode='zeros', device=None, dtype=None)\n"
+import torch
+import torch.nn as nn
+import torch.nn.functional as F
+import numpy as np
+import torch
+input_data = torch.randn(1, 1, 4)
+print('Input data: ', input_data)
+conv1d_transpose = nn.ConvTranspose1d(in_channels=1, out_channels=1, kernel_size=2, stride=2, padding=1)
+print('conv1d_transpose: ', conv1d_transpose)
+output = conv1d_transpose(input_data)
+print('Output: ', output)
+print('Output shape: ', output.shape)

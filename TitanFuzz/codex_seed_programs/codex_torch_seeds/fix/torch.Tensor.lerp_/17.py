@@ -1,0 +1,10 @@
+'\nTask 1: import PyTorch\nTask 2: Generate input data\nTask 3: Call the API torch.Tensor.lerp_\ntorch.Tensor.lerp_(_input_tensor, end, weight)\n'
+import torch
+input_tensor = torch.tensor([[1, 2, 3], [4, 5, 6], [7, 8, 9]], dtype=torch.float32)
+end = torch.tensor([[2, 3, 4], [5, 6, 7], [8, 9, 10]], dtype=torch.float32)
+weight = torch.tensor([0.5], dtype=torch.float32)
+output_tensor = torch.Tensor.lerp_(input_tensor, end, weight)
+print('input_tensor:', input_tensor)
+print('end:', end)
+print('weight:', weight)
+print('output_tensor:', output_tensor)

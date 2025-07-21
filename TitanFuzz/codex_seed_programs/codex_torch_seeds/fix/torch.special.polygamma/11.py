@@ -1,0 +1,17 @@
+'\nTask 1: import PyTorch\nTask 2: Generate input data\nTask 3: Call the API torch.special.polygamma\ntorch.special.polygamma(n, input, *, out=None)\n'
+import torch
+print('Task 1: import PyTorch')
+print(('-' * 80))
+print('Task 2: Generate input data')
+print(('-' * 80))
+x = torch.randn(4, 4)
+print('Input data:')
+print(x)
+print('Task 3: Call the API torch.special.polygamma')
+print(('-' * 80))
+print('Output data:')
+print(torch.special.polygamma(1, x))
+print('Task 4: Call the API torch.special.polygamma')
+print(('-' * 80))
+print('Output data:')
+print(torch.special.polygamma(1, x, out=torch.empty(4, 4)))

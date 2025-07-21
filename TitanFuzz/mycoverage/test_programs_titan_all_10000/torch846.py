@@ -1,0 +1,9 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+input_tensor = torch.randn(3, 4, 5)
+torch.Tensor.unsqueeze_(input_tensor, dim=0)
+torch.Tensor.unsqueeze_(input_tensor, dim=1)
+torch.Tensor.unsqueeze_(input_tensor, dim=2)
+torch.Tensor.unsqueeze_(input_tensor, dim=3)
+torch.Tensor.unsqueeze_(input_tensor, dim=4)

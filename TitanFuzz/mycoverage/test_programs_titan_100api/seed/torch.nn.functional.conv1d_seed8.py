@@ -1,0 +1,5 @@
+input_data = np.random.randn(1, 1, 5)
+weight_data = np.random.randn(1, 1, 3)
+input_data = torch.from_numpy(input_data)
+weight_data = torch.from_numpy(weight_data)
+output = torch.nn.functional.conv1d(input_data, weight_data)

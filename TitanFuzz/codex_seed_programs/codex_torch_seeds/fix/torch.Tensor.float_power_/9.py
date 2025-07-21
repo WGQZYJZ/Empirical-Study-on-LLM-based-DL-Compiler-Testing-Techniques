@@ -1,0 +1,5 @@
+'\nTask 1: import PyTorch\nTask 2: Generate input data\nTask 3: Call the API torch.Tensor.float_power_\ntorch.Tensor.float_power_(_input_tensor, exponent)\n'
+import torch
+input_tensor = torch.tensor([[1.0, 2.0], [3.0, 4.0]])
+torch.Tensor.float_power_(input_tensor, 2)
+print(input_tensor)

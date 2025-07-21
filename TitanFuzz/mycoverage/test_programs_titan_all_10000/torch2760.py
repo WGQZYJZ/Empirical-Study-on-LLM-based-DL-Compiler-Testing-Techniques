@@ -1,0 +1,5 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+input_data = torch.rand(2, 2)
+angle = torch.angle(input_data)

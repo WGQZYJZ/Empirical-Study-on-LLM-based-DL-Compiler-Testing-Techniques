@@ -1,0 +1,13 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+seq_len = 3
+batch_size = 2
+input_size = 4
+hidden_size = 3
+num_layers = 1
+input = torch.randn(seq_len, batch_size, input_size)
+h0 = torch.randn(num_layers, batch_size, hidden_size)
+c0 = torch.randn(num_layers, batch_size, hidden_size)
+rnn = torch.nn.LSTM(input_size, hidden_size, num_layers)
+(output, (hn, cn)) = rnn(input, (h0, c0))

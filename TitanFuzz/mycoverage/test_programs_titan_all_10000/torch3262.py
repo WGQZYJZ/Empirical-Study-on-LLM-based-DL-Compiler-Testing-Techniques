@@ -1,0 +1,10 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+x = torch.tensor([(- float('inf')), float('inf'), float('nan')])
+torch.isinf(x)
+torch.isfinite(x)
+torch.isnan(x)
+x = torch.tensor([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+torch.isclose(x, torch.tensor([[1, 2, 3], [4, 5, 6], [7, 8, 9]]))
+torch.isclose(x, torch.tensor([[1, 2, 3], [4, 5, 6], [7, 8, 9]]), rtol=1e-05)

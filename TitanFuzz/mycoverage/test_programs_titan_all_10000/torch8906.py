@@ -1,0 +1,8 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+input = torch.tensor([[1, 2, 3, 4], [5, 6, 7, 8]])
+index = torch.tensor([[1, 2], [3, 0]])
+output = torch.gather(input, dim=1, index=index)
+input = torch.tensor([[1, 2, 3, 4], [5, 6, 7, 8]])
+index = torch.tensor([[1, 2], [3, 0]])

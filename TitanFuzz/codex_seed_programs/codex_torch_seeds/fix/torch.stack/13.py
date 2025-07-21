@@ -1,0 +1,18 @@
+'\nTask 1: import PyTorch\nTask 2: Generate input data\nTask 3: Call the API torch.stack\ntorch.stack(tensors, dim=0, *, out=None)\n'
+import torch
+print('Task 1: import PyTorch')
+print('PyTorch version: ', torch.__version__)
+print('PyTorch location: ', torch.__file__)
+print('Task 2: Generate input data')
+x = torch.Tensor([[1, 2, 3], [4, 5, 6]])
+y = torch.Tensor([[7, 8, 9], [10, 11, 12]])
+print('x: ', x)
+print('y: ', y)
+print('Task 3: Call the API torch.stack')
+z = torch.stack([x, y])
+print('z: ', z)
+print('z.size(): ', z.size())
+print('Task 4: Call the API torch.stack with dim=1')
+z1 = torch.stack([x, y], dim=1)
+print('z1: ', z1)
+print('z1.size(): ', z1.size())

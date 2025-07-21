@@ -1,0 +1,8 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+input = torch.randn(3, 4)
+(min_value, min_index) = torch.min(input, 0)
+(min_value, min_index) = torch.min(input, 1)
+(min_value, min_index) = torch.min(input, 0, keepdim=True)
+(min_value, min_index) = torch.min(input, 1, keepdim=True)

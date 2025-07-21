@@ -1,0 +1,15 @@
+'\nTask 1: import PyTorch\nTask 2: Generate input data\nTask 3: Call the API torch.triu\ntorch.triu(input, diagonal=0, *, out=None)\n'
+import torch
+input = torch.randn(3, 3)
+print('Input:')
+print(input)
+print()
+print('torch.triu(input, diagonal=0)')
+print(torch.triu(input, diagonal=0))
+print()
+print('torch.triu(input, diagonal=1)')
+print(torch.triu(input, diagonal=1))
+print()
+print('torch.triu(input, diagonal=-1)')
+print(torch.triu(input, diagonal=(- 1)))
+print()

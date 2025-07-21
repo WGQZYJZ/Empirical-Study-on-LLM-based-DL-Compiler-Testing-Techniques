@@ -1,0 +1,8 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+input = torch.randn(2, 3)
+output = torch.positive(input)
+input = torch.randn(2, 3)
+output = torch.clamp(input, min=(- 0.5), max=0.5)
+input = torch.randn(2, 3)

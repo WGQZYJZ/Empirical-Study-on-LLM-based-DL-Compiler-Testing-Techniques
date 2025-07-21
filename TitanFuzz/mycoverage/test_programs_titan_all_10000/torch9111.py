@@ -1,0 +1,10 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+x = torch.rand(1, 1, requires_grad=True)
+y = torch.rand(1, 1, requires_grad=True)
+z = torch.rand(1, 1, requires_grad=True)
+torch.use_deterministic_algorithms(mode=True)
+torch.use_deterministic_algorithms(mode=False)
+torch.use_deterministic_algorithms(mode=True)
+torch.use_deterministic_algorithms(mode=False)

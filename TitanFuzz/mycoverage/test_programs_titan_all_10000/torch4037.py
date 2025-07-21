@@ -1,0 +1,8 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+A = torch.randn(3, 3)
+A = (A @ A.t())
+(e, v) = torch.linalg.eigh(A)
+(e, v) = torch.linalg.eig(A)
+e = torch.linalg.eigvals(A)

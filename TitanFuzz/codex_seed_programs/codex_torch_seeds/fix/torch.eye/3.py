@@ -1,0 +1,16 @@
+'\nTask 1: import PyTorch\nTask 2: Generate input data\nTask 3: Call the API torch.eye\ntorch.eye(n, m=None, *, out=None, dtype=None, layout=torch.strided, device=None, requires_grad=False)\n'
+import torch
+x = torch.eye(3, 3)
+print(x)
+x = torch.eye(3, 4)
+print(x)
+x = torch.eye(3, 4, out=None)
+print(x)
+x = torch.eye(3, 4, out=None, dtype=torch.int32)
+print(x)
+x = torch.eye(3, 4, out=None, dtype=torch.int32, layout=torch.strided)
+print(x)
+x = torch.eye(3, 4, out=None, dtype=torch.int32, layout=torch.strided, device=None)
+print(x)
+x = torch.eye(3, 4, out=None, dtype=torch.int32, layout=torch.strided, device=None, requires_grad=False)
+print(x)

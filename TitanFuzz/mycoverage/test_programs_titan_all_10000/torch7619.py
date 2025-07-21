@@ -1,0 +1,10 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+input = torch.randn(1, 1, 3, 3, requires_grad=True)
+output_size = (1, 2)
+input = torch.randn(1, 1, 3, 3, requires_grad=True)
+output_size = (1, 2)
+output = torch.nn.functional.adaptive_avg_pool2d(input, output_size)
+output.backward(torch.ones_like(output))
+output = torch.nn.functional.avg_pool2d(input, kernel_size=output_size)

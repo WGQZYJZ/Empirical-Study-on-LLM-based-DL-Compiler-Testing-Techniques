@@ -1,0 +1,5 @@
+input = torch.randn(3, 4)
+other = torch.randn(4, 5)
+output = torch.linalg.matmul(input, other)
+out = torch.randn(3, 5)
+torch.linalg.matmul(input, other, out=out)

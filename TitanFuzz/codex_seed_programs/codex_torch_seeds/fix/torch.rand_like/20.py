@@ -1,0 +1,9 @@
+'\nTask 1: import PyTorch\nTask 2: Generate input data\nTask 3: Call the API torch.rand_like\ntorch.rand_like(input, *, dtype=None, layout=None, device=None, requires_grad=False, memory_format=torch.preserve_format)\n'
+import torch
+if True:
+    input_data = torch.rand(1, 2, 3, 4)
+    print(input_data)
+    print(input_data.shape)
+    output_data = torch.rand_like(input_data)
+    print(output_data)
+    print(output_data.shape)

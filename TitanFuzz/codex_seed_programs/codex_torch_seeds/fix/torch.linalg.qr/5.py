@@ -1,0 +1,18 @@
+"\nTask 1: import PyTorch\nTask 2: Generate input data\nTask 3: Call the API torch.linalg.qr\ntorch.linalg.qr(A, mode='reduced', *, out=None)\n"
+import torch
+print('Task 1: import PyTorch')
+print('Task 2: Generate input data')
+A = torch.rand(3, 3)
+print('A = ', A)
+print('Task 3: Call the API torch.linalg.qr')
+(Q, R) = torch.linalg.qr(A)
+print('Q = ', Q)
+print('R = ', R)
+print('Task 4: Verify the result')
+QQ = Q.mm(Q.t())
+RR = R.t().mm(R)
+print('QQ = ', QQ)
+print('RR = ', RR)
+print('Task 5: Compare with the original matrix')
+print('A = ', A)
+print('QR = ', Q.mm(R))

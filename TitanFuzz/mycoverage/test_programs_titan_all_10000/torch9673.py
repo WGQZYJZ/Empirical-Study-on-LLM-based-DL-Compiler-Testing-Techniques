@@ -1,0 +1,10 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+x = torch.rand(10, 5)
+lazy_bn = torch.nn.LazyBatchNorm1d(5)
+y = lazy_bn(x)
+lazy_bn.eval()
+y = lazy_bn(x)
+lazy_bn.train()
+y = lazy_bn(x)

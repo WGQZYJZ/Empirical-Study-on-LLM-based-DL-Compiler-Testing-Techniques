@@ -1,0 +1,9 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+x = torch.randn(3, 4)
+mask = torch.ByteTensor([[0, 0, 1, 0], [0, 0, 0, 0], [0, 1, 0, 0]])
+source = torch.randn(3, 4)
+torch.Tensor.masked_scatter_(x, mask, source)
+result = torch.masked_scatter(x, mask, source)
+x = torch.randn(3, 4)

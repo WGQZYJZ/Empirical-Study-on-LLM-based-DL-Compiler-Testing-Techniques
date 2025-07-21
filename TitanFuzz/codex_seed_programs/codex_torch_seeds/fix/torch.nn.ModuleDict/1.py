@@ -1,0 +1,16 @@
+'\nTask 1: import PyTorch\nTask 2: Generate input data\nTask 3: Call the API torch.nn.ModuleDict\ntorch.nn.ModuleDict(modules=None)\n'
+import torch
+data = torch.randn(2, 3)
+print(data)
+module_dict = torch.nn.ModuleDict({'linear': torch.nn.Linear(3, 4), 'conv': torch.nn.Conv2d(3, 4, (3, 3))})
+print(module_dict)
+print(module_dict['linear'])
+print(module_dict['conv'])
+print(module_dict.items())
+print(module_dict.keys())
+print(module_dict.values())
+print(module_dict.named_children())
+print(module_dict.named_modules())
+print(module_dict.named_parameters())
+module_dict.update({'linear': torch.nn.Linear(3, 4), 'conv': torch.nn.Conv2d(3, 4, (3, 3))})
+print(module_dict)

@@ -1,0 +1,15 @@
+'\nTask 1: import PyTorch\nTask 2: Generate input data\nTask 3: Call the API torch.nanmean\ntorch.nanmean(input, dim=None, keepdim=False, *, dtype=None, out=None)\n'
+import torch
+a = torch.randn(4, 4)
+print(a)
+print(a.mean())
+print(a.mean(dim=0))
+print(a.mean(dim=1))
+a[(2, 3)] = float('nan')
+print(a)
+print(a.mean())
+print(a.mean(dim=0))
+print(a.mean(dim=1))
+print(torch.nanmean(a))
+print(torch.nanmean(a, dim=0))
+print(torch.nanmean(a, dim=1))

@@ -1,0 +1,7 @@
+'\nTask 1: import PyTorch\nTask 2: Generate input data\nTask 3: Call the API torch.nn.ReplicationPad1d\ntorch.nn.ReplicationPad1d(padding)\n'
+import torch
+from torch.autograd import Variable
+input_data = Variable(torch.Tensor([[[1, 2, 3, 4, 5, 6, 7, 8, 9, 10]]]))
+print('Input data: ', input_data)
+pad = torch.nn.ReplicationPad1d(2)
+print('Output: ', pad(input_data))

@@ -1,0 +1,10 @@
+"\nTask 1: import PyTorch\nTask 2: Generate input data\nTask 3: Call the API torch.nn.LazyConv3d\ntorch.nn.LazyConv3d(out_channels, kernel_size, stride=1, padding=0, dilation=1, groups=1, bias=True, padding_mode='zeros', device=None, dtype=None)\n"
+import torch
+import torch.nn as nn
+input = torch.randn(1, 1, 5, 5, 5)
+conv = nn.LazyConv3d(out_channels=1, kernel_size=2, stride=1, padding=0, dilation=1, groups=1, bias=True, padding_mode='zeros', device=None, dtype=None)
+output = conv(input)
+print(output)
+conv = nn.LazyConv3d(out_channels=1, kernel_size=2, stride=1, padding=0, dilation=1, groups=1, bias=True, padding_mode='zeros', device=None, dtype=None)
+output = conv(input)
+print(output)

@@ -1,0 +1,16 @@
+'\nTask 1: import PyTorch\nTask 2: Generate input data\nTask 3: Call the API torch.nn.functional.silu\ntorch.nn.functional.silu(input, inplace=False)\n'
+import torch
+print('Task 1: import PyTorch')
+print('PyTorch version:', torch.__version__)
+print('PyTorch version:', torch.version.cuda)
+print('PyTorch version:', torch.backends.cudnn.version())
+print('PyTorch version:', torch.cuda.get_device_name(0))
+print('PyTorch version:', torch.cuda.is_available())
+print('PyTorch version:', torch.version.cuda)
+print('PyTorch version:', torch.version.cuda)
+print('Task 2: Generate input data')
+input = torch.randn(1, 3, 224, 224, device='cuda')
+print('Task 3: Call the API torch.nn.functional.silu')
+output = torch.nn.functional.silu(input)
+print('input:', input)
+print('output:', output)

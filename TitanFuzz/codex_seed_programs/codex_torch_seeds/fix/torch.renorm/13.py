@@ -1,0 +1,17 @@
+'\nTask 1: import PyTorch\nTask 2: Generate input data\nTask 3: Call the API torch.renorm\ntorch.renorm(input, p, dim, maxnorm, *, out=None)\n'
+import torch
+a = torch.randn(2, 3)
+print(a)
+print(torch.renorm(a, 1, 0, 2))
+print(torch.renorm(a, 2, 0, 2))
+print(torch.renorm(a, 2, 0, 2))
+print(torch.renorm(a, 2, 0, 2))
+print(torch.renorm(a, 2, 0, 2))
+print(torch.renorm(a, 2, 0, 2))
+print(torch.renorm(a, 2, 0, 2))
+print(torch.renorm(a, 2, 0, 2))
+print(torch.renorm(a, 2, 0, 2))
+print(torch.renorm(a, 2, 0, 2))
+print(torch.renorm(a, 2, 0, 2))
+print(torch.renorm(a, 2, 0, 2))
+print(torch.renorm(a, 2, 0, 2))

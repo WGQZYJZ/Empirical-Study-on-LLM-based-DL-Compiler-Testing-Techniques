@@ -1,0 +1,16 @@
+'\nTask 1: import PyTorch\nTask 2: Generate input data\nTask 3: Call the API torch.Tensor.xlogy_\ntorch.Tensor.xlogy_(_input_tensor, other)\n'
+import torch
+print('Task 1: import PyTorch')
+print('PyTorch version:', torch.__version__)
+print('CUDA available:', torch.cuda.is_available())
+print('CUDA version:', torch.version.cuda)
+print('cuDNN version:', torch.backends.cudnn.version())
+print('Task 2: Generate input data')
+input_tensor = torch.randn(4, 4)
+other = torch.randn(4, 4)
+print('input_tensor:', input_tensor)
+print('other:', other)
+print('Task 3: Call the API torch.Tensor.xlogy_')
+torch.Tensor.xlogy_(input_tensor, other)
+print('input_tensor:', input_tensor)
+print('other:', other)

@@ -1,0 +1,16 @@
+'\nTask 1: import PyTorch\nTask 2: Generate input data\nTask 3: Call the API torch.lt\ntorch.lt(input, other, *, out=None)\n'
+import torch
+a = torch.randn(4, 4)
+b = torch.randn(4, 4)
+print(torch.lt(a, b))
+print(torch.lt(a, 0.5))
+print(torch.le(a, b))
+print(torch.le(a, 0.5))
+print(torch.gt(a, b))
+print(torch.gt(a, 0.5))
+print(torch.ge(a, b))
+print(torch.ge(a, 0.5))
+print(torch.eq(a, b))
+print(torch.eq(a, 0.5))
+print(torch.ne(a, b))
+print(torch.ne(a, 0.5))

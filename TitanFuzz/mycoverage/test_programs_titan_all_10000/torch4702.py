@@ -1,0 +1,8 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+data = torch.randn(1, 2)
+data = torch.randn(1, 2)
+relu = torch.nn.ELU(alpha=1.0, inplace=False)
+data = torch.randn(1, 2)
+data = torch.randn(1, 2)

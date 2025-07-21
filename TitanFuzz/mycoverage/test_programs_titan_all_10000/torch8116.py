@@ -1,0 +1,8 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+input_data = torch.rand(2, 3)
+sum_result = torch.sum(input_data, dim=1)
+sum_result = torch.sum(input_data, dim=1, keepdim=True)
+sum_result = torch.sum(input_data, dim=0)
+sum_result = torch.sum(input_data, dim=0, keepdim=True)

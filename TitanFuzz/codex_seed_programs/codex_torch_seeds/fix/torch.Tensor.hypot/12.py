@@ -1,0 +1,6 @@
+'\nTask 1: import PyTorch\nTask 2: Generate input data\nTask 3: Call the API torch.Tensor.hypot\ntorch.Tensor.hypot(_input_tensor, other)\n'
+import torch
+input_tensor = torch.rand(size=(3, 3))
+other = torch.rand(size=(3, 3))
+output_tensor = input_tensor.hypot(other)
+print('The output tensor is:\n', output_tensor)

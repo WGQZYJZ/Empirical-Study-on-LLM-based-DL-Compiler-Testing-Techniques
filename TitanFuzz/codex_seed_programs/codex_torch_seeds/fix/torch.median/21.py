@@ -1,0 +1,17 @@
+'\nTask 1: import PyTorch\nTask 2: Generate input data\nTask 3: Call the API torch.median\ntorch.median(input, dim=-1, keepdim=False, *, out=None)\n'
+import torch
+tensor_a = torch.randn(4, 4)
+tensor_b = torch.randn(4, 4, 4)
+tensor_c = torch.randn(4, 4, 4, 4)
+print(tensor_a)
+print(tensor_b)
+print(tensor_c)
+print(torch.median(tensor_a))
+print(torch.median(tensor_b))
+print(torch.median(tensor_c))
+print(torch.median(tensor_a, dim=0))
+print(torch.median(tensor_b, dim=1))
+print(torch.median(tensor_c, dim=2))
+print(torch.median(tensor_a, dim=0, keepdim=True))
+print(torch.median(tensor_b, dim=1, keepdim=True))
+print(torch.median(tensor_c, dim=2, keepdim=True))

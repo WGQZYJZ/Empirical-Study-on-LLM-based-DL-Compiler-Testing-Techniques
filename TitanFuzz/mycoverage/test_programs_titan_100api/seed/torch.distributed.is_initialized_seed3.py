@@ -1,0 +1,1 @@
+torch.distributed.is_initialized()

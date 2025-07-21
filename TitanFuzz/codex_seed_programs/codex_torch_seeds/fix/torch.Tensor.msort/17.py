@@ -1,0 +1,12 @@
+'\nTask 1: import PyTorch\nTask 2: Generate input data\nTask 3: Call the API torch.Tensor.msort\ntorch.Tensor.msort(_input_tensor)\n'
+import torch
+input_tensor = torch.randn(2, 3)
+print(input_tensor)
+sorted_tensor = torch.Tensor.msort(input_tensor)
+print(sorted_tensor)
+sorted_tensor = torch.Tensor.msort(input_tensor, dim=0)
+print(sorted_tensor)
+sorted_tensor = torch.Tensor.msort(input_tensor, dim=1)
+print(sorted_tensor)
+sorted_tensor = torch.Tensor.msort(input_tensor, dim=(- 1))
+print(sorted_tensor)

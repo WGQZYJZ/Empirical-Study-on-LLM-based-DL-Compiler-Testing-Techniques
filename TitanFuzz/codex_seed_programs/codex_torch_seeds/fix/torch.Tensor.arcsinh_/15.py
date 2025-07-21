@@ -1,0 +1,5 @@
+'\nTask 1: import PyTorch\nTask 2: Generate input data\nTask 3: Call the API torch.Tensor.arcsinh_\ntorch.Tensor.arcsinh_(_input_tensor)\n'
+import torch
+input_tensor = torch.randn(3, 3)
+arcsinh_output = torch.Tensor.arcsinh_(input_tensor)
+print(arcsinh_output)

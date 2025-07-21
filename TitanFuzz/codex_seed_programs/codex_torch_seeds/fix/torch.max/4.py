@@ -1,0 +1,16 @@
+'\nTask 1: import PyTorch\nTask 2: Generate input data\nTask 3: Call the API torch.max\ntorch.max(input, dim, keepdim=False, *, out=None)\n'
+import torch
+print('Task 1: import PyTorch')
+print(('-' * 10))
+print('Task 2: Generate input data')
+print(('-' * 10))
+input = torch.randn(5, 3)
+print('Input data:')
+print(input)
+print('Task 3: Call the API torch.max')
+print(('-' * 10))
+(max_value, max_index) = torch.max(input, dim=1)
+print('Max value:')
+print(max_value)
+print('Max index:')
+print(max_index)

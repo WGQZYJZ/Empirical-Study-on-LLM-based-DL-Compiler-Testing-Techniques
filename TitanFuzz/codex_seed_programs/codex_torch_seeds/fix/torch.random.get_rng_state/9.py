@@ -1,0 +1,15 @@
+'\nTask 1: import PyTorch\nTask 2: Generate input data\nTask 3: Call the API torch.random.get_rng_state\ntorch.random.get_rng_state()\n'
+import torch
+data = torch.randn(1)
+torch.random.get_rng_state()
+print(data)
+print(type(data))
+print(data.shape)
+print(data.dim())
+print(data.size())
+print(data.numel())
+print(data.type())
+print(data.element_size())
+print(data.storage_offset())
+print(data.stride())
+print(data.is_contiguous())

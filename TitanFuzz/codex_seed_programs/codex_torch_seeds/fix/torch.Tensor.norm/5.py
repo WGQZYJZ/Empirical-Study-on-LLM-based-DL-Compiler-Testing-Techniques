@@ -1,0 +1,18 @@
+"\nTask 1: import PyTorch\nTask 2: Generate input data\nTask 3: Call the API torch.Tensor.norm\ntorch.Tensor.norm(_input_tensor, p='fro', dim=None, keepdim=False, dtype=None)\n"
+import torch
+input_tensor = torch.randn(2, 3)
+print('Input tensor: ', input_tensor)
+norm = input_tensor.norm(dim=1)
+print('Norm: ', norm)
+norm = input_tensor.norm(p=1, dim=1)
+print('Norm: ', norm)
+norm = input_tensor.norm(p=2, dim=1)
+print('Norm: ', norm)
+norm = input_tensor.norm(p=3, dim=1)
+print('Norm: ', norm)
+norm = input_tensor.norm(p=4, dim=1)
+print('Norm: ', norm)
+norm = input_tensor.norm(p=5, dim=1)
+print('Norm: ', norm)
+norm = input_tensor.norm(p=6, dim=1)
+print('Norm: ', norm)

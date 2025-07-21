@@ -1,0 +1,7 @@
+i = torch.tensor([[0, 1, 1], [2, 0, 2]])
+v = torch.tensor([3, 4, 5], dtype=torch.float32)
+input = torch.sparse.FloatTensor(i, v, torch.Size([3, 3]))
+output = torch.sparse.sum(input)
+output = torch.sparse.sum(input, dim=0)
+output = torch.sparse.sum(input, dim=1)
+output = torch.sparse.sum(input, dtype=torch.int64)

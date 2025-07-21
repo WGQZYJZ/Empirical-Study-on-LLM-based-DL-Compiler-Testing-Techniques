@@ -1,0 +1,8 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+input = torch.arange(1, 9, dtype=torch.float64).reshape(1, 2, 2, 2)
+output = torch.fft.ifft(input, norm=None)
+output = torch.fft.ifft(input, norm=None, dim=1)
+output = torch.fft.ifft(input, norm=None, dim=(- 1))
+output = torch.fft.ifft(input, norm=None, dim=2)

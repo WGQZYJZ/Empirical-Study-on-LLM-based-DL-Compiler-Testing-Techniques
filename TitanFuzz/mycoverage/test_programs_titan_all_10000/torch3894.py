@@ -1,0 +1,18 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+_input_tensor = torch.rand(2, 3, 4)
+torch.Tensor.ndim(_input_tensor)
+torch.Tensor.ndim(_input_tensor)
+_input_tensor.ndim()
+_input_tensor.ndim
+_input_tensor.ndim()
+_input_tensor.ndim
+_input_tensor.ndim()
+_input_tensor.ndim
+_input_tensor.ndim()
+_input_tensor.ndim
+_input_tensor.ndim()
+_input_tensor.ndim
+_input_tensor.ndim()
+_input_tensor.ndim

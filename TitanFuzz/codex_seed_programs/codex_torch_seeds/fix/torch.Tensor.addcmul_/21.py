@@ -1,0 +1,17 @@
+'\nTask 1: import PyTorch\nTask 2: Generate input data\nTask 3: Call the API torch.Tensor.addcmul_\ntorch.Tensor.addcmul_(_input_tensor, tensor1, tensor2, *, value=1)\n'
+import torch
+input_tensor = torch.randn(4, 4)
+tensor1 = torch.randn(4, 4)
+tensor2 = torch.randn(4, 4)
+print('input_tensor:')
+print(input_tensor)
+print('tensor1:')
+print(tensor1)
+print('tensor2:')
+print(tensor2)
+input_tensor.addcmul_(tensor1, tensor2)
+print('input_tensor after addcmul_:')
+print(input_tensor)
+input_tensor.addcmul_(tensor1, tensor2, value=2)
+print('input_tensor after addcmul_ with value=2:')
+print(input_tensor)

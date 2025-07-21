@@ -1,0 +1,10 @@
+'\nTask 1: import PyTorch\nTask 2: Generate input data\nTask 3: Call the API torch.distributions.kl.kl_divergence\ntorch.distributions.kl.kl_divergence(p, q)\n'
+import torch
+p_mu = torch.tensor([0.0])
+p_std = torch.tensor([1.0])
+p = torch.distributions.Normal(p_mu, p_std)
+q_mu = torch.tensor([2.0])
+q_std = torch.tensor([1.0])
+q = torch.distributions.Normal(q_mu, q_std)
+kl = torch.distributions.kl.kl_divergence(p, q)
+print(kl)

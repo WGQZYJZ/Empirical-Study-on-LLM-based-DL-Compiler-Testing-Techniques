@@ -1,0 +1,15 @@
+'\nTask 1: import PyTorch\nTask 2: Generate input data\nTask 3: Call the API torch.take\ntorch.take(input, index)\n'
+import torch
+a = torch.arange(0, 16)
+a = a.view(4, 4)
+print(a)
+b = torch.take(a, torch.tensor([0, 1, 2, 3]))
+print(b)
+b = torch.take(a, torch.tensor([0, 4, 8, 12]))
+print(b)
+b = torch.take(a, torch.tensor([1, 5, 9, 13]))
+print(b)
+b = torch.take(a, torch.tensor([2, 6, 10, 14]))
+print(b)
+b = torch.take(a, torch.tensor([3, 7, 11, 15]))
+print(b)

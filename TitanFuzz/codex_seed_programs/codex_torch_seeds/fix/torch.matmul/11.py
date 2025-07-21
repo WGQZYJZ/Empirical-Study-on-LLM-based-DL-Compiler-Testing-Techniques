@@ -1,0 +1,16 @@
+'\nTask 1: import PyTorch\nTask 2: Generate input data\nTask 3: Call the API torch.matmul\ntorch.matmul(input, other, *, out=None)\n'
+import torch
+print('Task 1: import PyTorch')
+print(torch.__version__)
+print('Task 2: Generate input data')
+input = torch.randn(2, 3)
+other = torch.randn(3, 3)
+print(input)
+print(other)
+print('Task 3: Call the API torch.matmul')
+output = torch.matmul(input, other)
+print(output)
+print('Task 4: Call the API torch.matmul with out')
+out = torch.randn(2, 3)
+output = torch.matmul(input, other, out=out)
+print(output)

@@ -1,0 +1,15 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+if True:
+    print('Task 1: import PyTorch')
+    print('PyTorch version: ', torch.__version__)
+    print('cuDNN enabled: ', torch.backends.cudnn.enabled)
+    print('')
+    print('Task 2: Generate input data')
+    print('Input: ', input)
+    print('')
+    print('Task 3: Call the API torch.fft.ifftn')
+    output = torch.fft.ifftn(input, norm=None)
+    print('Output: ', output)
+    print('')

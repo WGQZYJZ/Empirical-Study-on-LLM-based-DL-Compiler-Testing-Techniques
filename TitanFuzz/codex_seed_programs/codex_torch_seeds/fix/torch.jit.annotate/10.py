@@ -1,0 +1,15 @@
+'\nTask 1: import PyTorch\nTask 2: Generate input data\nTask 3: Call the API torch.jit.annotate\ntorch.jit.annotate(the_type, the_value)\n'
+import torch
+x = torch.randn(3, 3)
+y = torch.randn(3, 3)
+z = torch.randn(3, 3)
+x_annotated = torch.jit.annotate(torch.Tensor, x)
+y_annotated = torch.jit.annotate(torch.Tensor, y)
+z_annotated = torch.jit.annotate(torch.Tensor, z)
+print(x_annotated, y_annotated, z_annotated)
+x_annotated = (x_annotated + y_annotated)
+y_annotated = (y_annotated + z_annotated)
+print(x_annotated, y_annotated)
+x_annotated = (x_annotated + y_annotated)
+y_annotated = (y_annotated + z_annotated)
+print(x_annotated, y_annotated)

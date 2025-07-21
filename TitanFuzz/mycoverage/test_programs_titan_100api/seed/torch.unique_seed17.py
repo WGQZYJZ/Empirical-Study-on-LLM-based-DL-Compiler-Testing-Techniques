@@ -1,0 +1,2 @@
+input = torch.tensor([1, 3, 2, 3, 4, 2, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
+(output, inverse, counts) = torch.unique(input, sorted=True, return_inverse=True, return_counts=True, dim=None)

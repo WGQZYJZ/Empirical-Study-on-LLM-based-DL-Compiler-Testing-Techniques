@@ -1,0 +1,20 @@
+'\nTask 1: import PyTorch\nTask 2: Generate input data\nTask 3: Call the API torch.ones\ntorch.ones(*size, *, out=None, dtype=None, layout=torch.strided, device=None, requires_grad=False)\n'
+import torch
+input_data = torch.ones(5, 3)
+print(input_data)
+print(input_data.size())
+input_data = torch.rand(5, 3)
+print(input_data)
+input_data = torch.zeros(5, 3, dtype=torch.long)
+print(input_data)
+input_data = torch.tensor([5.5, 3])
+print(input_data)
+input_data = input_data.new_ones(5, 3, dtype=torch.double)
+print(input_data)
+input_data = torch.randn_like(input_data, dtype=torch.float)
+print(input_data)
+print(input_data.size())
+'\nTask 4: Call the API torch.add\ntorch.add(input, other, *, alpha=1, out=None)\n'
+x = torch.rand(5, 3)
+y = torch.rand(5, 3)
+print((x + y))

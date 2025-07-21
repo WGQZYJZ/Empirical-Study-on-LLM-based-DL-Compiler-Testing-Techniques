@@ -1,0 +1,8 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+_input_tensor = torch.randn(4, 4)
+data = torch.randn(4, 4)
+torch.Tensor.new_tensor(_input_tensor, data)
+torch.Tensor.new_tensor(_input_tensor, data, dtype=torch.float64)
+torch.Tensor.new_tensor(_input_tensor, data, requires_grad=True)

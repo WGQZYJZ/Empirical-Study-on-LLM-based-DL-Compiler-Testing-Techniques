@@ -1,0 +1,5 @@
+'\nTask 1: import PyTorch\nTask 2: Generate input data\nTask 3: Call the API torch.special.expit\ntorch.special.expit(input, *, out=None)\n'
+import torch
+x = torch.tensor([(- 10.0), 0.0, 10.0])
+y = torch.special.expit(x)
+print(y)

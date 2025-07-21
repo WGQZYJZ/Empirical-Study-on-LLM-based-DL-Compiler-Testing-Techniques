@@ -1,0 +1,15 @@
+'\nTask 1: import PyTorch\nTask 2: Generate input data\nTask 3: Call the API torch.is_warn_always_enabled\ntorch.is_warn_always_enabled()\n'
+import torch
+print(torch.is_warn_always_enabled())
+x = torch.rand(5, 3)
+print(x)
+y = torch.zeros(5, 3, dtype=torch.long)
+print(y)
+z = torch.tensor([5.5, 3])
+print(z)
+z = z.new_ones(5, 3, dtype=torch.double)
+print(z)
+z = torch.randn_like(z, dtype=torch.float)
+print(z)
+print(z.size())
+x = torch.rand(5, 3)

@@ -1,0 +1,5 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+input_tensor = torch.randint(low=0, high=255, size=(1, 3, 3, 3), dtype=torch.uint8)
+output_tensor = torch.Tensor.dequantize(input_tensor)

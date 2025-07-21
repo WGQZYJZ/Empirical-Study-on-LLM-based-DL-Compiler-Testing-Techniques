@@ -1,0 +1,16 @@
+'\nTask 1: import PyTorch\nTask 2: Generate input data\nTask 3: Call the API torch.Tensor.cholesky_inverse\ntorch.Tensor.cholesky_inverse(_input_tensor, upper=False)\n'
+import torch
+input_tensor = torch.tensor([[4.0, 1.0, 1.0], [1.0, 2.0, 3.0], [1.0, 3.0, 6.0]])
+print('Task 1: import PyTorch')
+print(('-' * 50))
+print('torch.__version__: ', torch.__version__)
+print('torch.version.cuda: ', torch.version.cuda)
+print('torch.backends.cudnn.version(): ', torch.backends.cudnn.version())
+print(('-' * 50))
+print('Task 2: Generate input data')
+print(('-' * 50))
+print('input_tensor: ', input_tensor)
+print(('-' * 50))
+print('Task 3: Call the API torch.Tensor.cholesky_inverse')
+print(('-' * 50))
+print('torch.Tensor.cholesky_inverse(input_tensor): ', torch.Tensor.cholesky_inverse(input_tensor))

@@ -1,0 +1,10 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+tensor_A = torch.randn(2, 3)
+tensor_B = torch.randn(2, 3)
+tensor_C = torch.randn(2, 3)
+torch.Tensor.addmm(tensor_A, tensor_B, tensor_C)
+tensor_A = torch.randn(2, 3)
+tensor_B = torch.randn(2, 3)
+tensor_C = torch.randn(2, 3)

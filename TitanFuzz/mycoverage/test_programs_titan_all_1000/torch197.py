@@ -1,0 +1,12 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+input_data = torch.randn(20, 16, 50, 32, 45)
+max_pool_of_tensor = torch.nn.AdaptiveMaxPool3d(output_size=(1, 1, 1))
+output = max_pool_of_tensor(input_data)
+max_pool_of_tensor = torch.nn.AdaptiveMaxPool3d(output_size=(1, 5, 5))
+output = max_pool_of_tensor(input_data)
+max_pool_of_tensor = torch.nn.AdaptiveMaxPool3d(output_size=(5, 1, 1))
+output = max_pool_of_tensor(input_data)
+max_pool_of_tensor = torch.nn.AdaptiveMaxPool3d(output_size=(5, 5, 1))
+output = max_pool_of_tensor(input_data)

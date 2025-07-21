@@ -1,0 +1,9 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+input_tensor = torch.randn(1, 3)
+vec2 = torch.randn(3)
+output_tensor = torch.Tensor.outer(input_tensor, vec2)
+input_tensor = torch.randn(1, 3)
+index = torch.LongTensor([0, 2])
+output_tensor = torch.Tensor.index_select(input_tensor, 1, index)

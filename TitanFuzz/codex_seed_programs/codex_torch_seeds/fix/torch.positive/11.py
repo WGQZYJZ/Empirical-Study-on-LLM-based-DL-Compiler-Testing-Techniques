@@ -1,0 +1,16 @@
+'\nTask 1: import PyTorch\nTask 2: Generate input data\nTask 3: Call the API torch.positive\ntorch.positive(input)\n'
+import torch
+x = torch.randn(4, 4, requires_grad=True)
+print('Input:', x)
+y = torch.positive(x)
+print('Output:', y)
+y = torch.negative(x)
+print('Output:', y)
+y = torch.abs(x)
+print('Output:', y)
+y = torch.clamp(x, min=(- 0.5), max=0.5)
+print('Output:', y)
+y = torch.clamp_min(x, min=(- 0.5))
+print('Output:', y)
+y = torch.clamp_max(x, max=0.5)
+print('Output:', y)

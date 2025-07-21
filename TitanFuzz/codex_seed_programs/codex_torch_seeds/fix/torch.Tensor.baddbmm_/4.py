@@ -1,0 +1,7 @@
+'\nTask 1: import PyTorch\nTask 2: Generate input data\nTask 3: Call the API torch.Tensor.baddbmm_\ntorch.Tensor.baddbmm_(_input_tensor, batch1, batch2, *, beta=1, alpha=1)\n'
+import torch
+import numpy as np
+batch1 = torch.rand(10, 3, 4)
+batch2 = torch.rand(10, 4, 5)
+res = torch.Tensor.baddbmm_(batch1, batch1, batch2, alpha=0.5, beta=0.5)
+print(res)

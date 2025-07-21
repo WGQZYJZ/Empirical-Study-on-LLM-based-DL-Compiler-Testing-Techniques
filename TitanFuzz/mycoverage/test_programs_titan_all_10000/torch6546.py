@@ -1,0 +1,9 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+elements = torch.tensor([1, 2, 3, 4, 5, 6, 7, 8, 9, 10])
+test_elements = torch.tensor([2, 4, 6, 8, 10, 12, 14, 16, 18, 20])
+result = torch.isin(elements, test_elements)
+result = torch.isin(elements, test_elements, assume_unique=True)
+result = torch.isin(elements, test_elements, invert=True)
+result = torch.isin(elements, test_elements, assume_unique=True, invert=True)

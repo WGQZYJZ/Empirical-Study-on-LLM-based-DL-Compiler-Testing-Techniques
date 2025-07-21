@@ -1,0 +1,8 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+input_data = np.array([[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32]], dtype=np.float32)
+input_data = input_data.reshape(1, 1, 32)
+input_data = torch.from_numpy(input_data)
+avg_pooling = torch.nn.AvgPool1d(kernel_size=3, stride=1, padding=0)
+output = avg_pooling(input_data)

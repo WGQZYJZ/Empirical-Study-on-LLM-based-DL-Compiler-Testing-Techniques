@@ -1,0 +1,8 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+indices = torch.tensor([[0, 1, 1], [2, 0, 2]])
+values = torch.tensor([3, 4, 5], dtype=torch.float32)
+shape = torch.Size([3, 3])
+input = torch.sparse_coo_tensor(indices, values, shape)
+output = torch.sparse.sum(input, dim=1)

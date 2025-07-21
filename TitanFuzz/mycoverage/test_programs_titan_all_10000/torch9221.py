@@ -1,0 +1,5 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+data = {'input': torch.randn(20, 3, 10, 10), 'conv1_weight': torch.randn(16, 3, 3, 3), 'conv1_bias': torch.randn(16), 'conv2_weight': torch.randn(32, 16, 3, 3), 'conv2_bias': torch.randn(32)}
+modules = torch.nn.ModuleDict({'conv1': torch.nn.Conv2d(3, 16, 3), 'conv2': torch.nn.Conv2d(16, 32, 3)})

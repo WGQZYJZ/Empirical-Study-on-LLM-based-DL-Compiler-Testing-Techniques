@@ -1,0 +1,5 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+input = torch.rand(3, 3, requires_grad=True)
+output = torch.special.entr(input)

@@ -1,0 +1,9 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+input = torch.randn(20, 20)
+mat1 = torch.randn(20, 30)
+mat2 = torch.randn(30, 20)
+torch.addmm(input, mat1, mat2)
+out = torch.randn(20, 20)
+torch.addmm(input, mat1, mat2, out=out)

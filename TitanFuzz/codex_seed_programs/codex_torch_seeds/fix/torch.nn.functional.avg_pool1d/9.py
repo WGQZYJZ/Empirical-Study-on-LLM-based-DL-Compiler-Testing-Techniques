@@ -1,0 +1,6 @@
+'\nTask 1: import PyTorch\nTask 2: Generate input data\nTask 3: Call the API torch.nn.functional.avg_pool1d\ntorch.nn.functional.avg_pool1d(input, kernel_size, stride=None, padding=0, ceil_mode=False, count_include_pad=True)\n'
+import torch
+from torch.nn import functional as F
+input = torch.tensor([[[1, 2, 3, 4]]])
+output = F.avg_pool1d(input, 2, stride=2, padding=0)
+print(output)

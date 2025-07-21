@@ -1,0 +1,6 @@
+'\nTask 1: import PyTorch\nTask 2: Generate input data\nTask 3: Call the API torch.special.ndtr\ntorch.special.ndtr(input, *, out=None)\n'
+import torch
+print(torch.__version__)
+x = torch.arange((- 10), 10, 0.1)
+y = torch.special.ndtr(x)
+print(y)

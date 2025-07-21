@@ -1,0 +1,6 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+input = torch.randn(1, 3, 4)
+mat2 = torch.randn(1, 4, 5)
+torch.bmm(input, mat2)

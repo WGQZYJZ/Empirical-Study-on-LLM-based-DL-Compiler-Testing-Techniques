@@ -1,0 +1,16 @@
+'\nTask 1: import PyTorch\nTask 2: Generate input data\nTask 3: Call the API torch.set_grad_enabled\ntorch.set_grad_enabled(mode)\n'
+import torch
+x = torch.randn(1, requires_grad=True)
+y = torch.randn(1, requires_grad=True)
+torch.set_grad_enabled(mode=False)
+z = (x + y)
+print(z)
+torch.set_grad_enabled(mode=True)
+z = (x + y)
+print(z)
+torch.set_grad_enabled(mode=True)
+z = (x + y)
+print(z)
+torch.set_grad_enabled(mode=False)
+z = (x + y)
+print(z)

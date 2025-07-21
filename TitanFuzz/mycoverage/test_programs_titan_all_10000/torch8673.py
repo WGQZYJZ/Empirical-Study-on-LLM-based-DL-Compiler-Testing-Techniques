@@ -1,0 +1,8 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+np.random.seed(0)
+torch.set_rng_state(torch.get_rng_state())
+x = torch.randn(2, 3)
+torch.set_rng_state(torch.get_rng_state())
+y = torch.randn(2, 3)

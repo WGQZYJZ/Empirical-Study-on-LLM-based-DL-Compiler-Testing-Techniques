@@ -1,0 +1,7 @@
+'\nTask 1: import PyTorch\nTask 2: Generate input data\nTask 3: Call the API torch.nn.Softmin\ntorch.nn.Softmin(dim=None)\n'
+import torch
+input = torch.randn(2, 3)
+print(input)
+softmax = torch.nn.Softmin(dim=1)
+output = softmax(input)
+print(output)

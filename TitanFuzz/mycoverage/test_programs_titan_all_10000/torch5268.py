@@ -1,0 +1,8 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+input_data = np.random.rand(1, 3, 224, 224).astype(np.float32)
+torch.use_deterministic_algorithms(True)
+model = torch.hub.load('pytorch/vision:v0.5.0', 'resnet18', pretrained=True)
+input_data = torch.randn(1, 3, 224, 224)
+output = model(input_data)

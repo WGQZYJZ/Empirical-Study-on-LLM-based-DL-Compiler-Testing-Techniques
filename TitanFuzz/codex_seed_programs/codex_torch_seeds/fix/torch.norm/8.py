@@ -1,0 +1,16 @@
+"\nTask 1: import PyTorch\nTask 2: Generate input data\nTask 3: Call the API torch.norm\ntorch.norm(input, p='fro', dim=None, keepdim=False, out=None, dtype=None)\n"
+import torch
+data = torch.randn(5, 3)
+print('Input data: ', data)
+result = torch.norm(data)
+print('Result: ', result)
+result = torch.norm(data, p=2)
+print('Result: ', result)
+result = torch.norm(data, dim=0)
+print('Result: ', result)
+result = torch.norm(data, dim=1)
+print('Result: ', result)
+result = torch.norm(data, dim=1, keepdim=True)
+print('Result: ', result)
+result = torch.norm(data, dim=1, out=torch.zeros(5))
+print('Result: ', result)

@@ -1,0 +1,7 @@
+'\nTask 1: import PyTorch\nTask 2: Generate input data\nTask 3: Call the API torch.bmm\ntorch.bmm(input, mat2, *, deterministic=False, out=None)\n'
+import torch
+import torch
+input = torch.randn(10, 3, 4)
+mat2 = torch.randn(10, 4, 5)
+torch.bmm(input, mat2)
+print(torch.bmm(input, mat2))

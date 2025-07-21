@@ -1,0 +1,16 @@
+'\nTask 1: import PyTorch\nTask 2: Generate input data\nTask 3: Call the API torch.searchsorted\ntorch.searchsorted(sorted_sequence, values, *, out_int32=False, right=False, out=None)\n'
+import torch
+sorted_sequence = torch.arange(1, 10, 2)
+values = torch.tensor([1.5, 4.5])
+index = torch.searchsorted(sorted_sequence, values)
+print(index)
+index = torch.searchsorted(sorted_sequence, values, right=True)
+print(index)
+index = torch.searchsorted(sorted_sequence, values, right=False, out_int32=True)
+print(index)
+index = torch.searchsorted(sorted_sequence, values, right=True, out_int32=True)
+print(index)
+index = torch.searchsorted(sorted_sequence, values, right=False, out_int32=False)
+print(index)
+index = torch.searchsorted(sorted_sequence, values, right=True, out_int32=False)
+print(index)

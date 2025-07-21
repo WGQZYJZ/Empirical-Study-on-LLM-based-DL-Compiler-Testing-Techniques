@@ -1,0 +1,6 @@
+'\nTask 1: import PyTorch\nTask 2: Generate input data\nTask 3: Call the API torch.row_stack\ntorch.row_stack(tensors, *, out=None)\n'
+import torch
+x = torch.arange(9, dtype=torch.float32).reshape(3, 3)
+y = torch.arange(3, 12, dtype=torch.float32).reshape(3, 3)
+z = torch.row_stack((x, y))
+print(z)

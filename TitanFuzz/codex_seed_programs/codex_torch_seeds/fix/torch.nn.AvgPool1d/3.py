@@ -1,0 +1,10 @@
+'\nTask 1: import PyTorch\nTask 2: Generate input data\nTask 3: Call the API torch.nn.AvgPool1d\ntorch.nn.AvgPool1d(kernel_size, stride=None, padding=0, ceil_mode=False, count_include_pad=True)\n'
+import torch
+import numpy as np
+import torch
+input_data = np.array([[1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, 13, 14, 15, 16, 17, 18, 19, 20, 21, 22, 23, 24, 25, 26, 27, 28, 29, 30, 31, 32]], dtype=np.float32)
+input_data = input_data.reshape(1, 1, 32)
+input_data = torch.from_numpy(input_data)
+avg_pooling = torch.nn.AvgPool1d(kernel_size=3, stride=1, padding=0)
+output = avg_pooling(input_data)
+print(output)

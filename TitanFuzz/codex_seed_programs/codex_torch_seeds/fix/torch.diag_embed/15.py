@@ -1,0 +1,15 @@
+'\nTask 1: import PyTorch\nTask 2: Generate input data\nTask 3: Call the API torch.diag_embed\ntorch.diag_embed(input, offset=0, dim1=-2, dim2=-1)\n'
+import torch
+print('Task 1: import PyTorch')
+print('PyTorch version: ', torch.__version__)
+print('PyTorch version: ', torch.version.cuda)
+print('Task 2: Generate input data')
+input = torch.randint(0, 10, (3, 3))
+print('Input data: ', input)
+print('Task 3: Call the API torch.diag_embed')
+print('Input data: ', input)
+print('Output data: ', torch.diag_embed(input))
+print('Output data: ', torch.diag_embed(input, offset=1))
+print('Output data: ', torch.diag_embed(input, offset=(- 1)))
+print('Output data: ', torch.diag_embed(input, offset=1, dim1=0, dim2=1))
+print('Output data: ', torch.diag_embed(input, offset=(- 1), dim1=0, dim2=1))

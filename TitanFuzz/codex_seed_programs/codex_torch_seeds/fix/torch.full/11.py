@@ -1,0 +1,16 @@
+'\nTask 1: import PyTorch\nTask 2: Generate input data\nTask 3: Call the API torch.full\ntorch.full(size, fill_value, *, out=None, dtype=None, layout=torch.strided, device=None, requires_grad=False)\n'
+import torch
+input_data = torch.tensor([[1, 2, 3], [4, 5, 6]])
+print(input_data)
+output_data = torch.full(input_data.size(), 7)
+print(output_data)
+output_data = torch.zeros(input_data.size())
+print(output_data)
+output_data = torch.ones(input_data.size())
+print(output_data)
+output_data = torch.eye(3)
+print(output_data)
+output_data = torch.rand(3, 3)
+print(output_data)
+output_data = torch.randn(3, 3)
+print(output_data)

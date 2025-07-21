@@ -1,0 +1,9 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+a = torch.tensor([[1, 2], [3, 4]])
+b = torch.tensor([[1, 2], [3, 4]])
+c = torch.ne(a, b)
+a = torch.tensor([[1, 2], [3, 4]])
+b = torch.tensor([[1, 2], [3, 4]])
+c = torch.eq(a, b)

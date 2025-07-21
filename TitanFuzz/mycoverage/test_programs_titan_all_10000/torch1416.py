@@ -1,0 +1,13 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+input = torch.randn(4, 3, 2)
+output = torch.fft.fft(input)
+output = torch.fft.ifft(input)
+input = torch.randn(3, 3)
+output = torch.fft.fft2(input)
+input = torch.randn(3, 3)
+output = torch.fft.ifft2(input)
+input = torch.randn(3, 3)
+output = torch.fft.fftn(input)
+input = torch.randn(3, 3)

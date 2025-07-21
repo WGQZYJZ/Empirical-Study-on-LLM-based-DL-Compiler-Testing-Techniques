@@ -1,0 +1,9 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+input_data = torch.randn(20, 3, 32, 32)
+model = torch.hub.load('pytorch/vision:v0.6.0', 'resnet18', pretrained=True)
+model.eval()
+model = model.to(device)
+input_data = input_data.to(device)
+output = model(input_data)

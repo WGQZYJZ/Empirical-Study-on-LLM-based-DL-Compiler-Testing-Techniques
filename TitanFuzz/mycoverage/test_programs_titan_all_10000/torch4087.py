@@ -1,0 +1,12 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+x = torch.randn(4, 4, 2)
+y = torch.fft.irfft(x)
+x = torch.randn(4, 4, 2)
+y = torch.fft.irfft(x, n=4)
+x = torch.randn(4, 4, 2)
+y = torch.fft.irfft(x, n=4, dim=(- 1))
+x = torch.randn(4, 4, 2)
+y = torch.fft.irfft(x, n=4, dim=(- 1), norm=None)
+x = torch.randn(4, 4, 2)

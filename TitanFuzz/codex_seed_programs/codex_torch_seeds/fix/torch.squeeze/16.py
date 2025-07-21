@@ -1,0 +1,17 @@
+'\nTask 1: import PyTorch\nTask 2: Generate input data\nTask 3: Call the API torch.squeeze\ntorch.squeeze(input, dim=None, *, out=None)\n'
+import torch
+data = torch.randn(1, 3, 3, 1)
+print(data)
+print(torch.squeeze(data))
+print(torch.squeeze(data, 0))
+print(torch.squeeze(data, 1))
+print(torch.squeeze(data, 2))
+print(torch.squeeze(data, 3))
+data = torch.randn(1, 1, 3, 1, 1)
+print(data)
+print(torch.squeeze(data))
+print(torch.squeeze(data, 0))
+print(torch.squeeze(data, 1))
+print(torch.squeeze(data, 2))
+print(torch.squeeze(data, 3))
+print(torch.squeeze(data, 4))

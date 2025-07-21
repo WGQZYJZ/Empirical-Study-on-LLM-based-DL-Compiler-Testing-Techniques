@@ -1,0 +1,10 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+input = torch.randn(3, 4, 5, 6)
+torch.fft.ifft2(input)
+torch.fft.ifft2(input, s=None, dim=((- 2), (- 1)), norm=None, out=None)
+torch.fft.ifft2(input, s=None, dim=((- 2), (- 1)), norm=None, out=None)
+torch.fft.ifft2(input, s=None, dim=((- 2), (- 1)), norm=None, out=None)
+torch.fft.ifft2(input, s=None, dim=((- 2), (- 1)), norm=None, out=None)
+torch.fft.ifft2(input, s=None, dim=((- 2), (- 1)), norm=None, out=None)

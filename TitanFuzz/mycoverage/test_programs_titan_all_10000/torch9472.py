@@ -1,0 +1,8 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+x = torch.randn(5, 5)
+y = torch.tril(x)
+y = torch.tril(x, diagonal=1)
+y = torch.tril(x, diagonal=(- 1))
+y = torch.tril(x, diagonal=1, out=torch.empty_like(x))

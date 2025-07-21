@@ -1,0 +1,16 @@
+'\nTask 1: import PyTorch\nTask 2: Generate input data\nTask 3: Call the API torch.all\ntorch.all(input, dim, keepdim=False, *, out=None)\n'
+import torch
+a = torch.tensor([0, 0, 0, 1, 1, 1, 1, 1])
+b = torch.tensor([0, 0, 1, 1, 1, 1, 1, 1])
+c = torch.tensor([0, 1, 1, 1, 1, 1, 1, 1])
+print(torch.all(a))
+print(torch.all(b))
+print(torch.all(c))
+print(torch.all(a, dim=0))
+print(torch.all(b, dim=0))
+print(torch.all(c, dim=0))
+print(torch.all(a, dim=0, keepdim=True))
+print(torch.all(b, dim=0, keepdim=True))
+print(torch.all(c, dim=0, keepdim=True))
+print(torch.all(a, dim=0, keepdim=True).shape)
+print(torch.all(b, dim=0, keepdim=True).shape)

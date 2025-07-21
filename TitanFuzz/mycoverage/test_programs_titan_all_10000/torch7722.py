@@ -1,0 +1,10 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+input_data = torch.rand(2, 3, 4)
+max_data = torch.amax(input_data, dim=0)
+max_data = torch.amax(input_data, dim=1)
+max_data = torch.amax(input_data, dim=2)
+(max_data, max_index) = torch.max(input_data, dim=0)
+(max_data, max_index) = torch.max(input_data, dim=1)
+(max_data, max_index) = torch.max(input_data, dim=2)

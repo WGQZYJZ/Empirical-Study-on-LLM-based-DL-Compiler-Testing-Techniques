@@ -1,0 +1,15 @@
+'\nTask 1: import PyTorch\nTask 2: Generate input data\nTask 3: Call the API torch.vander\ntorch.vander(x, N=None, increasing=False)\n'
+import torch
+x = torch.tensor([1, 2, 3, 5])
+y = torch.vander(x, 2, True)
+print('The input data is: ', x)
+print('The result is: ', y)
+y = torch.vander(x, 3, True)
+print('The input data is: ', x)
+print('The result is: ', y)
+y = torch.vander(x, 4, True)
+print('The input data is: ', x)
+print('The result is: ', y)
+y = torch.vander(x, 5, True)
+print('The input data is: ', x)
+print('The result is: ', y)

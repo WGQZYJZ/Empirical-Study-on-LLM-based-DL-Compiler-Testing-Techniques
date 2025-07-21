@@ -1,0 +1,16 @@
+'\nTask 1: import PyTorch\nTask 2: Generate input data\nTask 3: Call the API torch.nn.Identity\ntorch.nn.Identity(*args, **kwargs)\n'
+import torch
+input_data = torch.randn(3, requires_grad=True)
+print(input_data)
+output = torch.nn.Identity()(input_data)
+print(output)
+print(output.grad_fn)
+print(output.is_leaf)
+print(output.requires_grad)
+input_data = torch.randn(1, 2, 3, 4, requires_grad=True)
+print(input_data)
+output = torch.nn.Identity()(input_data)
+print(output)
+print(output.grad_fn)
+print(output.is_leaf)
+print(output.requires_grad)

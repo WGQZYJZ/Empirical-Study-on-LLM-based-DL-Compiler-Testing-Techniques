@@ -1,0 +1,9 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+A = torch.rand(3, 3)
+b = torch.rand(3, 3)
+torch.triangular_solve(b, A)
+torch.triangular_solve(b, A, upper=False)
+torch.triangular_solve(b, A, transpose=True)
+torch.triangular_solve(b, A, unitriangular=True)

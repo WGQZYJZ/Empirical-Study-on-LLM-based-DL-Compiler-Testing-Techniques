@@ -1,0 +1,12 @@
+'\nTask 1: import PyTorch\nTask 2: Generate input data\nTask 3: Call the API torch.nn.functional.gumbel_softmax\ntorch.nn.functional.gumbel_softmax(logits, tau=1, hard=False, eps=1e-10, dim=-1)\n'
+import torch
+import torch.nn.functional as F
+print('\nTask 1: import PyTorch')
+print('PyTorch version: {}'.format(torch.__version__))
+print('\nTask 2: Generate input data')
+logits = torch.rand(3, 5)
+print('logits: {}'.format(logits))
+print('\nTask 3: Call the API torch.nn.functional.gumbel_softmax')
+print('torch.nn.functional.gumbel_softmax(logits, tau=1, hard=False, eps=1e-10, dim=-1)')
+output = F.gumbel_softmax(logits, hard=True)
+print('output: {}'.format(output))

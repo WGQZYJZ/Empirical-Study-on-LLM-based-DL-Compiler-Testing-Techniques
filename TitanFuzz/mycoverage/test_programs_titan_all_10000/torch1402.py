@@ -1,0 +1,8 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+_input_tensor = torch.rand(10, 10)
+_other = torch.rand(10, 10)
+torch.Tensor.allclose(_input_tensor, _other, rtol=1e-05, atol=1e-08, equal_nan=False)
+torch.Tensor.allclose(_input_tensor, _other, rtol=1e-05, atol=1e-08, equal_nan=True)
+torch.Tensor.allclose(_input_tensor, _other, rtol=1e-05, atol=1e-08, equal_nan=False)

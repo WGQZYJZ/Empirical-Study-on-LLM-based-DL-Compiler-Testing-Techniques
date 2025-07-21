@@ -1,0 +1,8 @@
+'\nTask 1: import PyTorch\nTask 2: Generate input data\nTask 3: Call the API torch.nn.ModuleDict\ntorch.nn.ModuleDict(modules=None)\n'
+import torch
+data = {'input': torch.randn(20, 3, 10, 10), 'conv1_weight': torch.randn(16, 3, 3, 3), 'conv1_bias': torch.randn(16), 'conv2_weight': torch.randn(32, 16, 3, 3), 'conv2_bias': torch.randn(32)}
+modules = torch.nn.ModuleDict({'conv1': torch.nn.Conv2d(3, 16, 3), 'conv2': torch.nn.Conv2d(16, 32, 3)})
+print('modules = ', modules)
+print('modules.conv1.weight = ', modules.conv1.weight)
+print('modules.conv1.bias = ', modules.conv1.bias)
+print('modules.conv2.weight = ', modules.conv2.weight)

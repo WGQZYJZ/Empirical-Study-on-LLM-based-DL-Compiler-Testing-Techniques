@@ -1,0 +1,5 @@
+'\nTask 1: import PyTorch\nTask 2: Generate input data\nTask 3: Call the API torch.HalfStorage\ntorch.HalfStorage(*args, **kwargs)\n'
+import torch
+import torch
+input_data = [1.0, 2.0, 3.0, 4.0, 5.0, 6.0]
+torch.HalfStorage(input_data)

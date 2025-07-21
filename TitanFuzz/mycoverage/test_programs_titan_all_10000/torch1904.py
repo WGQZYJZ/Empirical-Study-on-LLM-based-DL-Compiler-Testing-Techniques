@@ -1,0 +1,8 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+input_tensor = torch.rand(3, 3)
+other = torch.rand(3, 3)
+torch.Tensor.add_(input_tensor, other)
+torch.Tensor.add_(input_tensor, other, alpha=0.5)
+torch.Tensor.add_(input_tensor, other, alpha=1)

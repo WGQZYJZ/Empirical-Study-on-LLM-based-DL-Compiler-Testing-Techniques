@@ -1,0 +1,8 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+x = torch.randn(2, 3)
+md = torch.nn.ModuleDict({'linear': torch.nn.Linear(3, 4), 'conv': torch.nn.Conv2d(3, 4, (3, 3))})
+md.update({'extra_linear': torch.nn.Linear(4, 1)})
+md.pop('conv')
+md.clear()

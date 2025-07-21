@@ -1,0 +1,16 @@
+'\nTask 1: import PyTorch\nTask 2: Generate input data\nTask 3: Call the API torch.mean\ntorch.mean(input, dim, keepdim=False, *, dtype=None)\n'
+import torch
+x = torch.randn(2, 3, 4)
+print(x)
+mean_x = torch.mean(x, dim=1, keepdim=True)
+print(mean_x)
+mean_x = torch.mean(x, dim=1, keepdim=False)
+print(mean_x)
+mean_x = torch.mean(x, dim=0, keepdim=True)
+print(mean_x)
+mean_x = torch.mean(x, dim=0, keepdim=False)
+print(mean_x)
+mean_x = torch.mean(x, dim=2, keepdim=True)
+print(mean_x)
+mean_x = torch.mean(x, dim=2, keepdim=False)
+print(mean_x)

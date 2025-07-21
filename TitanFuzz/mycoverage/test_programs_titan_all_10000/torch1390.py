@@ -1,0 +1,9 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+input_data = torch.randn(1, 5, requires_grad=True)
+linear_model = torch.nn.Linear(5, 1)
+output_data = linear_model(input_data)
+loss_function = torch.nn.MSELoss()
+loss = loss_function(output_data, torch.randn(1, 1))
+loss.backward()

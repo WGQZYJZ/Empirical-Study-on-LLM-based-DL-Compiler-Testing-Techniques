@@ -1,0 +1,10 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+x = torch.randn(4, 4, requires_grad=True)
+y = torch.positive(x)
+y = torch.negative(x)
+y = torch.abs(x)
+y = torch.clamp(x, min=(- 0.5), max=0.5)
+y = torch.clamp_min(x, min=(- 0.5))
+y = torch.clamp_max(x, max=0.5)

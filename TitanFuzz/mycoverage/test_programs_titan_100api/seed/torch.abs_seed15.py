@@ -1,0 +1,4 @@
+import torch
+
+x = torch.randn(4, 4)
+y = torch.abs(x)

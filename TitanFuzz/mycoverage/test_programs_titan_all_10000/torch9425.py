@@ -1,0 +1,17 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+x = torch.rand(5, 3)
+y = torch.rand(5, 3)
+with torch.no_grad():
+    z = (x + y)
+    print(z)
+x = torch.rand(5, 3, requires_grad=True)
+y = torch.rand(5, 3, requires_grad=True)
+z = (x + y)
+x = torch.rand(5, 3, requires_grad=True)
+y = torch.rand(5, 3, requires_grad=True)
+z = (x + y)
+x = torch.rand(5, 3, requires_grad=True)
+y = torch.rand(5, 3, requires_grad=True)
+z = (x + y)

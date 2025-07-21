@@ -1,0 +1,16 @@
+"\nTask 1: import PyTorch\nTask 2: Generate input data\nTask 3: Call the API torch.Generator\ntorch.Generator(device='cpu')\n"
+import torch
+x = torch.rand(100)
+y = torch.rand(100)
+generator = torch.Generator(device='cpu')
+print(generator.manual_seed(0))
+print(generator.manual_seed(0))
+print(generator.manual_seed(0))
+print(generator.initial_seed())
+print(generator.get_state())
+print(generator.set_state(torch.get_rng_state()))
+print(generator.get_state())
+print(generator.seed())
+print(generator.seed())
+print(generator.seed())
+print(torch.initial_seed())

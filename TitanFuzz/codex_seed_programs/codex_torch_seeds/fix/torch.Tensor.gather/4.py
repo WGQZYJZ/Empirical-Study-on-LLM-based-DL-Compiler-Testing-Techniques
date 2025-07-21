@@ -1,0 +1,6 @@
+'\nTask 1: import PyTorch\nTask 2: Generate input data\nTask 3: Call the API torch.Tensor.gather\ntorch.Tensor.gather(_input_tensor, dim, index)\n'
+import torch
+input_tensor = torch.randn(4, 5)
+index = torch.tensor([1, 3], dtype=torch.long)
+output_tensor = torch.Tensor.gather(input_tensor, 0, index)
+print(output_tensor)

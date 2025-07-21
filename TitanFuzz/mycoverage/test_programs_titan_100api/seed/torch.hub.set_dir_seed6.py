@@ -1,0 +1,5 @@
+input_data = torch.randn(1, 3, 224, 224)
+torch.hub.set_dir('/tmp/my_cache_dir')
+model = torch.hub.load('pytorch/vision:v0.5.0', 'resnet18', pretrained=True)
+model.eval()
+output = model(input_data)

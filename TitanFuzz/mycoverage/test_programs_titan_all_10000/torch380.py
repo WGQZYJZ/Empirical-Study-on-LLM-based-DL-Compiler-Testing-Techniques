@@ -1,0 +1,8 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+input_tensor = torch.randn(2, 3)
+torch.Tensor.sigmoid_(input_tensor)
+torch.Tensor.tanh_(input_tensor)
+torch.Tensor.relu_(input_tensor)
+torch.Tensor.clamp_(input_tensor, min=0.0, max=1.0)

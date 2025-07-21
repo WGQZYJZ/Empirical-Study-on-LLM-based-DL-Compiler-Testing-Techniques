@@ -1,0 +1,10 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+input1 = torch.randn(100, requires_grad=True)
+input2 = torch.randn(100, requires_grad=True)
+target = torch.randn(100, requires_grad=True)
+input1 = torch.randn(100, requires_grad=True)
+input2 = torch.randn(100, requires_grad=True)
+target = torch.randn(100, requires_grad=True)
+loss = torch.nn.functional.margin_ranking_loss(input1, input2, target)

@@ -1,0 +1,6 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+_input_tensor = torch.randn(3, 4)
+mat = torch.randn(4, 5)
+_output_tensor = torch.Tensor.smm(_input_tensor, mat)

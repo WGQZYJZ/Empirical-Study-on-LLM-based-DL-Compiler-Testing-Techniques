@@ -1,0 +1,15 @@
+'\nTask 1: import PyTorch\nTask 2: Generate input data\nTask 3: Call the API torch.le\ntorch.le(input, other, *, out=None)\n'
+import torch
+a = torch.tensor([[1, 2, 3], [4, 5, 6]], dtype=torch.float32)
+b = torch.tensor([[1, 2, 3], [4, 5, 6]], dtype=torch.float32)
+print(a)
+print(b)
+print(torch.le(a, b))
+print(torch.le(a, b).type())
+print(torch.le(a, b).shape)
+print(torch.le(a, b).dtype)
+print(torch.le(a, b).device)
+print(torch.le(a, b).layout)
+print(torch.le(a, b).is_cuda)
+print(torch.le(a, b).is_sparse)
+print(torch.le(a, b).requires_grad)

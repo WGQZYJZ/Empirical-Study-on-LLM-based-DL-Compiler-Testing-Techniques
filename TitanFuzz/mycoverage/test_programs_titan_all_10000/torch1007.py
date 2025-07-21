@@ -1,0 +1,8 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+np_data = np.random.rand(10, 3, 7)
+torch_data = torch.from_numpy(np_data)
+variable_data = Variable(torch_data)
+pooling_layer = torch.nn.LPPool1d(2, 3, stride=None, ceil_mode=False)
+pooling_layer(variable_data).data.numpy()

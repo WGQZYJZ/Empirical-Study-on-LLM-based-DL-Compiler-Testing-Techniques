@@ -1,0 +1,11 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+input_data = torch.randn(1, 2, 3, 4, 5)
+output_data = torch.polygamma(1, input_data)
+output_data = torch.polygamma(2, input_data)
+output_data = torch.polygamma(3, input_data)
+output_data = torch.polygamma(4, input_data)
+output_data = torch.polygamma(5, input_data)
+output_data = torch.polygamma(6, input_data)
+output_data = torch.polygamma(7, input_data)

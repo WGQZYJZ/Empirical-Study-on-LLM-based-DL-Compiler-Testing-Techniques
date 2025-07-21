@@ -1,0 +1,15 @@
+'\nTask 1: import PyTorch\nTask 2: Generate input data\nTask 3: Call the API torch.Tensor.index_select\ntorch.Tensor.index_select(_input_tensor, dim, index)\n'
+import torch
+input_tensor = torch.tensor([[1, 2, 3], [4, 5, 6], [7, 8, 9], [10, 11, 12]])
+print('Input tensor:')
+print(input_tensor)
+index = torch.tensor([0, 2])
+print('\nIndex:')
+print(index)
+print('\nFirst column:')
+print(torch.Tensor.index_select(input_tensor, 1, index))
+print('\nIndex:')
+index = torch.tensor([0, 1, 2])
+print(index)
+print('\nFirst row:')
+print(torch.Tensor.index_select(input_tensor, 0, index))

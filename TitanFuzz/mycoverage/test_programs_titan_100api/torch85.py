@@ -1,0 +1,3 @@
+import torch
+input_data = torch.randn(5, 3)
+output_data = torch.clip(input_data, (- 0.5), 0.5)

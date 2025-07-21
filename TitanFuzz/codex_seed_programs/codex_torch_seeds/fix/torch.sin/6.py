@@ -1,0 +1,6 @@
+'\nTask 1: import PyTorch\nTask 2: Generate input data\nTask 3: Call the API torch.sin\ntorch.sin(input, *, out=None)\n'
+import torch
+x = torch.linspace(0, (2 * 3.14), 100)
+y = torch.sin(x)
+print(x)
+print(y)

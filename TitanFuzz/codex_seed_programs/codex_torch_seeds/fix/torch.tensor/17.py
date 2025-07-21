@@ -1,0 +1,17 @@
+'\nTask 1: import PyTorch\nTask 2: Generate input data\nTask 3: Call the API torch.tensor\ntorch.tensor(data, *, dtype=None, device=None, requires_grad=False, pin_memory=False)\n'
+import torch
+a = torch.tensor([1, 2, 3, 4, 5])
+b = torch.tensor([[1, 2, 3, 4, 5], [5, 4, 3, 2, 1]])
+c = torch.tensor([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+d = torch.tensor([[1, 2, 3], [4, 5, 6], [7, 8, 9], [10, 11, 12]])
+print('a:', a)
+print('b:', b)
+print('c:', c)
+print('d:', d)
+print('a.shape:', a.shape)
+print('b.shape:', b.shape)
+print('c.shape:', c.shape)
+print('d.shape:', d.shape)
+print('a.dtype:', a.dtype)
+print('b.dtype:', b.dtype)
+print('c.dtype:', c.dtype)

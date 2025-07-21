@@ -1,0 +1,5 @@
+'\nTask 1: import PyTorch\nTask 2: Generate input data\nTask 3: Call the API torch.Tensor.igammac_\ntorch.Tensor.igammac_(_input_tensor, other)\n'
+import torch
+_input_tensor = torch.randn(3, 3)
+other = torch.randn(3, 3)
+torch.Tensor.igammac_(_input_tensor, other)

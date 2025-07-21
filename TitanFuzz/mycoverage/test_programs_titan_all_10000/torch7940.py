@@ -1,0 +1,8 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+input_tensor = torch.randn(2, 3)
+result = torch.Tensor.argsort(input_tensor, dim=(- 1), descending=False)
+result = torch.Tensor.argsort(input_tensor, dim=0, descending=False)
+result = torch.Tensor.argsort(input_tensor, dim=(- 1), descending=True)
+result = torch.Tensor.argsort(input_tensor, dim=0, descending=True)

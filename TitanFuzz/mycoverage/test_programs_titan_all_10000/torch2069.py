@@ -1,0 +1,10 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+input_data = torch.randn(5, 3)
+softplus = torch.nn.Softplus()
+output = softplus(input_data)
+softplus = torch.nn.Softplus(beta=0.4)
+output = softplus(input_data)
+softplus = torch.nn.Softplus(beta=0.4, threshold=0.5)
+output = softplus(input_data)
