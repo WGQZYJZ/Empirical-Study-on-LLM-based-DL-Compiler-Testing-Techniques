@@ -1,0 +1,14 @@
+The described pattern characterizes a PyTorch model that contains the following sequence of operations:
+
+```python
+# Perform a pointwise convolution (likely a 1x1 convolution) on the input tensor
+t1 = conv(input_tensor) 
+
+# Add an external tensor or constant to the result of the convolution
+t2 = t1 + other 
+
+# Apply the ReLU activation function to the result
+output = torch.relu(t2) 
+```
+
+This pattern typically indicates a model where the output of a pointwise convolution is offset by a fixed tensor or scalar (`other`), and the result is then passed through a ReLU activation function. This sequence is common in residual networks and other architectures that use skip connections with activation functions.

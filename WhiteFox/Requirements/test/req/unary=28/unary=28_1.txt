@@ -1,0 +1,7 @@
+The model should contain the following pattern:
+```python
+t1 = linear(input_tensor)  # Apply a linear transformation (pointwise linear layer) to the input tensor
+t2 = torch.clamp_min(t1, min_value)  # Clamp the result of the linear transformation at a minimum value
+t3 = torch.clamp_max(t2, max_value)  # Clamp the aforementioned result to a maximum value
+```
+This pattern characterizes scenarios where a pointwise linear operation (e.g., fully connected layer) is applied to an input tensor, followed by a two-step clamping operation. First, the output of the linear layer is clamped to ensure it doesn't fall below a specified minimum value, and then it is further clamped to ensure it doesn't exceed a specified maximum value.

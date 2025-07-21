@@ -1,0 +1,25 @@
+The model should contain the following pattern, which characterizes a scaled dot-product attention mechanism commonly found in transformer models:
+
+```python
+# Calculate the scaled dot-product attention
+# Compute the attention scores by multiplying query with the transposed key
+attention_scores = torch.matmul(query, key.transpose(-2, -1))
+
+# Scale the attention scores
+scaled_attention_scores = attention_scores.div(inv_scale)
+
+# Apply the softmax function to obtain attention weights
+attention_weights = scaled_attention_scores.softmax(dim=-1)
+
+# Multiply the attention weights by the value tensor
+attention_output = attention_weights.matmul(value)
+```
+
+This pattern specifically involves the following operations:
+
+- Multiplication of a query tensor with the transposed key tensor to compute attention scores.
+- Scaling the resulting attention scores by a constant `inv_scale`.
+- Applying the softmax function along the last dimension to obtain normalized attention weights.
+- Multiplying the attention weights by the value tensor to compute the final attention output.
+
+This sequence of operations is integral to attention mechanisms utilized in transformer-based models, facilitating the focus on different parts of the input sequence when making predictions.

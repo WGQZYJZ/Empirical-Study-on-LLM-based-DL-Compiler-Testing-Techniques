@@ -1,0 +1,11 @@
+The model should contain the following pattern:
+
+```python
+t1 = linear(input_tensor) # Apply a pointwise linear transformation to the input tensor
+t2 = t1 + 3 # Add 3 to the output of the linear transformation
+t3 = torch.clamp_min(t2, 0) # Clamp the result from below at 0
+t4 = torch.clamp_max(t3, 6) # Clamp the result from above at 6
+t5 = t4 / 6 # Divide the clamped result by 6
+```
+
+This pattern characterizes a scenario where an input tensor undergoes a linear transformation using a pointwise operation. Afterward, a constant value of `3` is added to the transformation's output. The subsequent operations involve clamping the result, first to a minimum value of `0` and then to a maximum value of `6`. Finally, the clamped result is divided by `6`.

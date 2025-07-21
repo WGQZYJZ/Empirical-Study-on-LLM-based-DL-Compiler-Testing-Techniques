@@ -1,0 +1,24 @@
+To trigger the `module.graph.erase_node(node)` line within the `permute_linear_fusion` optimization of a PyTorch model, the model must include a specific pattern of operations involving tensor permutation and linear transformation. Here are the characteristics of such a pattern:
+
+The model should contain operations as follows:
+
+1. **Permute Operation**:
+   - The model uses the `permute` method on a tensor with more than 2 dimensions.
+   - This `permute` operation specifically swaps the last two dimensions of the tensor.
+
+2. **Linear Transformation**:
+   - The permuted tensor is then passed as the input to a `torch.nn.functional.linear` function.
+   - This linear function operation is then cached in a node of the computation graph.
+
+In code, this pattern looks like:
+```python
+t1 = input_tensor.permute(...)  # t1 is a tensor with permute operation applied
+t2 = torch.nn.functional.linear(t1, weight, bias)  # Apply linear transformation
+```
+
+### Key Requirements:
+
+- **Permuted Tensor**: The `permute` call on the input tensor must have more than two dimensions and should rearrange the last two dimensions.
+- **Subsequent Linear Operation**: The output of the `permute` operation (i.e., `t1`) should be directly fed into a `torch.nn.functional.linear` operation (i.e., `t2`).
+
+The combination of these characteristics allows the function `permute_linear_fusion` to identify the opportunity to apply optimization by fusing these operations, resulting in the erasure of the linear node due to the successful creation of a fused node.

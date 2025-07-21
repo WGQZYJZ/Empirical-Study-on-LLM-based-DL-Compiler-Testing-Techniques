@@ -1,0 +1,8 @@
+The model should contain the following pattern:
+```python
+t1 = conv_transpose(input_tensor) # Apply transposed pointwise convolution to the input tensor
+t2 = t1 > 0 # Compare the output of the convolution with 0
+t3 = t1 * negative_slope # Multiply the output of the convolution by a negative slope
+t4 = torch.where(t2, t1, t3) # Replace elements less than or equal to 0 with the result of the multiplication
+```
+This pattern characterizes scenarios where a transposed pointwise convolution is applied to the input tensor, and the output is used in a conditional operation (`aten.where`). Specifically, it applies a threshold function that outputs the original value when it is positive and a scaled version (by `negative_slope`) of the value when it is non-positive, similar to the Leaky ReLU activation function.

@@ -1,0 +1,15 @@
+The model should contain a pattern where a function listed in the `replacements` dictionary is used. Specifically, the model should include:
+
+```
+t3 = torch.nn.functional.dropout(tensor, ...)
+# or
+t4 = torch.rand_like(tensor, ...)
+```
+
+These functions need to be invoked in a computation graph represented by a `torch.fx.GraphModule` for the optimization process. The `replace_fx` function searches for specific call function nodes (`torch.nn.functional.dropout` or `torch.rand_like`) within the graph and replaces these nodes with their respective corresponding replacements (`lowmem_dropout` and `rand_like`).
+
+The code must not have conditions that skip these replacements:
+- The `config.fallback_random` should not be set to avoid related replacements using triton random.
+- If running on a CPU (`is_cpu`), it should not contain targets in `fallback_cpu_random`.
+
+If such function calls exist in the computation graph under these conditions, their corresponding nodes will be erased after being replaced with the desired low memory or equivalent function from `replacements`.

@@ -1,0 +1,17 @@
+The model should contain the following pattern:
+
+```python
+t1 = conv(input_tensor)  # Apply pointwise convolution with kernel size 1 to the input tensor
+t2 = t1 + 3  # Add 3 to the output of the convolution
+t3 = torch.clamp_min(t2, 0)  # Clamp the minimum value of t2 to 0
+t4 = torch.clamp_max(t3, 6)  # Clamp the maximum value of t3 to 6
+t5 = t4 / 6  # Divide the result by 6
+```
+
+This pattern characterizes scenarios where:
+- The output of a pointwise convolution is initially incremented by a constant `3`.
+- The resulting values are clamped to have a minimum value of `0`.
+- Subsequently, these values are further clamped to have a maximum value of `6`.
+- Finally, the result is scaled down by dividing it by `6`. 
+
+This sequence of operations is typical in neural architectures using techniques like normalization or scaling within activation functions or layers. This could resemble operations within an activation function similar to a ReLU followed by normalization, often seen in some custom-designed neural network layers.

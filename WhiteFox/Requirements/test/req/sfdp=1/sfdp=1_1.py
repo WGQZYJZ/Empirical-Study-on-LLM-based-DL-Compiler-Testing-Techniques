@@ -1,0 +1,5 @@
+   scores = torch.matmul(query, key.transpose(-2, -1))
+   scaled_scores = scores.div(inv_scale_factor)
+   attn_weights = scaled_scores.softmax(dim=-1)
+   dropout_attn_weights = torch.nn.functional.dropout(attn_weights, p=dropout_p)
+   result = dropout_attn_weights.matmul(value)

@@ -1,0 +1,42 @@
+The PyTorch model that can trigger the `module.graph.erase_node(node)` line within the `permute_linear_fusion` optimization must exhibit a specific sequence of operations that matches the optimization pattern laid out in the `permute_linear_fusion` function. The key characteristics of this model are as follows:
+
+1. **Tensor Permutation Operation**:
+   - An input tensor is subjected to a `permute` operation. This tensor must have more than two dimensions (rank > 2).
+   - The `permute` operation specifically rearranges the dimensions of the tensor such that the last two dimensions are swapped.
+
+2. **Linear Transformation**:
+   - A `torch.nn.functional.linear` operation is applied immediately after the `permute` operation, taking the permuted tensor as its input.
+
+3. **Graph Structure**:
+   - Within the computational graph, the node representing the `linear` operation traces its input back to the output of a `permute` operation.
+   - The permutation and linear operation nodes must be connected directly, with no intervening operations or uses that would prevent the `permute_linear_fusion` from simplifying the computation.
+
+4. **Node Usage**:
+   - The `linear` node and potentially the `permute` node must have no other uses within the graph once the fusion is applied, allowing them to be safely erased.
+
+The optimization targets unnecessary computation by combining the `permute` and `linear` operations into a single optimized operation (`transpose_linear`). 
+
+### Example Code:
+
+```python
+import torch
+
+# Define an example function
+def example_function(input_tensor):
+    # Permute the last two dimensions
+    permuted_tensor = input_tensor.permute(0, 2, 1)
+    # Apply a linear transformation
+    output_tensor = torch.nn.functional.linear(permuted_tensor, weight, bias)
+    return output_tensor
+
+# Create a PyTorch FX GraphModule for transformation
+graph_module = torch.fx.symbolic_trace(example_function)
+optimized_graph_module = permute_linear_fusion(graph_module)
+```
+
+In this example:
+- `input_tensor.permute(0, 2, 1)` represents the swap of the last two dimensions.
+- `torch.nn.functional.linear(permuted_tensor, weight, bias)` is the linear operation performed on the permuted tensor.
+- The dimensions in the `permute` function should match the pattern expected by `check_permute`, specifically, they should swap the last two dimensions.
+
+This pattern in the model is what allows the

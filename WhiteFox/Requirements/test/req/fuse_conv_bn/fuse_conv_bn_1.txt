@@ -1,0 +1,35 @@
+The model should contain specific layer sequences to trigger the optimization, specifically involving Convolution and Batch Normalization layers. There are two main patterns that can trigger the `gm.graph.erase_node(node)` line in the `fuse_conv_bn` function:
+
+1. **Pattern involving `torch.nn` modules**:
+   - A **Conv** layer followed by a matching **BatchNorm** layer, both from `torch.nn` and of the same dimensionality (e.g., `Conv2d` and `BatchNorm2d`).
+   - The Convolution layer is applied to an input tensor, and its output is directly used as the input for the subsequent Batch Normalization layer.
+   - The Convolution and BatchNorm layers should be in evaluation mode, and the BatchNorm should have tracking running statistics enabled.
+   - No other node in the graph should use the output of the Conv layer before it is passed to the BatchNorm layer.
+
+2. **Pattern involving a mix of `torch.nn` and `torch.nn.functional` calls**:
+   - A **Conv** layer from `torch.nn` followed by `torch.nn.functional.batch_norm`.
+   - The arguments for `batch_norm` include constants for running mean, running var, weight, and bias, and the `eps` argument should be a float.
+   - The Convolution and batch normalization arguments should be structured such that the Conv layer is not in training mode and the batch normalization is not applied in training mode.
+   - The batch normalization operation should prioritize constant batch norm arguments, ensuring they are fetched attributes with single usages.
+
+Both patterns involve fusing the Convolution and Batch Normalization operations into a single operation, allowing the removal of the Batch Normalization node (`gm.graph.erase_node(node)`). 
+
+Example code illustrating a typical pattern:
+```python
+import torch
+import torch.nn as nn
+
+class ExampleModel(nn.Module):
+    def __init__(self):
+        super(ExampleModel, self).__init__()
+        self.conv = nn.Conv2d(in_channels=3, out_channels=16, kernel_size=3)
+        self.bn = nn.BatchNorm2d(16)
+    
+    def forward(self, x):
+        x = self.conv(x)
+        x = self.bn(x)
+        return x
+
+model = ExampleModel()
+```
+This model would have a `Conv2d` followed by a `BatchNorm2d`, matching the `modules_patterns` structure within the `fuse_conv_bn` function.

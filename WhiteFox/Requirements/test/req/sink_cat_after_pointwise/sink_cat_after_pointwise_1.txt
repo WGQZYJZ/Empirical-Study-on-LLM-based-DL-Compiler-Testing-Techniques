@@ -1,0 +1,9 @@
+The model should contain the following pattern:
+```
+t1 = torch.cat([tensor_a, tensor_b, ...], dim=...)  # Concatenate tensors along a specific dimension
+t2 = t1.view(...)  # Apply a 'view' operation on the concatenated result
+t3 = torch.relu(t2)  # Apply a pointwise unary operation (e.g., ReLU, Tanh) on the resulting tensor
+```
+This pattern characterizes scenarios where `torch.cat` is applied to concatenate tensors, and the result undergoes at least one `view` method before being acted upon by a pointwise unary operation (like `torch.relu` or `torch.tanh`). 
+
+The `g.erase_node(node)` line is triggered when the original `torch.cat` node (or its output) is no longer required after reordering and replacing the operations in the graph.

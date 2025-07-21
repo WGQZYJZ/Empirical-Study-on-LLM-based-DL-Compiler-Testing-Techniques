@@ -1,0 +1,13 @@
+u1 = linear(input_tensor)  # Apply a linear transformation to the input tensor
+u2 = u1 * 0.5  # Multiply the output of the linear transformation by 0.5
+u3 = linear(input_tensor)  # Reapply the same linear transformation
+u4 = linear(input_tensor)  # Reapply the same linear transformation
+u5 = linear(input_tensor)  # Reapply the same linear transformation
+u6 = u4 * u5  # Multiply two repeated outputs of the linear transformation
+u7 = u3 * u6  # Multiply one linear output with the result of the previous multiplication
+u8 = u7 * 0.044715  # Multiply the product by constant 0.044715
+u9 = u1 + u8  # Add the multiplied product to the initial linear output
+u10 = u9 * 0.7978845608028654  # Multiply the sum by another constant 0.7978845608028654
+u11 = torch.tanh(u10)  # Apply the hyperbolic tangent function
+u12 = u11 + 1  # Add 1 to the output of the tanh function
+output = u2 * u12  # Multiply the modified initial linear output by the sum of 1 and tanh
