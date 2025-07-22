@@ -1,0 +1,59 @@
+import os
+import torch
+import torch.nn.functional as F
+import torch.nn as nn
+import numpy as np
+from torch.autograd import Variable
+import math
+import torch as th
+import torch.linalg as la
+from torch.nn import Parameter
+import torch.linalg as linalg
+
+class Model(torch.nn.Module):
+
+    def __init__(self):
+        super().__init__()
+
+    def forward(self, query, key, value, inv_scale_factor, dropout_p):
+        qk = torch.matmul(query, key.transpose(-2, -1))
+        scaled_qk = qk.div(inv_scale_factor)
+        softmax_qk = scaled_qk.softmax(dim=-1)
+        dropout_qk = torch.nn.functional.dropout(softmax_qk, p=dropout_p)
+        output = dropout_qk.matmul(value)
+        return output
+
+
+func = Model().to('cpu')
+
+
+query = torch.randn(2, 8, 20)
+
+key = torch.randn(2, 8, 20)
+
+value = torch.randn(2, 8, 20)
+
+inv_scale_factor = torch.randint(0, 63, (2,)).float().abs().div(128)
+
+dropout_p = torch.randint(0, 63, (2,)).float().abs().div(128)
+
+test_inputs = [query, key, value, inv_scale_factor, dropout_p]
+
+# JIT_FAIL
+'''
+direct:
+The size of tensor a (8) must match the size of tensor b (2) at non-singleton dimension 2
+
+jit:
+Failed running call_method div(*(FakeTensor(..., size=(2, s1, 8)), FakeTensor(..., size=(2,))), **{}):
+The size of tensor a (8) must match the size of tensor b (2) at non-singleton dimension 2)
+
+from user code:
+   File "<string>", line 20, in forward
+
+
+You can suppress this exception and fall back to eager by setting:
+    import torch._dynamo
+    torch._dynamo.config.suppress_errors = True
+
+'''

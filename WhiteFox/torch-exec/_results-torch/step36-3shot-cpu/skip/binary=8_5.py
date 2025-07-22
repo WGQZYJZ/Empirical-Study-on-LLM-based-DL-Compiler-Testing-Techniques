@@ -1,0 +1,25 @@
+import os
+import torch
+import torch.nn.functional as F
+import torch.nn as nn
+import numpy as np
+from torch.autograd import Variable
+import math
+import torch as th
+import torch.linalg as la
+from torch.nn import Parameter
+import torch.linalg as linalg
+
+
+
+func = ().to('cpu')
+
+
+
+t1 = torch.sum(torch.randn(1, 3, 21, 21), (2, 3), keepdim=True)
+
+x1 = torch.randn(1, 3, 64, 64)
+
+x2 = torch.randn(1, 3, 64, 64)
+
+test_inputs = [t1, x1, x2]

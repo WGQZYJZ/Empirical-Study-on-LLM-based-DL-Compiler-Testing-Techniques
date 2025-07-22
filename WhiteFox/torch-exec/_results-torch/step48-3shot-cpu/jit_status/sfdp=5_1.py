@@ -1,0 +1,67 @@
+import os
+import torch
+import torch.nn.functional as F
+import torch.nn as nn
+import numpy as np
+from torch.autograd import Variable
+import math
+import torch as th
+import torch.linalg as la
+from torch.nn import Parameter
+import torch.linalg as linalg
+
+class Model(torch.nn.Module):
+
+    def __init__(self):
+        super().__init__()
+        self.num_layers = 4
+        self.heads = 262149
+        self.seq_len = 515
+        self.intermediate_dim = 83352
+        self.dim = 833 // self.heads
+
+    def forward(self, query, key, value, attn_mask):
+        input = query
+        for _ in range(self.num_layers):
+            output = self.multi_head_attention(input, key, value, attn_mask)
+            input = input + output
+        return input
+
+    def multi_head_attention(self, query, key, value, attn_mask):
+        qk = query @ key.transpose(-2, -1) / math.sqrt(query.size(-1))
+        qk = qk + attn_mask
+        attn_weight = torch.softmax(qk, dim=-1)
+        attn_weight = torch.dropout(attn_weight, 0.01, True)
+        output = attn_weight @ value
+        return output
+
+
+
+func = Model().to('cpu')
+
+
+query = torch.randn(1, 327, 256, 256)
+
+key = torch.randn(1, 327, 256, 256)
+
+value = torch.randn(1, 327, 256, 256)
+
+attn_mask = torch.randn(1, 1, 256, 256)
+
+test_inputs = [query, key, value, attn_mask]
+
+# JIT_STATUS
+'''
+direct:
+
+
+jit:
+backend='inductor' raised:
+CalledProcessError: Command '['/usr/local/bin/gcc', '/tmp/tmp54u2qgc7/main.c', '-O3', '-shared', '-fPIC', '-Wno-psabi', '-o', '/tmp/tmp54u2qgc7/cuda_utils.cpython-39-x86_64-linux-gnu.so', '-lcuda', '-L/home/yujunzhe/anaconda3/envs/whitefox/lib/python3.9/site-packages/triton/backends/nvidia/lib', '-L/lib/x86_64-linux-gnu', '-L/lib/i386-linux-gnu', '-I/home/yujunzhe/anaconda3/envs/whitefox/lib/python3.9/site-packages/triton/backends/nvidia/include', '-I/tmp/tmp54u2qgc7', '-I/home/yujunzhe/anaconda3/envs/whitefox/include/python3.9']' returned non-zero exit status 1.
+
+
+You can suppress this exception and fall back to eager by setting:
+    import torch._dynamo
+    torch._dynamo.config.suppress_errors = True
+
+'''

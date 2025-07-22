@@ -1,0 +1,53 @@
+import os
+import torch
+import torch.nn.functional as F
+import torch.nn as nn
+import numpy as np
+from torch.autograd import Variable
+import math
+import torch as th
+import torch.linalg as la
+from torch.nn import Parameter
+import torch.linalg as linalg
+
+
+
+class Model(torch.nn.Module):
+
+    def __init__(self):
+        super().__init__()
+        self.lin = torch.nn.Linear(10, 20)
+
+    def forward(self, x1, **kwargs):
+        v1 = self.lin(x1)
+        return (v1 + kwargs.get('other', None))
+
+
+
+func = Model().to('cuda')
+
+
+
+x1 = torch.randn(2, 10)
+
+
+test_inputs = [x1]
+
+# JIT_FAIL
+'''
+direct:
+unsupported operand type(s) for +: 'Tensor' and 'NoneType'
+
+jit:
+Failed running call_function <built-in function add>(*(FakeTensor(..., device='cuda:0', size=(2, 20)), None), **{}):
+unsupported operand type(s) for +: 'FakeTensor' and 'NoneType'
+
+from user code:
+   File "<string>", line 23, in forward
+
+
+You can suppress this exception and fall back to eager by setting:
+    import torch._dynamo
+    torch._dynamo.config.suppress_errors = True
+
+'''

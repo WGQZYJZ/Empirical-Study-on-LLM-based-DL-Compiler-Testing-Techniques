@@ -1,0 +1,30 @@
+import os
+import torch
+import torch.nn.functional as F
+import torch.nn as nn
+import numpy as np
+from torch.autograd import Variable
+import math
+import torch as th
+import torch.linalg as la
+from torch.nn import Parameter
+import torch.linalg as linalg
+
+class Model(torch.nn.Module):
+
+    def __init__(self):
+        super().__init__()
+        self.linear = torch.nn.Linera(32, 32)
+
+    def forward(self, x1):
+        l1 = self.linear(x1)
+        l2 = l1 * torch.clamp(l1 + 3, 0, 6)
+        l3 = l2 / 6
+
+
+func = Model().to('cpu')
+
+
+x1 = torch.rand(1, 32)
+
+test_inputs = [x1]

@@ -1,0 +1,57 @@
+import os
+import torch
+import torch.nn.functional as F
+import torch.nn as nn
+import numpy as np
+from torch.autograd import Variable
+import math
+import torch as th
+import torch.linalg as la
+from torch.nn import Parameter
+import torch.linalg as linalg
+
+
+
+class Model(torch.nn.Module):
+
+    def __init__(self):
+        super().__init__()
+
+    def forward(self, x2):
+        t = torch.randn(1, 0)
+        v1 = torch.mm((x2 + t), t)
+        v2 = torch.mm(v1, t)
+        v3 = torch.mm(v1, x2)
+        v4 = (v3 + v2)
+        return v4
+
+
+
+
+func = Model().to('cuda')
+
+
+
+x2 = torch.randn(1, 1)
+
+
+test_inputs = [x2]
+
+# JIT_FAIL
+'''
+direct:
+Expected all tensors to be on the same device, but found at least two devices, cuda:0 and cpu!
+
+jit:
+Failed running call_function <built-in function add>(*(FakeTensor(..., device='cuda:0', size=(1, 1)), FakeTensor(..., size=(1, 0))), **{}):
+Unhandled FakeTensor Device Propagation for aten.add.Tensor, found two different devices cuda:0, cpu
+
+from user code:
+   File "<string>", line 22, in forward
+
+
+You can suppress this exception and fall back to eager by setting:
+    import torch._dynamo
+    torch._dynamo.config.suppress_errors = True
+
+'''

@@ -1,0 +1,3961 @@
+Start testing
+Successfully create atemp.py
+
+LmfuzzTestcase 0 addmm addmm_1 Success 420 succeed
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 1 addmm addmm_10 Success 420 succeed
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 2 addmm addmm_2 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 3 addmm addmm_3 Success 420 succeed
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 4 addmm addmm_4 Success 420 succeed
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 5 addmm addmm_5 Success 420 succeed
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 6 addmm addmm_6 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 7 addmm addmm_7 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 8 addmm addmm_8 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 9 addmm addmm_9 Success 420 succeed
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 10 binary=0 binary=0_1 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 11 binary=0 binary=0_10 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 12 binary=0 binary=0_2 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 13 binary=0 binary=0_3 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 14 binary=0 binary=0_4 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 15 binary=0 binary=0_5 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 16 binary=0 binary=0_6 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 17 binary=0 binary=0_7 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 18 binary=0 binary=0_8 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 19 binary=0 binary=0_9 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 20 binary=10 binary=10_1 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 21 binary=10 binary=10_10 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 22 binary=10 binary=10_2 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 23 binary=10 binary=10_3 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 24 binary=10 binary=10_4 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 25 binary=10 binary=10_5 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 26 binary=10 binary=10_6 Success 420 succeed
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 27 binary=10 binary=10_7 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 28 binary=10 binary=10_8 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 29 binary=10 binary=10_9 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 30 binary=2 binary=2_1 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 31 binary=2 binary=2_10 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+in_channels must be divisible by groups
+import os
+import torch
+import torch.nn.functional as F
+import torch.nn as nn
+import numpy as np
+from torch.autograd import Variable
+import math
+import torch as th
+import torch.linalg as la
+from torch.nn import Parameter
+import torch.linalg as linalg
+
+
+
+class Model(torch.nn.Module):
+
+    def __init__(self):
+        super().__init__()
+        self.depthwise_conv = torch.nn.Conv2d(1, 16, (3, 3), stride=(2, 2), padding=(2, 2), groups=16, bias=False)
+        self.pointwise_conv = torch.nn.Conv2d(16, 16, (3, 3), stride=(1, 1), padding=(1, 1), bias=False)
+
+    def forward(self, x):
+        v1 = self.depthwise_conv(x)
+        v2 = self.pointwise_conv(v1)
+        v3 = (v2 - 2.09)
+        return v3
+
+
+
+
+func = Model().to('cuda')
+
+
+
+x = torch.randn(1, 1, 48, 48)
+
+
+test_inputs = [x]
+
+
+LmfuzzTestcase 32 binary=2 binary=2_2 SKIP 420 void
+----------------------------------
+
+Successfully create atemp.py
+__init__() got an unexpected keyword argument 'output_padding'
+import os
+import torch
+import torch.nn.functional as F
+import torch.nn as nn
+import numpy as np
+from torch.autograd import Variable
+import math
+import torch as th
+import torch.linalg as la
+from torch.nn import Parameter
+import torch.linalg as linalg
+
+
+
+class Model(torch.nn.Module):
+
+    def __init__(self):
+        super().__init__()
+        self.conv = torch.nn.Conv3d(5, 16, 5, stride=2, padding=0, output_padding=0, dilation=1, groups=2, bias=1)
+
+    def forward(self, x):
+        v1 = self.conv(x)
+        v2 = (v1 - 1.72)
+        return v2
+
+
+
+
+func = Model().to('cuda')
+
+
+
+x = torch.randn(1, 5, 16, 32, 32)
+
+
+test_inputs = [x]
+
+
+LmfuzzTestcase 33 binary=2 binary=2_3 SKIP 420 void
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 34 binary=2 binary=2_4 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 35 binary=2 binary=2_5 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+padding_mode must be one of {'circular', 'reflect', 'replicate', 'zeros'}, but got padding_mode='same'
+import os
+import torch
+import torch.nn.functional as F
+import torch.nn as nn
+import numpy as np
+from torch.autograd import Variable
+import math
+import torch as th
+import torch.linalg as la
+from torch.nn import Parameter
+import torch.linalg as linalg
+
+
+
+class Model(torch.nn.Module):
+
+    def __init__(self):
+        super().__init__()
+        self.conv = torch.nn.Conv2d(2, 4, (3, 4), stride=(1, 1), padding=(3, 0), bias=False, groups=2, dilation=2, padding_mode='same')
+
+    def forward(self, x, y):
+        v1 = self.conv(x)
+        v2 = (v1 - y)
+        return v2
+
+
+
+
+func = Model().to('cuda')
+
+
+
+x = torch.randn(1, 2, 6, 2)
+
+
+
+y = torch.randn(1, 4, 4, 4)
+
+
+test_inputs = [x, y]
+
+
+LmfuzzTestcase 36 binary=2 binary=2_6 SKIP 420 void
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 37 binary=2 binary=2_7 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 38 binary=2 binary=2_8 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 39 binary=2 binary=2_9 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 40 binary=4 binary=4_1 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 41 binary=4 binary=4_10 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 42 binary=4 binary=4_2 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 43 binary=4 binary=4_3 JIT_FAIL 420 Catch
+----------------------------------
+
+
+LmfuzzTestcase 44 binary=4 binary=4_4 invalid syntax 420 ('<unknown>', 8, 26, '        y1 = self.l1(x1).\n')
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 45 binary=4 binary=4_5 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 46 binary=4 binary=4_6 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 47 binary=4 binary=4_7 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 48 binary=4 binary=4_8 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 49 binary=4 binary=4_9 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 50 binary=6 binary=6_1 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 51 binary=6 binary=6_10 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 52 binary=6 binary=6_2 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 53 binary=6 binary=6_3 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 54 binary=6 binary=6_4 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 55 binary=6 binary=6_5 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 56 binary=6 binary=6_6 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 57 binary=6 binary=6_7 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 58 binary=6 binary=6_8 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 59 binary=6 binary=6_9 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 60 binary=8 binary=8_1 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 61 binary=8 binary=8_10 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 62 binary=8 binary=8_2 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 63 binary=8 binary=8_3 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 64 binary=8 binary=8_4 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 65 binary=8 binary=8_5 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 66 binary=8 binary=8_6 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 67 binary=8 binary=8_7 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 68 binary=8 binary=8_8 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 69 binary=8 binary=8_9 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 70 binary_unary=0 binary_unary=0_1 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 71 binary_unary=0 binary_unary=0_10 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 72 binary_unary=0 binary_unary=0_2 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 73 binary_unary=0 binary_unary=0_3 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 74 binary_unary=0 binary_unary=0_4 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 75 binary_unary=0 binary_unary=0_5 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 76 binary_unary=0 binary_unary=0_6 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 77 binary_unary=0 binary_unary=0_7 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 78 binary_unary=0 binary_unary=0_8 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 79 binary_unary=0 binary_unary=0_9 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 80 binary_unary=10 binary_unary=10_1 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 81 binary_unary=10 binary_unary=10_10 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 82 binary_unary=10 binary_unary=10_2 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 83 binary_unary=10 binary_unary=10_3 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 84 binary_unary=10 binary_unary=10_4 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 85 binary_unary=10 binary_unary=10_5 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 86 binary_unary=10 binary_unary=10_6 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 87 binary_unary=10 binary_unary=10_7 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 88 binary_unary=10 binary_unary=10_8 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 89 binary_unary=10 binary_unary=10_9 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 90 binary_unary=2 binary_unary=2_1 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 91 binary_unary=2 binary_unary=2_10 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 92 binary_unary=2 binary_unary=2_2 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 93 binary_unary=2 binary_unary=2_3 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 94 binary_unary=2 binary_unary=2_4 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 95 binary_unary=2 binary_unary=2_5 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 96 binary_unary=2 binary_unary=2_6 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 97 binary_unary=2 binary_unary=2_7 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 98 binary_unary=2 binary_unary=2_8 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 99 binary_unary=2 binary_unary=2_9 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 100 binary_unary=4 binary_unary=4_1 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 101 binary_unary=4 binary_unary=4_10 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 102 binary_unary=4 binary_unary=4_2 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 103 binary_unary=4 binary_unary=4_3 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 104 binary_unary=4 binary_unary=4_4 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 105 binary_unary=4 binary_unary=4_5 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 106 binary_unary=4 binary_unary=4_6 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 107 binary_unary=4 binary_unary=4_7 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 108 binary_unary=4 binary_unary=4_8 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 109 binary_unary=4 binary_unary=4_9 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 110 binary_unary=6 binary_unary=6_1 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 111 binary_unary=6 binary_unary=6_10 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 112 binary_unary=6 binary_unary=6_2 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 113 binary_unary=6 binary_unary=6_3 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 114 binary_unary=6 binary_unary=6_4 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 115 binary_unary=6 binary_unary=6_5 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 116 binary_unary=6 binary_unary=6_6 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 117 binary_unary=6 binary_unary=6_7 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 118 binary_unary=6 binary_unary=6_8 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 119 binary_unary=6 binary_unary=6_9 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 120 binary_unary=8 binary_unary=8_1 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 121 binary_unary=8 binary_unary=8_10 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 122 binary_unary=8 binary_unary=8_2 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 123 binary_unary=8 binary_unary=8_3 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 124 binary_unary=8 binary_unary=8_4 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 125 binary_unary=8 binary_unary=8_5 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 126 binary_unary=8 binary_unary=8_6 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 127 binary_unary=8 binary_unary=8_7 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 128 binary_unary=8 binary_unary=8_8 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 129 binary_unary=8 binary_unary=8_9 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 130 cat_addmm cat_addmm_1 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+'tuple' object has no attribute 'to'
+import os
+import torch
+import torch.nn.functional as F
+import torch.nn as nn
+import numpy as np
+from torch.autograd import Variable
+import math
+import torch as th
+import torch.linalg as la
+from torch.nn import Parameter
+import torch.linalg as linalg
+
+
+
+func = ().to('cuda')
+
+
+
+x = torch.randn(2, requires_grad=True)
+
+
+test_inputs = [x]
+
+
+LmfuzzTestcase 131 cat_addmm cat_addmm_10 SKIP 420 void
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 132 cat_addmm cat_addmm_2 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 133 cat_addmm cat_addmm_3 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 134 cat_addmm cat_addmm_4 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 135 cat_addmm cat_addmm_5 Success 420 succeed
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 136 cat_addmm cat_addmm_6 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 137 cat_addmm cat_addmm_7 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 138 cat_addmm cat_addmm_8 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 139 cat_addmm cat_addmm_9 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 140 cat_mm cat_mm_1 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 141 cat_mm cat_mm_10 Success 420 succeed
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 142 cat_mm cat_mm_2 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 143 cat_mm cat_mm_3 Success 420 succeed
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 144 cat_mm cat_mm_4 Success 420 succeed
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 145 cat_mm cat_mm_5 Success 420 succeed
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 146 cat_mm cat_mm_6 Success 420 succeed
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 147 cat_mm cat_mm_7 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 148 cat_mm cat_mm_8 Success 420 succeed
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 149 cat_mm cat_mm_9 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 150 cat_slice_cat cat_slice_cat_1 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 151 cat_slice_cat cat_slice_cat_10 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 152 cat_slice_cat cat_slice_cat_2 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 153 cat_slice_cat cat_slice_cat_3 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 154 cat_slice_cat cat_slice_cat_4 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 155 cat_slice_cat cat_slice_cat_5 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+'tuple' object has no attribute 'to'
+import os
+import torch
+import torch.nn.functional as F
+import torch.nn as nn
+import numpy as np
+from torch.autograd import Variable
+import math
+import torch as th
+import torch.linalg as la
+from torch.nn import Parameter
+import torch.linalg as linalg
+
+
+
+func = ().to('cuda')
+
+
+
+x = torch.randn(1, 2, 128, 128)
+
+
+
+y = torch.randn(1, 2, 512, 512)
+
+
+test_inputs = [x, y]
+
+
+LmfuzzTestcase 156 cat_slice_cat cat_slice_cat_6 SKIP 420 void
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 157 cat_slice_cat cat_slice_cat_7 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 158 cat_slice_cat cat_slice_cat_8 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 159 cat_slice_cat cat_slice_cat_9 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 160 fuse_conv_bn fuse_conv_bn_1 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 161 fuse_conv_bn fuse_conv_bn_10 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 162 fuse_conv_bn fuse_conv_bn_2 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 163 fuse_conv_bn fuse_conv_bn_3 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 164 fuse_conv_bn fuse_conv_bn_4 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 165 fuse_conv_bn fuse_conv_bn_5 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+__init__() missing 2 required positional arguments: 'encoder_layer' and 'num_layers'
+import os
+import torch
+import torch.nn.functional as F
+import torch.nn as nn
+import numpy as np
+from torch.autograd import Variable
+import math
+import torch as th
+import torch.linalg as la
+from torch.nn import Parameter
+import torch.linalg as linalg
+
+
+
+class Model(torch.nn.Module):
+
+    def __init__(self):
+        super().__init__()
+        self.layer1 = torch.nn.TransformerEncoder()
+        self.layer2 = torch.nn.TransformerEncoderLayer(20, 5)
+
+    def forward(self, x0):
+        x = self.layer1(x0)
+        y = self.layer2(x)
+        return y
+
+
+
+
+func = Model().to('cuda')
+
+
+
+x0 = torch.randn(4, 6, 20)
+
+
+
+x1 = torch.randn(7, 6, 20)
+
+
+test_inputs = [x0, x1]
+
+
+LmfuzzTestcase 166 fuse_conv_bn fuse_conv_bn_6 SKIP 420 void
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 167 fuse_conv_bn fuse_conv_bn_7 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 168 fuse_conv_bn fuse_conv_bn_8 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+name 'MyModule' is not defined
+import os
+import torch
+import torch.nn.functional as F
+import torch.nn as nn
+import numpy as np
+from torch.autograd import Variable
+import math
+import torch as th
+import torch.linalg as la
+from torch.nn import Parameter
+import torch.linalg as linalg
+
+
+
+class Model(torch.nn.Module):
+
+    def __init__(self):
+        super().__init__()
+        self.conv1 = torch.nn.Conv2d(1, 1, 1)
+        self.norm = MyModule()
+        self.conv2 = torch.nn.Conv2d(1, 1, 1)
+
+    def forward(self, x1):
+        x3 = self.conv1(x1)
+        x4 = self.norm(x1)
+        x5 = self.conv2(x4)
+        l = torch.cat([x3, x5], dim=0)
+        return l
+
+
+
+
+func = Model().to('cuda')
+
+
+
+x1 = torch.randn(3, 1, 2, 2)
+
+
+test_inputs = [x1]
+
+
+LmfuzzTestcase 169 fuse_conv_bn fuse_conv_bn_9 SKIP 420 void
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 170 linear_permute_fusion linear_permute_fusion_1 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 171 linear_permute_fusion linear_permute_fusion_10 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 172 linear_permute_fusion linear_permute_fusion_2 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 173 linear_permute_fusion linear_permute_fusion_3 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 174 linear_permute_fusion linear_permute_fusion_4 Success 420 succeed
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 175 linear_permute_fusion linear_permute_fusion_5 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 176 linear_permute_fusion linear_permute_fusion_6 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 177 linear_permute_fusion linear_permute_fusion_7 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 178 linear_permute_fusion linear_permute_fusion_8 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 179 linear_permute_fusion linear_permute_fusion_9 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 180 mm_plus_mm mm_plus_mm_1 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+local variable 'T' referenced before assignment
+import os
+import torch
+import torch.nn.functional as F
+import torch.nn as nn
+import numpy as np
+from torch.autograd import Variable
+import math
+import torch as th
+import torch.linalg as la
+from torch.nn import Parameter
+import torch.linalg as linalg
+
+
+
+class TorchScriptModel(torch.nn.Module):
+
+    def __init__(self):
+        super(T, self).__init__()
+
+        def T(input):
+            t1 = torch.mm(input, input)
+            t2 = torch.mm(input, input)
+            t3 = torch.mm(input, input)
+            t4 = torch.mm(input, input)
+            t5 = (((t1 + t2) + t3) + t4)
+            t6 = torch.mm(input, input)
+            t7 = (t5 + t6)
+            t8 = torch.mm(input, input)
+            t9 = (t6 + t8)
+            t10 = (t7 + t9)
+            return t10
+        self.model_ft = T
+
+
+
+
+func = TorchScriptModel().to('cuda')
+
+
+
+x1 = torch.randn(4, 4)
+
+
+test_inputs = [x1]
+
+
+LmfuzzTestcase 181 mm_plus_mm mm_plus_mm_10 SKIP 420 void
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 182 mm_plus_mm mm_plus_mm_2 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 183 mm_plus_mm mm_plus_mm_3 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 184 mm_plus_mm mm_plus_mm_4 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 185 mm_plus_mm mm_plus_mm_5 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 186 mm_plus_mm mm_plus_mm_6 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 187 mm_plus_mm mm_plus_mm_7 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 188 mm_plus_mm mm_plus_mm_8 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 189 mm_plus_mm mm_plus_mm_9 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 190 permute_linear_fusion permute_linear_fusion_1 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 191 permute_linear_fusion permute_linear_fusion_10 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 192 permute_linear_fusion permute_linear_fusion_2 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 193 permute_linear_fusion permute_linear_fusion_3 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 194 permute_linear_fusion permute_linear_fusion_4 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 195 permute_linear_fusion permute_linear_fusion_5 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 196 permute_linear_fusion permute_linear_fusion_6 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 197 permute_linear_fusion permute_linear_fusion_7 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 198 permute_linear_fusion permute_linear_fusion_8 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 199 permute_linear_fusion permute_linear_fusion_9 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 200 permute_matmul_fusion permute_matmul_fusion_1 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 201 permute_matmul_fusion permute_matmul_fusion_10 RANDOM 420 void
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 202 permute_matmul_fusion permute_matmul_fusion_2 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 203 permute_matmul_fusion permute_matmul_fusion_3 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+'tuple' object has no attribute 'to'
+import os
+import torch
+import torch.nn.functional as F
+import torch.nn as nn
+import numpy as np
+from torch.autograd import Variable
+import math
+import torch as th
+import torch.linalg as la
+from torch.nn import Parameter
+import torch.linalg as linalg
+
+
+
+func = ().to('cuda')
+
+input_tensor = torch.randn(1, 1, 1)
+
+test_inputs = [input_tensor]
+
+
+LmfuzzTestcase 204 permute_matmul_fusion permute_matmul_fusion_4 SKIP 420 void
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 205 permute_matmul_fusion permute_matmul_fusion_5 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 206 permute_matmul_fusion permute_matmul_fusion_6 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 207 permute_matmul_fusion permute_matmul_fusion_7 RANDOM 420 void
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 208 permute_matmul_fusion permute_matmul_fusion_8 RANDOM 420 void
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 209 permute_matmul_fusion permute_matmul_fusion_9 RANDOM 420 void
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 210 pointless_cumsum_replacement pointless_cumsum_replacement_1 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 211 pointless_cumsum_replacement pointless_cumsum_replacement_10 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 212 pointless_cumsum_replacement pointless_cumsum_replacement_2 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 213 pointless_cumsum_replacement pointless_cumsum_replacement_3 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 214 pointless_cumsum_replacement pointless_cumsum_replacement_4 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 215 pointless_cumsum_replacement pointless_cumsum_replacement_5 Success 420 succeed
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 216 pointless_cumsum_replacement pointless_cumsum_replacement_6 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 217 pointless_cumsum_replacement pointless_cumsum_replacement_7 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 218 pointless_cumsum_replacement pointless_cumsum_replacement_8 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 219 pointless_cumsum_replacement pointless_cumsum_replacement_9 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 220 replace_fx replace_fx_1 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 221 replace_fx replace_fx_10 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 222 replace_fx replace_fx_2 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 223 replace_fx replace_fx_3 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 224 replace_fx replace_fx_4 Success 420 succeed
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 225 replace_fx replace_fx_5 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 226 replace_fx replace_fx_6 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+__init__() got an unexpected keyword argument 'in_channels'
+import os
+import torch
+import torch.nn.functional as F
+import torch.nn as nn
+import numpy as np
+from torch.autograd import Variable
+import math
+import torch as th
+import torch.linalg as la
+from torch.nn import Parameter
+import torch.linalg as linalg
+
+
+
+class model(nn.Module):
+
+    def __init__(self):
+        super().__init__()
+        self.linear = nn.Linear(in_channels=10, out_channels=3)
+        self.linear_1 = torch.nn.Linear(in_features=9, out_features=3).to(device='cuda')
+        self.conv = torch.nn.Conv2d(in_channels=1, out_channels=3, kernel_size=2).to(device='cuda')
+
+    def forward(self, x):
+        a1 = (((((self.linear(x) + torch.randn_like(a1, device='cuda')) + self.conv(x)) + torch.rand_like(self.conv(x), device='cuda')) + F.gelu(self.linear(x), approximate=True)) + F.dropout(self.linear_1(x), p=0.3))
+        a2 = (torch.rand_like(a1, device='cuda') + torch.randn_like(a1, device='cuda'))
+        return ((((a1 * a2) + (F.dropout(a2, p=0.3) * (self.linear(a1) + F.linear(a2, torch.tanh(x))))) + torch.tanh(self.conv(x))) + F.dropout((F.dropout(a2) * (((- a1) + torch.unsqueeze(self.linear(torch.tanh(x)), dim=0)) + self.linear_1((x - a2)))), p=0.3))
+
+
+
+
+func = model().to('cuda')
+
+
+
+x = torch.randn(1, 1, 1, 10, device='cuda')
+
+
+test_inputs = [x]
+
+
+LmfuzzTestcase 227 replace_fx replace_fx_7 SKIP 420 void
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 228 replace_fx replace_fx_8 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 229 replace_fx replace_fx_9 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 230 sfdp=0 sfdp=0_1 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 231 sfdp=0 sfdp=0_10 Success 420 succeed
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 232 sfdp=0 sfdp=0_2 Success 420 succeed
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 233 sfdp=0 sfdp=0_3 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 234 sfdp=0 sfdp=0_4 Success 420 succeed
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 235 sfdp=0 sfdp=0_5 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 236 sfdp=0 sfdp=0_6 Success 420 succeed
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 237 sfdp=0 sfdp=0_7 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 238 sfdp=0 sfdp=0_8 Success 420 succeed
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 239 sfdp=0 sfdp=0_9 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 240 sfdp=1 sfdp=1_1 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 241 sfdp=1 sfdp=1_10 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 242 sfdp=1 sfdp=1_2 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+name 'dim' is not defined
+import os
+import torch
+import torch.nn.functional as F
+import torch.nn as nn
+import numpy as np
+from torch.autograd import Variable
+import math
+import torch as th
+import torch.linalg as la
+from torch.nn import Parameter
+import torch.linalg as linalg
+
+
+
+class Model(torch.nn.Module):
+
+    def __init__(self):
+        super().__init__()
+        self.qk = torch.nn.Linear(dim, dim)
+
+    def forward(self, query, key, value, inv_scale_factor, dropout_p):
+        qk = self.qk(query)
+        scaled_qk = qk.div(inv_scale_factor)
+        softmax_qk = scaled_qk.softmax(dim=(- 1))
+        dropout_qk = torch.nn.functional.dropout(softmax_qk, p=dropout_p)
+        output = dropout_qk.matmul(value)
+        return output
+
+
+
+func = Model().to('cuda')
+
+
+
+query = torch.randn(1, 1, 5)
+
+
+
+key = torch.randn(1, 6, 5)
+
+
+
+value = torch.randn(1, 6, 6)
+
+
+
+inv_scale_factor = torch.randn(1)
+
+
+
+dropout_p = torch.tensor(0.75)
+
+
+test_inputs = [query, key, value, inv_scale_factor, dropout_p]
+
+
+LmfuzzTestcase 243 sfdp=1 sfdp=1_3 SKIP 420 void
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 244 sfdp=1 sfdp=1_4 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 245 sfdp=1 sfdp=1_5 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 246 sfdp=1 sfdp=1_6 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 247 sfdp=1 sfdp=1_7 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 248 sfdp=1 sfdp=1_8 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 249 sfdp=1 sfdp=1_9 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 250 sfdp=2 sfdp=2_1 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 251 sfdp=2 sfdp=2_10 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 252 sfdp=2 sfdp=2_2 JIT_FAIL 420 Catch
+----------------------------------
+
+
+LmfuzzTestcase 253 sfdp=2 sfdp=2_3 unexpected indent 420 ('<unknown>', 1, 1, ' (same as the previous one)\n')
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 254 sfdp=2 sfdp=2_4 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+0.0 cannot be raised to a negative power
+import os
+import torch
+import torch.nn.functional as F
+import torch.nn as nn
+import numpy as np
+from torch.autograd import Variable
+import math
+import torch as th
+import torch.linalg as la
+from torch.nn import Parameter
+import torch.linalg as linalg
+
+
+
+class Model(nn.Module):
+
+    def __init__(self, emb_size, heads=8, dropout=0.0, bias=True):
+        super().__init__()
+        self.emb_size = emb_size
+        self.heads = heads
+        self.head_dim = (emb_size // heads)
+        self.scale_factor = (self.head_dim ** (- 0.5))
+        self.dropout_p = dropout
+        self.qkv = nn.Linear(emb_size, (3 * emb_size), bias=bias)
+        dpr = [x.item() for x in torch.linspace(0, dropout, emb_size)]
+        self.dropout = nn.Dropout2d(drop=(((dpr[0] + dpr[(- 1)]) / 2) if (len(dpr) > 1) else dpr[0]))
+        self.proj = nn.Linear((3 * emb_size), emb_size)
+
+    def forward(self, query, key, value, mask=None):
+        qkv = self.qkv(query)
+        qkv_shape = qkv.shape
+        batch_size = qkv_shape[0]
+        seq_length = qkv_shape[1]
+        qkv_length = qkv_shape[2]
+        qkv = qkv.view(batch_size, seq_length, self.heads, (3 * self.head_dim)).permute(0, 2, 1, 3)
+        query = qkv[:, :, :, :self.head_dim]
+        key = qkv[:, :, :, self.head_dim:(2 * self.head_dim)]
+        value = qkv[:, :, :, (2 * self.head_dim):]
+        qk = torch.matmul(query, key.transpose((- 2), (- 1)))
+        scaled_qk = qk.div(self.scale_factor)
+        softmax_qk = scaled_qk.softmax(dim=(- 1))
+        dropout_qk = torch.nn.functional.dropout(softmax_qk, p=self.dropout_p)
+        output = dropout_qk.matmul(value)
+        output = output.permute(0, 2, 1, 3)
+        output = output.reshape(batch_size, seq_length, (- 1))
+        output = self.dropout(output)
+        output = self.proj(output)
+        return output
+
+
+
+emb_size = 1
+
+func = Model(emb_size).to('cuda')
+
+
+
+x1 = torch.randn(1, 20, 256)
+
+
+
+x2 = torch.randn(1, 15, 256)
+
+
+
+x3 = torch.randn(1, 15, 256)
+
+query = 1
+
+test_inputs = [x1, x2, x3, query]
+
+
+LmfuzzTestcase 255 sfdp=2 sfdp=2_5 SKIP 420 void
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 256 sfdp=2 sfdp=2_6 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 257 sfdp=2 sfdp=2_7 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 258 sfdp=2 sfdp=2_8 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 259 sfdp=2 sfdp=2_9 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 260 sfdp=3 sfdp=3_1 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 261 sfdp=3 sfdp=3_10 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 262 sfdp=3 sfdp=3_2 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 263 sfdp=3 sfdp=3_3 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 264 sfdp=3 sfdp=3_4 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 265 sfdp=3 sfdp=3_5 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 266 sfdp=3 sfdp=3_6 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 267 sfdp=3 sfdp=3_7 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 268 sfdp=3 sfdp=3_8 RANDOM 420 void
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 269 sfdp=3 sfdp=3_9 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 270 sfdp=4 sfdp=4_1 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 271 sfdp=4 sfdp=4_10 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 272 sfdp=4 sfdp=4_2 JIT_STATUS 420 Catch
+----------------------------------
+
+
+LmfuzzTestcase 273 sfdp=4 sfdp=4_3 invalid syntax 420 ('<unknown>', 12, 49, 'Q @ K.transpose(-2, -1) / math.sqrt(Q.size(-1)) -> QK1\n')
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 274 sfdp=4 sfdp=4_4 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 275 sfdp=4 sfdp=4_5 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 276 sfdp=4 sfdp=4_6 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 277 sfdp=4 sfdp=4_7 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 278 sfdp=4 sfdp=4_8 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 279 sfdp=4 sfdp=4_9 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 283 sfdp=5 sfdp=5_3 invalid syntax 420 ('<unknown>', 9, 26, '        qk = query @ key.<KEY>())\n')
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 284 sfdp=5 sfdp=5_4 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 285 sfdp=5 sfdp=5_5 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 286 sfdp=5 sfdp=5_6 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 287 sfdp=5 sfdp=5_7 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 288 sfdp=5 sfdp=5_8 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 289 sfdp=5 sfdp=5_9 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 290 sink_cat_after_pointwise sink_cat_after_pointwise_1 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 291 sink_cat_after_pointwise sink_cat_after_pointwise_10 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 292 sink_cat_after_pointwise sink_cat_after_pointwise_2 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 293 sink_cat_after_pointwise sink_cat_after_pointwise_3 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+torch.Size([16])
+torch.Size([16])
+torch.Size([16])
+torch.Size([16])
+torch.Size([16])
+torch.Size([16])
+torch.Size([16])
+torch.Size([16])
+torch.Size([16])
+torch.Size([16])
+
+LmfuzzTestcase 294 sink_cat_after_pointwise sink_cat_after_pointwise_4 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 295 sink_cat_after_pointwise sink_cat_after_pointwise_5 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 296 sink_cat_after_pointwise sink_cat_after_pointwise_6 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 297 sink_cat_after_pointwise sink_cat_after_pointwise_7 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 298 sink_cat_after_pointwise sink_cat_after_pointwise_8 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 299 sink_cat_after_pointwise sink_cat_after_pointwise_9 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 300 splitwithsizes_cat_replace splitwithsizes_cat_replace_1 Success 420 succeed
+----------------------------------
+
+Successfully create atemp.py
+name 'v1' is not defined
+import os
+import torch
+import torch.nn.functional as F
+import torch.nn as nn
+import numpy as np
+from torch.autograd import Variable
+import math
+import torch as th
+import torch.linalg as la
+from torch.nn import Parameter
+import torch.linalg as linalg
+
+
+
+class Layer1(torch.nn.Module):
+
+    def __init__(self, inp, hidden):
+        super().__init__()
+        self.fc1 = torch.nn.Linear(inp, hidden)
+        self.bn1 = torch.nn.BatchNorm1d(hidden, affine=False, track_running_stats=False)
+
+    def forward(self, v1):
+        return self.bn1(self.fc1(v1))
+
+
+
+
+class Model(torch.nn.Module):
+
+    def __init__(self):
+        super().__init__()
+        self.layers = torch.nn.ModuleList([Layer1(3, 16), Layer1(32, 64), Layer1(128, 96)])
+        self.features = torch.cat([self.layers[0](v1), self.layers[1](v1), self.layers[2](v1)], dim=1)
+
+    def forward(self, v1):
+        split_tensors = torch.split(v1, [1, 1, 1], dim=1)
+        concatenated_tensor = torch.cat(split_tensors, dim=1)
+        return (concatenated_tensor, torch.split(v1, [1, 1, 1], dim=1))
+
+
+
+
+func = Model().to('cuda')
+
+
+
+x1 = torch.randn(1, 3, 64, 64)
+
+
+test_inputs = [x1]
+
+
+LmfuzzTestcase 301 splitwithsizes_cat_replace splitwithsizes_cat_replace_10 SKIP 420 void
+----------------------------------
+
+Successfully create atemp.py
+name 'inp' is not defined
+import os
+import torch
+import torch.nn.functional as F
+import torch.nn as nn
+import numpy as np
+from torch.autograd import Variable
+import math
+import torch as th
+import torch.linalg as la
+from torch.nn import Parameter
+import torch.linalg as linalg
+
+
+
+class Layer1(torch.nn.Module):
+
+    def __init__(self, inp, hidden, out):
+        super().__init__()
+        self.conv1 = torch.nn.Conv2d(inp, 32, 3, 1, 1, bias=False)
+        self.bn1 = torch.nn.BatchNorm2d(hidden, affine=False, track_running_stats=False)
+
+    def forward(self, v1):
+        return torch.nn.ReLU()(self.bn1(self.conv1(v1)))
+
+
+
+
+class Layer2(torch.nn.Module):
+
+    def __init__(self, inp, hidden, out):
+        super().__init__()
+
+    def forward(self, v1):
+        split_tensors = torch.split(v1, [1, 1, 1], dim=1)
+        concatenated_tensor = torch.cat(split_tensors, dim=1)
+        return (concatenated_tensor, torch.split(v1, [1, 1, 1], dim=1))
+
+
+
+
+class Model(torch.nn.Module):
+
+    def __init__(self):
+        super().__init__()
+        self.features = Layer1(3, 16, 32)
+        self.extra = Layer2(inp, hidden, out)
+
+    def forward(self, v1):
+        split_tensors = torch.split(v1, [1, 1, 1], dim=1)
+        concatenated_tensor = torch.cat(split_tensors, dim=1)
+        return (concatenated_tensor, torch.split(v1, [1, 1, 1], dim=1))
+
+
+
+
+func = Model().to('cuda')
+
+
+
+x1 = torch.randn(1, 3, 64, 64)
+
+
+test_inputs = [x1]
+
+
+LmfuzzTestcase 302 splitwithsizes_cat_replace splitwithsizes_cat_replace_2 SKIP 420 void
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 303 splitwithsizes_cat_replace splitwithsizes_cat_replace_3 Success 420 succeed
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 304 splitwithsizes_cat_replace splitwithsizes_cat_replace_4 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 305 splitwithsizes_cat_replace splitwithsizes_cat_replace_5 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 306 splitwithsizes_cat_replace splitwithsizes_cat_replace_6 Success 420 succeed
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 307 splitwithsizes_cat_replace splitwithsizes_cat_replace_7 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 308 splitwithsizes_cat_replace splitwithsizes_cat_replace_8 Success 420 succeed
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 309 splitwithsizes_cat_replace splitwithsizes_cat_replace_9 Success 420 succeed
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 310 unary=0 unary=0_1 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 311 unary=0 unary=0_10 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 312 unary=0 unary=0_2 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 313 unary=0 unary=0_3 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 314 unary=0 unary=0_4 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 315 unary=0 unary=0_5 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 316 unary=0 unary=0_6 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 317 unary=0 unary=0_7 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 318 unary=0 unary=0_8 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 319 unary=0 unary=0_9 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 320 unary=1 unary=1_1 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 321 unary=1 unary=1_10 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 322 unary=1 unary=1_2 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 323 unary=1 unary=1_3 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 324 unary=1 unary=1_4 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 325 unary=1 unary=1_5 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 326 unary=1 unary=1_6 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 327 unary=1 unary=1_7 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 328 unary=1 unary=1_8 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 329 unary=1 unary=1_9 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 330 unary=10 unary=10_1 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 331 unary=10 unary=10_10 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 332 unary=10 unary=10_2 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 333 unary=10 unary=10_3 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 334 unary=10 unary=10_4 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 335 unary=10 unary=10_5 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 336 unary=10 unary=10_6 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 337 unary=10 unary=10_7 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 338 unary=10 unary=10_8 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 339 unary=10 unary=10_9 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 340 unary=11 unary=11_1 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+in_channels must be divisible by groups
+import os
+import torch
+import torch.nn.functional as F
+import torch.nn as nn
+import numpy as np
+from torch.autograd import Variable
+import math
+import torch as th
+import torch.linalg as la
+from torch.nn import Parameter
+import torch.linalg as linalg
+
+
+
+class Model(torch.nn.Module):
+
+    def __init__(self):
+        super().__init__()
+        self.conv_transpose = torch.nn.ConvTranspose2d(1, 1, 1, stride=1, padding=0, groups=2)
+
+    def forward(self, x1):
+        v1 = self.conv_transpose(x1)
+        v2 = (v1 + 3)
+        v3 = torch.clamp_min(v2, 0)
+        v4 = torch.clamp_max(v3, 6)
+        v5 = (v4 / 6)
+        return v5
+
+
+
+
+func = Model().to('cuda')
+
+
+
+x1 = torch.randn(1, 1, 64, 64)
+
+
+test_inputs = [x1]
+
+
+LmfuzzTestcase 341 unary=11 unary=11_10 SKIP 420 void
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 342 unary=11 unary=11_2 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 343 unary=11 unary=11_3 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 344 unary=11 unary=11_4 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 345 unary=11 unary=11_5 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 346 unary=11 unary=11_6 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 347 unary=11 unary=11_7 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 348 unary=11 unary=11_8 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+in_channels must be divisible by groups
+import os
+import torch
+import torch.nn.functional as F
+import torch.nn as nn
+import numpy as np
+from torch.autograd import Variable
+import math
+import torch as th
+import torch.linalg as la
+from torch.nn import Parameter
+import torch.linalg as linalg
+
+
+
+class Model(torch.nn.Module):
+
+    def __init__(self):
+        super().__init__()
+        self.conv_transpose = torch.nn.ConvTranspose2d(3, 64, 3, stride=1, padding=0, groups=2)
+
+    def forward(self, x1):
+        v1 = self.conv_transpose(x1)
+        v2 = (v1 + 3)
+        v3 = torch.clamp_min(v2, 0)
+        v4 = torch.clamp_max(v3, 6)
+        v5 = (v4 / 6)
+        return v5
+
+
+
+
+func = Model().to('cuda')
+
+
+
+x1 = torch.randn(1, 3, 64, 64)
+
+
+test_inputs = [x1]
+
+
+LmfuzzTestcase 349 unary=11 unary=11_9 SKIP 420 void
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 350 unary=12 unary=12_1 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 351 unary=12 unary=12_10 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 352 unary=12 unary=12_2 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 353 unary=12 unary=12_3 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 354 unary=12 unary=12_4 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 355 unary=12 unary=12_5 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 356 unary=12 unary=12_6 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 357 unary=12 unary=12_7 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 358 unary=12 unary=12_8 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 359 unary=12 unary=12_9 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 360 unary=13 unary=13_1 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 361 unary=13 unary=13_10 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 362 unary=13 unary=13_2 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 363 unary=13 unary=13_3 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 364 unary=13 unary=13_4 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 365 unary=13 unary=13_5 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 366 unary=13 unary=13_6 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 367 unary=13 unary=13_7 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 368 unary=13 unary=13_8 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 369 unary=13 unary=13_9 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 370 unary=14 unary=14_1 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 371 unary=14 unary=14_10 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 372 unary=14 unary=14_2 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 373 unary=14 unary=14_3 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 374 unary=14 unary=14_4 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+out_channels must be divisible by groups
+import os
+import torch
+import torch.nn.functional as F
+import torch.nn as nn
+import numpy as np
+from torch.autograd import Variable
+import math
+import torch as th
+import torch.linalg as la
+from torch.nn import Parameter
+import torch.linalg as linalg
+
+
+
+class Model(torch.nn.Module):
+
+    def __init__(self):
+        super().__init__()
+        self.conv_transpose_11 = torch.nn.ConvTranspose2d(2332, 73, 5, stride=2, padding=2, dilation=1, groups=4)
+        self.relu_1 = torch.nn.ReLU()
+
+    def forward(self, x1):
+        v1 = self.conv_transpose_11(x1)
+        v2 = torch.sigmoid(v1)
+        v3 = (v1 * v2)
+        v7 = self.relu_1(v3)
+        return v7
+
+
+
+
+func = Model().to('cuda')
+
+
+
+x1 = torch.randn(1, 2332, 2, 2)
+
+
+test_inputs = [x1]
+
+
+LmfuzzTestcase 375 unary=14 unary=14_5 SKIP 420 void
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 376 unary=14 unary=14_6 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 377 unary=14 unary=14_7 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 378 unary=14 unary=14_8 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 379 unary=14 unary=14_9 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 380 unary=15 unary=15_1 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 381 unary=15 unary=15_10 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 382 unary=15 unary=15_2 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 383 unary=15 unary=15_3 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 384 unary=15 unary=15_4 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 385 unary=15 unary=15_5 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 386 unary=15 unary=15_6 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 387 unary=15 unary=15_7 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 388 unary=15 unary=15_8 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 389 unary=15 unary=15_9 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 390 unary=16 unary=16_1 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 391 unary=16 unary=16_10 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 392 unary=16 unary=16_2 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 393 unary=16 unary=16_3 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 394 unary=16 unary=16_4 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 395 unary=16 unary=16_5 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 396 unary=16 unary=16_6 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 397 unary=16 unary=16_7 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 398 unary=16 unary=16_8 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 399 unary=16 unary=16_9 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 400 unary=17 unary=17_1 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 401 unary=17 unary=17_10 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 402 unary=17 unary=17_2 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 403 unary=17 unary=17_3 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 404 unary=17 unary=17_4 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 405 unary=17 unary=17_5 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 406 unary=17 unary=17_6 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 407 unary=17 unary=17_7 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 408 unary=17 unary=17_8 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 409 unary=17 unary=17_9 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 410 unary=18 unary=18_1 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 411 unary=18 unary=18_10 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 412 unary=18 unary=18_2 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 413 unary=18 unary=18_3 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 414 unary=18 unary=18_4 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 415 unary=18 unary=18_5 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 416 unary=18 unary=18_6 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 417 unary=18 unary=18_7 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 418 unary=18 unary=18_8 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 419 unary=18 unary=18_9 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 420 unary=19 unary=19_1 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 421 unary=19 unary=19_10 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 422 unary=19 unary=19_2 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 423 unary=19 unary=19_3 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 424 unary=19 unary=19_4 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 425 unary=19 unary=19_5 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 426 unary=19 unary=19_6 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 427 unary=19 unary=19_7 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 428 unary=19 unary=19_8 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 429 unary=19 unary=19_9 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 430 unary=2 unary=2_1 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 431 unary=2 unary=2_10 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 432 unary=2 unary=2_2 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 433 unary=2 unary=2_3 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 434 unary=2 unary=2_4 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 435 unary=2 unary=2_5 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 436 unary=2 unary=2_6 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 437 unary=2 unary=2_7 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 438 unary=2 unary=2_8 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 439 unary=2 unary=2_9 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 440 unary=20 unary=20_1 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 441 unary=20 unary=20_10 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 442 unary=20 unary=20_2 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 443 unary=20 unary=20_3 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 444 unary=20 unary=20_4 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 445 unary=20 unary=20_5 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 446 unary=20 unary=20_6 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 447 unary=20 unary=20_7 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 448 unary=20 unary=20_8 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+name 'Conv2dT' is not defined
+import os
+import torch
+import torch.nn.functional as F
+import torch.nn as nn
+import numpy as np
+from torch.autograd import Variable
+import math
+import torch as th
+import torch.linalg as la
+from torch.nn import Parameter
+import torch.linalg as linalg
+
+
+
+class Model(nn.Module):
+
+    def __init__(self):
+        super(Model, self).__init__()
+        self.conv_t = Conv2dT(32, 3, 2, stride=2, padding=1)
+        self.sigmoid = nn.Sigmoid()
+
+    def forward(self, x):
+        x = self.conv_t(x)
+        x = self.sigmoid(x)
+        return x
+
+
+
+
+func = Model().to('cuda')
+
+
+
+x = torch.randn(1, 32, 32, 32)
+
+
+test_inputs = [x]
+
+
+LmfuzzTestcase 449 unary=20 unary=20_9 SKIP 420 void
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 450 unary=21 unary=21_1 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 451 unary=21 unary=21_10 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 452 unary=21 unary=21_2 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 453 unary=21 unary=21_3 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 454 unary=21 unary=21_4 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 455 unary=21 unary=21_5 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 456 unary=21 unary=21_6 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 457 unary=21 unary=21_7 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 458 unary=21 unary=21_8 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 459 unary=21 unary=21_9 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 460 unary=22 unary=22_1 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 461 unary=22 unary=22_10 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 462 unary=22 unary=22_2 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 463 unary=22 unary=22_3 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 464 unary=22 unary=22_4 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 465 unary=22 unary=22_5 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 466 unary=22 unary=22_6 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 467 unary=22 unary=22_7 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 468 unary=22 unary=22_8 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 469 unary=22 unary=22_9 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 470 unary=23 unary=23_1 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 471 unary=23 unary=23_10 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 472 unary=23 unary=23_2 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 473 unary=23 unary=23_3 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 474 unary=23 unary=23_4 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 475 unary=23 unary=23_5 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 476 unary=23 unary=23_6 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 477 unary=23 unary=23_7 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 478 unary=23 unary=23_8 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 479 unary=23 unary=23_9 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 480 unary=24 unary=24_1 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 481 unary=24 unary=24_10 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 482 unary=24 unary=24_2 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 483 unary=24 unary=24_3 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 484 unary=24 unary=24_4 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 485 unary=24 unary=24_5 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 486 unary=24 unary=24_6 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 487 unary=24 unary=24_7 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 488 unary=24 unary=24_8 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 489 unary=24 unary=24_9 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 490 unary=25 unary=25_1 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 491 unary=25 unary=25_10 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 492 unary=25 unary=25_2 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 493 unary=25 unary=25_3 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 494 unary=25 unary=25_4 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 495 unary=25 unary=25_5 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 496 unary=25 unary=25_6 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 497 unary=25 unary=25_7 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 498 unary=25 unary=25_8 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 499 unary=25 unary=25_9 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 500 unary=26 unary=26_1 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 501 unary=26 unary=26_10 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 502 unary=26 unary=26_2 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+in_channels must be divisible by groups
+import os
+import torch
+import torch.nn.functional as F
+import torch.nn as nn
+import numpy as np
+from torch.autograd import Variable
+import math
+import torch as th
+import torch.linalg as la
+from torch.nn import Parameter
+import torch.linalg as linalg
+
+
+
+class Model(torch.nn.Module):
+
+    def __init__(self):
+        super().__init__()
+        self.conv_t = torch.nn.ConvTranspose2d(21, 21, 31, stride=3, padding=19, groups=2, dilation=2, bias=False)
+
+    def forward(self, x1):
+        m1 = self.conv_t(x1)
+        m2 = (m1 > 0)
+        m3 = (m1 * (- 0.010884604))
+        m4 = torch.where(m2, m1, m3)
+        return torch.nn.functional.interpolate(m4, scale_factor=0.36386494, mode='bilinear', align_corners=False)
+
+
+
+
+func = Model().to('cuda')
+
+
+
+x1 = torch.randn(13, 21, 32, 64, device='cuda')
+
+
+test_inputs = [x1]
+
+
+LmfuzzTestcase 503 unary=26 unary=26_3 SKIP 420 void
+----------------------------------
+
+Successfully create atemp.py
+out_channels must be divisible by groups
+import os
+import torch
+import torch.nn.functional as F
+import torch.nn as nn
+import numpy as np
+from torch.autograd import Variable
+import math
+import torch as th
+import torch.linalg as la
+from torch.nn import Parameter
+import torch.linalg as linalg
+
+
+
+class Module(torch.nn.Module):
+
+    def __init__(self):
+        super().__init__()
+        self.conv_t = torch.nn.ConvTranspose2d(226, 224, 5, bias=False)
+        self.transpose = torch.nn.functional.interpolate(size=(2, 2), scale_factor=None, mode='bilinear', align_corners=False)
+
+    def forward(self, x4):
+        m1 = self.conv_t(x4)
+        m2 = (m1 > 0)
+        m3 = (m1 * 0.968709)
+        m4 = torch.where(m2, m1, m3)
+        out = self.transpose(m4)
+        return out
+
+
+
+
+class Module(torch.nn.Module):
+
+    def __init__(self):
+        super().__init__()
+        self.conv_t = torch.nn.ConvTranspose2d(39, 38, 7, stride=9, padding=0, output_padding=0, groups=39, bias=False)
+        self.transpose = torch.nn.functional.interpolate(size=203, scale_factor=46, mode='bilinear', align_corners=False)
+
+    def forward(self, x1):
+        m1 = self.conv_t(x1)
+        m2 = (m1 > 0)
+        m3 = (m1 * (- 0.24230232))
+        m4 = torch.where(m2, m1, m3)
+        out = self.transpose(m4)
+        return out
+
+
+
+
+func = Module().to('cuda')
+
+
+
+x4 = torch.randn(5, 226, 59, 55)
+
+
+
+x1 = torch.randn(31, 39, 1, 3)
+
+
+test_inputs = [x4, x1]
+
+
+LmfuzzTestcase 504 unary=26 unary=26_4 SKIP 420 void
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 505 unary=26 unary=26_5 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 506 unary=26 unary=26_6 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 507 unary=26 unary=26_7 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 508 unary=26 unary=26_8 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 509 unary=26 unary=26_9 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 510 unary=27 unary=27_1 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 511 unary=27 unary=27_10 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 512 unary=27 unary=27_2 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 513 unary=27 unary=27_3 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 514 unary=27 unary=27_4 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 515 unary=27 unary=27_5 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 516 unary=27 unary=27_6 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 517 unary=27 unary=27_7 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 518 unary=27 unary=27_8 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 519 unary=27 unary=27_9 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 520 unary=28 unary=28_1 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 521 unary=28 unary=28_10 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 522 unary=28 unary=28_2 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 523 unary=28 unary=28_3 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 524 unary=28 unary=28_4 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 525 unary=28 unary=28_5 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 526 unary=28 unary=28_6 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 527 unary=28 unary=28_7 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 528 unary=28 unary=28_8 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 529 unary=28 unary=28_9 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 530 unary=29 unary=29_1 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 531 unary=29 unary=29_10 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 532 unary=29 unary=29_2 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 533 unary=29 unary=29_3 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 534 unary=29 unary=29_4 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 535 unary=29 unary=29_5 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 536 unary=29 unary=29_6 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 537 unary=29 unary=29_7 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 538 unary=29 unary=29_8 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 539 unary=29 unary=29_9 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 540 unary=3 unary=3_1 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 541 unary=3 unary=3_10 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 542 unary=3 unary=3_2 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 543 unary=3 unary=3_3 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 544 unary=3 unary=3_4 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 545 unary=3 unary=3_5 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 546 unary=3 unary=3_6 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 547 unary=3 unary=3_7 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 548 unary=3 unary=3_8 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 549 unary=3 unary=3_9 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 550 unary=4 unary=4_1 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 551 unary=4 unary=4_10 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 552 unary=4 unary=4_2 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 553 unary=4 unary=4_3 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 554 unary=4 unary=4_4 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 555 unary=4 unary=4_5 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 556 unary=4 unary=4_6 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 557 unary=4 unary=4_7 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 558 unary=4 unary=4_8 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 559 unary=4 unary=4_9 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 560 unary=5 unary=5_1 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 561 unary=5 unary=5_10 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 562 unary=5 unary=5_2 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 563 unary=5 unary=5_3 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 564 unary=5 unary=5_4 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 565 unary=5 unary=5_5 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 566 unary=5 unary=5_6 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 567 unary=5 unary=5_7 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 568 unary=5 unary=5_8 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 569 unary=5 unary=5_9 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 570 unary=6 unary=6_1 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 571 unary=6 unary=6_10 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 572 unary=6 unary=6_2 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 573 unary=6 unary=6_3 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 574 unary=6 unary=6_4 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 575 unary=6 unary=6_5 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 576 unary=6 unary=6_6 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 577 unary=6 unary=6_7 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 578 unary=6 unary=6_8 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 579 unary=6 unary=6_9 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 580 unary=7 unary=7_1 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 581 unary=7 unary=7_10 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 582 unary=7 unary=7_2 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 583 unary=7 unary=7_3 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 584 unary=7 unary=7_4 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 585 unary=7 unary=7_5 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 586 unary=7 unary=7_6 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 587 unary=7 unary=7_7 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 588 unary=7 unary=7_8 JIT_FAIL 420 Catch
+----------------------------------
+
+
+LmfuzzTestcase 589 unary=7 unary=7_9 positional argument follows keyword argument 420 ('<unknown>', 9, 45, None)
+----------------------------------
+
+Successfully create atemp.py
+in_channels must be divisible by groups
+import os
+import torch
+import torch.nn.functional as F
+import torch.nn as nn
+import numpy as np
+from torch.autograd import Variable
+import math
+import torch as th
+import torch.linalg as la
+from torch.nn import Parameter
+import torch.linalg as linalg
+
+
+
+class Model(torch.nn.Module):
+
+    def __init__(self):
+        super().__init__()
+        self.conv_transpose = torch.nn.ConvTranspose2d(1, 10, 8, stride=2, padding=0, groups=8, dilation=1, output_padding=(0, 1), bias=True)
+
+    def forward(self, x1):
+        v1 = self.conv_transpose(x1)
+        v2 = (v1 + 3)
+        v3 = torch.clamp(v2, min=0)
+        v4 = torch.clamp(v3, max=6)
+        v5 = (v1 * v4)
+        v6 = (v5 / 6)
+        return v6
+
+
+
+
+func = Model().to('cuda')
+
+
+
+x1 = torch.randn(2, 1, 33, 34)
+
+
+test_inputs = [x1]
+
+
+LmfuzzTestcase 590 unary=8 unary=8_1 SKIP 420 void
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 591 unary=8 unary=8_10 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 592 unary=8 unary=8_2 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 593 unary=8 unary=8_3 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 594 unary=8 unary=8_4 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 595 unary=8 unary=8_5 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 596 unary=8 unary=8_6 JIT_FAIL 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 597 unary=8 unary=8_7 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 598 unary=8 unary=8_8 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 599 unary=8 unary=8_9 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 600 unary=9 unary=9_1 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 601 unary=9 unary=9_10 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 602 unary=9 unary=9_2 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 603 unary=9 unary=9_3 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 604 unary=9 unary=9_4 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 605 unary=9 unary=9_5 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 606 unary=9 unary=9_6 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 607 unary=9 unary=9_7 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 608 unary=9 unary=9_8 JIT_STATUS 420 Catch
+----------------------------------
+
+Successfully create atemp.py
+
+LmfuzzTestcase 609 unary=9 unary=9_9 JIT_STATUS 420 Catch
+----------------------------------
+
+
+Used time: 965.6961712837219

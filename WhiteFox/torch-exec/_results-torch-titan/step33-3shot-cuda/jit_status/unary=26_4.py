@@ -1,0 +1,54 @@
+import os
+import torch
+import torch.nn.functional as F
+import torch.nn as nn
+import numpy as np
+from torch.autograd import Variable
+import math
+import torch as th
+import torch.linalg as la
+from torch.nn import Parameter
+import torch.linalg as linalg
+
+
+
+class Model(torch.nn.Module):
+
+    def __init__(self):
+        super().__init__()
+        self.conv_t = torch.nn.ConvTranspose2d(160, 2, 1, stride=1, bias=False)
+
+    def forward(self, x):
+        x1 = self.conv_t(x)
+        x2 = (x1 > 0)
+        x3 = (x1 * (- 0.06))
+        x4 = torch.where(x2, x1, x3)
+        return torch.nn.functional.adaptive_avg_pool2d(x4, (1, 1))
+
+
+
+
+func = Model().to('cuda')
+
+
+
+x1 = torch.randn(6, 160, 21, 10)
+
+
+test_inputs = [x1]
+
+# JIT_STATUS
+'''
+direct:
+
+
+jit:
+backend='inductor' raised:
+CalledProcessError: Command '['/usr/local/bin/gcc', '/tmp/tmp9otgb27q/main.c', '-O3', '-I/home/yujunzhe/anaconda3/envs/titanfuzz/lib/python3.8/site-packages/triton/common/../third_party/cuda/include', '-I/home/yujunzhe/anaconda3/envs/titanfuzz/include/python3.8', '-I/tmp/tmp9otgb27q', '-shared', '-fPIC', '-lcuda', '-o', '/tmp/tmp9otgb27q/triton_.cpython-38-x86_64-linux-gnu.so', '-L/lib/x86_64-linux-gnu', '-L/lib/i386-linux-gnu', '-L/lib/i386-linux-gnu']' returned non-zero exit status 1.
+
+
+You can suppress this exception and fall back to eager by setting:
+    import torch._dynamo
+    torch._dynamo.config.suppress_errors = True
+
+'''

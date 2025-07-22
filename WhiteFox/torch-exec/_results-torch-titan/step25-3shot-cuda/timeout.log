@@ -1,0 +1,116 @@
+cat_slice_cat_3.py TIMEOUT
+import os
+import torch
+import torch.nn.functional as F
+import torch.nn as nn
+import numpy as np
+from torch.autograd import Variable
+import math
+import torch as th
+import torch.linalg as la
+from torch.nn import Parameter
+import torch.linalg as linalg
+
+
+
+class Model(torch.nn.Module):
+
+    def __init__(self):
+        super().__init__()
+
+    def forward(self, x1, x2, x3, x4, x5, x6, x7, x8):
+        c1 = torch.cat([x1, x2, x3, x4, x5, x6, x7, x8], dim=1)
+        v1 = c1[:, 0:9223372036854775807]
+        s1 = v1[:, 0:3]
+        c2 = torch.cat([c1, s1], dim=1)
+        return c2
+
+
+
+func = Model().to('cuda')
+
+
+
+x1 = torch.randn(1, 2, 3)
+
+
+
+x2 = torch.ones(1, 2, 3)
+
+
+
+x3 = torch.randn(1, 2, 3)
+
+
+
+x4 = torch.ones(1, 2, 3)
+
+
+
+x5 = torch.randn(1, 2, 3)
+
+
+
+x6 = torch.randn(1, 2, 3)
+
+
+
+x7 = torch.randn(1, 2, 3)
+
+
+
+x8 = torch.ones(1, 2, 3)
+
+
+test_inputs = [x1, x2, x3, x4, x5, x6, x7, x8]
+
+pointless_cumsum_replacement_8.py TIMEOUT
+import os
+import torch
+import torch.nn.functional as F
+import torch.nn as nn
+import numpy as np
+from torch.autograd import Variable
+import math
+import torch as th
+import torch.linalg as la
+from torch.nn import Parameter
+import torch.linalg as linalg
+
+
+
+class Model(torch.nn.Module):
+
+    def __init__(self):
+        super().__init__()
+
+    def forward(self, x1):
+        b = {}
+        a = {}
+        b['dtype'] = torch.int32
+        b['layout'] = torch.strided
+        b['device'] = torch.device('cuda:0')
+        a['dtype'] = torch.uint8
+        a['layout'] = torch.strided
+        a['device'] = torch.device('cuda:0')
+        a['dtype_to'] = torch.int32
+        a['dtype_from'] = torch.uint8
+        b['dtype_to'] = torch.int32
+        b['dtype_from'] = torch.uint8
+        t1 = torch.full([524288, 1024], 1, dtype=b['dtype'], layout=b['layout'], device=b['device'], pin_memory=False)
+        t2 = t1.to(dtype=a['dtype'])
+        t3 = torch.cumsum(t2, 1)
+        return t3
+
+
+
+
+func = Model().to('cuda')
+
+
+
+x1 = torch.randn(8192, 1024, device='cuda:0')
+
+
+test_inputs = [x1]
+

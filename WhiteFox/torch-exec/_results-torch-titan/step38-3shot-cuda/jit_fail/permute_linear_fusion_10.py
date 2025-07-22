@@ -1,0 +1,73 @@
+import os
+import torch
+import torch.nn.functional as F
+import torch.nn as nn
+import numpy as np
+from torch.autograd import Variable
+import math
+import torch as th
+import torch.linalg as la
+from torch.nn import Parameter
+import torch.linalg as linalg
+
+
+
+class Model(torch.nn.Module):
+
+    def __init__(self):
+        super().__init__()
+        self.linear1 = torch.nn.Linear(2, 4)
+
+    def forward(self, x):
+        x1 = x.permute(0, 2, 1)
+        x1 = torch.nn.functional.linear(x1, self.linear1.weight, self.linear1.bias)
+        x1 = torch.nn.functional.relu(x1)
+        x2 = torch.max(x1, dim=((- 2), (- 1)))[0]
+        x2 = x2.unsqueeze(dim=(- 1))
+        x2 = x2.unsqueeze(dim=(- 1))
+        x3 = (x1 - x2)
+        x3 = torch.mean(x3, dim=((- 2), (- 1)))
+        x3 = x3.reshape(((- 1), 2, 4))
+        x4 = torch.max(x3, dim=(- 1))[0]
+        return x4
+
+
+
+
+func = Model().to('cuda')
+
+
+
+x1 = torch.randn(1, 2, 2)
+
+
+test_inputs = [x1]
+
+# JIT_FAIL
+'''
+direct:
+max() received an invalid combination of arguments - got (Tensor, dim=tuple), but expected one of:
+ * (Tensor input, *, Tensor out)
+ * (Tensor input, Tensor other, *, Tensor out)
+ * (Tensor input, int dim, bool keepdim, *, tuple of Tensors out)
+ * (Tensor input, name dim, bool keepdim, *, tuple of Tensors out)
+
+
+jit:
+Failed running call_function <built-in method max of type object at 0x776e386699e0>(*(FakeTensor(..., device='cuda:0', size=(1, 2, 4)),), **{'dim': (-2, -1)}):
+max() received an invalid combination of arguments - got (FakeTensor, dim=tuple), but expected one of:
+ * (Tensor input, *, Tensor out)
+ * (Tensor input, Tensor other, *, Tensor out)
+ * (Tensor input, int dim, bool keepdim, *, tuple of Tensors out)
+ * (Tensor input, name dim, bool keepdim, *, tuple of Tensors out)
+
+
+from user code:
+   File "<string>", line 25, in forward
+
+
+You can suppress this exception and fall back to eager by setting:
+    import torch._dynamo
+    torch._dynamo.config.suppress_errors = True
+
+'''

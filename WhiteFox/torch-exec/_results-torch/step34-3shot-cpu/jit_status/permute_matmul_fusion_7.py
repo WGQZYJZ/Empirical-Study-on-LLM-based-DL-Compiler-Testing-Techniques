@@ -1,0 +1,54 @@
+import os
+import torch
+import torch.nn.functional as F
+import torch.nn as nn
+import numpy as np
+from torch.autograd import Variable
+import math
+import torch as th
+import torch.linalg as la
+from torch.nn import Parameter
+import torch.linalg as linalg
+
+class Model(torch.nn.Module):
+
+    def __init__(self):
+        super().__init__()
+
+    def forward(self, x1, x2):
+        v0 = torch.matmul(x1.permute(0, 2, 1), x2.permute(0, 2, 1))
+        v1 = torch.bmm(x2.permute(0, 2, 1), x1.permute(0, 2, 1))
+        v2 = torch.bmm(v1, v0)
+        v3 = torch.bmm(v2, v1)
+        v4 = torch.bmm(v3, v2)
+        v5 = torch.bmm(v4, v3)
+        v6 = torch.bmm(v5, v4)
+        v7 = torch.bmm(v6, v5)
+        return (v0, v1, v2, v3, v4, v5, v6, v7)
+
+
+
+func = Model().to('cpu')
+
+
+x1 = torch.randn(1, 2, 2)
+
+x2 = torch.randn(1, 2, 2)
+
+test_inputs = [x1, x2]
+
+# JIT_STATUS
+'''
+direct:
+
+
+jit:
+backend='inductor' raised:
+CalledProcessError: Command '['/usr/local/bin/gcc', '/tmp/tmpuw0of51d/main.c', '-O3', '-shared', '-fPIC', '-Wno-psabi', '-o', '/tmp/tmpuw0of51d/cuda_utils.cpython-39-x86_64-linux-gnu.so', '-lcuda', '-L/home/yujunzhe/anaconda3/envs/whitefox/lib/python3.9/site-packages/triton/backends/nvidia/lib', '-L/lib/x86_64-linux-gnu', '-L/lib/i386-linux-gnu', '-I/home/yujunzhe/anaconda3/envs/whitefox/lib/python3.9/site-packages/triton/backends/nvidia/include', '-I/tmp/tmpuw0of51d', '-I/home/yujunzhe/anaconda3/envs/whitefox/include/python3.9']' returned non-zero exit status 1.
+
+
+You can suppress this exception and fall back to eager by setting:
+    import torch._dynamo
+    torch._dynamo.config.suppress_errors = True
+
+'''

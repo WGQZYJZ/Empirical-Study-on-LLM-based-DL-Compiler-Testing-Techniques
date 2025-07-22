@@ -1,0 +1,308 @@
+sfdp=0_2.py TIMEOUT
+import os
+import torch
+import torch.nn.functional as F
+import torch.nn as nn
+import numpy as np
+from torch.autograd import Variable
+import math
+import torch as th
+import torch.linalg as la
+from torch.nn import Parameter
+import torch.linalg as linalg
+
+class Model(torch.nn.Module):
+
+    def __init__(self):
+        super().__init__()
+        self.key = torch.nn.Parameter(torch.randn(9, 1, 46))
+
+    def forward(self, x1):
+        q = x1
+        k = x1
+        v = x1
+        inv_scale = math.sqrt(k.size(1))
+        scaled_dot_product = torch.matmul(q, k.transpose(-2, -1)) / inv_scale
+        attention_weights = scaled_dot_product.softmax(dim=-1)
+        output = attention_weights.matmul(v)
+        return output
+
+
+
+func = Model().to('cpu')
+
+
+x1 = torch.randn(7, 12, 9, 46)
+
+test_inputs = [x1]
+
+sfdp=4_9.py TIMEOUT
+import os
+import torch
+import torch.nn.functional as F
+import torch.nn as nn
+import numpy as np
+from torch.autograd import Variable
+import math
+import torch as th
+import torch.linalg as la
+from torch.nn import Parameter
+import torch.linalg as linalg
+
+class MultiheadAttention(torch.nn.Module):
+
+    def __init__(self, embed_dim, num_heads, dropout=0.0, bias=True):
+        super().__init__()
+        self.embed_dim = embed_dim
+        self.num_heads = num_heads
+        self.dropout = dropout
+        self.head_dim = embed_dim // num_heads
+        self.scaling = self.head_dim ** (-0.5)
+        self._qkv_proj = torch.nn.Linear(embed_dim, 3 * embed_dim, bias=bias)
+        self._out_proj = torch.nn.Linear(embed_dim, embed_dim, bias=bias)
+
+    def forward(self, query, key, value, attn_mask=None, key_padding_mask=None, need_weights=False):
+        (tgt_len, bsz, embed_dim) = query.size()
+        (src_len, _, _) = key.size()
+        qkv = self._qkv_proj(query)
+        qkv = qkv.reshape(tgt_len, bsz * self.num_heads, 3 * self.head_dim).transpose(0, 1)
+        (query, key, value) = qkv.split([self.head_dim, self.head_dim, self.head_dim], dim=-1)
+        attn_weight = query @ key.transpose(-2, -1) * self.scaling
+        attn_weight_float = torch.where(attn_weight == 0, torch.tensor(float('-Inf')).to(torch.double), attn_weight)
+        attn_mask = torch.where(attn_mask == 0, 0, attn_mask * -10000.0)
+        attn_weight = attn_weight_float + attn_mask
+        attn_weight = torch.where(key_padding_mask.transpose(-2, -1) == 0, attn_weight, torch.tensor(float('-Inf')).to(torch.double))
+        attn_weight = torch.softmax(attn_weight, dim=-1)
+        attn_weight = self.dropout(attn_weight)
+        attn_output = attn_weight @ value
+        attn_output = attn_output.transpose(0, 1).reshape(bsz, tgt_len, self.embed_dim)
+        attn_output = self._out_proj(attn_output)
+        return attn_output
+
+
+embed_dim = 1
+num_heads = 1
+
+func = MultiheadAttention(embed_dim, num_heads).to('cpu')
+
+
+src = torch.randn(20, 32, 16)
+query = 1
+key = 1
+value = 1
+
+test_inputs = [src, query, key, value]
+
+sfdp=5_2.py TIMEOUT
+import os
+import torch
+import torch.nn.functional as F
+import torch.nn as nn
+import numpy as np
+from torch.autograd import Variable
+import math
+import torch as th
+import torch.linalg as la
+from torch.nn import Parameter
+import torch.linalg as linalg
+
+class Model(torch.nn.Module):
+
+    def __init__(self):
+        super().__init__()
+        self.dropout = 0.1
+        self.heads = 8192
+        self.seq_len = 384
+        self.dim = 128 // self.heads
+
+    def forward(self, query, key, value, attn_mask):
+        qk = query @ key.transpose(-2, -1) / math.sqrt(query.size(-1))
+        qk = qk + attn_mask
+        attn_weight = torch.softmax(qk, dim=-1)
+        attn_weight = torch.dropout(attn_weight, self.dropout, True)
+        output = attn_weight @ value
+        return output
+
+
+
+func = Model().to('cpu')
+
+
+query = torch.randn(1, 8192, 384, 128)
+
+key = torch.randn(1, 8192, 384, 128)
+
+value = torch.randn(1, 8192, 384, 128)
+
+attn_mask = torch.randn(1, 384, 384)
+
+test_inputs = [query, key, value, attn_mask]
+
+sfdp=5_4.py TIMEOUT
+import os
+import torch
+import torch.nn.functional as F
+import torch.nn as nn
+import numpy as np
+from torch.autograd import Variable
+import math
+import torch as th
+import torch.linalg as la
+from torch.nn import Parameter
+import torch.linalg as linalg
+
+class Model(torch.nn.Module):
+
+    def __init__(self):
+        super().__init__()
+        self.heads = 8192
+        self.seq_len = 102
+        self.dim = 64 // self.heads
+        self.dropout = 0.1
+
+    def forward(self, query, key, value, attn_mask):
+        qk = query @ key.transpose(-2, -1) / math.sqrt(query.size(-1))
+        qk = qk + attn_mask
+        attn_weight = torch.softmax(qk, dim=-1)
+        attn_weight = torch.dropout(attn_weight, self.dropout, True)
+        output = attn_weight @ value
+        return output
+
+
+
+func = Model().to('cpu')
+
+
+query = torch.randn(1, 16384, 102, 128)
+
+key = torch.randn(1, 16384, 102, 128)
+
+value = torch.randn(1, 16384, 102, 128)
+
+attn_mask = torch.randn(1, 1, 102, 102)
+
+test_inputs = [query, key, value, attn_mask]
+
+sfdp=5_5.py TIMEOUT
+import os
+import torch
+import torch.nn.functional as F
+import torch.nn as nn
+import numpy as np
+from torch.autograd import Variable
+import math
+import torch as th
+import torch.linalg as la
+from torch.nn import Parameter
+import torch.linalg as linalg
+
+class Model(torch.nn.Module):
+
+    def __init__(self):
+        super().__init__()
+        self.heads = 512
+        self.seq_len = 1024
+
+    def forward(self, query, key, value, attn_mask):
+        qk = query @ key.transpose(-2, -1) / math.sqrt(query.size(-1))
+        qk = qk + attn_mask
+        attn_weight = torch.softmax(qk, dim=-1)
+        attn_weight = torch.dropout(attn_weight, 0.1, True)
+        output = attn_weight @ value
+        return output
+
+
+
+func = Model().to('cpu')
+
+
+query = torch.randn(1, 512, 1024, 128)
+
+key = torch.randn(1, 512, 1024, 128)
+
+value = torch.randn(1, 512, 1024, 128)
+
+attn_mask = torch.randn(1, 1, 1024, 1024)
+
+test_inputs = [query, key, value, attn_mask]
+
+sfdp=5_7.py TIMEOUT
+import os
+import torch
+import torch.nn.functional as F
+import torch.nn as nn
+import numpy as np
+from torch.autograd import Variable
+import math
+import torch as th
+import torch.linalg as la
+from torch.nn import Parameter
+import torch.linalg as linalg
+
+class Model(torch.nn.Module):
+
+    def __init__(self):
+        super().__init__()
+        self.heads = 128
+        self.seq_len = 1024
+        self.dim = 128 // self.heads
+
+    def forward(self, query, key, value, attn_mask):
+        qk = query @ key.transpose(-2, -1) / math.sqrt(query.size(-1))
+        qk = qk + attn_mask
+        attn_weight = torch.softmax(qk, dim=-1)
+        attn_weight = torch.dropout(attn_weight, 0.1, True)
+        output = attn_weight @ value
+        return output.squeeze()
+
+
+
+func = Model().to('cpu')
+
+
+query = torch.randn(1, 128, 1024, 128)
+
+key = torch.randn(1, 128, 1024, 128)
+
+value = torch.randn(1, 128, 1024, 128)
+
+attn_mask = torch.randn(1, 1, 1024, 1024)
+
+test_inputs = [query, key, value, attn_mask]
+
+unary=11_7.py TIMEOUT
+import os
+import torch
+import torch.nn.functional as F
+import torch.nn as nn
+import numpy as np
+from torch.autograd import Variable
+import math
+import torch as th
+import torch.linalg as la
+from torch.nn import Parameter
+import torch.linalg as linalg
+
+class Model(torch.nn.Module):
+
+    def __init__(self):
+        super().__init__()
+        self.conv_transpose = torch.nn.ConvTranspose3d(256, 64, 3, stride=2, padding=1, output_padding=(1, 1, 1))
+
+    def forward(self, x1):
+        v1 = self.conv_transpose(x1)
+        v2 = v1 + 3
+        v3 = torch.clamp_min(v2, 0)
+        v4 = torch.clamp_max(v3, 6)
+        v5 = v4 / 6
+        return v5
+
+
+
+func = Model().to('cpu')
+
+
+x1 = torch.randn(1, 256, 64, 64, 64)
+
+test_inputs = [x1]
+

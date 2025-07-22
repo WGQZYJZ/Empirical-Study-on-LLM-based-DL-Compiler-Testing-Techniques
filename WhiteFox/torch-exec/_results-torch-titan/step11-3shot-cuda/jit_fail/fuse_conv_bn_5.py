@@ -1,0 +1,58 @@
+import os
+import torch
+import torch.nn.functional as F
+import torch.nn as nn
+import numpy as np
+from torch.autograd import Variable
+import math
+import torch as th
+import torch.linalg as la
+from torch.nn import Parameter
+import torch.linalg as linalg
+
+
+
+class M(torch.nn.Module):
+
+    def __init__(self):
+        super().__init__()
+
+    def forward(self, x1):
+        c = torch.nn.Conv2d(4, 4, (1, 2), 1, (0, 1), (2, 3), bias=False)
+        torch.manual_seed(1)
+        v2 = c(x1)
+        torch.manual_seed(1)
+        v1 = torch.nn.functional.batch_norm(v2, None)
+        torch.manual_seed(1)
+        return torch.nn.functional.batch_norm(v1, None)
+
+
+
+
+func = M().to('cuda')
+
+
+
+x1 = torch.randn(1, 4, 8, 8)
+
+
+test_inputs = [x1]
+
+# JIT_FAIL
+'''
+direct:
+Input type (torch.cuda.FloatTensor) and weight type (torch.FloatTensor) should be the same
+
+jit:
+Failed running call_function <function batch_norm at 0x7dcaa1a21b80>(*(FakeTensor(..., device='cuda:0', size=(1, 4, 8, 7)), None), **{}):
+batch_norm() missing 1 required positional argument: 'running_var'
+
+from user code:
+   File "<string>", line 25, in <resume in forward>
+
+
+You can suppress this exception and fall back to eager by setting:
+    import torch._dynamo
+    torch._dynamo.config.suppress_errors = True
+
+'''

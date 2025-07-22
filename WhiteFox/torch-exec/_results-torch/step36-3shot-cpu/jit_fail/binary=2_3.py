@@ -1,0 +1,50 @@
+import os
+import torch
+import torch.nn.functional as F
+import torch.nn as nn
+import numpy as np
+from torch.autograd import Variable
+import math
+import torch as th
+import torch.linalg as la
+from torch.nn import Parameter
+import torch.linalg as linalg
+
+class Model(torch.nn.Module):
+
+    def __init__(self):
+        super().__init__()
+        self.conv = torch.nn.Conv2d(3, 32, kernel_size=2, stride=(1, 1), padding=(0, 0))
+
+    def forward(self, x3):
+        v1 = self.conv(x3)
+        v2 = v1 - [0.0, 0.243, 0, 0, 0.913, 1711.992, -1, 0, 0, 0, 0, 0, 0, 0, 0]
+        return v2
+
+
+
+func = Model().to('cpu')
+
+
+x3 = torch.randn(1, 3, 4, 4)
+
+test_inputs = [x3]
+
+# JIT_FAIL
+'''
+direct:
+unsupported operand type(s) for -: 'Tensor' and 'list'
+
+jit:
+Failed running call_function <built-in function sub>(*(FakeTensor(..., size=(1, 32, 3, 3)), [0.0, 0.243, 0, 0, 0.913, 1711.992, -1, 0, 0, 0, 0, 0, 0, 0, 0]), **{}):
+unsupported operand type(s) for -: 'FakeTensor' and 'immutable_list'
+
+from user code:
+   File "<string>", line 21, in forward
+
+
+You can suppress this exception and fall back to eager by setting:
+    import torch._dynamo
+    torch._dynamo.config.suppress_errors = True
+
+'''

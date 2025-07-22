@@ -1,0 +1,53 @@
+import os
+import torch
+import torch.nn.functional as F
+import torch.nn as nn
+import numpy as np
+from torch.autograd import Variable
+import math
+import torch as th
+import torch.linalg as la
+from torch.nn import Parameter
+import torch.linalg as linalg
+
+class Model(torch.nn.Module):
+
+    def __init__(self):
+        super().__init__()
+        self.conv_transpose1 = torch.nn.ConvTranspose2d(2, 16, 5, stride=2, padding=2, dilation=3, output_padding=1)
+        self.conv_transpose2 = torch.nn.ConvTranspose2d(16, 16, 2, stride=1, padding=1, dilation=1, output_padding=0)
+
+    def forward(self, x1):
+        v1 = self.conv_transpose1(x1)
+        v1 = self.conv_transpose2(v1)
+        v2 = v1 + 3
+        v3 = torch.clamp(v2, min=0)
+        v4 = torch.clamp(v3, max=6)
+        v5 = v1 * v4
+        v6 = v5 / 6
+        return v6
+
+
+
+func = Model().to('cpu')
+
+
+x1 = torch.randn(1, 2, 32, 32)
+
+test_inputs = [x1]
+
+# JIT_STATUS
+'''
+direct:
+
+
+jit:
+backend='inductor' raised:
+CalledProcessError: Command '['/usr/local/bin/gcc', '/tmp/tmpok89sz2d/main.c', '-O3', '-shared', '-fPIC', '-Wno-psabi', '-o', '/tmp/tmpok89sz2d/cuda_utils.cpython-39-x86_64-linux-gnu.so', '-lcuda', '-L/home/yujunzhe/anaconda3/envs/whitefox/lib/python3.9/site-packages/triton/backends/nvidia/lib', '-L/lib/x86_64-linux-gnu', '-L/lib/i386-linux-gnu', '-I/home/yujunzhe/anaconda3/envs/whitefox/lib/python3.9/site-packages/triton/backends/nvidia/include', '-I/tmp/tmpok89sz2d', '-I/home/yujunzhe/anaconda3/envs/whitefox/include/python3.9']' returned non-zero exit status 1.
+
+
+You can suppress this exception and fall back to eager by setting:
+    import torch._dynamo
+    torch._dynamo.config.suppress_errors = True
+
+'''

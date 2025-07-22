@@ -1,0 +1,196 @@
+sfdp=0_1.py TIMEOUT
+import os
+import torch
+import torch.nn.functional as F
+import torch.nn as nn
+import numpy as np
+from torch.autograd import Variable
+import math
+import torch as th
+import torch.linalg as la
+from torch.nn import Parameter
+import torch.linalg as linalg
+
+
+
+class Model(torch.nn.Module):
+
+    def __init__(self):
+        super().__init__()
+        self.key = torch.nn.Parameter(torch.randn(319, 220, 177))
+
+    def forward(self, x1):
+        q = x1
+        k = x1
+        v = x1
+        inv_scale = math.sqrt(k.size(1))
+        scaled_dot_product = (torch.matmul(q, k.transpose((- 2), (- 1))) / inv_scale)
+        attention_weights = scaled_dot_product.softmax(dim=(- 1))
+        output = attention_weights.matmul(v)
+        return output
+
+
+
+
+func = Model().to('cuda')
+
+
+
+x1 = torch.randn(3, 33, 198, 335)
+
+
+test_inputs = [x1]
+
+sfdp=0_5.py TIMEOUT
+import os
+import torch
+import torch.nn.functional as F
+import torch.nn as nn
+import numpy as np
+from torch.autograd import Variable
+import math
+import torch as th
+import torch.linalg as la
+from torch.nn import Parameter
+import torch.linalg as linalg
+
+
+
+class Model(torch.nn.Module):
+
+    def __init__(self):
+        super().__init__()
+        self.key = torch.nn.Parameter(torch.randn(1, 17195, 46329, 2))
+
+    def forward(self, x1):
+        q = x1
+        k = x1
+        v = x1
+        inv_scale = math.sqrt(k.size(1))
+        scaled_dot_product = (torch.matmul(q, k.transpose((- 2), (- 1))) / inv_scale)
+        attention_weights = scaled_dot_product.softmax(dim=(- 1))
+        output = attention_weights.matmul(v)
+        return output
+
+
+
+
+func = Model().to('cuda')
+
+
+
+x1 = torch.randn(1, 500, 200, 32547)
+
+
+test_inputs = [x1]
+
+sfdp=5_3.py TIMEOUT
+import os
+import torch
+import torch.nn.functional as F
+import torch.nn as nn
+import numpy as np
+from torch.autograd import Variable
+import math
+import torch as th
+import torch.linalg as la
+from torch.nn import Parameter
+import torch.linalg as linalg
+
+
+
+class Model(torch.nn.Module):
+
+    def __init__(self):
+        super().__init__()
+        self.heads = 256
+        self.seq_len = 512
+        self.dim = (512 // self.heads)
+
+    def forward(self, query, key, value, attn_mask):
+        qk = ((query @ key.transpose((- 2), (- 1))) / math.sqrt(query.size((- 1))))
+        qk = (qk + attn_mask)
+        attn_weight = torch.softmax(qk, dim=(- 1))
+        attn_weight = torch.dropout(attn_weight, 0.8805063567137406, True)
+        output = (attn_weight @ value)
+        return output
+
+
+
+
+func = Model().to('cuda')
+
+
+
+query = torch.randn(1, 64, 256, 128)
+
+
+
+key = torch.randn(1, 64, 256, 128)
+
+
+
+value = torch.randn(1, 64, 256, 128)
+
+
+
+attn_mask = torch.randn(1, 1, 256, 256)
+
+
+test_inputs = [query, key, value, attn_mask]
+
+sfdp=5_8.py TIMEOUT
+import os
+import torch
+import torch.nn.functional as F
+import torch.nn as nn
+import numpy as np
+from torch.autograd import Variable
+import math
+import torch as th
+import torch.linalg as la
+from torch.nn import Parameter
+import torch.linalg as linalg
+
+
+
+class Model(torch.nn.Module):
+
+    def __init__(self):
+        super().__init__()
+        self.heads = 3
+        self.seq_len = 512
+        self.dim = (128 // self.heads)
+
+    def forward(self, query, key, value, attn_mask):
+        qk = ((query @ key.transpose((- 2), (- 1))) / math.sqrt(query.size((- 1))))
+        qk = (qk + attn_mask)
+        attn_weight = torch.softmax(qk, dim=(- 1))
+        attn_weight = torch.dropout(attn_weight, 0.622999021, True)
+        output = (attn_weight @ value)
+        return output
+
+
+
+
+func = Model().to('cuda')
+
+
+
+query = torch.randn(1, 27, 256, 128)
+
+
+
+key = torch.randn(1, 27, 256, 128)
+
+
+
+value = torch.randn(1, 27, 256, 128)
+
+
+
+attn_mask = torch.randn(1, 18, 256, 256)
+
+
+test_inputs = [query, key, value, attn_mask]
+

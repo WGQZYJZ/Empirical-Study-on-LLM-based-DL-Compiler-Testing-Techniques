@@ -1,0 +1,58 @@
+import os
+import torch
+import torch.nn.functional as F
+import torch.nn as nn
+import numpy as np
+from torch.autograd import Variable
+import math
+import torch as th
+import torch.linalg as la
+from torch.nn import Parameter
+import torch.linalg as linalg
+
+
+
+class Model(torch.nn.Module):
+
+    def __init__(self):
+        super().__init__()
+        self.conv0 = torch.nn.ConvTranspose1d(1, 1, 3, stride=1, padding=0)
+        self.conv1 = torch.nn.ConvTranspose2d(4, 64, 1, stride=1, padding=0)
+
+    def forward(self, x1):
+        v1 = self.conv0(x1)
+        v2 = torch.relu(v1)
+        v3 = (v2 + x1)
+        v4 = self.conv1(v3)
+        return v4
+
+
+
+
+func = Model().to('cuda')
+
+
+
+x1 = torch.randn(1, 4, 100)
+
+
+test_inputs = [x1]
+
+# JIT_FAIL
+'''
+direct:
+Given transposed=1, weight of size [1, 1, 3], expected input[1, 4, 100] to have 1 channels, but got 4 channels instead
+
+jit:
+Failed running call_function <built-in function add>(*(FakeTensor(..., device='cuda:0', size=(1, 1, 102)), FakeTensor(..., device='cuda:0', size=(1, 4, 100))), **{}):
+Attempting to broadcast a dimension of length 100 at -1! Mismatching argument at index 1 had torch.Size([1, 4, 100]); but expected shape should be broadcastable to [1, 1, 102]
+
+from user code:
+   File "<string>", line 25, in forward
+
+
+You can suppress this exception and fall back to eager by setting:
+    import torch._dynamo
+    torch._dynamo.config.suppress_errors = True
+
+'''

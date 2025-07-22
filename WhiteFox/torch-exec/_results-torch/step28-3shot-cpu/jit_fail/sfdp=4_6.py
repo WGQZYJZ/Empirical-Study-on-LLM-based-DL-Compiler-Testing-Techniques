@@ -1,0 +1,45 @@
+import os
+import torch
+import torch.nn.functional as F
+import torch.nn as nn
+import numpy as np
+from torch.autograd import Variable
+import math
+import torch as th
+import torch.linalg as la
+from torch.nn import Parameter
+import torch.linalg as linalg
+
+class Model(torch.nn.Module):
+
+    def __init__(self):
+        super().__init__()
+
+    def forward(self, y1, y2):
+        q = self.q
+        k = self.k
+        v = self.v
+        qk = q @ k.transpose(-2, -1) / math.sqrt(q.size(-1))
+        qk = qk + y1
+        attn_weight = torch.softmax(qk, dim=-1)
+        output = attn_weight @ v
+        return output
+
+
+func = Model().to('cpu')
+
+
+y1 = torch.randn(1, 7, 7)
+
+y2 = torch.zeros(1, 7, 7)
+
+test_inputs = [y1, y2]
+
+# JIT_FAIL
+'''
+direct:
+'Model' object has no attribute 'q'
+
+jit:
+'Model' object has no attribute 'q'
+'''

@@ -1,0 +1,51 @@
+import os
+import torch
+import torch.nn.functional as F
+import torch.nn as nn
+import numpy as np
+from torch.autograd import Variable
+import math
+import torch as th
+import torch.linalg as la
+from torch.nn import Parameter
+import torch.linalg as linalg
+
+class Model(torch.nn.Module):
+
+    def __init__(self):
+        super().__init__()
+        self.linear = torch.nn.Linear(5, 3)
+
+    def forward(self, v1):
+        t1 = self.linear(v1)
+        t2 = t1 * 0.5
+        t3 = t1 + t1 * t1 * t1 * 0.044715
+        t4 = t3 * 0.7978845608028654
+        t5 = torch.tanh(t4)
+        t6 = t5 + 1
+        t7 = t2 * t6
+        return t7
+
+
+func = Model().to('cpu')
+
+
+v1 = torch.randn(1, 5)
+
+test_inputs = [v1]
+
+# JIT_STATUS
+'''
+direct:
+
+
+jit:
+backend='inductor' raised:
+CalledProcessError: Command '['/usr/local/bin/gcc', '/tmp/tmptg4ylull/main.c', '-O3', '-shared', '-fPIC', '-Wno-psabi', '-o', '/tmp/tmptg4ylull/cuda_utils.cpython-39-x86_64-linux-gnu.so', '-lcuda', '-L/home/yujunzhe/anaconda3/envs/whitefox/lib/python3.9/site-packages/triton/backends/nvidia/lib', '-L/lib/x86_64-linux-gnu', '-L/lib/i386-linux-gnu', '-I/home/yujunzhe/anaconda3/envs/whitefox/lib/python3.9/site-packages/triton/backends/nvidia/include', '-I/tmp/tmptg4ylull', '-I/home/yujunzhe/anaconda3/envs/whitefox/include/python3.9']' returned non-zero exit status 1.
+
+
+You can suppress this exception and fall back to eager by setting:
+    import torch._dynamo
+    torch._dynamo.config.suppress_errors = True
+
+'''

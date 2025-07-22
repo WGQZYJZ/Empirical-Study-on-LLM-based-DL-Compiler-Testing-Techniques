@@ -1,0 +1,50 @@
+import os
+import torch
+import torch.nn.functional as F
+import torch.nn as nn
+import numpy as np
+from torch.autograd import Variable
+import math
+import torch as th
+import torch.linalg as la
+from torch.nn import Parameter
+import torch.linalg as linalg
+
+class Model(torch.nn.Module):
+
+    def __init__(self):
+        super().__init__()
+        if False:
+            self.maxpooling2d = torch.nn.Sequential(torch.nn.MaxPool1d(11, 1))
+        self.flatten = torch.nn.Sequential(torch.nn.Flatten())
+
+    def forward(self, v1):
+        split_tensors = torch.split(v1, 2)
+        concatenated_tensor = torch.cat(split_tensors, dim=1)
+        return (concatenated_tensor, torch.split(v1, 2))
+
+
+
+func = Model().to('cpu')
+
+
+in_features = 20
+x1 = torch.randn(1, in_features)
+
+test_inputs = [x1]
+
+# JIT_STATUS
+'''
+direct:
+
+
+jit:
+backend='inductor' raised:
+CalledProcessError: Command '['/usr/local/bin/gcc', '/tmp/tmpt_dpifgg/main.c', '-O3', '-shared', '-fPIC', '-Wno-psabi', '-o', '/tmp/tmpt_dpifgg/cuda_utils.cpython-39-x86_64-linux-gnu.so', '-lcuda', '-L/home/yujunzhe/anaconda3/envs/whitefox/lib/python3.9/site-packages/triton/backends/nvidia/lib', '-L/lib/x86_64-linux-gnu', '-L/lib/i386-linux-gnu', '-I/home/yujunzhe/anaconda3/envs/whitefox/lib/python3.9/site-packages/triton/backends/nvidia/include', '-I/tmp/tmpt_dpifgg', '-I/home/yujunzhe/anaconda3/envs/whitefox/include/python3.9']' returned non-zero exit status 1.
+
+
+You can suppress this exception and fall back to eager by setting:
+    import torch._dynamo
+    torch._dynamo.config.suppress_errors = True
+
+'''

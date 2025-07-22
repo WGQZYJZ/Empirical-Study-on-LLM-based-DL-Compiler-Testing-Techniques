@@ -1,0 +1,53 @@
+import os
+import torch
+import torch.nn.functional as F
+import torch.nn as nn
+import numpy as np
+from torch.autograd import Variable
+import math
+import torch as th
+import torch.linalg as la
+from torch.nn import Parameter
+import torch.linalg as linalg
+
+class Model(torch.nn.Module):
+
+    def __init__(self):
+        super().__init__()
+
+    def forward(self, query, key, value, **kwargs):
+        qk = query @ key.transpose(-2, -1)
+        scale_factor = kwargs.get('scale_factor', 1 / np.sqrt(query.size(-1)))
+        scaled_qk = scale_factor * qk
+        softmax_qk = F.softmax(scaled_qk, dim=-1)
+        dropout_qk = F.dropout(softmax_qk, p=0.5, training=self.training)
+        output = dropout_qk @ value
+        return output
+
+
+func = Model().to('cpu')
+
+
+query = torch.randn(5, 8, 12)
+
+key = torch.randn(5, 35, 12)
+
+value = torch.randn(5, 35, 24)
+
+test_inputs = [query, key, value]
+
+# JIT_STATUS
+'''
+direct:
+
+
+jit:
+backend='inductor' raised:
+CalledProcessError: Command '['/usr/local/bin/gcc', '/tmp/tmp0_l1uw0m/main.c', '-O3', '-shared', '-fPIC', '-Wno-psabi', '-o', '/tmp/tmp0_l1uw0m/cuda_utils.cpython-39-x86_64-linux-gnu.so', '-lcuda', '-L/home/yujunzhe/anaconda3/envs/whitefox/lib/python3.9/site-packages/triton/backends/nvidia/lib', '-L/lib/x86_64-linux-gnu', '-L/lib/i386-linux-gnu', '-I/home/yujunzhe/anaconda3/envs/whitefox/lib/python3.9/site-packages/triton/backends/nvidia/include', '-I/tmp/tmp0_l1uw0m', '-I/home/yujunzhe/anaconda3/envs/whitefox/include/python3.9']' returned non-zero exit status 1.
+
+
+You can suppress this exception and fall back to eager by setting:
+    import torch._dynamo
+    torch._dynamo.config.suppress_errors = True
+
+'''

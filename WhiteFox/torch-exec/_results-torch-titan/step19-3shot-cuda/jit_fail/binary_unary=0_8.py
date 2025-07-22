@@ -1,0 +1,57 @@
+import os
+import torch
+import torch.nn.functional as F
+import torch.nn as nn
+import numpy as np
+from torch.autograd import Variable
+import math
+import torch as th
+import torch.linalg as la
+from torch.nn import Parameter
+import torch.linalg as linalg
+
+
+
+class Model(torch.nn.Module):
+
+    def __init__(self):
+        super().__init__()
+        self.dense = torch.nn.Linear(16, 16)
+        self.conv = torch.nn.Conv2d(16, 16, 3, stride=1, padding=1)
+
+    def forward(self, x):
+        v1 = (x + self.dense(x))
+        v2 = (v1 + self.dense(x))
+        v3 = (v2 + self.conv(x))
+        return v3
+
+
+
+
+func = Model().to('cuda')
+
+
+
+x = torch.randn(1, 16)
+
+
+test_inputs = [x]
+
+# JIT_FAIL
+'''
+direct:
+Expected 3D (unbatched) or 4D (batched) input to conv2d, but got input of size: [1, 16]
+
+jit:
+Failed running call_module L__self___conv(*(FakeTensor(..., device='cuda:0', size=(1, 16)),), **{}):
+Expected 3D (unbatched) or 4D (batched) input to conv2d, but got input of size: [1, 16]
+
+from user code:
+   File "<string>", line 25, in forward
+
+
+You can suppress this exception and fall back to eager by setting:
+    import torch._dynamo
+    torch._dynamo.config.suppress_errors = True
+
+'''

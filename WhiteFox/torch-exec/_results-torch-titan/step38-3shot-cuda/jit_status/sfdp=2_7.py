@@ -1,0 +1,89 @@
+import os
+import torch
+import torch.nn.functional as F
+import torch.nn as nn
+import numpy as np
+from torch.autograd import Variable
+import math
+import torch as th
+import torch.linalg as la
+from torch.nn import Parameter
+import torch.linalg as linalg
+
+
+
+class Model(torch.nn.Module):
+
+    def __init__(self, num_heads, hidden_dim):
+        super().__init__()
+        self.key = torch.nn.Linear(hidden_dim, hidden_dim)
+        self.query = torch.nn.Linear(hidden_dim, hidden_dim)
+
+    def forward(self, query, key, value, inv_scale_factor, dropout_p):
+        qk = torch.matmul(query, key.transpose((- 2), (- 1)))
+        scaled_qk = qk.div(inv_scale_factor)
+        softmax_qk = scaled_qk.softmax(dim=(- 1))
+        dropout_qk = torch.nn.functional.dropout(softmax_qk, dropout_p)
+        output = dropout_qk.matmul(value)
+        return output
+
+
+
+
+num_heads = 2
+
+
+hidden_dim = 16
+
+func = Model(num_heads, hidden_dim).to('cuda')
+
+
+num_heads = 2
+
+
+hidden_dim = 16
+
+
+
+query = torch.randn(1, (hidden_dim * num_heads), 8, 64)
+
+
+num_heads = 2
+
+
+hidden_dim = 16
+
+
+
+key = torch.randn(1, (hidden_dim * num_heads), 8, 64)
+
+
+num_heads = 2
+
+
+hidden_dim = 16
+
+
+
+value = torch.randn(1, (hidden_dim * num_heads), 8, 64)
+
+inv_scale_factor = 1
+dropout_p = 1
+
+test_inputs = [query, key, value, inv_scale_factor, dropout_p]
+
+# JIT_STATUS
+'''
+direct:
+
+
+jit:
+backend='inductor' raised:
+CalledProcessError: Command '['/usr/local/bin/gcc', '/tmp/tmpk_wv38d4/main.c', '-O3', '-I/home/yujunzhe/anaconda3/envs/titanfuzz/lib/python3.8/site-packages/triton/common/../third_party/cuda/include', '-I/home/yujunzhe/anaconda3/envs/titanfuzz/include/python3.8', '-I/tmp/tmpk_wv38d4', '-shared', '-fPIC', '-lcuda', '-o', '/tmp/tmpk_wv38d4/triton_.cpython-38-x86_64-linux-gnu.so', '-L/lib/x86_64-linux-gnu', '-L/lib/i386-linux-gnu', '-L/lib/i386-linux-gnu']' returned non-zero exit status 1.
+
+
+You can suppress this exception and fall back to eager by setting:
+    import torch._dynamo
+    torch._dynamo.config.suppress_errors = True
+
+'''

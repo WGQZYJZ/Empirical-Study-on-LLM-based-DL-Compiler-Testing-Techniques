@@ -1,0 +1,54 @@
+import os
+import torch
+import torch.nn.functional as F
+import torch.nn as nn
+import numpy as np
+from torch.autograd import Variable
+import math
+import torch as th
+import torch.linalg as la
+from torch.nn import Parameter
+import torch.linalg as linalg
+
+
+
+class Model(torch.nn.Module):
+
+    def __init__(self):
+        super().__init__()
+        self.dim = (256 // self.heads)
+        self.dropout = 0.1
+        self.heads = 64
+        self.seq_len = 256
+
+    def forward(self, query, key, value, attn_mask):
+        qk = ((query @ key.transpose((- 2), (- 1))) / math.sqrt(query.size((- 1))))
+        qk = (qk + attn_mask)
+        attn_weight = torch.softmax(qk, dim=(- 1))
+        attn_weight = torch.dropout(attn_weight, 0.1, True)
+        output = (attn_weight @ value)
+        return output
+
+
+
+
+func = Model().to('cuda')
+
+
+
+query = torch.randn(1, 64, 256, 256)
+
+
+
+key = torch.randn(1, 64, 256, 256)
+
+
+
+value = torch.randn(1, 64, 256, 256)
+
+
+
+attn_mask = torch.randn(1, 1, 256, 256)
+
+
+test_inputs = [query, key, value, attn_mask]

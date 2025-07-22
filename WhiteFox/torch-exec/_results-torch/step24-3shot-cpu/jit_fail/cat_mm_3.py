@@ -1,0 +1,54 @@
+import os
+import torch
+import torch.nn.functional as F
+import torch.nn as nn
+import numpy as np
+from torch.autograd import Variable
+import math
+import torch as th
+import torch.linalg as la
+from torch.nn import Parameter
+import torch.linalg as linalg
+
+class Model(torch.nn.Module):
+
+    def __init__(self):
+        super().__init__()
+
+    def forward(self, x1, x2):
+        v1 = torch.mm(x1, x2)
+        v2 = torch.mm(x2, x1)
+        t1 = torch.cat([v1, v1, v1, v1], 1)
+        t2 = torch.cat([t1, t1, t1], 1)
+        t3 = torch.cat([t2, v1], 1)
+        return torch.cat([t3, v2], 1)
+
+
+
+func = Model().to('cpu')
+
+
+x1 = torch.randn(2, 3)
+
+x2 = torch.randn(3, 2)
+
+test_inputs = [x1, x2]
+
+# JIT_FAIL
+'''
+direct:
+Sizes of tensors must match except in dimension 1. Expected size 2 but got size 3 for tensor number 1 in the list.
+
+jit:
+Failed running call_function <built-in method cat of type object at 0x764b5ab96ec0>(*([FakeTensor(..., size=(2, 26)), FakeTensor(..., size=(s0, s0))], 1), **{}):
+Sizes of tensors must match except in dimension 1. Expected 2 in dimension 0 but got s0 for tensor number 1 in the list
+
+from user code:
+   File "<string>", line 24, in forward
+
+
+You can suppress this exception and fall back to eager by setting:
+    import torch._dynamo
+    torch._dynamo.config.suppress_errors = True
+
+'''

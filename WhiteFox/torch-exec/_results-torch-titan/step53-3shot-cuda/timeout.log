@@ -1,0 +1,135 @@
+binary=0_8.py TIMEOUT
+import os
+import torch
+import torch.nn.functional as F
+import torch.nn as nn
+import numpy as np
+from torch.autograd import Variable
+import math
+import torch as th
+import torch.linalg as la
+from torch.nn import Parameter
+import torch.linalg as linalg
+
+
+
+class Model(torch.nn.Module):
+
+    def __init__(self):
+        super().__init__()
+        self.conv = torch.nn.Conv2d(1565, 729, 113, stride=578, padding=840)
+
+    def forward(self, x1, other=None, padding1=None):
+        v1 = self.conv(x1)
+        if (other == None):
+            other = torch.randn(v1.shape)
+        if (padding1 == None):
+            padding1 = torch.randn(v1.shape)
+        v2 = (v1 + other)
+        return v2
+
+
+
+
+func = Model().to('cuda')
+
+
+
+x1 = torch.randn(1, 1565, 1, 1)
+
+
+test_inputs = [x1]
+
+sfdp=5_4.py TIMEOUT
+import os
+import torch
+import torch.nn.functional as F
+import torch.nn as nn
+import numpy as np
+from torch.autograd import Variable
+import math
+import torch as th
+import torch.linalg as la
+from torch.nn import Parameter
+import torch.linalg as linalg
+
+
+
+class Model(torch.nn.Module):
+
+    def __init__(self):
+        super().__init__()
+        self.heads = 64
+        self.seq_len = 2
+        self.dim = (4 // self.heads)
+
+    def forward(self, query, key, value, attn_mask):
+        qk = ((query @ key.transpose((- 2), (- 1))) / math.sqrt(query.size((- 1))))
+        qk = (qk + attn_mask)
+        attn_weight = torch.softmax(qk, dim=(- 1))
+        attn_weight = torch.dropout(attn_weight, 0.5, True)
+        output = (attn_weight @ value)
+        return output
+
+
+
+
+func = Model().to('cuda')
+
+
+
+query = torch.randn(1, 64, 2, 4)
+
+
+
+key = torch.randn(1, 64, 2, 4)
+
+
+
+value = torch.randn(1, 64, 2, 4)
+
+
+
+attn_mask = torch.randn(1, 1, 2, 2)
+
+
+test_inputs = [query, key, value, attn_mask]
+
+unary=20_8.py TIMEOUT
+import os
+import torch
+import torch.nn.functional as F
+import torch.nn as nn
+import numpy as np
+from torch.autograd import Variable
+import math
+import torch as th
+import torch.linalg as la
+from torch.nn import Parameter
+import torch.linalg as linalg
+
+
+
+class Model(torch.nn.Module):
+
+    def __init__(self):
+        super().__init__()
+        self.conv_t = torch.nn.ConvTranspose3d(6, 2, kernel_size=(3, 3, 3), stride=(1, 1, 1), padding=(1, 1, 1))
+
+    def forward(self, x1):
+        v1 = self.conv_t(x1)
+        v2 = torch.sigmoid(v1)
+        return v2
+
+
+
+
+func = Model().to('cuda')
+
+
+
+x1 = torch.randn(1, 6, 640, 640, 640)
+
+
+test_inputs = [x1]
+

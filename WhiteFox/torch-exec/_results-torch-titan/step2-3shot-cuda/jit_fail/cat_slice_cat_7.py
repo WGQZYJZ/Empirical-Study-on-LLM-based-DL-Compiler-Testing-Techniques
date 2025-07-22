@@ -1,0 +1,64 @@
+import os
+import torch
+import torch.nn.functional as F
+import torch.nn as nn
+import numpy as np
+from torch.autograd import Variable
+import math
+import torch as th
+import torch.linalg as la
+from torch.nn import Parameter
+import torch.linalg as linalg
+
+
+
+class Model(torch.nn.Module):
+
+    def forward(self, x1, x2, x3, x4, x5):
+        v1 = torch.cat([x1, x2, x3], dim=1)
+        v2 = v1[:, 0:9223372036854775807]
+        v3 = v2[:, 0:393216]
+        v4 = torch.cat([v1, v3], dim=1)
+        v5 = torch.cat([x4, x5], dim=1)
+        v6 = torch.cat([v4, v5], dim=1)
+        return (v1, v2, v3, v4, v5, v6)
+
+
+
+func = Model().to('cuda')
+
+
+
+x1 = torch.randn(1, 393216)
+
+
+
+x2 = torch.randn(1, 8787584)
+
+
+
+x3 = torch.randn(1, 393216)
+
+x4 = 1
+x5 = 1
+
+test_inputs = [x1, x2, x3, x4, x5]
+
+# JIT_FAIL
+'''
+direct:
+expected Tensor as element 0 in argument 0, but got int
+
+jit:
+Failed running call_function <built-in method cat of type object at 0x74115b0699e0>(*([1, 1],), **{'dim': 1}):
+expected Tensor as element 0 in argument 0, but got int
+
+from user code:
+   File "<string>", line 22, in forward
+
+
+You can suppress this exception and fall back to eager by setting:
+    import torch._dynamo
+    torch._dynamo.config.suppress_errors = True
+
+'''

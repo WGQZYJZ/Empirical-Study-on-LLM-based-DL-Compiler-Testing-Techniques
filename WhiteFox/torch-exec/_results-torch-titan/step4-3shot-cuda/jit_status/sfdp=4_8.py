@@ -1,0 +1,68 @@
+import os
+import torch
+import torch.nn.functional as F
+import torch.nn as nn
+import numpy as np
+from torch.autograd import Variable
+import math
+import torch as th
+import torch.linalg as la
+from torch.nn import Parameter
+import torch.linalg as linalg
+
+
+
+class Model(torch.nn.Module):
+
+    def __init__(self, emb_size, block_size):
+        super().__init__()
+
+    def forward(self, q, k, v, mask):
+        attn_logits = torch.matmul(q, k.transpose((- 2), (- 1)))
+        attn_logits = (attn_logits / math.sqrt(emb_size))
+        attn_logits += mask
+        normalized_weights = torch.softmax(attn_logits, dim=(- 1))
+        result = torch.matmul(normalized_weights, v)
+        return result
+
+
+
+emb_size = 1
+block_size = 1
+
+func = Model(emb_size, block_size).to('cuda')
+
+
+
+q = torch.randn(1, 10, 12)
+
+
+
+k = torch.randn(1, 20, 12)
+
+
+
+v = torch.randn(1, 20, 12)
+
+
+
+mask = torch.randn(1, 10, 20)
+
+
+test_inputs = [q, k, v, mask]
+
+# JIT_STATUS
+'''
+direct:
+
+
+jit:
+backend='inductor' raised:
+CalledProcessError: Command '['/usr/local/bin/gcc', '/tmp/tmpun_y7_u4/main.c', '-O3', '-I/home/yujunzhe/anaconda3/envs/titanfuzz/lib/python3.8/site-packages/triton/common/../third_party/cuda/include', '-I/home/yujunzhe/anaconda3/envs/titanfuzz/include/python3.8', '-I/tmp/tmpun_y7_u4', '-shared', '-fPIC', '-lcuda', '-o', '/tmp/tmpun_y7_u4/triton_.cpython-38-x86_64-linux-gnu.so', '-L/lib/x86_64-linux-gnu', '-L/lib/i386-linux-gnu', '-L/lib/i386-linux-gnu']' returned non-zero exit status 1.
+
+
+You can suppress this exception and fall back to eager by setting:
+    import torch._dynamo
+    torch._dynamo.config.suppress_errors = True
+
+'''

@@ -1,0 +1,137 @@
+mm_plus_mm_4.py TIMEOUT
+import os
+import torch
+import torch.nn.functional as F
+import torch.nn as nn
+import numpy as np
+from torch.autograd import Variable
+import math
+import torch as th
+import torch.linalg as la
+from torch.nn import Parameter
+import torch.linalg as linalg
+
+
+
+class Model(torch.nn.Module):
+
+    def __init__(self):
+        super().__init__()
+
+    def forward(self, input1, input2):
+        t1 = input1
+        t2 = input2
+        for i in range(20):
+            t3 = torch.mm(t1, t1)
+            t3 = (t3 + t2)
+            t4 = torch.mm(t3, t1)
+            t5 = (t3 + t4)
+            t6 = torch.mm(t3, t4)
+            t3 = (t5 + t6)
+            t7 = (t1 + t3)
+            t8 = (t7 + t2)
+            t9 = (t4 + t8)
+            t1 = (t5 + t9)
+        return t1
+
+
+
+
+func = Model().to('cuda')
+
+
+
+input1 = torch.randn(128, 128)
+
+
+
+input2 = torch.randn(128, 128)
+
+
+test_inputs = [input1, input2]
+
+sfdp=0_1.py TIMEOUT
+import os
+import torch
+import torch.nn.functional as F
+import torch.nn as nn
+import numpy as np
+from torch.autograd import Variable
+import math
+import torch as th
+import torch.linalg as la
+from torch.nn import Parameter
+import torch.linalg as linalg
+
+
+
+class Model(torch.nn.Module):
+
+    def __init__(self):
+        super().__init__()
+        self.key = torch.nn.Parameter(torch.randn(419, 843, 55, 179))
+
+    def forward(self, x1):
+        q = x1
+        k = x1
+        v = x1
+        inv_scale = math.sqrt(k.size(1))
+        scaled_dot_product = (torch.matmul(q, k.transpose((- 2), (- 1))) / inv_scale)
+        attention_weights = scaled_dot_product.softmax(dim=(- 1))
+        output = attention_weights.matmul(v)
+        return output
+
+
+
+
+func = Model().to('cuda')
+
+
+
+x1 = torch.randn(1, 4, 5, 19)
+
+
+test_inputs = [x1]
+
+unary=20_9.py TIMEOUT
+import os
+import torch
+import torch.nn.functional as F
+import torch.nn as nn
+import numpy as np
+from torch.autograd import Variable
+import math
+import torch as th
+import torch.linalg as la
+from torch.nn import Parameter
+import torch.linalg as linalg
+
+
+
+class ModelTanh(torch.nn.Module):
+
+    def __init__(self):
+        super().__init__()
+        self.conv = torch.nn.Conv2d(6, 3, (277, 1557), stride=3, padding=1845)
+        self.conv_1 = torch.nn.Conv2d(3, 1, 1, 1)
+        self.tanh = torch.nn.Tanh()
+
+    def forward(self, x):
+        x1 = self.conv(x)
+        x2 = self.conv_1(x1)
+        x3 = ((x2 + 1.6303978221893307e-09) * 0.7071067811865475)
+        x4 = self.tanh(x3)
+        return x4
+
+
+
+
+func = ModelTanh().to('cuda')
+
+
+
+x = torch.randn(2, 6, 277, 1557)
+
+
+test_inputs = [x]
+

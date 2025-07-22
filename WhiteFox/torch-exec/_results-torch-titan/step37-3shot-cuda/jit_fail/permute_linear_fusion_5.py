@@ -1,0 +1,60 @@
+import os
+import torch
+import torch.nn.functional as F
+import torch.nn as nn
+import numpy as np
+from torch.autograd import Variable
+import math
+import torch as th
+import torch.linalg as la
+from torch.nn import Parameter
+import torch.linalg as linalg
+
+
+
+class Model(torch.nn.Module):
+
+    def __init__(self):
+        super().__init__()
+        self.linear_2 = torch.nn.Linear(3, 1)
+
+    def forward(self, x, y):
+        v1 = x.permute(0, 2, 1)
+        v1 = v1.permute(0, 2, 1)
+        v2 = torch.nn.functional.linear(v1, self.linear_2.weight, self.linear_2.bias)
+        return torch.sum(v2)
+
+
+
+
+func = Model().to('cuda')
+
+
+
+x = torch.randn(1, 2, 2)
+
+
+
+y = torch.randn(1, 1, 3)
+
+
+test_inputs = [x, y]
+
+# JIT_FAIL
+'''
+direct:
+mat1 and mat2 shapes cannot be multiplied (2x2 and 3x1)
+
+jit:
+Failed running call_function <built-in function linear>(*(FakeTensor(..., device='cuda:0', size=(1, 2, 2)), Parameter(FakeTensor(..., device='cuda:0', size=(1, 3), requires_grad=True)), Parameter(FakeTensor(..., device='cuda:0', size=(1,), requires_grad=True))), **{}):
+a and b must have same reduction dim, but got [2, 2] X [3, 1].
+
+from user code:
+   File "<string>", line 24, in forward
+
+
+You can suppress this exception and fall back to eager by setting:
+    import torch._dynamo
+    torch._dynamo.config.suppress_errors = True
+
+'''

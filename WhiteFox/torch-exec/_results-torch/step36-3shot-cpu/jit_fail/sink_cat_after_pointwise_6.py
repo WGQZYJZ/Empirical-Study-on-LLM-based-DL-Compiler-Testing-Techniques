@@ -1,0 +1,49 @@
+import os
+import torch
+import torch.nn.functional as F
+import torch.nn as nn
+import numpy as np
+from torch.autograd import Variable
+import math
+import torch as th
+import torch.linalg as la
+from torch.nn import Parameter
+import torch.linalg as linalg
+
+class SinkCatInput(torch.nn.Module):
+
+    def __init__(self):
+        super().__init__()
+
+    def forward(self, x):
+        x = torch.cat((torch.squeeze(x), x), dim=0).view(x.shape[0], -1)
+        x = torch.tanh(x)
+        return x
+
+
+
+func = SinkCatInput().to('cpu')
+
+
+x = torch.randn(3, 1)
+
+test_inputs = [x]
+
+# JIT_FAIL
+'''
+direct:
+Tensors must have same number of dimensions: got 1 and 2
+
+jit:
+Failed running call_function <built-in method cat of type object at 0x73fbb5196ec0>(*((FakeTensor(..., size=(3,)), FakeTensor(..., size=(3, 1))),), **{'dim': 0}):
+Number of dimensions of tensors must match.  Expected 2-D tensors, but got 1-D for tensor number 0 in the list
+
+from user code:
+   File "<string>", line 19, in forward
+
+
+You can suppress this exception and fall back to eager by setting:
+    import torch._dynamo
+    torch._dynamo.config.suppress_errors = True
+
+'''

@@ -1,0 +1,79 @@
+sfdp=5_5.py TIMEOUT
+import os
+import torch
+import torch.nn.functional as F
+import torch.nn as nn
+import numpy as np
+from torch.autograd import Variable
+import math
+import torch as th
+import torch.linalg as la
+from torch.nn import Parameter
+import torch.linalg as linalg
+
+class Model(torch.nn.Module):
+
+    def __init__(self):
+        super().__init__()
+        self.heads = 16
+        self.seq_len = 2048
+        self.dim = 256 // self.heads
+
+    def forward(self, query, key, value, attn_mask):
+        qk = query @ key.transpose(-2, -1) / math.sqrt(query.size(-1))
+        qk = qk + attn_mask
+        qk = qk + attn_mask
+        attn_weight = torch.softmax(qk, dim=-1)
+        attn_weight = torch.dropout(attn_weight, 0.1, True)
+        output = attn_weight @ value
+        return output
+
+
+
+func = Model().to('cpu')
+
+
+query = torch.randn(1, 16, 2048, 256)
+
+key = torch.randn(1, 16, 2048, 256)
+
+value = torch.randn(1, 16, 2048, 256)
+
+attn_mask = torch.randn(1, 1, 2048, 2048)
+
+test_inputs = [query, key, value, attn_mask]
+
+unary=14_1.py TIMEOUT
+import os
+import torch
+import torch.nn.functional as F
+import torch.nn as nn
+import numpy as np
+from torch.autograd import Variable
+import math
+import torch as th
+import torch.linalg as la
+from torch.nn import Parameter
+import torch.linalg as linalg
+
+class Model(torch.nn.Module):
+
+    def __init__(self):
+        super().__init__()
+        self.conv_transpose_3 = torch.nn.ConvTranspose2d(2048, 1536, 3, stride=2, padding=0)
+
+    def forward(self, x1):
+        v1 = self.conv_transpose_3(x1)
+        v2 = torch.sigmoid(v1)
+        v3 = v1 * v2
+        return v3
+
+
+
+func = Model().to('cpu')
+
+
+x1 = torch.randn(1, 2048, 160, 160)
+
+test_inputs = [x1]
+

@@ -1,0 +1,58 @@
+import os
+import torch
+import torch.nn.functional as F
+import torch.nn as nn
+import numpy as np
+from torch.autograd import Variable
+import math
+import torch as th
+import torch.linalg as la
+from torch.nn import Parameter
+import torch.linalg as linalg
+
+
+
+class Model(torch.nn.Module):
+
+    def __init__(self):
+        super(Model, self).__init__()
+        self.features = torch.nn.ModuleList([torch.nn.Conv2d(3, 32, 3, 1, 1), torch.nn.Conv2d(32, 32, 3, 1, 1)])
+        self.classifier = torch.nn.ModuleList([torch.nn.Linear(((32 * 36) * 36), 2), torch.nn.Linear(2, 2)])
+
+    def forward(self, v1):
+        split_tensors = torch.split(v1, [1, 1, 1], dim=1)
+        concatenated_tensor = torch.cat(split_tensors, dim=1)
+        fc = self.classifier[0](concatenated_tensor.view((- 1), ((36 * 36) * 32)))
+        fc = self.classifier[1](fc)
+        return (fc, torch.split(v1, [1, 1, 1], dim=1))
+
+
+
+
+func = Model().to('cuda')
+
+
+
+x1 = torch.randn(1, 3, 64, 64)
+
+
+test_inputs = [x1]
+
+# JIT_FAIL
+'''
+direct:
+shape '[-1, 41472]' is invalid for input of size 12288
+
+jit:
+Failed running call_method view(*(FakeTensor(..., device='cuda:0', size=(1, 3, 64, 64)), -1, 41472), **{}):
+shape '[-1, 41472]' is invalid for input of size 12288
+
+from user code:
+   File "<string>", line 25, in forward
+
+
+You can suppress this exception and fall back to eager by setting:
+    import torch._dynamo
+    torch._dynamo.config.suppress_errors = True
+
+'''

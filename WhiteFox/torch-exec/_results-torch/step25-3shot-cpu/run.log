@@ -1,0 +1,699 @@
+Start testing
+
+LmfuzzTestcase 520 unary=28 unary=28_1 JIT_STATUS 420 Catch
+----------------------------------
+
+
+LmfuzzTestcase 521 unary=28 unary=28_10 JIT_STATUS 420 Catch
+----------------------------------
+
+
+LmfuzzTestcase 522 unary=28 unary=28_2 JIT_FAIL 420 Catch
+----------------------------------
+
+
+LmfuzzTestcase 523 unary=28 unary=28_3 JIT_FAIL 420 Catch
+----------------------------------
+
+rand() received an invalid combination of arguments - got (int, int, dtype=type), but expected one of:
+ * (tuple of ints size, *, torch.Generator generator, tuple of names names, torch.dtype dtype = None, torch.layout layout = None, torch.device device = None, bool pin_memory = False, bool requires_grad = False)
+ * (tuple of ints size, *, torch.Generator generator, Tensor out = None, torch.dtype dtype = None, torch.layout layout = None, torch.device device = None, bool pin_memory = False, bool requires_grad = False)
+ * (tuple of ints size, *, Tensor out = None, torch.dtype dtype = None, torch.layout layout = None, torch.device device = None, bool pin_memory = False, bool requires_grad = False)
+ * (tuple of ints size, *, tuple of names names, torch.dtype dtype = None, torch.layout layout = None, torch.device device = None, bool pin_memory = False, bool requires_grad = False)
+
+import os
+import torch
+import torch.nn.functional as F
+import torch.nn as nn
+import numpy as np
+from torch.autograd import Variable
+import math
+import torch as th
+import torch.linalg as la
+from torch.nn import Parameter
+import torch.linalg as linalg
+
+class Model(torch.nn.Module):
+
+    def __init__(self, min_value=-5, max_value=10):
+        super().__init__()
+        self.weight = torch.rand(1, 8, dtype=np.float32)
+        self.min_value = min_value
+        self.max_value = max_value
+
+    def forward(self, x1):
+        v1 = torch.tensordot(x1, self.weight, dims=1)
+        v2 = torch.clamp_min(v1, self.min_value)
+        v3 = torch.clamp_max(v2, self.max_value)
+        return v3
+
+
+func = Model().to('cpu')
+
+
+x1 = torch.randn(1, 16, 3)
+
+test_inputs = [x1]
+
+
+LmfuzzTestcase 524 unary=28 unary=28_4 SKIP 420 void
+----------------------------------
+
+
+LmfuzzTestcase 525 unary=28 unary=28_5 JIT_FAIL 420 Catch
+----------------------------------
+
+
+LmfuzzTestcase 526 unary=28 unary=28_6 JIT_STATUS 420 Catch
+----------------------------------
+
+
+LmfuzzTestcase 527 unary=28 unary=28_7 JIT_STATUS 420 Catch
+----------------------------------
+
+
+LmfuzzTestcase 528 unary=28 unary=28_8 JIT_STATUS 420 Catch
+----------------------------------
+
+
+LmfuzzTestcase 529 unary=28 unary=28_9 JIT_STATUS 420 Catch
+----------------------------------
+
+module 'torch.nn' has no attribute 'hardtanh'
+import os
+import torch
+import torch.nn.functional as F
+import torch.nn as nn
+import numpy as np
+from torch.autograd import Variable
+import math
+import torch as th
+import torch.linalg as la
+from torch.nn import Parameter
+import torch.linalg as linalg
+
+class Model(torch.nn.Module):
+
+    def __init__(self, min_value=0.9, max_value=2.6):
+        super().__init__()
+        self.sigmoid = torch.nn.Softplus()
+        self.conv_transpose = torch.nn.ConvTranspose2d(16, 16, 1, stride=1, padding=1)
+        self.act_4 = torch.nn.hardtanh()
+        self.min_value = min_value
+        self.max_value = max_value
+
+    def forward(self, x5):
+        v6 = self.conv_transpose(x5)
+        v7 = torch.clamp_min(v6, self.min_value)
+        v8 = torch.clamp_max(v7, self.max_value)
+        v9 = self.sigmoid(v8)
+        return v9
+
+
+
+func = Model().to('cpu')
+
+
+x5 = torch.randn(1, 16, 124, 124)
+
+test_inputs = [x5]
+
+
+LmfuzzTestcase 530 unary=29 unary=29_1 SKIP 420 void
+----------------------------------
+
+name 'min_value' is not defined
+import os
+import torch
+import torch.nn.functional as F
+import torch.nn as nn
+import numpy as np
+from torch.autograd import Variable
+import math
+import torch as th
+import torch.linalg as la
+from torch.nn import Parameter
+import torch.linalg as linalg
+
+class Model(nn.Module):
+
+    def __init__(self):
+        super(Model, self).__init__()
+        self.relu = nn.ReLU()
+        self.conv_transpose = nn.ConvTranspose2d(4, 10, 1, stride=1, padding=1)
+        self.act_12 = nn.ReLU6()
+        self.min_value = min_value
+
+    def forward(self, x3):
+        v1 = self.conv_transpose(x3)
+        v2 = torch.clamp_min(v1, self.min_value)
+        v3 = self.act_12(v2)
+        return v3
+
+
+
+func = Model().to('cpu')
+
+
+x3 = torch.randn(1, 4, 224, 224)
+
+test_inputs = [x3]
+
+
+LmfuzzTestcase 531 unary=29 unary=29_10 SKIP 420 void
+----------------------------------
+
+
+LmfuzzTestcase 532 unary=29 unary=29_2 JIT_STATUS 420 Catch
+----------------------------------
+
+name 'min_value' is not defined
+import os
+import torch
+import torch.nn.functional as F
+import torch.nn as nn
+import numpy as np
+from torch.autograd import Variable
+import math
+import torch as th
+import torch.linalg as la
+from torch.nn import Parameter
+import torch.linalg as linalg
+
+class Model(torch.nn.Module):
+
+    def __init__(self):
+        super().__init__()
+        self.conv_transpose = torch.nn.ConvTranspose2d(in_channels=7, kernel_size=(5, 5), out_channels=7)
+        self.act_7 = torch.nn.ELU()
+        self.min_value = min_value
+
+    def forward(self, x):
+        v4 = self.conv_transpose(x)
+        v5 = torch.clamp_min(v4, self.min_value)
+        v6 = torch.clamp_max(v5, max_value)
+        v7 = self.act_7(v6)
+        return v7
+
+
+
+func = Model().to('cpu')
+
+
+x6 = torch.randn(1, 7, 128, 128)
+
+test_inputs = [x6]
+
+
+LmfuzzTestcase 533 unary=29 unary=29_3 SKIP 420 void
+----------------------------------
+
+
+LmfuzzTestcase 534 unary=29 unary=29_4 JIT_STATUS 420 Catch
+----------------------------------
+
+name 'min_value' is not defined
+import os
+import torch
+import torch.nn.functional as F
+import torch.nn as nn
+import numpy as np
+from torch.autograd import Variable
+import math
+import torch as th
+import torch.linalg as la
+from torch.nn import Parameter
+import torch.linalg as linalg
+
+class Model(torch.nn.Module):
+
+    def __init__(self):
+        super(Model, self).__init__()
+        self.sigmoid = torch.nn.Sigmoid()
+        self.conv_transpose = torch.nn.ConvTranspose2d(1, 1, 1, stride=1, padding=1)
+        self.act_4 = torch.nn.LeakyReLU()
+        self.min_value = min_value
+        self.max_value = max_value
+
+    def forward(self, x):
+        v2 = self.conv_transpose(x)
+        v3 = torch.clamp_min(v2, self.min_value)
+        v4 = torch.clamp_max(v3, self.max_value)
+        return v4
+
+
+
+func = Model().to('cpu')
+
+
+x = torch.randn(1, 1, 13, 13)
+
+test_inputs = [x]
+
+
+LmfuzzTestcase 535 unary=29 unary=29_5 SKIP 420 void
+----------------------------------
+
+
+LmfuzzTestcase 536 unary=29 unary=29_6 JIT_FAIL 420 Catch
+----------------------------------
+
+
+LmfuzzTestcase 537 unary=29 unary=29_7 JIT_FAIL 420 Catch
+----------------------------------
+
+name 'min_value' is not defined
+import os
+import torch
+import torch.nn.functional as F
+import torch.nn as nn
+import numpy as np
+from torch.autograd import Variable
+import math
+import torch as th
+import torch.linalg as la
+from torch.nn import Parameter
+import torch.linalg as linalg
+
+class Model(torch.nn.Module):
+
+    def __init__(self):
+        super().__init__()
+        self.conv_transpose = torch.nn.ConvTranspose2d(3, 8, 1, stride=1, padding=1)
+        self.min_value = min_value
+
+    def forward(self, x1):
+        v1 = self.conv_transpose(x1)
+        v2 = torch.clamp_min(v1, min_value)
+        v3 = torch.clamp_max(v2, self.max_value)
+        return v3
+
+
+
+func = Model().to('cpu')
+
+
+x1 = torch.randn(1, 3, 16, 16)
+
+test_inputs = [x1]
+
+
+LmfuzzTestcase 538 unary=29 unary=29_8 SKIP 420 void
+----------------------------------
+
+name 'min_value' is not defined
+import os
+import torch
+import torch.nn.functional as F
+import torch.nn as nn
+import numpy as np
+from torch.autograd import Variable
+import math
+import torch as th
+import torch.linalg as la
+from torch.nn import Parameter
+import torch.linalg as linalg
+
+class Model(torch.nn.Module):
+
+    def __init__(self):
+        super().__init__()
+        self.sigmoid = torch.nn.Sigmoid()
+        self.conv_transpose = torch.nn.ConvTranspose2d(4, 4, 1, stride=1, padding=0)
+        self.min_value = min_value
+        self.max_value = max_value
+
+    def forward(self, x4):
+        v5 = self.conv_transpose(x4)
+        v6 = torch.clamp_min(v5, self.min_value)
+        v7 = torch.clamp_max(v6, self.max_value)
+        return v7
+
+
+
+func = Model().to('cpu')
+
+
+x4 = torch.randn(1, 4, 124, 124)
+
+test_inputs = [x4]
+
+
+LmfuzzTestcase 539 unary=29 unary=29_9 SKIP 420 void
+----------------------------------
+
+
+LmfuzzTestcase 540 unary=3 unary=3_1 JIT_STATUS 420 Catch
+----------------------------------
+
+
+LmfuzzTestcase 541 unary=3 unary=3_10 JIT_STATUS 420 Catch
+----------------------------------
+
+
+LmfuzzTestcase 542 unary=3 unary=3_2 JIT_STATUS 420 Catch
+----------------------------------
+
+
+LmfuzzTestcase 543 unary=3 unary=3_3 JIT_STATUS 420 Catch
+----------------------------------
+
+
+LmfuzzTestcase 544 unary=3 unary=3_4 JIT_STATUS 420 Catch
+----------------------------------
+
+
+LmfuzzTestcase 545 unary=3 unary=3_5 JIT_STATUS 420 Catch
+----------------------------------
+
+
+LmfuzzTestcase 546 unary=3 unary=3_6 JIT_STATUS 420 Catch
+----------------------------------
+
+
+LmfuzzTestcase 547 unary=3 unary=3_7 JIT_STATUS 420 Catch
+----------------------------------
+
+
+LmfuzzTestcase 548 unary=3 unary=3_8 JIT_STATUS 420 Catch
+----------------------------------
+
+
+LmfuzzTestcase 549 unary=3 unary=3_9 JIT_FAIL 420 Catch
+----------------------------------
+
+
+LmfuzzTestcase 550 unary=4 unary=4_1 JIT_STATUS 420 Catch
+----------------------------------
+
+
+LmfuzzTestcase 551 unary=4 unary=4_10 JIT_STATUS 420 Catch
+----------------------------------
+
+
+LmfuzzTestcase 552 unary=4 unary=4_2 JIT_STATUS 420 Catch
+----------------------------------
+
+
+LmfuzzTestcase 553 unary=4 unary=4_3 JIT_STATUS 420 Catch
+----------------------------------
+
+
+LmfuzzTestcase 554 unary=4 unary=4_4 JIT_STATUS 420 Catch
+----------------------------------
+
+
+LmfuzzTestcase 555 unary=4 unary=4_5 JIT_STATUS 420 Catch
+----------------------------------
+
+
+LmfuzzTestcase 556 unary=4 unary=4_6 JIT_STATUS 420 Catch
+----------------------------------
+
+
+LmfuzzTestcase 557 unary=4 unary=4_7 JIT_STATUS 420 Catch
+----------------------------------
+
+
+LmfuzzTestcase 558 unary=4 unary=4_8 JIT_STATUS 420 Catch
+----------------------------------
+
+
+LmfuzzTestcase 559 unary=4 unary=4_9 JIT_STATUS 420 Catch
+----------------------------------
+
+
+LmfuzzTestcase 560 unary=5 unary=5_1 JIT_STATUS 420 Catch
+----------------------------------
+
+
+LmfuzzTestcase 561 unary=5 unary=5_10 JIT_STATUS 420 Catch
+----------------------------------
+
+
+LmfuzzTestcase 562 unary=5 unary=5_2 JIT_STATUS 420 Catch
+----------------------------------
+
+
+LmfuzzTestcase 563 unary=5 unary=5_3 JIT_STATUS 420 Catch
+----------------------------------
+
+
+LmfuzzTestcase 564 unary=5 unary=5_4 JIT_STATUS 420 Catch
+----------------------------------
+
+
+LmfuzzTestcase 565 unary=5 unary=5_5 JIT_STATUS 420 Catch
+----------------------------------
+
+
+LmfuzzTestcase 566 unary=5 unary=5_6 JIT_FAIL 420 Catch
+----------------------------------
+
+
+LmfuzzTestcase 567 unary=5 unary=5_7 JIT_STATUS 420 Catch
+----------------------------------
+
+
+LmfuzzTestcase 568 unary=5 unary=5_8 JIT_STATUS 420 Catch
+----------------------------------
+
+
+LmfuzzTestcase 569 unary=5 unary=5_9 JIT_STATUS 420 Catch
+----------------------------------
+
+
+LmfuzzTestcase 570 unary=6 unary=6_1 JIT_STATUS 420 Catch
+----------------------------------
+
+module 'torch.nn' has no attribute 'BatchNom2d'
+import os
+import torch
+import torch.nn.functional as F
+import torch.nn as nn
+import numpy as np
+from torch.autograd import Variable
+import math
+import torch as th
+import torch.linalg as la
+from torch.nn import Parameter
+import torch.linalg as linalg
+
+class Model(torch.nn.Module):
+
+    def __init__(self):
+        super().__init__()
+        self.conv = torch.nn.Conv2d(12, 24, 2, stride=2, padding=16)
+        self.bn = torch.nn.BatchNom2d(123)
+
+    def forward(self, x1):
+        t1 = self.conv(x1)
+        t2 = t1 + 3
+        t3 = torch.clamp_min(3, 0)
+        t4 = torch.clamp_max(3, 6)
+        t5 = t1 * t3
+        t6 = t5 / 6
+        t7 = t7 + t6
+        t8 = self.bn(t7)
+        return t7
+
+
+
+func = Model().to('cpu')
+
+
+x1 = torch.randn(1, 12, 32, 32)
+
+test_inputs = [x1]
+
+
+LmfuzzTestcase 571 unary=6 unary=6_10 SKIP 420 void
+----------------------------------
+
+
+LmfuzzTestcase 572 unary=6 unary=6_2 JIT_STATUS 420 Catch
+----------------------------------
+
+
+LmfuzzTestcase 573 unary=6 unary=6_3 JIT_STATUS 420 Catch
+----------------------------------
+
+
+LmfuzzTestcase 574 unary=6 unary=6_4 JIT_STATUS 420 Catch
+----------------------------------
+
+
+LmfuzzTestcase 575 unary=6 unary=6_5 JIT_FAIL 420 Catch
+----------------------------------
+
+
+LmfuzzTestcase 576 unary=6 unary=6_6 JIT_FAIL 420 Catch
+----------------------------------
+
+
+LmfuzzTestcase 577 unary=6 unary=6_7 JIT_STATUS 420 Catch
+----------------------------------
+
+
+LmfuzzTestcase 578 unary=6 unary=6_8 JIT_FAIL 420 Catch
+----------------------------------
+
+
+LmfuzzTestcase 579 unary=6 unary=6_9 JIT_FAIL 420 Catch
+----------------------------------
+
+
+LmfuzzTestcase 580 unary=7 unary=7_1 JIT_STATUS 420 Catch
+----------------------------------
+
+
+LmfuzzTestcase 581 unary=7 unary=7_10 JIT_FAIL 420 Catch
+----------------------------------
+
+
+LmfuzzTestcase 582 unary=7 unary=7_2 JIT_STATUS 420 Catch
+----------------------------------
+
+
+LmfuzzTestcase 583 unary=7 unary=7_3 JIT_STATUS 420 Catch
+----------------------------------
+
+
+LmfuzzTestcase 584 unary=7 unary=7_4 JIT_STATUS 420 Catch
+----------------------------------
+
+
+LmfuzzTestcase 585 unary=7 unary=7_5 positional argument follows keyword argument 420 ('<unknown>', 9, 52, '        v1_clamped = torch.clamp(min=0, max=6, v1+3)\n')
+----------------------------------
+
+
+LmfuzzTestcase 586 unary=7 unary=7_6 JIT_STATUS 420 Catch
+----------------------------------
+
+
+LmfuzzTestcase 587 unary=7 unary=7_7 JIT_STATUS 420 Catch
+----------------------------------
+
+__init__() got an unexpected keyword argument 'stride'
+import os
+import torch
+import torch.nn.functional as F
+import torch.nn as nn
+import numpy as np
+from torch.autograd import Variable
+import math
+import torch as th
+import torch.linalg as la
+from torch.nn import Parameter
+import torch.linalg as linalg
+
+class Model(torch.nn.Module):
+
+    def __init__(self):
+        super().__init__()
+        self.linear = torch.nn.Linear(8, 8, 1, stride=1, padding=1)
+
+    def forward(self, x1):
+        y1 = self.linear(x1)
+        y2 = y1 * torch.clamp(y1 + 3, 0, 6)
+        y3 = y2 / 6
+        return y3
+
+
+func = Model().to('cpu')
+
+
+x1 = torch.randn(1, 8, 64, 64)
+
+test_inputs = [x1]
+
+
+LmfuzzTestcase 588 unary=7 unary=7_8 SKIP 420 void
+----------------------------------
+
+
+LmfuzzTestcase 589 unary=7 unary=7_9 JIT_STATUS 420 Catch
+----------------------------------
+
+
+LmfuzzTestcase 590 unary=8 unary=8_1 JIT_FAIL 420 Catch
+----------------------------------
+
+
+LmfuzzTestcase 591 unary=8 unary=8_10 JIT_STATUS 420 Catch
+----------------------------------
+
+
+LmfuzzTestcase 592 unary=8 unary=8_2 JIT_STATUS 420 Catch
+----------------------------------
+
+
+LmfuzzTestcase 593 unary=8 unary=8_3 JIT_STATUS 420 Catch
+----------------------------------
+
+
+LmfuzzTestcase 594 unary=8 unary=8_4 JIT_STATUS 420 Catch
+----------------------------------
+
+
+LmfuzzTestcase 595 unary=8 unary=8_5 JIT_STATUS 420 Catch
+----------------------------------
+
+
+LmfuzzTestcase 596 unary=8 unary=8_6 JIT_STATUS 420 Catch
+----------------------------------
+
+
+LmfuzzTestcase 597 unary=8 unary=8_7 JIT_STATUS 420 Catch
+----------------------------------
+
+
+LmfuzzTestcase 598 unary=8 unary=8_8 JIT_STATUS 420 Catch
+----------------------------------
+
+
+LmfuzzTestcase 599 unary=8 unary=8_9 JIT_STATUS 420 Catch
+----------------------------------
+
+
+LmfuzzTestcase 600 unary=9 unary=9_1 JIT_STATUS 420 Catch
+----------------------------------
+
+
+LmfuzzTestcase 601 unary=9 unary=9_10 JIT_STATUS 420 Catch
+----------------------------------
+
+
+LmfuzzTestcase 602 unary=9 unary=9_2 JIT_STATUS 420 Catch
+----------------------------------
+
+
+LmfuzzTestcase 603 unary=9 unary=9_3 JIT_STATUS 420 Catch
+----------------------------------
+
+
+LmfuzzTestcase 604 unary=9 unary=9_4 JIT_STATUS 420 Catch
+----------------------------------
+
+
+LmfuzzTestcase 605 unary=9 unary=9_5 JIT_STATUS 420 Catch
+----------------------------------
+
+
+LmfuzzTestcase 606 unary=9 unary=9_6 JIT_STATUS 420 Catch
+----------------------------------
+
+
+LmfuzzTestcase 607 unary=9 unary=9_7 JIT_STATUS 420 Catch
+----------------------------------
+
+
+LmfuzzTestcase 608 unary=9 unary=9_8 JIT_STATUS 420 Catch
+----------------------------------
+
+
+LmfuzzTestcase 609 unary=9 unary=9_9 JIT_STATUS 420 Catch
+----------------------------------
+
+
+Used time: 122.36166048049927

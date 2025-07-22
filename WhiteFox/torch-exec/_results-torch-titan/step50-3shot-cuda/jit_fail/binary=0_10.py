@@ -1,0 +1,59 @@
+import os
+import torch
+import torch.nn.functional as F
+import torch.nn as nn
+import numpy as np
+from torch.autograd import Variable
+import math
+import torch as th
+import torch.linalg as la
+from torch.nn import Parameter
+import torch.linalg as linalg
+
+
+
+class Model(torch.nn.Module):
+
+    def __init__(self):
+        super().__init__()
+        self.conv = torch.nn.Conv2d(8, 8, 1, stride=1, padding=1)
+
+    def forward(self, x1, padding=None, x2=None, v1=1, v2=None, weight=2, ksize=3, groups=1):
+        if (padding == None):
+            padding = torch.randn(weight.shape)
+        x1 = self.conv(x1)
+        if (x2 == None):
+            x2 = (x1 + padding)
+        v2 = torch.nn.functional.conv2d(v1, weight, padding=(ksize // 2), groups=groups)
+        v2 = (v2 + x2)
+        return v2
+
+
+
+
+func = Model().to('cuda')
+
+
+
+x1 = torch.randn(1, 8, 35, 35)
+
+
+test_inputs = [x1]
+
+# JIT_FAIL
+'''
+direct:
+'int' object has no attribute 'shape'
+
+jit:
+'int' object has no attribute 'shape'
+
+from user code:
+   File "<string>", line 23, in forward
+
+
+You can suppress this exception and fall back to eager by setting:
+    import torch._dynamo
+    torch._dynamo.config.suppress_errors = True
+
+'''

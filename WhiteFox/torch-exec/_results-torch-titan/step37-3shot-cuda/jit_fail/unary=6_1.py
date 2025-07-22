@@ -1,0 +1,58 @@
+import os
+import torch
+import torch.nn.functional as F
+import torch.nn as nn
+import numpy as np
+from torch.autograd import Variable
+import math
+import torch as th
+import torch.linalg as la
+from torch.nn import Parameter
+import torch.linalg as linalg
+
+
+
+class Model(torch.nn.Module):
+
+    def __init__(self):
+        super().__init__()
+        self.conv = torch.nn.Conv2d(3, 3, 1, stride=1, padding=1)
+        self.clamp_min_0 = torch.nn.ReLU6(inplace=True)
+
+    def forward(self, x1):
+        v1 = self.conv(x1)
+        v2 = torch.clamp_min(v1, 0)
+        v3 = (v1 * v2)
+        v4 = (v3 / 6)
+        return v4
+
+
+
+
+func = Model().to('cuda')
+
+
+
+x1 = torch.randn(3, 8, 64, 64)
+
+
+test_inputs = [x1]
+
+# JIT_FAIL
+'''
+direct:
+Given groups=1, weight of size [3, 3, 1, 1], expected input[3, 8, 64, 64] to have 3 channels, but got 8 channels instead
+
+jit:
+Failed running call_module L__self___conv(*(FakeTensor(..., device='cuda:0', size=(3, 8, 64, 64)),), **{}):
+Given groups=1, weight of size [3, 3, 1, 1], expected input[3, 8, 64, 64] to have 3 channels, but got 8 channels instead
+
+from user code:
+   File "<string>", line 23, in forward
+
+
+You can suppress this exception and fall back to eager by setting:
+    import torch._dynamo
+    torch._dynamo.config.suppress_errors = True
+
+'''
