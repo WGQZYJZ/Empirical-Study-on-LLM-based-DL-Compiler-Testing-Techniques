@@ -1,0 +1,2375 @@
+==========mod==========
+#[version = "0.0.5"]
+def @func_2045(%var_2018: Tensor[(3, 7, 3), int8], %var_2019: Tensor[(3, 7, 3), int8]) -> Tensor[(3, 7, 3), int8] {
+  %0 = cast(%var_2019, dtype="int8") /* ty=Tensor[(3, 7, 3), int8] */;
+  %1 = shape_of(%var_2018, dtype="int32") /* ty=Tensor[(3), int32] */;
+  %2 = cast(%var_2018, dtype="int8") /* ty=Tensor[(3, 7, 3), int8] */;
+  %3 = dyn.reshape(%0, %1, newshape=[]) /* ty=Tensor[(?, ?, ?), int8] */;
+  subtract(%2, %3) /* ty=Tensor[(3, 7, 3), int8] */
+}
+
+def @func_3671(%var_3662: Tensor[(4, 5, 3), float64]) -> (Tensor[(16, 12, 1), float64], Tensor[(4, 5, 3), uint8]) {
+  %4 = @func_2344() /* ty=(Tensor[(4, 5, 3), float64],) */;
+  %5 = %4.0;
+  %6 = cast(%var_3662, dtype="float64") /* ty=Tensor[(4, 5, 3), float64] */;
+  %7 = shape_of(%5, dtype="int32") /* ty=Tensor[(3), int32] */;
+  %8 = cast(%5, dtype="float64") /* ty=Tensor[(4, 5, 3), float64] */;
+  %9 = dyn.reshape(%6, %7, newshape=[]) /* ty=Tensor[(?, ?, ?), float64] */;
+  %10 = floor_divide(%8, %9) /* ty=Tensor[(4, 5, 3), float64] */;
+  %11 = cast(%5, dtype="uint8") /* ty=Tensor[(4, 5, 3), uint8] */;
+  %12 = shape_of(%10, dtype="int32") /* ty=Tensor[(3), int32] */;
+  %13 = cast(%10, dtype="uint8") /* ty=Tensor[(4, 5, 3), uint8] */;
+  %14 = dyn.reshape(%11, %12, newshape=[]) /* ty=Tensor[(?, ?, ?), uint8] */;
+  %15 = @func_2578() /* ty=Tensor[(16, 12, 1), float64] */;
+  %16 = multiply(%13, %14) /* ty=Tensor[(4, 5, 3), uint8] */;
+  (%15, %16)
+}
+
+def @func_1609(%var_1604: Tensor[(7, 13, 4), float32]) -> (Tensor[(7, 13, 4), float32],) {
+  %17 = cast(%var_1604, dtype="float32") /* ty=Tensor[(7, 13, 4), float32] */;
+  %18 = sin(%17) /* ty=Tensor[(7, 13, 4), float32] */;
+  (%18,)
+}
+
+def @func_3481() -> (Tensor[(16, 12, 13), uint32],) {
+  %19 = @func_611() /* ty=Tensor[(16, 12, 1), float32] */;
+  %20 = cast(%19, dtype="uint32") /* ty=Tensor[(16, 12, 1), uint32] */;
+  %21 = cast(meta[relay.Constant][0] /* ty=Tensor[(16, 12, 13), float32] */, dtype="uint32") /* ty=Tensor[(16, 12, 13), uint32] */;
+  %22 = multiply(%20, %21) /* ty=Tensor[(16, 12, 13), uint32] */;
+  (%22,)
+}
+
+def @func_1588() -> (Tensor[(4, 5, 3), float64], Tensor[(4, 5, 3), uint64]) {
+  %23 = @func_292() /* ty=Tensor[(4, 5, 3), float64] */;
+  %24 = cast(%23, dtype="float32") /* ty=Tensor[(4, 5, 3), float32] */;
+  %25 = reshape(%24, newshape=[4, 5, 3]) /* ty=Tensor[(4, 5, 3), float32] */;
+  %26 = @func_891(%25) /* ty=(Tensor[(4, 5, 3), uint64], Tensor[(4, 5, 3), float64]) */;
+  %27 = %26.0;
+  (%23, %27)
+}
+
+def @func_3893() -> (Tensor[(16, 12, 1), float32], Tensor[(4, 5, 3), uint64]) {
+  %28 = @func_1798() /* ty=(Tensor[(4, 5, 3), float64], Tensor[(16, 12, 1), float32]) */;
+  %29 = @func_1588() /* ty=(Tensor[(4, 5, 3), float64], Tensor[(4, 5, 3), uint64]) */;
+  %30 = %28.1;
+  %31 = %29.1;
+  (%30, %31)
+}
+
+def @func_2684() -> (Tensor[(4, 5, 3), float64],) {
+  %32 = @func_121() /* ty=(Tensor[(4, 5, 3), float64],) */;
+  %33 = %32.0;
+  (%33,)
+}
+
+def @func_757(%var_723: Tensor[(3, 3, 11), bool]) -> (Tensor[(3, 3, 11), bool], Tensor[(16, 12, 1), float32]) {
+  %34 = cast(meta[relay.Constant][1] /* ty=Tensor[(3, 3, 11), bool] */, dtype="bool") /* ty=Tensor[(3, 3, 11), bool] */;
+  %35 = shape_of(%var_723, dtype="int32") /* ty=Tensor[(3), int32] */;
+  %36 = cast(%var_723, dtype="bool") /* ty=Tensor[(3, 3, 11), bool] */;
+  %37 = dyn.reshape(%34, %35, newshape=[]) /* ty=Tensor[(?, ?, ?), bool] */;
+  %38 = logical_or(%36, %37) /* ty=Tensor[(3, 3, 11), bool] */;
+  %39 = @func_611() /* ty=Tensor[(16, 12, 1), float32] */;
+  (%38, %39)
+}
+
+def @func_2525(%var_2522: Tensor[(63), int8]) -> (Tensor[(4, 5, 3), float32], Tensor[(2, 11, 6), float32], Tensor[(4, 5, 3), float64], Tensor[(3, 7, 3), int8], Tensor[(63), int8]) {
+  %40 = @func_121() /* ty=(Tensor[(4, 5, 3), float64],) */;
+  %41 = %40.0;
+  %42 = cast(%41, dtype="float32") /* ty=Tensor[(4, 5, 3), float32] */;
+  %43 = @func_1338() /* ty=(Tensor[(4, 5, 3), float64],) */;
+  %44 = cast(%var_2522, dtype="int8") /* ty=Tensor[(63), int8] */;
+  %45 = cast(%var_2522, dtype="int8") /* ty=Tensor[(63), int8] */;
+  %46 = reshape(%44, newshape=[3, 7, 3]) /* ty=Tensor[(3, 7, 3), int8] */;
+  %47 = reshape(%45, newshape=[3, 7, 3]) /* ty=Tensor[(3, 7, 3), int8] */;
+  %48 = cos(%42) /* ty=Tensor[(4, 5, 3), float32] */;
+  %49 = @func_1773() /* ty=Tensor[(2, 11, 6), float32] */;
+  %50 = %43.0;
+  %51 = @func_2045(%46, %47) /* ty=Tensor[(3, 7, 3), int8] */;
+  (%48, %49, %50, %51, %var_2522)
+}
+
+def @func_4514() -> (Tensor[(4, 5, 14), float64], Tensor[(2, 6, 15), uint8]) {
+  %52 = cast(meta[relay.Constant][2] /* ty=Tensor[(180), float64] */, dtype="float64") /* ty=Tensor[(180), float64] */;
+  %53 = reshape(%52, newshape=[2, 6, 15]) /* ty=Tensor[(2, 6, 15), float64] */;
+  %54 = @func_3047(%53) /* ty=(Tensor[(2, 6, 15), float64],) */;
+  %55 = %54.0;
+  %56 = cast(meta[relay.Constant][2] /* ty=Tensor[(180), float64] */, dtype="bool") /* ty=Tensor[(180), bool] */;
+  %57 = shape_of(%55, dtype="int32") /* ty=Tensor[(3), int32] */;
+  %58 = cast(%55, dtype="bool") /* ty=Tensor[(2, 6, 15), bool] */;
+  %59 = dyn.reshape(%56, %57, newshape=[]) /* ty=Tensor[(?, ?, ?), bool] */;
+  %60 = logical_or(%58, %59) /* ty=Tensor[(2, 6, 15), bool] */;
+  %61 = cast(%55, dtype="uint8") /* ty=Tensor[(2, 6, 15), uint8] */;
+  %62 = shape_of(%60, dtype="int32") /* ty=Tensor[(3), int32] */;
+  %63 = cast(%60, dtype="uint8") /* ty=Tensor[(2, 6, 15), uint8] */;
+  %64 = dyn.reshape(%61, %62, newshape=[]) /* ty=Tensor[(?, ?, ?), uint8] */;
+  %65 = @func_3160() /* ty=Tensor[(4, 5, 14), float64] */;
+  %66 = minimum(%63, %64) /* ty=Tensor[(2, 6, 15), uint8] */;
+  (%65, %66)
+}
+
+def @func_551(%var_541: Tensor[(4, 5, 3), float32]) -> (Tensor[(4, 5, 3), int16], Tensor[(4, 5, 3), float32]) {
+  %67 = @func_34() /* ty=(Tensor[(4, 5, 3), float64],) */;
+  %68 = %67.0;
+  %69 = @func_292() /* ty=Tensor[(4, 5, 3), float64] */;
+  %70 = cast(%69, dtype="float32") /* ty=Tensor[(4, 5, 3), float32] */;
+  %71 = shape_of(%68, dtype="int32") /* ty=Tensor[(3), int32] */;
+  %72 = cast(%68, dtype="float32") /* ty=Tensor[(4, 5, 3), float32] */;
+  %73 = dyn.reshape(%70, %71, newshape=[]) /* ty=Tensor[(?, ?, ?), float32] */;
+  %74 = mod(%72, %73) /* ty=Tensor[(4, 5, 3), float32] */;
+  %75 = cast(%var_541, dtype="int16") /* ty=Tensor[(4, 5, 3), int16] */;
+  %76 = shape_of(%74, dtype="int32") /* ty=Tensor[(3), int32] */;
+  %77 = cast(%74, dtype="int16") /* ty=Tensor[(4, 5, 3), int16] */;
+  %78 = dyn.reshape(%75, %76, newshape=[]) /* ty=Tensor[(?, ?, ?), int16] */;
+  %79 = cast(%69, dtype="float32") /* ty=Tensor[(4, 5, 3), float32] */;
+  %80 = shape_of(%68, dtype="int32") /* ty=Tensor[(3), int32] */;
+  %81 = cast(%68, dtype="float32") /* ty=Tensor[(4, 5, 3), float32] */;
+  %82 = dyn.reshape(%79, %80, newshape=[]) /* ty=Tensor[(?, ?, ?), float32] */;
+  %83 = power(%81, %82) /* ty=Tensor[(4, 5, 3), float32] */;
+  %84 = cast(%83, dtype="float32") /* ty=Tensor[(4, 5, 3), float32] */;
+  %85 = bitwise_and(%77, %78) /* ty=Tensor[(4, 5, 3), int16] */;
+  %86 = asinh(%84) /* ty=Tensor[(4, 5, 3), float32] */;
+  (%85, %86)
+}
+
+def @func_4928() -> (Tensor[(2304), float32],) {
+  %87 = @func_3881() /* ty=(Tensor[(4, 5, 3), float32], Tensor[(1440), float32], Tensor[(2304), float64], Tensor[(2304), float64]) */;
+  %88 = %87.3;
+  %89 = cast(%88, dtype="float32") /* ty=Tensor[(2304), float32] */;
+  %90 = sinh(%89) /* ty=Tensor[(2304), float32] */;
+  (%90,)
+}
+
+def @func_384() -> Tensor[(16, 12, 1), float32] {
+  %91 = cast(meta[relay.Constant][3] /* ty=Tensor[(16, 12, 1), float32] */, dtype="float32") /* ty=Tensor[(16, 12, 1), float32] */;
+  log(%91) /* ty=Tensor[(16, 12, 1), float32] */
+}
+
+def @func_1519() -> (Tensor[(4, 5, 3), float64],) {
+  %92 = @func_564() /* ty=(Tensor[(4, 5, 3), float64],) */;
+  %93 = %92.0;
+  (%93,)
+}
+
+def @func_4648(%var_4607: Tensor[(13, 12, 13), float64], %var_4608: Tensor[(13, 12, 13), float64]) -> (Tensor[(13, 12, 13), bool], Tensor[(13, 12, 13), bool]) {
+  %94 = cast(%var_4608, dtype="float64") /* ty=Tensor[(13, 12, 13), float64] */;
+  %95 = shape_of(%var_4607, dtype="int32") /* ty=Tensor[(3), int32] */;
+  %96 = cast(%var_4607, dtype="float64") /* ty=Tensor[(13, 12, 13), float64] */;
+  %97 = dyn.reshape(%94, %95, newshape=[]) /* ty=Tensor[(?, ?, ?), float64] */;
+  %98 = maximum(%96, %97) /* ty=Tensor[(13, 12, 13), float64] */;
+  %99 = cast(%var_4607, dtype="bool") /* ty=Tensor[(13, 12, 13), bool] */;
+  %100 = shape_of(%98, dtype="int32") /* ty=Tensor[(3), int32] */;
+  %101 = cast(%98, dtype="bool") /* ty=Tensor[(13, 12, 13), bool] */;
+  %102 = dyn.reshape(%99, %100, newshape=[]) /* ty=Tensor[(?, ?, ?), bool] */;
+  %103 = cast(%var_4607, dtype="bool") /* ty=Tensor[(13, 12, 13), bool] */;
+  %104 = shape_of(%var_4608, dtype="int32") /* ty=Tensor[(3), int32] */;
+  %105 = cast(%var_4608, dtype="bool") /* ty=Tensor[(13, 12, 13), bool] */;
+  %106 = dyn.reshape(%103, %104, newshape=[]) /* ty=Tensor[(?, ?, ?), bool] */;
+  %107 = greater(%101, %102) /* ty=Tensor[(13, 12, 13), bool] */;
+  %108 = logical_or(%105, %106) /* ty=Tensor[(13, 12, 13), bool] */;
+  (%107, %108)
+}
+
+def @func_3305() -> (Tensor[(16, 12, ?), float64],) {
+  %109 = @func_1691() /* ty=(Tensor[(16, 12, ?), float64],) */;
+  %110 = %109.0;
+  (%110,)
+}
+
+def @func_4185() -> Tensor[(16, 12, ?), uint32] {
+  %111 = @func_1691() /* ty=(Tensor[(16, 12, ?), float64],) */;
+  %112 = %111.0;
+  %113 = @func_1122() /* ty=(Tensor[(16, 12, 1), float32], Tensor[(16, 12, 1), float32]) */;
+  %114 = %113.0;
+  %115 = cast(%114, dtype="uint32") /* ty=Tensor[(16, 12, 1), uint32] */;
+  %116 = shape_of(%112, dtype="int32") /* ty=Tensor[(3), int32] */;
+  %117 = cast(%112, dtype="uint32") /* ty=Tensor[(16, 12, ?), uint32] */;
+  %118 = dyn.reshape(%115, %116, newshape=[]) /* ty=Tensor[(?, ?, ?), uint32] */;
+  bitwise_xor(%117, %118) /* ty=Tensor[(16, 12, ?), uint32] */
+}
+
+def @func_3938(%var_3904: Tensor[(15, 8, 1), float64]) -> (Tensor[(16, 12, 1), float32], Tensor[(15, 8, ?), int8], Tensor[(4, 5, 3), uint64], Tensor[(4, 5, 3), float32], Tensor[(15, 8, 1), float64]) {
+  %119 = @func_3893() /* ty=(Tensor[(16, 12, 1), float32], Tensor[(4, 5, 3), uint64]) */;
+  %120 = cast(%var_3904, dtype="float64") /* ty=Tensor[(15, 8, 1), float64] */;
+  %121 = atanh(%120) /* ty=Tensor[(15, 8, 1), float64] */;
+  %122 = cast(%121, dtype="float32") /* ty=Tensor[(15, 8, 1), float32] */;
+  %123 = erf(%122) /* ty=Tensor[(15, 8, 1), float32] */;
+  %124 = cast(%121, dtype="int8") /* ty=Tensor[(15, 8, 1), int8] */;
+  %125 = shape_of(%123, dtype="int32") /* ty=Tensor[(3), int32] */;
+  %126 = cast(%123, dtype="int8") /* ty=Tensor[(15, 8, 1), int8] */;
+  %127 = dyn.reshape(%124, %125, newshape=[]) /* ty=Tensor[(?, ?, ?), int8] */;
+  %128 = @func_1588() /* ty=(Tensor[(4, 5, 3), float64], Tensor[(4, 5, 3), uint64]) */;
+  %129 = @func_3881() /* ty=(Tensor[(4, 5, 3), float32], Tensor[(1440), float32], Tensor[(2304), float64], Tensor[(2304), float64]) */;
+  %130 = cast(%121, dtype="float64") /* ty=Tensor[(15, 8, 1), float64] */;
+  %131 = %119.0;
+  %132 = bitwise_or(%126, %127) /* ty=Tensor[(15, 8, ?), int8] */;
+  %133 = %128.1;
+  %134 = %129.0;
+  %135 = exp(%130) /* ty=Tensor[(15, 8, 1), float64] */;
+  (%131, %132, %133, %134, %135)
+}
+
+def @func_1551(%var_1542: Tensor[(8, 13, 1), uint16]) -> Tensor[(8, 13, 1), uint16] {
+  %136 = cast(meta[relay.Constant][4] /* ty=uint16 */, dtype="uint16") /* ty=uint16 */;
+  %137 = cast(%var_1542, dtype="uint16") /* ty=Tensor[(8, 13, 1), uint16] */;
+  minimum(%136, %137) /* ty=Tensor[(8, 13, 1), uint16] */
+}
+
+def @func_4129() -> (Tensor[(16, 12, 1), float64], Tensor[(16, 12, 1), float32]) {
+  %138 = @func_931() /* ty=(Tensor[(4, 5, 3), float64], Tensor[(16, 12, 1), float64]) */;
+  %139 = @func_1122() /* ty=(Tensor[(16, 12, 1), float32], Tensor[(16, 12, 1), float32]) */;
+  %140 = %139.0;
+  %141 = cast(%140, dtype="float32") /* ty=Tensor[(16, 12, 1), float32] */;
+  %142 = %138.1;
+  %143 = sigmoid(%141) /* ty=Tensor[(16, 12, 1), float32] */;
+  (%142, %143)
+}
+
+def @func_2578() -> Tensor[(16, 12, 1), float64] {
+  %144 = @func_1798() /* ty=(Tensor[(4, 5, 3), float64], Tensor[(16, 12, 1), float32]) */;
+  %145 = %144.1;
+  %146 = cast(%145, dtype="float64") /* ty=Tensor[(16, 12, 1), float64] */;
+  log10(%146) /* ty=Tensor[(16, 12, 1), float64] */
+}
+
+def @func_1047() -> (Tensor[(4, 5, 3), float64], Tensor[(16, 12, 1), float32], Tensor[(4, 5, 14), float64]) {
+  %147 = @func_611() /* ty=Tensor[(16, 12, 1), float32] */;
+  %148 = cast(%147, dtype="float32") /* ty=Tensor[(16, 12, 1), float32] */;
+  %149 = @func_452() /* ty=Tensor[(4, 5, 3), float64] */;
+  %150 = atanh(%148) /* ty=Tensor[(16, 12, 1), float32] */;
+  %151 = @func_338() /* ty=Tensor[(4, 5, 14), float64] */;
+  (%149, %150, %151)
+}
+
+def @func_1338() -> (Tensor[(4, 5, 3), float64],) {
+  %152 = @func_1286() /* ty=Tensor[(4, 5, 3), float64] */;
+  (%152,)
+}
+
+def @func_4826(%var_4813: Tensor[(16, 12, 3), float32], %var_4819: Tensor[(50), uint16], %var_4820: Tensor[(650, 1), uint16], %var_4824: Tensor[(780), bool]) -> (Tensor[(16, 12, 1), float64], Tensor[(16, 12, ?), float64], Tensor[(16, 12, 3), bool], Tensor[(13, 5, 10), uint16], Tensor[(50), uint16], Tensor[(650, 1), uint16], Tensor[(5, 13, 12), bool], Tensor[(780), bool]) {
+  %153 = @func_600() /* ty=Tensor[(16, 12, 1), float32] */;
+  %154 = cast(%153, dtype="float64") /* ty=Tensor[(16, 12, 1), float64] */;
+  %155 = cast(%153, dtype="bool") /* ty=Tensor[(16, 12, 1), bool] */;
+  %156 = cast(%var_4813, dtype="bool") /* ty=Tensor[(16, 12, 3), bool] */;
+  %157 = cast(%var_4819, dtype="uint16") /* ty=Tensor[(50), uint16] */;
+  %158 = cast(%var_4820, dtype="uint16") /* ty=Tensor[(650, 1), uint16] */;
+  %159 = reshape(%157, newshape=[1, 5, 10]) /* ty=Tensor[(1, 5, 10), uint16] */;
+  %160 = reshape(%158, newshape=[13, 5, 10]) /* ty=Tensor[(13, 5, 10), uint16] */;
+  %161 = cast(%var_4824, dtype="bool") /* ty=Tensor[(780), bool] */;
+  %162 = cast(%var_4824, dtype="bool") /* ty=Tensor[(780), bool] */;
+  %163 = reshape(%161, newshape=[5, 13, 12]) /* ty=Tensor[(5, 13, 12), bool] */;
+  %164 = reshape(%162, newshape=[5, 13, 12]) /* ty=Tensor[(5, 13, 12), bool] */;
+  %165 = @func_2485(%163, %164) /* ty=(Tensor[(5, 13, 12), bool], Tensor[(5, 13, 12), float32]) */;
+  %166 = log2(%154) /* ty=Tensor[(16, 12, 1), float64] */;
+  %167 = @func_1666() /* ty=Tensor[(16, 12, ?), float64] */;
+  %168 = less_equal(%155, %156) /* ty=Tensor[(16, 12, 3), bool] */;
+  %169 = @func_3122(%159, %160) /* ty=Tensor[(13, 5, 10), uint16] */;
+  %170 = %165.0;
+  (%166, %167, %168, %169, %var_4819, %var_4820, %170, %var_4824)
+}
+
+def @func_4895() -> (Tensor[(16, 12, ?), float64], Tensor[(4, 5, 3), float32]) {
+  %171 = @func_4417() /* ty=(Tensor[(16, 12, ?), float64],) */;
+  %172 = %171.0;
+  %173 = @func_2648() /* ty=Tensor[(4, 5, 3), float32] */;
+  (%172, %173)
+}
+
+def @func_121() -> (Tensor[(4, 5, 3), float64],) {
+  %174 = @func_34() /* ty=(Tensor[(4, 5, 3), float64],) */;
+  %175 = %174.0;
+  (%175,)
+}
+
+def @func_1258(%var_1242: Tensor[(13, 16, 11), int16], %var_1243: Tensor[(13, 16, 11), int16]) -> Tensor[(13, 16, 11), int16] {
+  %176 = cast(%var_1243, dtype="int16") /* ty=Tensor[(13, 16, 11), int16] */;
+  %177 = shape_of(%var_1242, dtype="int32") /* ty=Tensor[(3), int32] */;
+  %178 = cast(%var_1242, dtype="int16") /* ty=Tensor[(13, 16, 11), int16] */;
+  %179 = dyn.reshape(%176, %177, newshape=[]) /* ty=Tensor[(?, ?, ?), int16] */;
+  right_shift(%178, %179) /* ty=Tensor[(13, 16, 11), int16] */
+}
+
+def @func_3122(%var_3116: Tensor[(1, 5, 10), uint16], %var_3117: Tensor[(13, 5, 10), uint16]) -> Tensor[(13, 5, 10), uint16] {
+  %180 = cast(%var_3116, dtype="uint16") /* ty=Tensor[(1, 5, 10), uint16] */;
+  %181 = cast(%var_3117, dtype="uint16") /* ty=Tensor[(13, 5, 10), uint16] */;
+  bitwise_xor(%180, %181) /* ty=Tensor[(13, 5, 10), uint16] */
+}
+
+def @func_2344() -> (Tensor[(4, 5, 3), float64],) {
+  %182 = @func_564() /* ty=(Tensor[(4, 5, 3), float64],) */;
+  %183 = %182.0;
+  (%183,)
+}
+
+def @func_2869(%var_2817: Tensor[(16, 12, 63), bool]) -> (Tensor[(16, 12, ?), float64], Tensor[(16, 12, 63), float64], Tensor[(16, 12, 63), bool], Tensor[(16, 12, 63), uint32], Tensor[(4, 5, 3), float64]) {
+  %184 = @func_2154() /* ty=(Tensor[(3, 7, 3), int8], Tensor[(16, 12, ?), float64], Tensor[(16, 12, 63), bool]) */;
+  %185 = @func_2154() /* ty=(Tensor[(3, 7, 3), int8], Tensor[(16, 12, ?), float64], Tensor[(16, 12, 63), bool]) */;
+  %186 = %185.2;
+  %187 = cast(%var_2817, dtype="bool") /* ty=Tensor[(16, 12, 63), bool] */;
+  %188 = shape_of(%186, dtype="int32") /* ty=Tensor[(3), int32] */;
+  %189 = cast(%186, dtype="bool") /* ty=Tensor[(16, 12, 63), bool] */;
+  %190 = dyn.reshape(%187, %188, newshape=[]) /* ty=Tensor[(?, ?, ?), bool] */;
+  %191 = not_equal(%189, %190) /* ty=Tensor[(16, 12, 63), bool] */;
+  %192 = cast(%191, dtype="float32") /* ty=Tensor[(16, 12, 63), float32] */;
+  %193 = cos(%192) /* ty=Tensor[(16, 12, 63), float32] */;
+  %194 = cast(%191, dtype="float64") /* ty=Tensor[(16, 12, 63), float64] */;
+  %195 = shape_of(%193, dtype="int32") /* ty=Tensor[(3), int32] */;
+  %196 = cast(%193, dtype="float64") /* ty=Tensor[(16, 12, 63), float64] */;
+  %197 = dyn.reshape(%194, %195, newshape=[]) /* ty=Tensor[(?, ?, ?), float64] */;
+  %198 = cast(%var_2817, dtype="bool") /* ty=Tensor[(16, 12, 63), bool] */;
+  %199 = shape_of(%186, dtype="int32") /* ty=Tensor[(3), int32] */;
+  %200 = cast(%186, dtype="bool") /* ty=Tensor[(16, 12, 63), bool] */;
+  %201 = dyn.reshape(%198, %199, newshape=[]) /* ty=Tensor[(?, ?, ?), bool] */;
+  %202 = cast(meta[relay.Constant][5] /* ty=Tensor[(16, 12, 63), bool] */, dtype="uint32") /* ty=Tensor[(16, 12, 63), uint32] */;
+  %203 = shape_of(%186, dtype="int32") /* ty=Tensor[(3), int32] */;
+  %204 = cast(%186, dtype="uint32") /* ty=Tensor[(16, 12, 63), uint32] */;
+  %205 = dyn.reshape(%202, %203, newshape=[]) /* ty=Tensor[(?, ?, ?), uint32] */;
+  %206 = @func_34() /* ty=(Tensor[(4, 5, 3), float64],) */;
+  %207 = %206.0;
+  %208 = cast(%207, dtype="float64") /* ty=Tensor[(4, 5, 3), float64] */;
+  %209 = %184.1;
+  %210 = add(%196, %197) /* ty=Tensor[(16, 12, 63), float64] */;
+  %211 = logical_and(%200, %201) /* ty=Tensor[(16, 12, 63), bool] */;
+  %212 = bitwise_and(%204, %205) /* ty=Tensor[(16, 12, 63), uint32] */;
+  %213 = acosh(%208) /* ty=Tensor[(4, 5, 3), float64] */;
+  (%209, %210, %211, %212, %213)
+}
+
+def @func_3408() -> Tensor[(4, 5, 3), float64] {
+  @func_3281() /* ty=Tensor[(4, 5, 3), float64] */
+}
+
+def @func_3881() -> (Tensor[(4, 5, 3), float32], Tensor[(1440), float32], Tensor[(2304), float64], Tensor[(2304), float64]) {
+  %214 = @func_1429() /* ty=(Tensor[(16, 12, ?), float64], Tensor[(60), float32], Tensor[(4, 5, 3), float32]) */;
+  %215 = cast(meta[relay.Constant][6] /* ty=Tensor[(1440), float32] */, dtype="float32") /* ty=Tensor[(1440), float32] */;
+  %216 = cast(meta[relay.Constant][7] /* ty=Tensor[(2304), float64] */, dtype="float64") /* ty=Tensor[(2304), float64] */;
+  %217 = cast(meta[relay.Constant][6] /* ty=Tensor[(1440), float32] */, dtype="float32") /* ty=Tensor[(1440), float32] */;
+  %218 = reshape(%215, newshape=[8, 12, 15]) /* ty=Tensor[(8, 12, 15), float32] */;
+  %219 = reshape(%216, newshape=[2304]) /* ty=Tensor[(2304), float64] */;
+  %220 = reshape(%217, newshape=[8, 12, 15]) /* ty=Tensor[(8, 12, 15), float32] */;
+  %221 = @func_1917(%218, %219, %220) /* ty=(Tensor[(12, 16, 12), float64], Tensor[(2304), float64], Tensor[(4, 5, 3), float64], Tensor[(8, 12, 15), float32]) */;
+  %222 = %221.1;
+  %223 = cast(meta[relay.Constant][8] /* ty=Tensor[(2304), float64] */, dtype="float64") /* ty=Tensor[(2304), float64] */;
+  %224 = shape_of(%222, dtype="int32") /* ty=Tensor[(1), int32] */;
+  %225 = cast(%222, dtype="float64") /* ty=Tensor[(2304), float64] */;
+  %226 = dyn.reshape(%223, %224, newshape=[]) /* ty=Tensor[(?), float64] */;
+  %227 = %214.2;
+  %228 = floor_mod(%225, %226) /* ty=Tensor[(2304), float64] */;
+  (%227, meta[relay.Constant][6] /* ty=Tensor[(1440), float32] */, meta[relay.Constant][7] /* ty=Tensor[(2304), float64] */, %228)
+}
+
+def @func_170(%var_154: float64, %var_155: Tensor[(14, 3, 11), float64]) -> (Tensor[(4, 5, 3), float64], Tensor[(14, 3, 11), float64]) {
+  %229 = @func_121() /* ty=(Tensor[(4, 5, 3), float64],) */;
+  %230 = cast(%var_154, dtype="bool") /* ty=bool */;
+  %231 = cast(%var_155, dtype="bool") /* ty=Tensor[(14, 3, 11), bool] */;
+  %232 = greater(%230, %231) /* ty=Tensor[(14, 3, 11), bool] */;
+  %233 = cast(%var_155, dtype="float64") /* ty=Tensor[(14, 3, 11), float64] */;
+  %234 = shape_of(%232, dtype="int32") /* ty=Tensor[(3), int32] */;
+  %235 = cast(%232, dtype="float64") /* ty=Tensor[(14, 3, 11), float64] */;
+  %236 = dyn.reshape(%233, %234, newshape=[]) /* ty=Tensor[(?, ?, ?), float64] */;
+  %237 = %229.0;
+  %238 = mod(%235, %236) /* ty=Tensor[(14, 3, 11), float64] */;
+  (%237, %238)
+}
+
+def @func_1206() -> (Tensor[(4, 5, 3), float64], Tensor[(4, 5, 3), float64], Tensor[(4, 5, 3), float32], Tensor[(16, 12, 1), float32]) {
+  %239 = @func_34() /* ty=(Tensor[(4, 5, 3), float64],) */;
+  %240 = @func_931() /* ty=(Tensor[(4, 5, 3), float64], Tensor[(16, 12, 1), float64]) */;
+  %241 = %240.0;
+  %242 = cast(%241, dtype="float32") /* ty=Tensor[(4, 5, 3), float32] */;
+  %243 = reshape(%242, newshape=[4, 5, 3]) /* ty=Tensor[(4, 5, 3), float32] */;
+  %244 = @func_551(%243) /* ty=(Tensor[(4, 5, 3), int16], Tensor[(4, 5, 3), float32]) */;
+  %245 = @func_384() /* ty=Tensor[(16, 12, 1), float32] */;
+  %246 = cast(%245, dtype="float32") /* ty=Tensor[(16, 12, 1), float32] */;
+  %247 = %239.0;
+  %248 = %244.1;
+  %249 = exp(%246) /* ty=Tensor[(16, 12, 1), float32] */;
+  (%247, %241, %248, %249)
+}
+
+def @func_338() -> Tensor[(4, 5, 14), float64] {
+  %250 = cast(meta[relay.Constant][9] /* ty=Tensor[(4, 5, 14), float64] */, dtype="float64") /* ty=Tensor[(4, 5, 14), float64] */;
+  log10(%250) /* ty=Tensor[(4, 5, 14), float64] */
+}
+
+def @func_1773() -> Tensor[(2, 11, 6), float32] {
+  %251 = cast(meta[relay.Constant][10] /* ty=Tensor[(2, 11, 6), float32] */, dtype="float32") /* ty=Tensor[(2, 11, 6), float32] */;
+  tan(%251) /* ty=Tensor[(2, 11, 6), float32] */
+}
+
+def @func_1286() -> Tensor[(4, 5, 3), float64] {
+  %252 = @func_1047() /* ty=(Tensor[(4, 5, 3), float64], Tensor[(16, 12, 1), float32], Tensor[(4, 5, 14), float64]) */;
+  %252.0
+}
+
+def @func_2742(%var_2725: float32, %var_2738: Tensor[(63), float64]) -> (Tensor[(16, 12, ?), float64], Tensor[(16, 12, 1), float32], Tensor[(9, 12, 6), float32], float32, Tensor[(4, 5, 3), float64], Tensor[(3, 7, 3), bool], Tensor[(63), float64]) {
+  %253 = @func_1741() /* ty=(Tensor[(16, 12, 1), float32],) */;
+  %254 = cast(%var_2725, dtype="float32") /* ty=float32 */;
+  %255 = reshape(%254, newshape=[]) /* ty=float32 */;
+  %256 = @func_1499(%255) /* ty=(Tensor[(9, 12, 6), float32],) */;
+  %257 = @func_1798() /* ty=(Tensor[(4, 5, 3), float64], Tensor[(16, 12, 1), float32]) */;
+  %258 = cast(%var_2738, dtype="float64") /* ty=Tensor[(63), float64] */;
+  %259 = reshape(%258, newshape=[3, 7, 3]) /* ty=Tensor[(3, 7, 3), float64] */;
+  %260 = @func_2207(%259) /* ty=(Tensor[(4, 5, 3), float32], Tensor[(4, 5, 3), int16], Tensor[(3, 7, 3), bool], Tensor[(3, 7, 3), float64]) */;
+  %261 = @func_1666() /* ty=Tensor[(16, 12, ?), float64] */;
+  %262 = %253.0;
+  %263 = %256.0;
+  %264 = %257.0;
+  %265 = %260.2;
+  (%261, %262, %263, %var_2725, %264, %265, %var_2738)
+}
+
+def @func_3987() -> (Tensor[(16, 12, 4), int8],) {
+  %266 = @func_2578() /* ty=Tensor[(16, 12, 1), float64] */;
+  %267 = cast(%266, dtype="bool") /* ty=Tensor[(16, 12, 1), bool] */;
+  %268 = cast(meta[relay.Constant][11] /* ty=Tensor[(16, 12, 4), float64] */, dtype="bool") /* ty=Tensor[(16, 12, 4), bool] */;
+  %269 = greater(%267, %268) /* ty=Tensor[(16, 12, 4), bool] */;
+  %270 = cast(%269, dtype="uint16") /* ty=Tensor[(16, 12, 4), uint16] */;
+  %271 = shape_of(meta[relay.Constant][11] /* ty=Tensor[(16, 12, 4), float64] */, dtype="int32") /* ty=Tensor[(3), int32] */;
+  %272 = cast(meta[relay.Constant][11] /* ty=Tensor[(16, 12, 4), float64] */, dtype="uint16") /* ty=Tensor[(16, 12, 4), uint16] */;
+  %273 = dyn.reshape(%270, %271, newshape=[]) /* ty=Tensor[(?, ?, ?), uint16] */;
+  %274 = bitwise_and(%272, %273) /* ty=Tensor[(16, 12, 4), uint16] */;
+  %275 = cast(%269, dtype="int8") /* ty=Tensor[(16, 12, 4), int8] */;
+  %276 = shape_of(%274, dtype="int32") /* ty=Tensor[(3), int32] */;
+  %277 = cast(%274, dtype="int8") /* ty=Tensor[(16, 12, 4), int8] */;
+  %278 = dyn.reshape(%275, %276, newshape=[]) /* ty=Tensor[(?, ?, ?), int8] */;
+  %279 = add(%277, %278) /* ty=Tensor[(16, 12, 4), int8] */;
+  (%279,)
+}
+
+def @func_4059() -> (Tensor[(16, 12, 1), float32],) {
+  %280 = @func_3084() /* ty=(Tensor[(16, 12, 1), float32],) */;
+  %281 = %280.0;
+  (%281,)
+}
+
+def @func_1917(%var_1830: Tensor[(8, 12, 15), float32], %var_1839: Tensor[(2304), float64], %var_1844: Tensor[(8, 12, 15), float32]) -> (Tensor[(12, 16, 12), float64], Tensor[(2304), float64], Tensor[(4, 5, 3), float64], Tensor[(8, 12, 15), float32]) {
+  %282 = cast(%var_1839, dtype="float64") /* ty=Tensor[(2304), float64] */;
+  %283 = reshape(%282, newshape=[12, 16, 12]) /* ty=Tensor[(12, 16, 12), float64] */;
+  %284 = @func_1098(%283) /* ty=(Tensor[(12, 16, 12), float64],) */;
+  %285 = cast(%var_1830, dtype="float32") /* ty=Tensor[(8, 12, 15), float32] */;
+  %286 = asin(%285) /* ty=Tensor[(8, 12, 15), float32] */;
+  %287 = cast(%var_1844, dtype="bool") /* ty=Tensor[(8, 12, 15), bool] */;
+  %288 = shape_of(%286, dtype="int32") /* ty=Tensor[(3), int32] */;
+  %289 = cast(%286, dtype="bool") /* ty=Tensor[(8, 12, 15), bool] */;
+  %290 = dyn.reshape(%287, %288, newshape=[]) /* ty=Tensor[(?, ?, ?), bool] */;
+  %291 = logical_and(%289, %290) /* ty=Tensor[(8, 12, 15), bool] */;
+  %292 = cast(%291, dtype="bool") /* ty=Tensor[(8, 12, 15), bool] */;
+  %293 = shape_of(%var_1844, dtype="int32") /* ty=Tensor[(3), int32] */;
+  %294 = cast(%var_1844, dtype="bool") /* ty=Tensor[(8, 12, 15), bool] */;
+  %295 = dyn.reshape(%292, %293, newshape=[]) /* ty=Tensor[(?, ?, ?), bool] */;
+  %296 = equal(%294, %295) /* ty=Tensor[(8, 12, 15), bool] */;
+  %297 = cast(%296, dtype="bool") /* ty=Tensor[(8, 12, 15), bool] */;
+  %298 = shape_of(%286, dtype="int32") /* ty=Tensor[(3), int32] */;
+  %299 = cast(%286, dtype="bool") /* ty=Tensor[(8, 12, 15), bool] */;
+  %300 = dyn.reshape(%297, %298, newshape=[]) /* ty=Tensor[(?, ?, ?), bool] */;
+  %301 = logical_or(%299, %300) /* ty=Tensor[(8, 12, 15), bool] */;
+  %302 = cast(%301, dtype="float32") /* ty=Tensor[(8, 12, 15), float32] */;
+  %303 = %284.0;
+  %304 = @func_292() /* ty=Tensor[(4, 5, 3), float64] */;
+  %305 = acos(%302) /* ty=Tensor[(8, 12, 15), float32] */;
+  (%303, %var_1839, %304, %305)
+}
+
+def @func_3758() -> (Tensor[(16, 12, 1), float32], Tensor[(4, 5, 3), float32], Tensor[(2304), float64], Tensor[(16, 12, 1), float32]) {
+  %306 = @func_2009() /* ty=(Tensor[(16, 12, 1), float32],) */;
+  %307 = cast(meta[relay.Constant][12] /* ty=Tensor[(2304), float64] */, dtype="float64") /* ty=Tensor[(2304), float64] */;
+  %308 = reshape(%307, newshape=[1152, 2]) /* ty=Tensor[(1152, 2), float64] */;
+  %309 = @func_3192(%308) /* ty=(Tensor[(4, 5, 3), float64], Tensor[(12, 16, 12), float64], Tensor[(1152, 2), float64], Tensor[(4, 5, 3), float32]) */;
+  %310 = @func_1741() /* ty=(Tensor[(16, 12, 1), float32],) */;
+  %311 = %306.0;
+  %312 = %309.3;
+  %313 = %310.0;
+  (%311, %312, meta[relay.Constant][12] /* ty=Tensor[(2304), float64] */, %313)
+}
+
+def @func_4446() -> Tensor[(2, 11, 6), float64] {
+  %314 = @func_2951() /* ty=(Tensor[(2, 11, 6), float32],) */;
+  %315 = %314.0;
+  %316 = cast(%315, dtype="float64") /* ty=Tensor[(2, 11, 6), float64] */;
+  log10(%316) /* ty=Tensor[(2, 11, 6), float64] */
+}
+
+def @func_4778() -> (Tensor[(16, 12, ?), float64], Tensor[(4, 5, 3), float64]) {
+  %317 = @func_1691() /* ty=(Tensor[(16, 12, ?), float64],) */;
+  %318 = @func_34() /* ty=(Tensor[(4, 5, 3), float64],) */;
+  %319 = %317.0;
+  %320 = %318.0;
+  (%319, %320)
+}
+
+def @func_600() -> Tensor[(16, 12, 1), float32] {
+  @func_384() /* ty=Tensor[(16, 12, 1), float32] */
+}
+
+def @func_1499(%var_1481: float32) -> (Tensor[(9, 12, 6), float32],) {
+  %321 = cast(%var_1481, dtype="float32") /* ty=float32 */;
+  %322 = cast(meta[relay.Constant][13] /* ty=Tensor[(9, 12, 6), float32] */, dtype="float32") /* ty=Tensor[(9, 12, 6), float32] */;
+  %323 = mod(%321, %322) /* ty=Tensor[(9, 12, 6), float32] */;
+  (%323,)
+}
+
+def @func_4284(%var_4278: Tensor[(63), int8]) -> (Tensor[(4, 5, 3), float64], Tensor[(3, 7, 3), int8], Tensor[(63), int8], Tensor[(4, 5, 3), uint8]) {
+  %324 = @func_1588() /* ty=(Tensor[(4, 5, 3), float64], Tensor[(4, 5, 3), uint64]) */;
+  %325 = cast(%var_4278, dtype="int8") /* ty=Tensor[(63), int8] */;
+  %326 = cast(%var_4278, dtype="int8") /* ty=Tensor[(63), int8] */;
+  %327 = reshape(%325, newshape=[3, 7, 3]) /* ty=Tensor[(3, 7, 3), int8] */;
+  %328 = reshape(%326, newshape=[3, 7, 3]) /* ty=Tensor[(3, 7, 3), int8] */;
+  %329 = %324.0;
+  %330 = cast(%329, dtype="float64") /* ty=Tensor[(4, 5, 3), float64] */;
+  %331 = reshape(%330, newshape=[4, 5, 3]) /* ty=Tensor[(4, 5, 3), float64] */;
+  %332 = @func_3671(%331) /* ty=(Tensor[(16, 12, 1), float64], Tensor[(4, 5, 3), uint8]) */;
+  %333 = @func_2045(%327, %328) /* ty=Tensor[(3, 7, 3), int8] */;
+  %334 = %332.1;
+  (%329, %333, %var_4278, %334)
+}
+
+def @func_3084() -> (Tensor[(16, 12, 1), float32],) {
+  %335 = @func_600() /* ty=Tensor[(16, 12, 1), float32] */;
+  (%335,)
+}
+
+def @func_1666() -> Tensor[(16, 12, ?), float64] {
+  %336 = @func_1429() /* ty=(Tensor[(16, 12, ?), float64], Tensor[(60), float32], Tensor[(4, 5, 3), float32]) */;
+  %336.0
+}
+
+def @func_2009() -> (Tensor[(16, 12, 1), float32],) {
+  %337 = @func_1122() /* ty=(Tensor[(16, 12, 1), float32], Tensor[(16, 12, 1), float32]) */;
+  %338 = %337.0;
+  (%338,)
+}
+
+def @func_4976() -> (Tensor[(4, 5, 3), float64], float32, float32, Tensor[(21, 3), float64]) {
+  %339 = @func_2344() /* ty=(Tensor[(4, 5, 3), float64],) */;
+  %340 = cast(-9.22966f /* ty=float32 */, dtype="float32") /* ty=float32 */;
+  %341 = cast(meta[relay.Constant][14] /* ty=Tensor[(21, 3), float64] */, dtype="float64") /* ty=Tensor[(21, 3), float64] */;
+  %342 = reshape(%340, newshape=[]) /* ty=float32 */;
+  %343 = reshape(%341, newshape=[63]) /* ty=Tensor[(63), float64] */;
+  %344 = @func_2742(%342, %343) /* ty=(Tensor[(16, 12, ?), float64], Tensor[(16, 12, 1), float32], Tensor[(9, 12, 6), float32], float32, Tensor[(4, 5, 3), float64], Tensor[(3, 7, 3), bool], Tensor[(63), float64]) */;
+  %345 = %339.0;
+  %346 = %344.3;
+  (%345, %346, -9.22966f /* ty=float32 */, meta[relay.Constant][14] /* ty=Tensor[(21, 3), float64] */)
+}
+
+def @func_1798() -> (Tensor[(4, 5, 3), float64], Tensor[(16, 12, 1), float32]) {
+  %347 = @func_34() /* ty=(Tensor[(4, 5, 3), float64],) */;
+  %348 = %347.0;
+  %349 = @func_611() /* ty=Tensor[(16, 12, 1), float32] */;
+  (%348, %349)
+}
+
+def @func_5140() -> (Tensor[(4, 5, 3), float32], Tensor[(2, 11, 6), float32], Tensor[(63, ?), int32], Tensor[(14, 3, 11), float64], Tensor[(385), float32], Tensor[(16, 12, 1), float32], Tensor[(2, 11, 6), float32]) {
+  %350 = cast(meta[relay.Constant][15] /* ty=Tensor[(63, 1), float64] */, dtype="float64") /* ty=Tensor[(63, 1), float64] */;
+  %351 = reshape(%350, newshape=[3, 7, 3]) /* ty=Tensor[(3, 7, 3), float64] */;
+  %352 = @func_2207(%351) /* ty=(Tensor[(4, 5, 3), float32], Tensor[(4, 5, 3), int16], Tensor[(3, 7, 3), bool], Tensor[(3, 7, 3), float64]) */;
+  %353 = @func_4446() /* ty=Tensor[(2, 11, 6), float64] */;
+  %354 = cast(%353, dtype="float32") /* ty=Tensor[(2, 11, 6), float32] */;
+  %355 = cast(meta[relay.Constant][15] /* ty=Tensor[(63, 1), float64] */, dtype="float32") /* ty=Tensor[(63, 1), float32] */;
+  %356 = rsqrt(%355) /* ty=Tensor[(63, 1), float32] */;
+  %357 = cast(meta[relay.Constant][15] /* ty=Tensor[(63, 1), float64] */, dtype="float32") /* ty=Tensor[(63, 1), float32] */;
+  %358 = shape_of(%356, dtype="int32") /* ty=Tensor[(2), int32] */;
+  %359 = cast(%356, dtype="float32") /* ty=Tensor[(63, 1), float32] */;
+  %360 = dyn.reshape(%357, %358, newshape=[]) /* ty=Tensor[(?, ?), float32] */;
+  %361 = minimum(%359, %360) /* ty=Tensor[(63, ?), float32] */;
+  %362 = cast(%356, dtype="int32") /* ty=Tensor[(63, 1), int32] */;
+  %363 = shape_of(%361, dtype="int32") /* ty=Tensor[(2), int32] */;
+  %364 = cast(%361, dtype="int32") /* ty=Tensor[(63, ?), int32] */;
+  %365 = dyn.reshape(%362, %363, newshape=[]) /* ty=Tensor[(?, ?), int32] */;
+  %366 = cast(meta[relay.Constant][16] /* ty=Tensor[(385), float32] */, dtype="float32") /* ty=Tensor[(385), float32] */;
+  %367 = reshape(%366, newshape=[7, 5, 11]) /* ty=Tensor[(7, 5, 11), float32] */;
+  %368 = @func_1993(%367) /* ty=(Tensor[(14, 3, 11), float64], Tensor[(462), float64], Tensor[(4, 5, 3), float64], Tensor[(7, 5, 11), int8], Tensor[(7, 5, 11), float32], Tensor[(7, 5, 11), int64]) */;
+  %369 = @func_1047() /* ty=(Tensor[(4, 5, 3), float64], Tensor[(16, 12, 1), float32], Tensor[(4, 5, 14), float64]) */;
+  %370 = cast(%353, dtype="float32") /* ty=Tensor[(2, 11, 6), float32] */;
+  %371 = %352.0;
+  %372 = asinh(%354) /* ty=Tensor[(2, 11, 6), float32] */;
+  %373 = logical_xor(%364, %365) /* ty=Tensor[(63, ?), int32] */;
+  %374 = %368.0;
+  %375 = %369.1;
+  %376 = cosh(%370) /* ty=Tensor[(2, 11, 6), float32] */;
+  (%371, %372, %373, %374, meta[relay.Constant][16] /* ty=Tensor[(385), float32] */, %375, %376)
+}
+
+def @func_1122() -> (Tensor[(16, 12, 1), float32], Tensor[(16, 12, 1), float32]) {
+  %377 = @func_384() /* ty=Tensor[(16, 12, 1), float32] */;
+  %378 = @func_384() /* ty=Tensor[(16, 12, 1), float32] */;
+  (%377, %378)
+}
+
+def @func_2094() -> (Tensor[(4, 5, 3), float64],) {
+  %379 = @func_1286() /* ty=Tensor[(4, 5, 3), float64] */;
+  (%379,)
+}
+
+def @func_2934() -> (Tensor[(4, 5, 3), float32], Tensor[(4, 5, 3), float64]) {
+  %380 = @func_121() /* ty=(Tensor[(4, 5, 3), float64],) */;
+  %381 = @func_2623() /* ty=Tensor[(4, 5, 3), float32] */;
+  %382 = %380.0;
+  (%381, %382)
+}
+
+def @func_4417() -> (Tensor[(16, 12, ?), float64],) {
+  %383 = @func_1666() /* ty=Tensor[(16, 12, ?), float64] */;
+  (%383,)
+}
+
+def @func_3160() -> Tensor[(4, 5, 14), float64] {
+  @func_338() /* ty=Tensor[(4, 5, 14), float64] */
+}
+
+def @func_3047(%var_3037: Tensor[(2, 6, 15), float64]) -> (Tensor[(2, 6, 15), float64],) {
+  %384 = cast(%var_3037, dtype="float64") /* ty=Tensor[(2, 6, 15), float64] */;
+  %385 = log10(%384) /* ty=Tensor[(2, 6, 15), float64] */;
+  (%385,)
+}
+
+def @func_34() -> (Tensor[(4, 5, 3), float64],) {
+  %386 = cast(meta[relay.Constant][17] /* ty=Tensor[(4, 5, 3), float64] */, dtype="float64") /* ty=Tensor[(4, 5, 3), float64] */;
+  %387 = log2(%386) /* ty=Tensor[(4, 5, 3), float64] */;
+  (%387,)
+}
+
+def @func_1993(%var_1927: Tensor[(7, 5, 11), float32]) -> (Tensor[(14, 3, 11), float64], Tensor[(462), float64], Tensor[(4, 5, 3), float64], Tensor[(7, 5, 11), int8], Tensor[(7, 5, 11), float32], Tensor[(7, 5, 11), int64]) {
+  %388 = cast(9.0777f64 /* ty=float64 */, dtype="float64") /* ty=float64 */;
+  %389 = cast(meta[relay.Constant][18] /* ty=Tensor[(462), float64] */, dtype="float64") /* ty=Tensor[(462), float64] */;
+  %390 = reshape(%388, newshape=[]) /* ty=float64 */;
+  %391 = reshape(%389, newshape=[14, 3, 11]) /* ty=Tensor[(14, 3, 11), float64] */;
+  %392 = @func_170(%390, %391) /* ty=(Tensor[(4, 5, 3), float64], Tensor[(14, 3, 11), float64]) */;
+  %393 = @func_564() /* ty=(Tensor[(4, 5, 3), float64],) */;
+  %394 = %393.0;
+  %395 = cast(%394, dtype="float64") /* ty=Tensor[(4, 5, 3), float64] */;
+  %396 = cast(%var_1927, dtype="float32") /* ty=Tensor[(7, 5, 11), float32] */;
+  %397 = asin(%396) /* ty=Tensor[(7, 5, 11), float32] */;
+  %398 = cast(%397, dtype="float64") /* ty=Tensor[(7, 5, 11), float64] */;
+  %399 = atanh(%398) /* ty=Tensor[(7, 5, 11), float64] */;
+  %400 = cast(%399, dtype="float64") /* ty=Tensor[(7, 5, 11), float64] */;
+  %401 = asinh(%400) /* ty=Tensor[(7, 5, 11), float64] */;
+  %402 = cast(meta[relay.Constant][19] /* ty=Tensor[(7, 5, 11), float64] */, dtype="int8") /* ty=Tensor[(7, 5, 11), int8] */;
+  %403 = shape_of(%401, dtype="int32") /* ty=Tensor[(3), int32] */;
+  %404 = cast(%401, dtype="int8") /* ty=Tensor[(7, 5, 11), int8] */;
+  %405 = dyn.reshape(%402, %403, newshape=[]) /* ty=Tensor[(?, ?, ?), int8] */;
+  %406 = left_shift(%404, %405) /* ty=Tensor[(7, 5, 11), int8] */;
+  %407 = cast(%399, dtype="int8") /* ty=Tensor[(7, 5, 11), int8] */;
+  %408 = shape_of(%406, dtype="int32") /* ty=Tensor[(3), int32] */;
+  %409 = cast(%406, dtype="int8") /* ty=Tensor[(7, 5, 11), int8] */;
+  %410 = dyn.reshape(%407, %408, newshape=[]) /* ty=Tensor[(?, ?, ?), int8] */;
+  %411 = cast(%401, dtype="float32") /* ty=Tensor[(7, 5, 11), float32] */;
+  %412 = cast(%399, dtype="int64") /* ty=Tensor[(7, 5, 11), int64] */;
+  %413 = cast(9.0777f64 /* ty=float64 */, dtype="int64") /* ty=int64 */;
+  %414 = %392.1;
+  %415 = sigmoid(%395) /* ty=Tensor[(4, 5, 3), float64] */;
+  %416 = bitwise_and(%409, %410) /* ty=Tensor[(7, 5, 11), int8] */;
+  %417 = sigmoid(%411) /* ty=Tensor[(7, 5, 11), float32] */;
+  %418 = multiply(%412, %413) /* ty=Tensor[(7, 5, 11), int64] */;
+  (%414, meta[relay.Constant][18] /* ty=Tensor[(462), float64] */, %415, %416, %417, %418)
+}
+
+def @func_4313() -> (Tensor[(16, 12, 1), float32], Tensor[(16, 12, ?), float64], Tensor[(16, 12, 4), int8]) {
+  %419 = @func_1741() /* ty=(Tensor[(16, 12, 1), float32],) */;
+  %420 = @func_3987() /* ty=(Tensor[(16, 12, 4), int8],) */;
+  %421 = %419.0;
+  %422 = @func_1666() /* ty=Tensor[(16, 12, ?), float64] */;
+  %423 = %420.0;
+  (%421, %422, %423)
+}
+
+def @func_1691() -> (Tensor[(16, 12, ?), float64],) {
+  %424 = @func_1666() /* ty=Tensor[(16, 12, ?), float64] */;
+  (%424,)
+}
+
+def @func_5034() -> (Tensor[(4, 5, 3), float64],) {
+  %425 = @func_1519() /* ty=(Tensor[(4, 5, 3), float64],) */;
+  %426 = %425.0;
+  (%426,)
+}
+
+def @func_4719(%var_4696: Tensor[(9, 16, 7), float64], %var_4713: Tensor[(60), float64]) -> (Tensor[(9, 16, 7), float64], Tensor[(4, 5, 3), float32], Tensor[(60), float64]) {
+  %427 = cast(%var_4696, dtype="float64") /* ty=Tensor[(9, 16, 7), float64] */;
+  %428 = exp(%427) /* ty=Tensor[(9, 16, 7), float64] */;
+  %429 = cast(%428, dtype="float64") /* ty=Tensor[(9, 16, 7), float64] */;
+  %430 = cast(%var_4713, dtype="float64") /* ty=Tensor[(60), float64] */;
+  %431 = reshape(%430, newshape=[4, 5, 3]) /* ty=Tensor[(4, 5, 3), float64] */;
+  %432 = @func_2785(%431) /* ty=(Tensor[(4, 5, 3), uint64], float32, float32, Tensor[(63), float64], Tensor[(4, 5, 3), float32], Tensor[(4, 5, 3), float64]) */;
+  %433 = sqrt(%429) /* ty=Tensor[(9, 16, 7), float64] */;
+  %434 = %432.4;
+  (%433, %434, %var_4713)
+}
+
+def @func_564() -> (Tensor[(4, 5, 3), float64],) {
+  %435 = @func_121() /* ty=(Tensor[(4, 5, 3), float64],) */;
+  %436 = %435.0;
+  (%436,)
+}
+
+def @func_2785(%var_2764: Tensor[(4, 5, 3), float64]) -> (Tensor[(4, 5, 3), uint64], float32, float32, Tensor[(63), float64], Tensor[(4, 5, 3), float32], Tensor[(4, 5, 3), float64]) {
+  %437 = @func_452() /* ty=Tensor[(4, 5, 3), float64] */;
+  %438 = cast(%var_2764, dtype="uint64") /* ty=Tensor[(4, 5, 3), uint64] */;
+  %439 = shape_of(%437, dtype="int32") /* ty=Tensor[(3), int32] */;
+  %440 = cast(%437, dtype="uint64") /* ty=Tensor[(4, 5, 3), uint64] */;
+  %441 = dyn.reshape(%438, %439, newshape=[]) /* ty=Tensor[(?, ?, ?), uint64] */;
+  %442 = cast(8.21659f /* ty=float32 */, dtype="float32") /* ty=float32 */;
+  %443 = cast(meta[relay.Constant][20] /* ty=Tensor[(63), float64] */, dtype="float64") /* ty=Tensor[(63), float64] */;
+  %444 = reshape(%442, newshape=[]) /* ty=float32 */;
+  %445 = reshape(%443, newshape=[63]) /* ty=Tensor[(63), float64] */;
+  %446 = @func_2742(%444, %445) /* ty=(Tensor[(16, 12, ?), float64], Tensor[(16, 12, 1), float32], Tensor[(9, 12, 6), float32], float32, Tensor[(4, 5, 3), float64], Tensor[(3, 7, 3), bool], Tensor[(63), float64]) */;
+  %447 = cast(%437, dtype="float32") /* ty=Tensor[(4, 5, 3), float32] */;
+  %448 = add(%440, %441) /* ty=Tensor[(4, 5, 3), uint64] */;
+  %449 = %446.3;
+  %450 = sinh(%447) /* ty=Tensor[(4, 5, 3), float32] */;
+  %451 = @func_452() /* ty=Tensor[(4, 5, 3), float64] */;
+  (%448, %449, 8.21659f /* ty=float32 */, meta[relay.Constant][20] /* ty=Tensor[(63), float64] */, %450, %451)
+}
+
+def @func_3555(%var_3503: uint16, %var_3541: Tensor[(2288), int16]) -> (Tensor[(9, 6, 9), uint16], Tensor[(4, 5, 3), float64], float32, Tensor[(2, 11, 6), float32], Tensor[(2288), int16]) {
+  %452 = cast(%var_3503, dtype="uint16") /* ty=uint16 */;
+  %453 = cast(meta[relay.Constant][21] /* ty=Tensor[(9, 6, 9), uint16] */, dtype="uint16") /* ty=Tensor[(9, 6, 9), uint16] */;
+  %454 = @func_3408() /* ty=Tensor[(4, 5, 3), float64] */;
+  %455 = cast(%454, dtype="float64") /* ty=Tensor[(4, 5, 3), float64] */;
+  %456 = reshape(%455, newshape=[4, 5, 3]) /* ty=Tensor[(4, 5, 3), float64] */;
+  %457 = @func_2785(%456) /* ty=(Tensor[(4, 5, 3), uint64], float32, float32, Tensor[(63), float64], Tensor[(4, 5, 3), float32], Tensor[(4, 5, 3), float64]) */;
+  %458 = cast(%var_3541, dtype="int16") /* ty=Tensor[(2288), int16] */;
+  %459 = reshape(%458, newshape=[2288]) /* ty=Tensor[(2288), int16] */;
+  %460 = @func_3369(%459) /* ty=(Tensor[(2, 11, 6), float32], Tensor[(4, 5, 3), float64], Tensor[(16, 12, 1), float32], Tensor[(4, 5, 3), float64], Tensor[(2, 11, 6), float32], Tensor[(2288), bool]) */;
+  %461 = logical_xor(%452, %453) /* ty=Tensor[(9, 6, 9), uint16] */;
+  %462 = %457.1;
+  %463 = %460.4;
+  (%461, %454, %462, %463, %var_3541)
+}
+
+def @func_1741() -> (Tensor[(16, 12, 1), float32],) {
+  %464 = @func_1206() /* ty=(Tensor[(4, 5, 3), float64], Tensor[(4, 5, 3), float64], Tensor[(4, 5, 3), float32], Tensor[(16, 12, 1), float32]) */;
+  %465 = %464.3;
+  (%465,)
+}
+
+def @func_2648() -> Tensor[(4, 5, 3), float32] {
+  %466 = @func_2623() /* ty=Tensor[(4, 5, 3), float32] */;
+  %467 = cast(%466, dtype="float32") /* ty=Tensor[(4, 5, 3), float32] */;
+  acos(%467) /* ty=Tensor[(4, 5, 3), float32] */
+}
+
+def @func_3369(%var_3312: Tensor[(2288), int16]) -> (Tensor[(2, 11, 6), float32], Tensor[(4, 5, 3), float64], Tensor[(16, 12, 1), float32], Tensor[(4, 5, 3), float64], Tensor[(2, 11, 6), float32], Tensor[(2288), bool]) {
+  %468 = @func_2951() /* ty=(Tensor[(2, 11, 6), float32],) */;
+  %469 = @func_1338() /* ty=(Tensor[(4, 5, 3), float64],) */;
+  %470 = @func_1588() /* ty=(Tensor[(4, 5, 3), float64], Tensor[(4, 5, 3), uint64]) */;
+  %471 = cast(%var_3312, dtype="float64") /* ty=Tensor[(2288), float64] */;
+  %472 = tan(%471) /* ty=Tensor[(2288), float64] */;
+  %473 = cast(%var_3312, dtype="int16") /* ty=Tensor[(2288), int16] */;
+  %474 = cast(%var_3312, dtype="int16") /* ty=Tensor[(2288), int16] */;
+  %475 = reshape(%473, newshape=[13, 16, 11]) /* ty=Tensor[(13, 16, 11), int16] */;
+  %476 = reshape(%474, newshape=[13, 16, 11]) /* ty=Tensor[(13, 16, 11), int16] */;
+  %477 = @func_1258(%475, %476) /* ty=Tensor[(13, 16, 11), int16] */;
+  %478 = cast(%477, dtype="bool") /* ty=Tensor[(13, 16, 11), bool] */;
+  %479 = shape_of(%472, dtype="int32") /* ty=Tensor[(1), int32] */;
+  %480 = cast(%472, dtype="bool") /* ty=Tensor[(2288), bool] */;
+  %481 = dyn.reshape(%478, %479, newshape=[]) /* ty=Tensor[(?), bool] */;
+  %482 = greater(%480, %481) /* ty=Tensor[(2288), bool] */;
+  %483 = cast(%472, dtype="bool") /* ty=Tensor[(2288), bool] */;
+  %484 = shape_of(%482, dtype="int32") /* ty=Tensor[(1), int32] */;
+  %485 = cast(%482, dtype="bool") /* ty=Tensor[(2288), bool] */;
+  %486 = dyn.reshape(%483, %484, newshape=[]) /* ty=Tensor[(?), bool] */;
+  %487 = %468.0;
+  %488 = %469.0;
+  %489 = @func_384() /* ty=Tensor[(16, 12, 1), float32] */;
+  %490 = %470.0;
+  %491 = @func_1773() /* ty=Tensor[(2, 11, 6), float32] */;
+  %492 = logical_and(%485, %486) /* ty=Tensor[(2288), bool] */;
+  (%487, %488, %489, %490, %491, %492)
+}
+
+def @func_891(%var_839: Tensor[(4, 5, 3), float32]) -> (Tensor[(4, 5, 3), uint64], Tensor[(4, 5, 3), float64]) {
+  %493 = @func_266() /* ty=(Tensor[(4, 5, 3), float64], Tensor[(4, 5, 3), float64], Tensor[(4, 5, 3), float64]) */;
+  %494 = %493.2;
+  %495 = cast(%494, dtype="float32") /* ty=Tensor[(4, 5, 3), float32] */;
+  %496 = sin(%495) /* ty=Tensor[(4, 5, 3), float32] */;
+  %497 = cast(%var_839, dtype="uint64") /* ty=Tensor[(4, 5, 3), uint64] */;
+  %498 = shape_of(%496, dtype="int32") /* ty=Tensor[(3), int32] */;
+  %499 = cast(%496, dtype="uint64") /* ty=Tensor[(4, 5, 3), uint64] */;
+  %500 = dyn.reshape(%497, %498, newshape=[]) /* ty=Tensor[(?, ?, ?), uint64] */;
+  %501 = @func_266() /* ty=(Tensor[(4, 5, 3), float64], Tensor[(4, 5, 3), float64], Tensor[(4, 5, 3), float64]) */;
+  %502 = minimum(%499, %500) /* ty=Tensor[(4, 5, 3), uint64] */;
+  %503 = %501.0;
+  (%502, %503)
+}
+
+def @func_931() -> (Tensor[(4, 5, 3), float64], Tensor[(16, 12, 1), float64]) {
+  %504 = @func_611() /* ty=Tensor[(16, 12, 1), float32] */;
+  %505 = cast(%504, dtype="float64") /* ty=Tensor[(16, 12, 1), float64] */;
+  %506 = @func_292() /* ty=Tensor[(4, 5, 3), float64] */;
+  %507 = asinh(%505) /* ty=Tensor[(16, 12, 1), float64] */;
+  (%506, %507)
+}
+
+def @func_2207(%var_2198: Tensor[(3, 7, 3), float64]) -> (Tensor[(4, 5, 3), float32], Tensor[(4, 5, 3), int16], Tensor[(3, 7, 3), bool], Tensor[(3, 7, 3), float64]) {
+  %508 = @func_1429() /* ty=(Tensor[(16, 12, ?), float64], Tensor[(60), float32], Tensor[(4, 5, 3), float32]) */;
+  %509 = %508.2;
+  %510 = cast(%509, dtype="float32") /* ty=Tensor[(4, 5, 3), float32] */;
+  %511 = reshape(%510, newshape=[4, 5, 3]) /* ty=Tensor[(4, 5, 3), float32] */;
+  %512 = @func_551(%511) /* ty=(Tensor[(4, 5, 3), int16], Tensor[(4, 5, 3), float32]) */;
+  %513 = @func_2154() /* ty=(Tensor[(3, 7, 3), int8], Tensor[(16, 12, ?), float64], Tensor[(16, 12, 63), bool]) */;
+  %514 = %513.0;
+  %515 = cast(%514, dtype="float64") /* ty=Tensor[(3, 7, 3), float64] */;
+  %516 = erf(%515) /* ty=Tensor[(3, 7, 3), float64] */;
+  %517 = cast(%var_2198, dtype="bool") /* ty=Tensor[(3, 7, 3), bool] */;
+  %518 = shape_of(%516, dtype="int32") /* ty=Tensor[(3), int32] */;
+  %519 = cast(%516, dtype="bool") /* ty=Tensor[(3, 7, 3), bool] */;
+  %520 = dyn.reshape(%517, %518, newshape=[]) /* ty=Tensor[(?, ?, ?), bool] */;
+  %521 = cast(%514, dtype="float32") /* ty=Tensor[(3, 7, 3), float32] */;
+  %522 = log(%521) /* ty=Tensor[(3, 7, 3), float32] */;
+  %523 = cast(%522, dtype="float64") /* ty=Tensor[(3, 7, 3), float64] */;
+  %524 = %512.0;
+  %525 = equal(%519, %520) /* ty=Tensor[(3, 7, 3), bool] */;
+  %526 = log10(%523) /* ty=Tensor[(3, 7, 3), float64] */;
+  (%509, %524, %525, %526)
+}
+
+def @func_452() -> Tensor[(4, 5, 3), float64] {
+  %527 = @func_266() /* ty=(Tensor[(4, 5, 3), float64], Tensor[(4, 5, 3), float64], Tensor[(4, 5, 3), float64]) */;
+  %527.0
+}
+
+def @func_2623() -> Tensor[(4, 5, 3), float32] {
+  %528 = @func_1429() /* ty=(Tensor[(16, 12, ?), float64], Tensor[(60), float32], Tensor[(4, 5, 3), float32]) */;
+  %529 = %528.2;
+  %530 = cast(%529, dtype="float32") /* ty=Tensor[(4, 5, 3), float32] */;
+  %531 = atanh(%530) /* ty=Tensor[(4, 5, 3), float32] */;
+  %532 = cast(%531, dtype="float32") /* ty=Tensor[(4, 5, 3), float32] */;
+  atan(%532) /* ty=Tensor[(4, 5, 3), float32] */
+}
+
+def @func_2369() -> Tensor[(4, 5, 3), float64] {
+  %533 = @func_2344() /* ty=(Tensor[(4, 5, 3), float64],) */;
+  %533.0
+}
+
+def @func_5152() -> Tensor[(16, 12, 1), float32] {
+  %534 = @func_1122() /* ty=(Tensor[(16, 12, 1), float32], Tensor[(16, 12, 1), float32]) */;
+  %534.0
+}
+
+def @func_3620() -> (Tensor[(4, 5, 3), float64],) {
+  %535 = @func_1286() /* ty=Tensor[(4, 5, 3), float64] */;
+  (%535,)
+}
+
+def @func_2485(%var_2471: Tensor[(5, 13, 12), bool], %var_2472: Tensor[(5, 13, 12), bool]) -> (Tensor[(5, 13, 12), bool], Tensor[(5, 13, 12), float32]) {
+  %536 = cast(%var_2472, dtype="bool") /* ty=Tensor[(5, 13, 12), bool] */;
+  %537 = shape_of(%var_2471, dtype="int32") /* ty=Tensor[(3), int32] */;
+  %538 = cast(%var_2471, dtype="bool") /* ty=Tensor[(5, 13, 12), bool] */;
+  %539 = dyn.reshape(%536, %537, newshape=[]) /* ty=Tensor[(?, ?, ?), bool] */;
+  %540 = cast(%var_2472, dtype="float32") /* ty=Tensor[(5, 13, 12), float32] */;
+  %541 = logical_or(%538, %539) /* ty=Tensor[(5, 13, 12), bool] */;
+  %542 = atan(%540) /* ty=Tensor[(5, 13, 12), float32] */;
+  (%541, %542)
+}
+
+def @func_266() -> (Tensor[(4, 5, 3), float64], Tensor[(4, 5, 3), float64], Tensor[(4, 5, 3), float64]) {
+  %543 = @func_121() /* ty=(Tensor[(4, 5, 3), float64],) */;
+  %544 = @func_121() /* ty=(Tensor[(4, 5, 3), float64],) */;
+  %545 = @func_121() /* ty=(Tensor[(4, 5, 3), float64],) */;
+  %546 = %543.0;
+  %547 = %544.0;
+  %548 = %545.0;
+  (%546, %547, %548)
+}
+
+def @func_2288() -> (Tensor[(4, 5, 3), float64], Tensor[(16, 12, 1), float32]) {
+  %549 = @func_292() /* ty=Tensor[(4, 5, 3), float64] */;
+  %550 = cast(%549, dtype="float64") /* ty=Tensor[(4, 5, 3), float64] */;
+  %551 = @func_1206() /* ty=(Tensor[(4, 5, 3), float64], Tensor[(4, 5, 3), float64], Tensor[(4, 5, 3), float32], Tensor[(16, 12, 1), float32]) */;
+  %552 = exp(%550) /* ty=Tensor[(4, 5, 3), float64] */;
+  %553 = %551.3;
+  (%552, %553)
+}
+
+def @func_3281() -> Tensor[(4, 5, 3), float64] {
+  %554 = @func_1047() /* ty=(Tensor[(4, 5, 3), float64], Tensor[(16, 12, 1), float32], Tensor[(4, 5, 14), float64]) */;
+  %554.0
+}
+
+def @func_2154() -> (Tensor[(3, 7, 3), int8], Tensor[(16, 12, ?), float64], Tensor[(16, 12, 63), bool]) {
+  %555 = cast(meta[relay.Constant][22] /* ty=Tensor[(63), int8] */, dtype="int8") /* ty=Tensor[(63), int8] */;
+  %556 = cast(meta[relay.Constant][22] /* ty=Tensor[(63), int8] */, dtype="int8") /* ty=Tensor[(63), int8] */;
+  %557 = reshape(%555, newshape=[3, 7, 3]) /* ty=Tensor[(3, 7, 3), int8] */;
+  %558 = reshape(%556, newshape=[3, 7, 3]) /* ty=Tensor[(3, 7, 3), int8] */;
+  %559 = @func_1741() /* ty=(Tensor[(16, 12, 1), float32],) */;
+  %560 = %559.0;
+  %561 = cast(meta[relay.Constant][22] /* ty=Tensor[(63), int8] */, dtype="bool") /* ty=Tensor[(63), bool] */;
+  %562 = cast(%560, dtype="bool") /* ty=Tensor[(16, 12, 1), bool] */;
+  %563 = @func_2045(%557, %558) /* ty=Tensor[(3, 7, 3), int8] */;
+  %564 = @func_1666() /* ty=Tensor[(16, 12, ?), float64] */;
+  %565 = equal(%561, %562) /* ty=Tensor[(16, 12, 63), bool] */;
+  (%563, %564, %565)
+}
+
+def @main(%var_5205: Tensor[(4, 5, 3), float32]) -> (Tensor[(4, 5, 3), float64], Tensor[(4, 5, 3), float64], Tensor[(4, 5, 3), float64], Tensor[(4, 5, 3), bool]) {
+  %566 = @func_1286() /* ty=Tensor[(4, 5, 3), float64] */;
+  %567 = cast(%566, dtype="float32") /* ty=Tensor[(4, 5, 3), float32] */;
+  %568 = tan(%567) /* ty=Tensor[(4, 5, 3), float32] */;
+  %569 = cast(%568, dtype="float64") /* ty=Tensor[(4, 5, 3), float64] */;
+  %570 = cast(%568, dtype="float64") /* ty=Tensor[(4, 5, 3), float64] */;
+  %571 = @func_121() /* ty=(Tensor[(4, 5, 3), float64],) */;
+  %572 = cast(%var_5205, dtype="bool") /* ty=Tensor[(4, 5, 3), bool] */;
+  %573 = shape_of(%568, dtype="int32") /* ty=Tensor[(3), int32] */;
+  %574 = cast(%568, dtype="bool") /* ty=Tensor[(4, 5, 3), bool] */;
+  %575 = dyn.reshape(%572, %573, newshape=[]) /* ty=Tensor[(?, ?, ?), bool] */;
+  %576 = asin(%569) /* ty=Tensor[(4, 5, 3), float64] */;
+  %577 = cosh(%570) /* ty=Tensor[(4, 5, 3), float64] */;
+  %578 = %571.0;
+  %579 = greater(%574, %575) /* ty=Tensor[(4, 5, 3), bool] */;
+  (%576, %577, %578, %579)
+}
+
+def @func_3781() -> Tensor[(16, 12, 1), float32] {
+  @func_611() /* ty=Tensor[(16, 12, 1), float32] */
+}
+
+def @func_4381() -> Tensor[(4, 5, 3), float64] {
+  %580 = @func_1588() /* ty=(Tensor[(4, 5, 3), float64], Tensor[(4, 5, 3), uint64]) */;
+  %580.0
+}
+
+def @func_4540() -> (Tensor[(16, 12, 1), float32], Tensor[(4, 5, 3), uint8], Tensor[(4, 5, 3), float32]) {
+  %581 = @func_1519() /* ty=(Tensor[(4, 5, 3), float64],) */;
+  %582 = %581.0;
+  %583 = @func_452() /* ty=Tensor[(4, 5, 3), float64] */;
+  %584 = cast(%583, dtype="uint8") /* ty=Tensor[(4, 5, 3), uint8] */;
+  %585 = shape_of(%582, dtype="int32") /* ty=Tensor[(3), int32] */;
+  %586 = cast(%582, dtype="uint8") /* ty=Tensor[(4, 5, 3), uint8] */;
+  %587 = dyn.reshape(%584, %585, newshape=[]) /* ty=Tensor[(?, ?, ?), uint8] */;
+  %588 = cast(%582, dtype="float32") /* ty=Tensor[(4, 5, 3), float32] */;
+  %589 = @func_3781() /* ty=Tensor[(16, 12, 1), float32] */;
+  %590 = subtract(%586, %587) /* ty=Tensor[(4, 5, 3), uint8] */;
+  %591 = rsqrt(%588) /* ty=Tensor[(4, 5, 3), float32] */;
+  (%589, %590, %591)
+}
+
+def @func_1098(%var_1095: Tensor[(12, 16, 12), float64]) -> (Tensor[(12, 16, 12), float64],) {
+  %592 = cast(%var_1095, dtype="float64") /* ty=Tensor[(12, 16, 12), float64] */;
+  %593 = asin(%592) /* ty=Tensor[(12, 16, 12), float64] */;
+  (%593,)
+}
+
+def @func_2070() -> (Tensor[(16, 12, 1), float32], Tensor[(4, 5, 3), float64]) {
+  %594 = @func_1519() /* ty=(Tensor[(4, 5, 3), float64],) */;
+  %595 = @func_600() /* ty=Tensor[(16, 12, 1), float32] */;
+  %596 = %594.0;
+  (%595, %596)
+}
+
+def @func_1429() -> (Tensor[(16, 12, ?), float64], Tensor[(60), float32], Tensor[(4, 5, 3), float32]) {
+  %597 = @func_384() /* ty=Tensor[(16, 12, 1), float32] */;
+  %598 = @func_1206() /* ty=(Tensor[(4, 5, 3), float64], Tensor[(4, 5, 3), float64], Tensor[(4, 5, 3), float32], Tensor[(16, 12, 1), float32]) */;
+  %599 = %598.3;
+  %600 = cast(%599, dtype="float64") /* ty=Tensor[(16, 12, 1), float64] */;
+  %601 = shape_of(%597, dtype="int32") /* ty=Tensor[(3), int32] */;
+  %602 = cast(%597, dtype="float64") /* ty=Tensor[(16, 12, 1), float64] */;
+  %603 = dyn.reshape(%600, %601, newshape=[]) /* ty=Tensor[(?, ?, ?), float64] */;
+  %604 = cast(meta[relay.Constant][23] /* ty=Tensor[(60), float32] */, dtype="float32") /* ty=Tensor[(60), float32] */;
+  %605 = reshape(%604, newshape=[4, 5, 3]) /* ty=Tensor[(4, 5, 3), float32] */;
+  %606 = @func_891(%605) /* ty=(Tensor[(4, 5, 3), uint64], Tensor[(4, 5, 3), float64]) */;
+  %607 = %606.1;
+  %608 = cast(%607, dtype="float32") /* ty=Tensor[(4, 5, 3), float32] */;
+  %609 = floor_mod(%602, %603) /* ty=Tensor[(16, 12, ?), float64] */;
+  %610 = sqrt(%608) /* ty=Tensor[(4, 5, 3), float32] */;
+  (%609, meta[relay.Constant][23] /* ty=Tensor[(60), float32] */, %610)
+}
+
+def @func_611() -> Tensor[(16, 12, 1), float32] {
+  @func_384() /* ty=Tensor[(16, 12, 1), float32] */
+}
+
+def @func_292() -> Tensor[(4, 5, 3), float64] {
+  %611 = @func_34() /* ty=(Tensor[(4, 5, 3), float64],) */;
+  %611.0
+}
+
+def @func_3192(%var_3167: Tensor[(1152, 2), float64]) -> (Tensor[(4, 5, 3), float64], Tensor[(12, 16, 12), float64], Tensor[(1152, 2), float64], Tensor[(4, 5, 3), float32]) {
+  %612 = cast(%var_3167, dtype="float64") /* ty=Tensor[(1152, 2), float64] */;
+  %613 = reshape(%612, newshape=[12, 16, 12]) /* ty=Tensor[(12, 16, 12), float64] */;
+  %614 = @func_1098(%613) /* ty=(Tensor[(12, 16, 12), float64],) */;
+  %615 = @func_2934() /* ty=(Tensor[(4, 5, 3), float32], Tensor[(4, 5, 3), float64]) */;
+  %616 = @func_1286() /* ty=Tensor[(4, 5, 3), float64] */;
+  %617 = %614.0;
+  %618 = %615.0;
+  (%616, %617, %var_3167, %618)
+}
+
+def @func_2951() -> (Tensor[(2, 11, 6), float32],) {
+  %619 = @func_1773() /* ty=Tensor[(2, 11, 6), float32] */;
+  (%619,)
+}
+
+def @func_3005(%var_2984: Tensor[(1, 9, 7), float64]) -> (Tensor[(1, 9, 7), float64], Tensor[(3, 7, 3), int8]) {
+  %620 = cast(%var_2984, dtype="float64") /* ty=Tensor[(1, 9, 7), float64] */;
+  %621 = asinh(%620) /* ty=Tensor[(1, 9, 7), float64] */;
+  %622 = cast(%621, dtype="int8") /* ty=Tensor[(1, 9, 7), int8] */;
+  %623 = cast(%621, dtype="int8") /* ty=Tensor[(1, 9, 7), int8] */;
+  %624 = reshape(%622, newshape=[3, 7, 3]) /* ty=Tensor[(3, 7, 3), int8] */;
+  %625 = reshape(%623, newshape=[3, 7, 3]) /* ty=Tensor[(3, 7, 3), int8] */;
+  %626 = @func_2045(%624, %625) /* ty=Tensor[(3, 7, 3), int8] */;
+  (%621, %626)
+}
+
+/* For debugging purposes the metadata section has been omitted.
+ * If you would like to see the full metadata section you can set the 
+ * option to `True` when invoking `astext`. 
+ */
+===================================
+==========mutated_mod==========
+#[version = "0.0.5"]
+def @func_894(%var_892: Tensor[(4, 5, 3), float32]) -> (Tensor[(4, 5, 3), uint64], Tensor[(4, 5, 3), float64]) {
+  @func_891(%var_892) /* ty=(Tensor[(4, 5, 3), uint64], Tensor[(4, 5, 3), float64]) */
+}
+
+def @func_1692() -> (Tensor[(16, 12, ?), float64],) {
+  %1 = fn () -> (Tensor[(16, 12, ?), float64],) {
+    %0 = @func_1666() /* ty=Tensor[(16, 12, ?), float64] */;
+    (%0,)
+  };
+  %1() /* ty=(Tensor[(16, 12, ?), float64],) */
+}
+
+def @func_4542() -> (Tensor[(16, 12, 1), float32], Tensor[(4, 5, 3), uint8], Tensor[(4, 5, 3), float32]) {
+  @func_4540() /* ty=(Tensor[(16, 12, 1), float32], Tensor[(4, 5, 3), uint8], Tensor[(4, 5, 3), float32]) */
+}
+
+def @func_1101(%var_1099: Tensor[(12, 16, 12), float64]) -> (Tensor[(12, 16, 12), float64],) {
+  @func_1098(%var_1099) /* ty=(Tensor[(12, 16, 12), float64],) */
+}
+
+def @func_4061() -> (Tensor[(16, 12, 1), float32],) {
+  @func_4059() /* ty=(Tensor[(16, 12, 1), float32],) */
+}
+
+def @func_3881() -> (Tensor[(4, 5, 3), float32], Tensor[(1440), float32], Tensor[(2304), float64], Tensor[(2304), float64]) {
+  %2 = @func_1429() /* ty=(Tensor[(16, 12, ?), float64], Tensor[(60), float32], Tensor[(4, 5, 3), float32]) */;
+  %3 = cast(meta[relay.Constant][0] /* ty=Tensor[(1440), float32] */, dtype="float32") /* ty=Tensor[(1440), float32] */;
+  %4 = cast(meta[relay.Constant][1] /* ty=Tensor[(2304), float64] */, dtype="float64") /* ty=Tensor[(2304), float64] */;
+  %5 = cast(meta[relay.Constant][0] /* ty=Tensor[(1440), float32] */, dtype="float32") /* ty=Tensor[(1440), float32] */;
+  %6 = reshape(%3, newshape=[8, 12, 15]) /* ty=Tensor[(8, 12, 15), float32] */;
+  %7 = reshape(%4, newshape=[2304]) /* ty=Tensor[(2304), float64] */;
+  %8 = reshape(%5, newshape=[8, 12, 15]) /* ty=Tensor[(8, 12, 15), float32] */;
+  %9 = @func_1917(%6, %7, %8) /* ty=(Tensor[(12, 16, 12), float64], Tensor[(2304), float64], Tensor[(4, 5, 3), float64], Tensor[(8, 12, 15), float32]) */;
+  %10 = %9.1;
+  %11 = cast(meta[relay.Constant][2] /* ty=Tensor[(2304), float64] */, dtype="float64") /* ty=Tensor[(2304), float64] */;
+  %12 = shape_of(%10, dtype="int32") /* ty=Tensor[(1), int32] */;
+  %13 = cast(%10, dtype="float64") /* ty=Tensor[(2304), float64] */;
+  %14 = dyn.reshape(%11, %12, newshape=[]) /* ty=Tensor[(?), float64] */;
+  %15 = %2.2;
+  %16 = floor_mod(%13, %14) /* ty=Tensor[(2304), float64] */;
+  (%15, meta[relay.Constant][0] /* ty=Tensor[(1440), float32] */, meta[relay.Constant][1] /* ty=Tensor[(2304), float64] */, %16)
+}
+
+def @func_2369() -> Tensor[(4, 5, 3), float64] {
+  %17 = @func_2344() /* ty=(Tensor[(4, 5, 3), float64],) */;
+  %17.0
+}
+
+def @func_3086() -> (Tensor[(16, 12, 1), float32],) {
+  @func_3084() /* ty=(Tensor[(16, 12, 1), float32],) */
+}
+
+def @func_2371() -> Tensor[(4, 5, 3), float64] {
+  @func_2369() /* ty=Tensor[(4, 5, 3), float64] */
+}
+
+def @func_4648(%var_4607: Tensor[(13, 12, 13), float64], %var_4608: Tensor[(13, 12, 13), float64]) -> (Tensor[(13, 12, 13), bool], Tensor[(13, 12, 13), bool]) {
+  %18 = cast(%var_4608, dtype="float64") /* ty=Tensor[(13, 12, 13), float64] */;
+  %19 = shape_of(%var_4607, dtype="int32") /* ty=Tensor[(3), int32] */;
+  %20 = cast(%var_4607, dtype="float64") /* ty=Tensor[(13, 12, 13), float64] */;
+  %21 = dyn.reshape(%18, %19, newshape=[]) /* ty=Tensor[(?, ?, ?), float64] */;
+  %22 = maximum(%20, %21) /* ty=Tensor[(13, 12, 13), float64] */;
+  %23 = cast(%var_4607, dtype="bool") /* ty=Tensor[(13, 12, 13), bool] */;
+  %24 = shape_of(%22, dtype="int32") /* ty=Tensor[(3), int32] */;
+  %25 = cast(%22, dtype="bool") /* ty=Tensor[(13, 12, 13), bool] */;
+  %26 = dyn.reshape(%23, %24, newshape=[]) /* ty=Tensor[(?, ?, ?), bool] */;
+  %27 = cast(%var_4607, dtype="bool") /* ty=Tensor[(13, 12, 13), bool] */;
+  %28 = shape_of(%var_4608, dtype="int32") /* ty=Tensor[(3), int32] */;
+  %29 = cast(%var_4608, dtype="bool") /* ty=Tensor[(13, 12, 13), bool] */;
+  %30 = dyn.reshape(%27, %28, newshape=[]) /* ty=Tensor[(?, ?, ?), bool] */;
+  %31 = greater(%25, %26) /* ty=Tensor[(13, 12, 13), bool] */;
+  %32 = logical_or(%29, %30) /* ty=Tensor[(13, 12, 13), bool] */;
+  (%31, %32)
+}
+
+def @func_1521() -> (Tensor[(4, 5, 3), float64],) {
+  @func_1519() /* ty=(Tensor[(4, 5, 3), float64],) */
+}
+
+def @func_1611(%var_1610: Tensor[(7, 13, 4), float32]) -> (Tensor[(7, 13, 4), float32],) {
+  %35 = fn (%var_1604: Tensor[(7, 13, 4), float32]) -> (Tensor[(7, 13, 4), float32],) {
+    %33 = cast(%var_1604, dtype="float32") /* ty=Tensor[(7, 13, 4), float32] */;
+    %34 = sin(%33) /* ty=Tensor[(7, 13, 4), float32] */;
+    (%34,)
+  };
+  %35(%var_1610) /* ty=(Tensor[(7, 13, 4), float32],) */
+}
+
+def @func_3622() -> (Tensor[(4, 5, 3), float64],) {
+  @func_3620() /* ty=(Tensor[(4, 5, 3), float64],) */
+}
+
+def @func_4929() -> (Tensor[(2304), float32],) {
+  %40 = fn () -> (Tensor[(2304), float32],) {
+    %36 = @func_3881() /* ty=(Tensor[(4, 5, 3), float32], Tensor[(1440), float32], Tensor[(2304), float64], Tensor[(2304), float64]) */;
+    %37 = %36.3;
+    %38 = cast(%37, dtype="float32") /* ty=Tensor[(2304), float32] */;
+    %39 = sinh(%38) /* ty=Tensor[(2304), float32] */;
+    (%39,)
+  };
+  %40() /* ty=(Tensor[(2304), float32],) */
+}
+
+def @func_1742() -> (Tensor[(16, 12, 1), float32],) {
+  %43 = fn () -> (Tensor[(16, 12, 1), float32],) {
+    %41 = @func_1206() /* ty=(Tensor[(4, 5, 3), float64], Tensor[(4, 5, 3), float64], Tensor[(4, 5, 3), float32], Tensor[(16, 12, 1), float32]) */;
+    %42 = %41.3;
+    (%42,)
+  };
+  %43() /* ty=(Tensor[(16, 12, 1), float32],) */
+}
+
+def @func_2344() -> (Tensor[(4, 5, 3), float64],) {
+  %44 = @func_564() /* ty=(Tensor[(4, 5, 3), float64],) */;
+  %45 = %44.0;
+  (%45,)
+}
+
+def @func_4831(%var_4827: Tensor[(16, 12, 3), float32], %var_4828: Tensor[(50), uint16], %var_4829: Tensor[(650, 1), uint16], %var_4830: Tensor[(780), bool]) -> (Tensor[(16, 12, 1), float64], Tensor[(16, 12, ?), float64], Tensor[(16, 12, 3), bool], Tensor[(13, 5, 10), uint16], Tensor[(50), uint16], Tensor[(650, 1), uint16], Tensor[(5, 13, 12), bool], Tensor[(780), bool]) {
+  %64 = fn (%var_4813: Tensor[(16, 12, 3), float32], %var_4819: Tensor[(50), uint16], %var_4820: Tensor[(650, 1), uint16], %var_4824: Tensor[(780), bool]) -> (Tensor[(16, 12, 1), float64], Tensor[(16, 12, ?), float64], Tensor[(16, 12, 3), bool], Tensor[(13, 5, 10), uint16], Tensor[(50), uint16], Tensor[(650, 1), uint16], Tensor[(5, 13, 12), bool], Tensor[(780), bool]) {
+    %46 = @func_600() /* ty=Tensor[(16, 12, 1), float32] */;
+    %47 = cast(%46, dtype="float64") /* ty=Tensor[(16, 12, 1), float64] */;
+    %48 = cast(%46, dtype="bool") /* ty=Tensor[(16, 12, 1), bool] */;
+    %49 = cast(%var_4813, dtype="bool") /* ty=Tensor[(16, 12, 3), bool] */;
+    %50 = cast(%var_4819, dtype="uint16") /* ty=Tensor[(50), uint16] */;
+    %51 = cast(%var_4820, dtype="uint16") /* ty=Tensor[(650, 1), uint16] */;
+    %52 = reshape(%50, newshape=[1, 5, 10]) /* ty=Tensor[(1, 5, 10), uint16] */;
+    %53 = reshape(%51, newshape=[13, 5, 10]) /* ty=Tensor[(13, 5, 10), uint16] */;
+    %54 = cast(%var_4824, dtype="bool") /* ty=Tensor[(780), bool] */;
+    %55 = cast(%var_4824, dtype="bool") /* ty=Tensor[(780), bool] */;
+    %56 = reshape(%54, newshape=[5, 13, 12]) /* ty=Tensor[(5, 13, 12), bool] */;
+    %57 = reshape(%55, newshape=[5, 13, 12]) /* ty=Tensor[(5, 13, 12), bool] */;
+    %58 = @func_2485(%56, %57) /* ty=(Tensor[(5, 13, 12), bool], Tensor[(5, 13, 12), float32]) */;
+    %59 = log2(%47) /* ty=Tensor[(16, 12, 1), float64] */;
+    %60 = @func_1666() /* ty=Tensor[(16, 12, ?), float64] */;
+    %61 = less_equal(%48, %49) /* ty=Tensor[(16, 12, 3), bool] */;
+    %62 = @func_3122(%52, %53) /* ty=Tensor[(13, 5, 10), uint16] */;
+    %63 = %58.0;
+    (%59, %60, %61, %62, %var_4819, %var_4820, %63, %var_4824)
+  };
+  %64(%var_4827, %var_4828, %var_4829, %var_4830) /* ty=(Tensor[(16, 12, 1), float64], Tensor[(16, 12, ?), float64], Tensor[(16, 12, 3), bool], Tensor[(13, 5, 10), uint16], Tensor[(50), uint16], Tensor[(650, 1), uint16], Tensor[(5, 13, 12), bool], Tensor[(780), bool]) */
+}
+
+def @func_600() -> Tensor[(16, 12, 1), float32] {
+  @func_384() /* ty=Tensor[(16, 12, 1), float32] */
+}
+
+def @func_3122(%var_3116: Tensor[(1, 5, 10), uint16], %var_3117: Tensor[(13, 5, 10), uint16]) -> Tensor[(13, 5, 10), uint16] {
+  %65 = cast(%var_3116, dtype="uint16") /* ty=Tensor[(1, 5, 10), uint16] */;
+  %66 = cast(%var_3117, dtype="uint16") /* ty=Tensor[(13, 5, 10), uint16] */;
+  bitwise_xor(%65, %66) /* ty=Tensor[(13, 5, 10), uint16] */
+}
+
+def @func_3893() -> (Tensor[(16, 12, 1), float32], Tensor[(4, 5, 3), uint64]) {
+  %67 = @func_1798() /* ty=(Tensor[(4, 5, 3), float64], Tensor[(16, 12, 1), float32]) */;
+  %68 = @func_1588() /* ty=(Tensor[(4, 5, 3), float64], Tensor[(4, 5, 3), uint64]) */;
+  %69 = %67.1;
+  %70 = %68.1;
+  (%69, %70)
+}
+
+def @func_340() -> Tensor[(4, 5, 14), float64] {
+  @func_338() /* ty=Tensor[(4, 5, 14), float64] */
+}
+
+def @func_385() -> Tensor[(16, 12, 1), float32] {
+  %72 = fn () -> Tensor[(16, 12, 1), float32] {
+    %71 = cast(meta[relay.Constant][3] /* ty=Tensor[(16, 12, 1), float32] */, dtype="float32") /* ty=Tensor[(16, 12, 1), float32] */;
+    log(%71) /* ty=Tensor[(16, 12, 1), float32] */
+  };
+  %72() /* ty=Tensor[(16, 12, 1), float32] */
+}
+
+def @func_2745(%var_2743: float32, %var_2744: Tensor[(63), float64]) -> (Tensor[(16, 12, ?), float64], Tensor[(16, 12, 1), float32], Tensor[(9, 12, 6), float32], float32, Tensor[(4, 5, 3), float64], Tensor[(3, 7, 3), bool], Tensor[(63), float64]) {
+  %86 = fn (%var_2725: float32, %var_2738: Tensor[(63), float64]) -> (Tensor[(16, 12, ?), float64], Tensor[(16, 12, 1), float32], Tensor[(9, 12, 6), float32], float32, Tensor[(4, 5, 3), float64], Tensor[(3, 7, 3), bool], Tensor[(63), float64]) {
+    %73 = @func_1741() /* ty=(Tensor[(16, 12, 1), float32],) */;
+    %74 = cast(%var_2725, dtype="float32") /* ty=float32 */;
+    %75 = reshape(%74, newshape=[]) /* ty=float32 */;
+    %76 = @func_1499(%75) /* ty=(Tensor[(9, 12, 6), float32],) */;
+    %77 = @func_1798() /* ty=(Tensor[(4, 5, 3), float64], Tensor[(16, 12, 1), float32]) */;
+    %78 = cast(%var_2738, dtype="float64") /* ty=Tensor[(63), float64] */;
+    %79 = reshape(%78, newshape=[3, 7, 3]) /* ty=Tensor[(3, 7, 3), float64] */;
+    %80 = @func_2207(%79) /* ty=(Tensor[(4, 5, 3), float32], Tensor[(4, 5, 3), int16], Tensor[(3, 7, 3), bool], Tensor[(3, 7, 3), float64]) */;
+    %81 = @func_1666() /* ty=Tensor[(16, 12, ?), float64] */;
+    %82 = %73.0;
+    %83 = %76.0;
+    %84 = %77.0;
+    %85 = %80.2;
+    (%81, %82, %83, %var_2725, %84, %85, %var_2738)
+  };
+  %86(%var_2743, %var_2744) /* ty=(Tensor[(16, 12, ?), float64], Tensor[(16, 12, 1), float32], Tensor[(9, 12, 6), float32], float32, Tensor[(4, 5, 3), float64], Tensor[(3, 7, 3), bool], Tensor[(63), float64]) */
+}
+
+def @func_2578() -> Tensor[(16, 12, 1), float64] {
+  %87 = @func_1798() /* ty=(Tensor[(4, 5, 3), float64], Tensor[(16, 12, 1), float32]) */;
+  %88 = %87.1;
+  %89 = cast(%88, dtype="float64") /* ty=Tensor[(16, 12, 1), float64] */;
+  log10(%89) /* ty=Tensor[(16, 12, 1), float64] */
+}
+
+def @func_3282() -> Tensor[(4, 5, 3), float64] {
+  %91 = fn () -> Tensor[(4, 5, 3), float64] {
+    %90 = @func_1047() /* ty=(Tensor[(4, 5, 3), float64], Tensor[(16, 12, 1), float32], Tensor[(4, 5, 14), float64]) */;
+    %90.0
+  };
+  %91() /* ty=Tensor[(4, 5, 3), float64] */
+}
+
+def @func_2489(%var_2487: Tensor[(5, 13, 12), bool], %var_2488: Tensor[(5, 13, 12), bool]) -> (Tensor[(5, 13, 12), bool], Tensor[(5, 13, 12), float32]) {
+  @func_2485(%var_2487, %var_2488) /* ty=(Tensor[(5, 13, 12), bool], Tensor[(5, 13, 12), float32]) */
+}
+
+def @main(%var_5205: Tensor[(4, 5, 3), float32]) -> (Tensor[(4, 5, 3), float64], Tensor[(4, 5, 3), float64], Tensor[(4, 5, 3), float64], Tensor[(4, 5, 3), bool]) {
+  %92 = @func_1286() /* ty=Tensor[(4, 5, 3), float64] */;
+  %93 = cast(%92, dtype="float32") /* ty=Tensor[(4, 5, 3), float32] */;
+  %94 = tan(%93) /* ty=Tensor[(4, 5, 3), float32] */;
+  %95 = cast(%94, dtype="float64") /* ty=Tensor[(4, 5, 3), float64] */;
+  %96 = cast(%94, dtype="float64") /* ty=Tensor[(4, 5, 3), float64] */;
+  %97 = @func_122() /* ty=(Tensor[(4, 5, 3), float64],) */;
+  %98 = cast(%var_5205, dtype="bool") /* ty=Tensor[(4, 5, 3), bool] */;
+  %99 = shape_of(%94, dtype="int32") /* ty=Tensor[(3), int32] */;
+  %100 = cast(%94, dtype="bool") /* ty=Tensor[(4, 5, 3), bool] */;
+  %101 = dyn.reshape(%98, %99, newshape=[]) /* ty=Tensor[(?, ?, ?), bool] */;
+  %102 = asin(%95) /* ty=Tensor[(4, 5, 3), float64] */;
+  %103 = cosh(%96) /* ty=Tensor[(4, 5, 3), float64] */;
+  %104 = %97.0;
+  %105 = greater(%100, %101) /* ty=Tensor[(4, 5, 3), bool] */;
+  (%102, %103, %104, %105)
+}
+
+def @func_2095() -> (Tensor[(4, 5, 3), float64],) {
+  %107 = fn () -> (Tensor[(4, 5, 3), float64],) {
+    %106 = @func_1286() /* ty=Tensor[(4, 5, 3), float64] */;
+    (%106,)
+  };
+  %107() /* ty=(Tensor[(4, 5, 3), float64],) */
+}
+
+def @func_2580() -> Tensor[(16, 12, 1), float64] {
+  @func_2578() /* ty=Tensor[(16, 12, 1), float64] */
+}
+
+def @func_3161() -> Tensor[(4, 5, 14), float64] {
+  %108 = fn () -> Tensor[(4, 5, 14), float64] {
+    @func_338() /* ty=Tensor[(4, 5, 14), float64] */
+  };
+  %108() /* ty=Tensor[(4, 5, 14), float64] */
+}
+
+def @func_4186() -> Tensor[(16, 12, ?), uint32] {
+  %117 = fn () -> Tensor[(16, 12, ?), uint32] {
+    %109 = @func_1691() /* ty=(Tensor[(16, 12, ?), float64],) */;
+    %110 = %109.0;
+    %111 = @func_1122() /* ty=(Tensor[(16, 12, 1), float32], Tensor[(16, 12, 1), float32]) */;
+    %112 = %111.0;
+    %113 = cast(%112, dtype="uint32") /* ty=Tensor[(16, 12, 1), uint32] */;
+    %114 = shape_of(%110, dtype="int32") /* ty=Tensor[(3), int32] */;
+    %115 = cast(%110, dtype="uint32") /* ty=Tensor[(16, 12, ?), uint32] */;
+    %116 = dyn.reshape(%113, %114, newshape=[]) /* ty=Tensor[(?, ?, ?), uint32] */;
+    bitwise_xor(%115, %116) /* ty=Tensor[(16, 12, ?), uint32] */
+  };
+  %117() /* ty=Tensor[(16, 12, ?), uint32] */
+}
+
+def @func_1667() -> Tensor[(16, 12, ?), float64] {
+  %119 = fn () -> Tensor[(16, 12, ?), float64] {
+    %118 = @func_1429() /* ty=(Tensor[(16, 12, ?), float64], Tensor[(60), float32], Tensor[(4, 5, 3), float32]) */;
+    %118.0
+  };
+  %119() /* ty=Tensor[(16, 12, ?), float64] */
+}
+
+def @func_602() -> Tensor[(16, 12, 1), float32] {
+  @func_600() /* ty=Tensor[(16, 12, 1), float32] */
+}
+
+def @func_2072() -> (Tensor[(16, 12, 1), float32], Tensor[(4, 5, 3), float64]) {
+  @func_2070() /* ty=(Tensor[(16, 12, 1), float32], Tensor[(4, 5, 3), float64]) */
+}
+
+def @func_3369(%var_3312: Tensor[(2288), int16]) -> (Tensor[(2, 11, 6), float32], Tensor[(4, 5, 3), float64], Tensor[(16, 12, 1), float32], Tensor[(4, 5, 3), float64], Tensor[(2, 11, 6), float32], Tensor[(2288), bool]) {
+  %120 = @func_2951() /* ty=(Tensor[(2, 11, 6), float32],) */;
+  %121 = @func_1338() /* ty=(Tensor[(4, 5, 3), float64],) */;
+  %122 = @func_1588() /* ty=(Tensor[(4, 5, 3), float64], Tensor[(4, 5, 3), uint64]) */;
+  %123 = cast(%var_3312, dtype="float64") /* ty=Tensor[(2288), float64] */;
+  %124 = tan(%123) /* ty=Tensor[(2288), float64] */;
+  %125 = cast(%var_3312, dtype="int16") /* ty=Tensor[(2288), int16] */;
+  %126 = cast(%var_3312, dtype="int16") /* ty=Tensor[(2288), int16] */;
+  %127 = reshape(%125, newshape=[13, 16, 11]) /* ty=Tensor[(13, 16, 11), int16] */;
+  %128 = reshape(%126, newshape=[13, 16, 11]) /* ty=Tensor[(13, 16, 11), int16] */;
+  %129 = @func_1258(%127, %128) /* ty=Tensor[(13, 16, 11), int16] */;
+  %130 = cast(%129, dtype="bool") /* ty=Tensor[(13, 16, 11), bool] */;
+  %131 = shape_of(%124, dtype="int32") /* ty=Tensor[(1), int32] */;
+  %132 = cast(%124, dtype="bool") /* ty=Tensor[(2288), bool] */;
+  %133 = dyn.reshape(%130, %131, newshape=[]) /* ty=Tensor[(?), bool] */;
+  %134 = greater(%132, %133) /* ty=Tensor[(2288), bool] */;
+  %135 = cast(%124, dtype="bool") /* ty=Tensor[(2288), bool] */;
+  %136 = shape_of(%134, dtype="int32") /* ty=Tensor[(1), int32] */;
+  %137 = cast(%134, dtype="bool") /* ty=Tensor[(2288), bool] */;
+  %138 = dyn.reshape(%135, %136, newshape=[]) /* ty=Tensor[(?), bool] */;
+  %139 = %120.0;
+  %140 = %121.0;
+  %141 = @func_384() /* ty=Tensor[(16, 12, 1), float32] */;
+  %142 = %122.0;
+  %143 = @func_1773() /* ty=Tensor[(2, 11, 6), float32] */;
+  %144 = logical_and(%137, %138) /* ty=Tensor[(2288), bool] */;
+  (%139, %140, %141, %142, %143, %144)
+}
+
+def @func_3307() -> (Tensor[(16, 12, ?), float64],) {
+  @func_3305() /* ty=(Tensor[(16, 12, ?), float64],) */
+}
+
+def @func_3008(%var_3006: Tensor[(1, 9, 7), float64]) -> (Tensor[(1, 9, 7), float64], Tensor[(3, 7, 3), int8]) {
+  @func_3005(%var_3006) /* ty=(Tensor[(1, 9, 7), float64], Tensor[(3, 7, 3), int8]) */
+}
+
+def @func_4895() -> (Tensor[(16, 12, ?), float64], Tensor[(4, 5, 3), float32]) {
+  %145 = @func_4417() /* ty=(Tensor[(16, 12, ?), float64],) */;
+  %146 = %145.0;
+  %147 = @func_2648() /* ty=Tensor[(4, 5, 3), float32] */;
+  (%146, %147)
+}
+
+def @func_2209(%var_2208: Tensor[(3, 7, 3), float64]) -> (Tensor[(4, 5, 3), float32], Tensor[(4, 5, 3), int16], Tensor[(3, 7, 3), bool], Tensor[(3, 7, 3), float64]) {
+  %167 = fn (%var_2198: Tensor[(3, 7, 3), float64]) -> (Tensor[(4, 5, 3), float32], Tensor[(4, 5, 3), int16], Tensor[(3, 7, 3), bool], Tensor[(3, 7, 3), float64]) {
+    %148 = @func_1429() /* ty=(Tensor[(16, 12, ?), float64], Tensor[(60), float32], Tensor[(4, 5, 3), float32]) */;
+    %149 = %148.2;
+    %150 = cast(%149, dtype="float32") /* ty=Tensor[(4, 5, 3), float32] */;
+    %151 = reshape(%150, newshape=[4, 5, 3]) /* ty=Tensor[(4, 5, 3), float32] */;
+    %152 = @func_551(%151) /* ty=(Tensor[(4, 5, 3), int16], Tensor[(4, 5, 3), float32]) */;
+    %153 = @func_2154() /* ty=(Tensor[(3, 7, 3), int8], Tensor[(16, 12, ?), float64], Tensor[(16, 12, 63), bool]) */;
+    %154 = %153.0;
+    %155 = cast(%154, dtype="float64") /* ty=Tensor[(3, 7, 3), float64] */;
+    %156 = erf(%155) /* ty=Tensor[(3, 7, 3), float64] */;
+    %157 = cast(%var_2198, dtype="bool") /* ty=Tensor[(3, 7, 3), bool] */;
+    %158 = shape_of(%156, dtype="int32") /* ty=Tensor[(3), int32] */;
+    %159 = cast(%156, dtype="bool") /* ty=Tensor[(3, 7, 3), bool] */;
+    %160 = dyn.reshape(%157, %158, newshape=[]) /* ty=Tensor[(?, ?, ?), bool] */;
+    %161 = cast(%154, dtype="float32") /* ty=Tensor[(3, 7, 3), float32] */;
+    %162 = log(%161) /* ty=Tensor[(3, 7, 3), float32] */;
+    %163 = cast(%162, dtype="float64") /* ty=Tensor[(3, 7, 3), float64] */;
+    %164 = %152.0;
+    %165 = equal(%159, %160) /* ty=Tensor[(3, 7, 3), bool] */;
+    %166 = log10(%163) /* ty=Tensor[(3, 7, 3), float64] */;
+    (%149, %164, %165, %166)
+  };
+  %167(%var_2208) /* ty=(Tensor[(4, 5, 3), float32], Tensor[(4, 5, 3), int16], Tensor[(3, 7, 3), bool], Tensor[(3, 7, 3), float64]) */
+}
+
+def @func_2624() -> Tensor[(4, 5, 3), float32] {
+  %173 = fn () -> Tensor[(4, 5, 3), float32] {
+    %168 = @func_1429() /* ty=(Tensor[(16, 12, ?), float64], Tensor[(60), float32], Tensor[(4, 5, 3), float32]) */;
+    %169 = %168.2;
+    %170 = cast(%169, dtype="float32") /* ty=Tensor[(4, 5, 3), float32] */;
+    %171 = atanh(%170) /* ty=Tensor[(4, 5, 3), float32] */;
+    %172 = cast(%171, dtype="float32") /* ty=Tensor[(4, 5, 3), float32] */;
+    atan(%172) /* ty=Tensor[(4, 5, 3), float32] */
+  };
+  %173() /* ty=Tensor[(4, 5, 3), float32] */
+}
+
+def @func_3989() -> (Tensor[(16, 12, 4), int8],) {
+  @func_3987() /* ty=(Tensor[(16, 12, 4), int8],) */
+}
+
+def @func_4516() -> (Tensor[(4, 5, 14), float64], Tensor[(2, 6, 15), uint8]) {
+  @func_4514() /* ty=(Tensor[(4, 5, 14), float64], Tensor[(2, 6, 15), uint8]) */
+}
+
+def @func_1921(%var_1918: Tensor[(8, 12, 15), float32], %var_1919: Tensor[(2304), float64], %var_1920: Tensor[(8, 12, 15), float32]) -> (Tensor[(12, 16, 12), float64], Tensor[(2304), float64], Tensor[(4, 5, 3), float64], Tensor[(8, 12, 15), float32]) {
+  %198 = fn (%var_1830: Tensor[(8, 12, 15), float32], %var_1839: Tensor[(2304), float64], %var_1844: Tensor[(8, 12, 15), float32]) -> (Tensor[(12, 16, 12), float64], Tensor[(2304), float64], Tensor[(4, 5, 3), float64], Tensor[(8, 12, 15), float32]) {
+    %174 = cast(%var_1839, dtype="float64") /* ty=Tensor[(2304), float64] */;
+    %175 = reshape(%174, newshape=[12, 16, 12]) /* ty=Tensor[(12, 16, 12), float64] */;
+    %176 = @func_1098(%175) /* ty=(Tensor[(12, 16, 12), float64],) */;
+    %177 = cast(%var_1830, dtype="float32") /* ty=Tensor[(8, 12, 15), float32] */;
+    %178 = asin(%177) /* ty=Tensor[(8, 12, 15), float32] */;
+    %179 = cast(%var_1844, dtype="bool") /* ty=Tensor[(8, 12, 15), bool] */;
+    %180 = shape_of(%178, dtype="int32") /* ty=Tensor[(3), int32] */;
+    %181 = cast(%178, dtype="bool") /* ty=Tensor[(8, 12, 15), bool] */;
+    %182 = dyn.reshape(%179, %180, newshape=[]) /* ty=Tensor[(?, ?, ?), bool] */;
+    %183 = logical_and(%181, %182) /* ty=Tensor[(8, 12, 15), bool] */;
+    %184 = cast(%183, dtype="bool") /* ty=Tensor[(8, 12, 15), bool] */;
+    %185 = shape_of(%var_1844, dtype="int32") /* ty=Tensor[(3), int32] */;
+    %186 = cast(%var_1844, dtype="bool") /* ty=Tensor[(8, 12, 15), bool] */;
+    %187 = dyn.reshape(%184, %185, newshape=[]) /* ty=Tensor[(?, ?, ?), bool] */;
+    %188 = equal(%186, %187) /* ty=Tensor[(8, 12, 15), bool] */;
+    %189 = cast(%188, dtype="bool") /* ty=Tensor[(8, 12, 15), bool] */;
+    %190 = shape_of(%178, dtype="int32") /* ty=Tensor[(3), int32] */;
+    %191 = cast(%178, dtype="bool") /* ty=Tensor[(8, 12, 15), bool] */;
+    %192 = dyn.reshape(%189, %190, newshape=[]) /* ty=Tensor[(?, ?, ?), bool] */;
+    %193 = logical_or(%191, %192) /* ty=Tensor[(8, 12, 15), bool] */;
+    %194 = cast(%193, dtype="float32") /* ty=Tensor[(8, 12, 15), float32] */;
+    %195 = %176.0;
+    %196 = @func_292() /* ty=Tensor[(4, 5, 3), float64] */;
+    %197 = acos(%194) /* ty=Tensor[(8, 12, 15), float32] */;
+    (%195, %var_1839, %196, %197)
+  };
+  %198(%var_1918, %var_1919, %var_1920) /* ty=(Tensor[(12, 16, 12), float64], Tensor[(2304), float64], Tensor[(4, 5, 3), float64], Tensor[(8, 12, 15), float32]) */
+}
+
+def @func_2010() -> (Tensor[(16, 12, 1), float32],) {
+  %201 = fn () -> (Tensor[(16, 12, 1), float32],) {
+    %199 = @func_1122() /* ty=(Tensor[(16, 12, 1), float32], Tensor[(16, 12, 1), float32]) */;
+    %200 = %199.0;
+    (%200,)
+  };
+  %201() /* ty=(Tensor[(16, 12, 1), float32],) */
+}
+
+def @func_1554(%var_1552: Tensor[(8, 13, 1), uint16]) -> Tensor[(8, 13, 1), uint16] {
+  @func_1551(%var_1552) /* ty=Tensor[(8, 13, 1), uint16] */
+}
+
+def @func_3555(%var_3503: uint16, %var_3541: Tensor[(2288), int16]) -> (Tensor[(9, 6, 9), uint16], Tensor[(4, 5, 3), float64], float32, Tensor[(2, 11, 6), float32], Tensor[(2288), int16]) {
+  %202 = cast(%var_3503, dtype="uint16") /* ty=uint16 */;
+  %203 = cast(meta[relay.Constant][4] /* ty=Tensor[(9, 6, 9), uint16] */, dtype="uint16") /* ty=Tensor[(9, 6, 9), uint16] */;
+  %204 = @func_3408() /* ty=Tensor[(4, 5, 3), float64] */;
+  %205 = cast(%204, dtype="float64") /* ty=Tensor[(4, 5, 3), float64] */;
+  %206 = reshape(%205, newshape=[4, 5, 3]) /* ty=Tensor[(4, 5, 3), float64] */;
+  %207 = @func_2785(%206) /* ty=(Tensor[(4, 5, 3), uint64], float32, float32, Tensor[(63), float64], Tensor[(4, 5, 3), float32], Tensor[(4, 5, 3), float64]) */;
+  %208 = cast(%var_3541, dtype="int16") /* ty=Tensor[(2288), int16] */;
+  %209 = reshape(%208, newshape=[2288]) /* ty=Tensor[(2288), int16] */;
+  %210 = @func_3369(%209) /* ty=(Tensor[(2, 11, 6), float32], Tensor[(4, 5, 3), float64], Tensor[(16, 12, 1), float32], Tensor[(4, 5, 3), float64], Tensor[(2, 11, 6), float32], Tensor[(2288), bool]) */;
+  %211 = logical_xor(%202, %203) /* ty=Tensor[(9, 6, 9), uint16] */;
+  %212 = %207.1;
+  %213 = %210.4;
+  (%211, %204, %212, %213, %var_3541)
+}
+
+def @func_1098(%var_1095: Tensor[(12, 16, 12), float64]) -> (Tensor[(12, 16, 12), float64],) {
+  %214 = cast(%var_1095, dtype="float64") /* ty=Tensor[(12, 16, 12), float64] */;
+  %215 = asin(%214) /* ty=Tensor[(12, 16, 12), float64] */;
+  (%215,)
+}
+
+def @func_4059() -> (Tensor[(16, 12, 1), float32],) {
+  %216 = @func_3084() /* ty=(Tensor[(16, 12, 1), float32],) */;
+  %217 = %216.0;
+  (%217,)
+}
+
+def @func_5034() -> (Tensor[(4, 5, 3), float64],) {
+  %218 = @func_1519() /* ty=(Tensor[(4, 5, 3), float64],) */;
+  %219 = %218.0;
+  (%219,)
+}
+
+def @func_2070() -> (Tensor[(16, 12, 1), float32], Tensor[(4, 5, 3), float64]) {
+  %220 = @func_1519() /* ty=(Tensor[(4, 5, 3), float64],) */;
+  %221 = @func_600() /* ty=Tensor[(16, 12, 1), float32] */;
+  %222 = %220.0;
+  (%221, %222)
+}
+
+def @func_3192(%var_3167: Tensor[(1152, 2), float64]) -> (Tensor[(4, 5, 3), float64], Tensor[(12, 16, 12), float64], Tensor[(1152, 2), float64], Tensor[(4, 5, 3), float32]) {
+  %223 = cast(%var_3167, dtype="float64") /* ty=Tensor[(1152, 2), float64] */;
+  %224 = reshape(%223, newshape=[12, 16, 12]) /* ty=Tensor[(12, 16, 12), float64] */;
+  %225 = @func_1098(%224) /* ty=(Tensor[(12, 16, 12), float64],) */;
+  %226 = @func_2934() /* ty=(Tensor[(4, 5, 3), float32], Tensor[(4, 5, 3), float64]) */;
+  %227 = @func_1286() /* ty=Tensor[(4, 5, 3), float64] */;
+  %228 = %225.0;
+  %229 = %226.0;
+  (%227, %228, %var_3167, %229)
+}
+
+def @func_3084() -> (Tensor[(16, 12, 1), float32],) {
+  %230 = @func_600() /* ty=Tensor[(16, 12, 1), float32] */;
+  (%230,)
+}
+
+def @func_35() -> (Tensor[(4, 5, 3), float64],) {
+  %233 = fn () -> (Tensor[(4, 5, 3), float64],) {
+    %231 = cast(meta[relay.Constant][5] /* ty=Tensor[(4, 5, 3), float64] */, dtype="float64") /* ty=Tensor[(4, 5, 3), float64] */;
+    %232 = log2(%231) /* ty=Tensor[(4, 5, 3), float64] */;
+    (%232,)
+  };
+  %233() /* ty=(Tensor[(4, 5, 3), float64],) */
+}
+
+def @func_5153() -> Tensor[(16, 12, 1), float32] {
+  %235 = fn () -> Tensor[(16, 12, 1), float32] {
+    %234 = @func_1122() /* ty=(Tensor[(16, 12, 1), float32], Tensor[(16, 12, 1), float32]) */;
+    %234.0
+  };
+  %235() /* ty=Tensor[(16, 12, 1), float32] */
+}
+
+def @func_3782() -> Tensor[(16, 12, 1), float32] {
+  %236 = fn () -> Tensor[(16, 12, 1), float32] {
+    @func_611() /* ty=Tensor[(16, 12, 1), float32] */
+  };
+  %236() /* ty=Tensor[(16, 12, 1), float32] */
+}
+
+def @func_4284(%var_4278: Tensor[(63), int8]) -> (Tensor[(4, 5, 3), float64], Tensor[(3, 7, 3), int8], Tensor[(63), int8], Tensor[(4, 5, 3), uint8]) {
+  %237 = @func_1588() /* ty=(Tensor[(4, 5, 3), float64], Tensor[(4, 5, 3), uint64]) */;
+  %238 = cast(%var_4278, dtype="int8") /* ty=Tensor[(63), int8] */;
+  %239 = cast(%var_4278, dtype="int8") /* ty=Tensor[(63), int8] */;
+  %240 = reshape(%238, newshape=[3, 7, 3]) /* ty=Tensor[(3, 7, 3), int8] */;
+  %241 = reshape(%239, newshape=[3, 7, 3]) /* ty=Tensor[(3, 7, 3), int8] */;
+  %242 = %237.0;
+  %243 = cast(%242, dtype="float64") /* ty=Tensor[(4, 5, 3), float64] */;
+  %244 = reshape(%243, newshape=[4, 5, 3]) /* ty=Tensor[(4, 5, 3), float64] */;
+  %245 = @func_3671(%244) /* ty=(Tensor[(16, 12, 1), float64], Tensor[(4, 5, 3), uint8]) */;
+  %246 = @func_2045(%240, %241) /* ty=Tensor[(3, 7, 3), int8] */;
+  %247 = %245.1;
+  (%242, %246, %var_4278, %247)
+}
+
+def @func_3372(%var_3370: Tensor[(2288), int16]) -> (Tensor[(2, 11, 6), float32], Tensor[(4, 5, 3), float64], Tensor[(16, 12, 1), float32], Tensor[(4, 5, 3), float64], Tensor[(2, 11, 6), float32], Tensor[(2288), bool]) {
+  @func_3369(%var_3370) /* ty=(Tensor[(2, 11, 6), float32], Tensor[(4, 5, 3), float64], Tensor[(16, 12, 1), float32], Tensor[(4, 5, 3), float64], Tensor[(2, 11, 6), float32], Tensor[(2288), bool]) */
+}
+
+def @func_2684() -> (Tensor[(4, 5, 3), float64],) {
+  %248 = @func_121() /* ty=(Tensor[(4, 5, 3), float64],) */;
+  %249 = %248.0;
+  (%249,)
+}
+
+def @func_4722(%var_4720: Tensor[(9, 16, 7), float64], %var_4721: Tensor[(60), float64]) -> (Tensor[(9, 16, 7), float64], Tensor[(4, 5, 3), float32], Tensor[(60), float64]) {
+  %258 = fn (%var_4696: Tensor[(9, 16, 7), float64], %var_4713: Tensor[(60), float64]) -> (Tensor[(9, 16, 7), float64], Tensor[(4, 5, 3), float32], Tensor[(60), float64]) {
+    %250 = cast(%var_4696, dtype="float64") /* ty=Tensor[(9, 16, 7), float64] */;
+    %251 = exp(%250) /* ty=Tensor[(9, 16, 7), float64] */;
+    %252 = cast(%251, dtype="float64") /* ty=Tensor[(9, 16, 7), float64] */;
+    %253 = cast(%var_4713, dtype="float64") /* ty=Tensor[(60), float64] */;
+    %254 = reshape(%253, newshape=[4, 5, 3]) /* ty=Tensor[(4, 5, 3), float64] */;
+    %255 = @func_2785(%254) /* ty=(Tensor[(4, 5, 3), uint64], float32, float32, Tensor[(63), float64], Tensor[(4, 5, 3), float32], Tensor[(4, 5, 3), float64]) */;
+    %256 = sqrt(%252) /* ty=Tensor[(9, 16, 7), float64] */;
+    %257 = %255.4;
+    (%256, %257, %var_4713)
+  };
+  %258(%var_4720, %var_4721) /* ty=(Tensor[(9, 16, 7), float64], Tensor[(4, 5, 3), float32], Tensor[(60), float64]) */
+}
+
+def @func_1287() -> Tensor[(4, 5, 3), float64] {
+  %260 = fn () -> Tensor[(4, 5, 3), float64] {
+    %259 = @func_1047() /* ty=(Tensor[(4, 5, 3), float64], Tensor[(16, 12, 1), float32], Tensor[(4, 5, 14), float64]) */;
+    %259.0
+  };
+  %260() /* ty=Tensor[(4, 5, 3), float64] */
+}
+
+def @func_2649() -> Tensor[(4, 5, 3), float32] {
+  %263 = fn () -> Tensor[(4, 5, 3), float32] {
+    %261 = @func_2623() /* ty=Tensor[(4, 5, 3), float32] */;
+    %262 = cast(%261, dtype="float32") /* ty=Tensor[(4, 5, 3), float32] */;
+    acos(%262) /* ty=Tensor[(4, 5, 3), float32] */
+  };
+  %263() /* ty=Tensor[(4, 5, 3), float32] */
+}
+
+def @func_1501(%var_1500: float32) -> (Tensor[(9, 12, 6), float32],) {
+  %267 = fn (%var_1481: float32) -> (Tensor[(9, 12, 6), float32],) {
+    %264 = cast(%var_1481, dtype="float32") /* ty=float32 */;
+    %265 = cast(meta[relay.Constant][6] /* ty=Tensor[(9, 12, 6), float32] */, dtype="float32") /* ty=Tensor[(9, 12, 6), float32] */;
+    %266 = mod(%264, %265) /* ty=Tensor[(9, 12, 6), float32] */;
+    (%266,)
+  };
+  %267(%var_1500) /* ty=(Tensor[(9, 12, 6), float32],) */
+}
+
+def @func_338() -> Tensor[(4, 5, 14), float64] {
+  %268 = cast(meta[relay.Constant][7] /* ty=Tensor[(4, 5, 14), float64] */, dtype="float64") /* ty=Tensor[(4, 5, 14), float64] */;
+  log10(%268) /* ty=Tensor[(4, 5, 14), float64] */
+}
+
+def @func_3941(%var_3939: Tensor[(15, 8, 1), float64]) -> (Tensor[(16, 12, 1), float32], Tensor[(15, 8, ?), int8], Tensor[(4, 5, 3), uint64], Tensor[(4, 5, 3), float32], Tensor[(15, 8, 1), float64]) {
+  @func_3938(%var_3939) /* ty=(Tensor[(16, 12, 1), float32], Tensor[(15, 8, ?), int8], Tensor[(4, 5, 3), uint64], Tensor[(4, 5, 3), float32], Tensor[(15, 8, 1), float64]) */
+}
+
+def @func_1340() -> (Tensor[(4, 5, 3), float64],) {
+  @func_1338() /* ty=(Tensor[(4, 5, 3), float64],) */
+}
+
+def @func_3895() -> (Tensor[(16, 12, 1), float32], Tensor[(4, 5, 3), uint64]) {
+  @func_3893() /* ty=(Tensor[(16, 12, 1), float32], Tensor[(4, 5, 3), uint64]) */
+}
+
+def @func_2045(%var_2018: Tensor[(3, 7, 3), int8], %var_2019: Tensor[(3, 7, 3), int8]) -> Tensor[(3, 7, 3), int8] {
+  %269 = cast(%var_2019, dtype="int8") /* ty=Tensor[(3, 7, 3), int8] */;
+  %270 = shape_of(%var_2018, dtype="int32") /* ty=Tensor[(3), int32] */;
+  %271 = cast(%var_2018, dtype="int8") /* ty=Tensor[(3, 7, 3), int8] */;
+  %272 = dyn.reshape(%269, %270, newshape=[]) /* ty=Tensor[(?, ?, ?), int8] */;
+  subtract(%271, %272) /* ty=Tensor[(3, 7, 3), int8] */
+}
+
+def @func_3987() -> (Tensor[(16, 12, 4), int8],) {
+  %273 = @func_2578() /* ty=Tensor[(16, 12, 1), float64] */;
+  %274 = cast(%273, dtype="bool") /* ty=Tensor[(16, 12, 1), bool] */;
+  %275 = cast(meta[relay.Constant][8] /* ty=Tensor[(16, 12, 4), float64] */, dtype="bool") /* ty=Tensor[(16, 12, 4), bool] */;
+  %276 = greater(%274, %275) /* ty=Tensor[(16, 12, 4), bool] */;
+  %277 = cast(%276, dtype="uint16") /* ty=Tensor[(16, 12, 4), uint16] */;
+  %278 = shape_of(meta[relay.Constant][8] /* ty=Tensor[(16, 12, 4), float64] */, dtype="int32") /* ty=Tensor[(3), int32] */;
+  %279 = cast(meta[relay.Constant][8] /* ty=Tensor[(16, 12, 4), float64] */, dtype="uint16") /* ty=Tensor[(16, 12, 4), uint16] */;
+  %280 = dyn.reshape(%277, %278, newshape=[]) /* ty=Tensor[(?, ?, ?), uint16] */;
+  %281 = bitwise_and(%279, %280) /* ty=Tensor[(16, 12, 4), uint16] */;
+  %282 = cast(%276, dtype="int8") /* ty=Tensor[(16, 12, 4), int8] */;
+  %283 = shape_of(%281, dtype="int32") /* ty=Tensor[(3), int32] */;
+  %284 = cast(%281, dtype="int8") /* ty=Tensor[(16, 12, 4), int8] */;
+  %285 = dyn.reshape(%282, %283, newshape=[]) /* ty=Tensor[(?, ?, ?), int8] */;
+  %286 = add(%284, %285) /* ty=Tensor[(16, 12, 4), int8] */;
+  (%286,)
+}
+
+def @func_4314() -> (Tensor[(16, 12, 1), float32], Tensor[(16, 12, ?), float64], Tensor[(16, 12, 4), int8]) {
+  %292 = fn () -> (Tensor[(16, 12, 1), float32], Tensor[(16, 12, ?), float64], Tensor[(16, 12, 4), int8]) {
+    %287 = @func_1741() /* ty=(Tensor[(16, 12, 1), float32],) */;
+    %288 = @func_3987() /* ty=(Tensor[(16, 12, 4), int8],) */;
+    %289 = %287.0;
+    %290 = @func_1666() /* ty=Tensor[(16, 12, ?), float64] */;
+    %291 = %288.0;
+    (%289, %290, %291)
+  };
+  %292() /* ty=(Tensor[(16, 12, 1), float32], Tensor[(16, 12, ?), float64], Tensor[(16, 12, 4), int8]) */
+}
+
+def @func_4540() -> (Tensor[(16, 12, 1), float32], Tensor[(4, 5, 3), uint8], Tensor[(4, 5, 3), float32]) {
+  %293 = @func_1519() /* ty=(Tensor[(4, 5, 3), float64],) */;
+  %294 = %293.0;
+  %295 = @func_452() /* ty=Tensor[(4, 5, 3), float64] */;
+  %296 = cast(%295, dtype="uint8") /* ty=Tensor[(4, 5, 3), uint8] */;
+  %297 = shape_of(%294, dtype="int32") /* ty=Tensor[(3), int32] */;
+  %298 = cast(%294, dtype="uint8") /* ty=Tensor[(4, 5, 3), uint8] */;
+  %299 = dyn.reshape(%296, %297, newshape=[]) /* ty=Tensor[(?, ?, ?), uint8] */;
+  %300 = cast(%294, dtype="float32") /* ty=Tensor[(4, 5, 3), float32] */;
+  %301 = @func_3781() /* ty=Tensor[(16, 12, 1), float32] */;
+  %302 = subtract(%298, %299) /* ty=Tensor[(4, 5, 3), uint8] */;
+  %303 = rsqrt(%300) /* ty=Tensor[(4, 5, 3), float32] */;
+  (%301, %302, %303)
+}
+
+def @func_613() -> Tensor[(16, 12, 1), float32] {
+  @func_611() /* ty=Tensor[(16, 12, 1), float32] */
+}
+
+def @func_4419() -> (Tensor[(16, 12, ?), float64],) {
+  @func_4417() /* ty=(Tensor[(16, 12, ?), float64],) */
+}
+
+def @func_554(%var_552: Tensor[(4, 5, 3), float32]) -> (Tensor[(4, 5, 3), int16], Tensor[(4, 5, 3), float32]) {
+  @func_551(%var_552) /* ty=(Tensor[(4, 5, 3), int16], Tensor[(4, 5, 3), float32]) */
+}
+
+def @func_454() -> Tensor[(4, 5, 3), float64] {
+  @func_452() /* ty=Tensor[(4, 5, 3), float64] */
+}
+
+def @func_1995(%var_1994: Tensor[(7, 5, 11), float32]) -> (Tensor[(14, 3, 11), float64], Tensor[(462), float64], Tensor[(4, 5, 3), float64], Tensor[(7, 5, 11), int8], Tensor[(7, 5, 11), float32], Tensor[(7, 5, 11), int64]) {
+  %335 = fn (%var_1927: Tensor[(7, 5, 11), float32]) -> (Tensor[(14, 3, 11), float64], Tensor[(462), float64], Tensor[(4, 5, 3), float64], Tensor[(7, 5, 11), int8], Tensor[(7, 5, 11), float32], Tensor[(7, 5, 11), int64]) {
+    %304 = cast(9.0777f64 /* ty=float64 */, dtype="float64") /* ty=float64 */;
+    %305 = cast(meta[relay.Constant][9] /* ty=Tensor[(462), float64] */, dtype="float64") /* ty=Tensor[(462), float64] */;
+    %306 = reshape(%304, newshape=[]) /* ty=float64 */;
+    %307 = reshape(%305, newshape=[14, 3, 11]) /* ty=Tensor[(14, 3, 11), float64] */;
+    %308 = @func_170(%306, %307) /* ty=(Tensor[(4, 5, 3), float64], Tensor[(14, 3, 11), float64]) */;
+    %309 = @func_564() /* ty=(Tensor[(4, 5, 3), float64],) */;
+    %310 = %309.0;
+    %311 = cast(%310, dtype="float64") /* ty=Tensor[(4, 5, 3), float64] */;
+    %312 = cast(%var_1927, dtype="float32") /* ty=Tensor[(7, 5, 11), float32] */;
+    %313 = asin(%312) /* ty=Tensor[(7, 5, 11), float32] */;
+    %314 = cast(%313, dtype="float64") /* ty=Tensor[(7, 5, 11), float64] */;
+    %315 = atanh(%314) /* ty=Tensor[(7, 5, 11), float64] */;
+    %316 = cast(%315, dtype="float64") /* ty=Tensor[(7, 5, 11), float64] */;
+    %317 = asinh(%316) /* ty=Tensor[(7, 5, 11), float64] */;
+    %318 = cast(meta[relay.Constant][10] /* ty=Tensor[(7, 5, 11), float64] */, dtype="int8") /* ty=Tensor[(7, 5, 11), int8] */;
+    %319 = shape_of(%317, dtype="int32") /* ty=Tensor[(3), int32] */;
+    %320 = cast(%317, dtype="int8") /* ty=Tensor[(7, 5, 11), int8] */;
+    %321 = dyn.reshape(%318, %319, newshape=[]) /* ty=Tensor[(?, ?, ?), int8] */;
+    %322 = left_shift(%320, %321) /* ty=Tensor[(7, 5, 11), int8] */;
+    %323 = cast(%315, dtype="int8") /* ty=Tensor[(7, 5, 11), int8] */;
+    %324 = shape_of(%322, dtype="int32") /* ty=Tensor[(3), int32] */;
+    %325 = cast(%322, dtype="int8") /* ty=Tensor[(7, 5, 11), int8] */;
+    %326 = dyn.reshape(%323, %324, newshape=[]) /* ty=Tensor[(?, ?, ?), int8] */;
+    %327 = cast(%317, dtype="float32") /* ty=Tensor[(7, 5, 11), float32] */;
+    %328 = cast(%315, dtype="int64") /* ty=Tensor[(7, 5, 11), int64] */;
+    %329 = cast(9.0777f64 /* ty=float64 */, dtype="int64") /* ty=int64 */;
+    %330 = %308.1;
+    %331 = sigmoid(%311) /* ty=Tensor[(4, 5, 3), float64] */;
+    %332 = bitwise_and(%325, %326) /* ty=Tensor[(7, 5, 11), int8] */;
+    %333 = sigmoid(%327) /* ty=Tensor[(7, 5, 11), float32] */;
+    %334 = multiply(%328, %329) /* ty=Tensor[(7, 5, 11), int64] */;
+    (%330, meta[relay.Constant][9] /* ty=Tensor[(462), float64] */, %331, %332, %333, %334)
+  };
+  %335(%var_1994) /* ty=(Tensor[(14, 3, 11), float64], Tensor[(462), float64], Tensor[(4, 5, 3), float64], Tensor[(7, 5, 11), int8], Tensor[(7, 5, 11), float32], Tensor[(7, 5, 11), int64]) */
+}
+
+def @func_4514() -> (Tensor[(4, 5, 14), float64], Tensor[(2, 6, 15), uint8]) {
+  %336 = cast(meta[relay.Constant][11] /* ty=Tensor[(180), float64] */, dtype="float64") /* ty=Tensor[(180), float64] */;
+  %337 = reshape(%336, newshape=[2, 6, 15]) /* ty=Tensor[(2, 6, 15), float64] */;
+  %338 = @func_3047(%337) /* ty=(Tensor[(2, 6, 15), float64],) */;
+  %339 = %338.0;
+  %340 = cast(meta[relay.Constant][11] /* ty=Tensor[(180), float64] */, dtype="bool") /* ty=Tensor[(180), bool] */;
+  %341 = shape_of(%339, dtype="int32") /* ty=Tensor[(3), int32] */;
+  %342 = cast(%339, dtype="bool") /* ty=Tensor[(2, 6, 15), bool] */;
+  %343 = dyn.reshape(%340, %341, newshape=[]) /* ty=Tensor[(?, ?, ?), bool] */;
+  %344 = logical_or(%342, %343) /* ty=Tensor[(2, 6, 15), bool] */;
+  %345 = cast(%339, dtype="uint8") /* ty=Tensor[(2, 6, 15), uint8] */;
+  %346 = shape_of(%344, dtype="int32") /* ty=Tensor[(3), int32] */;
+  %347 = cast(%344, dtype="uint8") /* ty=Tensor[(2, 6, 15), uint8] */;
+  %348 = dyn.reshape(%345, %346, newshape=[]) /* ty=Tensor[(?, ?, ?), uint8] */;
+  %349 = @func_3160() /* ty=Tensor[(4, 5, 14), float64] */;
+  %350 = minimum(%347, %348) /* ty=Tensor[(2, 6, 15), uint8] */;
+  (%349, %350)
+}
+
+def @func_2485(%var_2471: Tensor[(5, 13, 12), bool], %var_2472: Tensor[(5, 13, 12), bool]) -> (Tensor[(5, 13, 12), bool], Tensor[(5, 13, 12), float32]) {
+  %351 = cast(%var_2472, dtype="bool") /* ty=Tensor[(5, 13, 12), bool] */;
+  %352 = shape_of(%var_2471, dtype="int32") /* ty=Tensor[(3), int32] */;
+  %353 = cast(%var_2471, dtype="bool") /* ty=Tensor[(5, 13, 12), bool] */;
+  %354 = dyn.reshape(%351, %352, newshape=[]) /* ty=Tensor[(?, ?, ?), bool] */;
+  %355 = cast(%var_2472, dtype="float32") /* ty=Tensor[(5, 13, 12), float32] */;
+  %356 = logical_or(%353, %354) /* ty=Tensor[(5, 13, 12), bool] */;
+  %357 = atan(%355) /* ty=Tensor[(5, 13, 12), float32] */;
+  (%356, %357)
+}
+
+def @func_4382() -> Tensor[(4, 5, 3), float64] {
+  %359 = fn () -> Tensor[(4, 5, 3), float64] {
+    %358 = @func_1588() /* ty=(Tensor[(4, 5, 3), float64], Tensor[(4, 5, 3), uint64]) */;
+    %358.0
+  };
+  %359() /* ty=Tensor[(4, 5, 3), float64] */
+}
+
+def @func_2785(%var_2764: Tensor[(4, 5, 3), float64]) -> (Tensor[(4, 5, 3), uint64], float32, float32, Tensor[(63), float64], Tensor[(4, 5, 3), float32], Tensor[(4, 5, 3), float64]) {
+  %360 = @func_452() /* ty=Tensor[(4, 5, 3), float64] */;
+  %361 = cast(%var_2764, dtype="uint64") /* ty=Tensor[(4, 5, 3), uint64] */;
+  %362 = shape_of(%360, dtype="int32") /* ty=Tensor[(3), int32] */;
+  %363 = cast(%360, dtype="uint64") /* ty=Tensor[(4, 5, 3), uint64] */;
+  %364 = dyn.reshape(%361, %362, newshape=[]) /* ty=Tensor[(?, ?, ?), uint64] */;
+  %365 = cast(8.21659f /* ty=float32 */, dtype="float32") /* ty=float32 */;
+  %366 = cast(meta[relay.Constant][12] /* ty=Tensor[(63), float64] */, dtype="float64") /* ty=Tensor[(63), float64] */;
+  %367 = reshape(%365, newshape=[]) /* ty=float32 */;
+  %368 = reshape(%366, newshape=[63]) /* ty=Tensor[(63), float64] */;
+  %369 = @func_2742(%367, %368) /* ty=(Tensor[(16, 12, ?), float64], Tensor[(16, 12, 1), float32], Tensor[(9, 12, 6), float32], float32, Tensor[(4, 5, 3), float64], Tensor[(3, 7, 3), bool], Tensor[(63), float64]) */;
+  %370 = cast(%360, dtype="float32") /* ty=Tensor[(4, 5, 3), float32] */;
+  %371 = add(%363, %364) /* ty=Tensor[(4, 5, 3), uint64] */;
+  %372 = %369.3;
+  %373 = sinh(%370) /* ty=Tensor[(4, 5, 3), float32] */;
+  %374 = @func_452() /* ty=Tensor[(4, 5, 3), float64] */;
+  (%371, %372, 8.21659f /* ty=float32 */, meta[relay.Constant][12] /* ty=Tensor[(63), float64] */, %373, %374)
+}
+
+def @func_3620() -> (Tensor[(4, 5, 3), float64],) {
+  %375 = @func_1286() /* ty=Tensor[(4, 5, 3), float64] */;
+  (%375,)
+}
+
+def @func_4130() -> (Tensor[(16, 12, 1), float64], Tensor[(16, 12, 1), float32]) {
+  %382 = fn () -> (Tensor[(16, 12, 1), float64], Tensor[(16, 12, 1), float32]) {
+    %376 = @func_931() /* ty=(Tensor[(4, 5, 3), float64], Tensor[(16, 12, 1), float64]) */;
+    %377 = @func_1122() /* ty=(Tensor[(16, 12, 1), float32], Tensor[(16, 12, 1), float32]) */;
+    %378 = %377.0;
+    %379 = cast(%378, dtype="float32") /* ty=Tensor[(16, 12, 1), float32] */;
+    %380 = %376.1;
+    %381 = sigmoid(%379) /* ty=Tensor[(16, 12, 1), float32] */;
+    (%380, %381)
+  };
+  %382() /* ty=(Tensor[(16, 12, 1), float64], Tensor[(16, 12, 1), float32]) */
+}
+
+def @func_1338() -> (Tensor[(4, 5, 3), float64],) {
+  %383 = @func_1286() /* ty=Tensor[(4, 5, 3), float64] */;
+  (%383,)
+}
+
+def @func_566() -> (Tensor[(4, 5, 3), float64],) {
+  @func_564() /* ty=(Tensor[(4, 5, 3), float64],) */
+}
+
+def @func_3305() -> (Tensor[(16, 12, ?), float64],) {
+  %384 = @func_1691() /* ty=(Tensor[(16, 12, ?), float64],) */;
+  %385 = %384.0;
+  (%385,)
+}
+
+def @func_294() -> Tensor[(4, 5, 3), float64] {
+  @func_292() /* ty=Tensor[(4, 5, 3), float64] */
+}
+
+def @func_564() -> (Tensor[(4, 5, 3), float64],) {
+  %386 = @func_121() /* ty=(Tensor[(4, 5, 3), float64],) */;
+  %387 = %386.0;
+  (%387,)
+}
+
+def @func_4652(%var_4650: Tensor[(13, 12, 13), float64], %var_4651: Tensor[(13, 12, 13), float64]) -> (Tensor[(13, 12, 13), bool], Tensor[(13, 12, 13), bool]) {
+  @func_4648(%var_4650, %var_4651) /* ty=(Tensor[(13, 12, 13), bool], Tensor[(13, 12, 13), bool]) */
+}
+
+def @func_1123() -> (Tensor[(16, 12, 1), float32], Tensor[(16, 12, 1), float32]) {
+  %390 = fn () -> (Tensor[(16, 12, 1), float32], Tensor[(16, 12, 1), float32]) {
+    %388 = @func_384() /* ty=Tensor[(16, 12, 1), float32] */;
+    %389 = @func_384() /* ty=Tensor[(16, 12, 1), float32] */;
+    (%388, %389)
+  };
+  %390() /* ty=(Tensor[(16, 12, 1), float32], Tensor[(16, 12, 1), float32]) */
+}
+
+def @func_1774() -> Tensor[(2, 11, 6), float32] {
+  %392 = fn () -> Tensor[(2, 11, 6), float32] {
+    %391 = cast(meta[relay.Constant][13] /* ty=Tensor[(2, 11, 6), float32] */, dtype="float32") /* ty=Tensor[(2, 11, 6), float32] */;
+    tan(%391) /* ty=Tensor[(2, 11, 6), float32] */
+  };
+  %392() /* ty=Tensor[(2, 11, 6), float32] */
+}
+
+def @func_292() -> Tensor[(4, 5, 3), float64] {
+  %393 = @func_34() /* ty=(Tensor[(4, 5, 3), float64],) */;
+  %393.0
+}
+
+def @func_3482() -> (Tensor[(16, 12, 13), uint32],) {
+  %398 = fn () -> (Tensor[(16, 12, 13), uint32],) {
+    %394 = @func_611() /* ty=Tensor[(16, 12, 1), float32] */;
+    %395 = cast(%394, dtype="uint32") /* ty=Tensor[(16, 12, 1), uint32] */;
+    %396 = cast(meta[relay.Constant][14] /* ty=Tensor[(16, 12, 13), float32] */, dtype="uint32") /* ty=Tensor[(16, 12, 13), uint32] */;
+    %397 = multiply(%395, %396) /* ty=Tensor[(16, 12, 13), uint32] */;
+    (%397,)
+  };
+  %398() /* ty=(Tensor[(16, 12, 13), uint32],) */
+}
+
+def @func_5140() -> (Tensor[(4, 5, 3), float32], Tensor[(2, 11, 6), float32], Tensor[(63, ?), int32], Tensor[(14, 3, 11), float64], Tensor[(385), float32], Tensor[(16, 12, 1), float32], Tensor[(2, 11, 6), float32]) {
+  %399 = cast(meta[relay.Constant][15] /* ty=Tensor[(63, 1), float64] */, dtype="float64") /* ty=Tensor[(63, 1), float64] */;
+  %400 = reshape(%399, newshape=[3, 7, 3]) /* ty=Tensor[(3, 7, 3), float64] */;
+  %401 = @func_2207(%400) /* ty=(Tensor[(4, 5, 3), float32], Tensor[(4, 5, 3), int16], Tensor[(3, 7, 3), bool], Tensor[(3, 7, 3), float64]) */;
+  %402 = @func_4446() /* ty=Tensor[(2, 11, 6), float64] */;
+  %403 = cast(%402, dtype="float32") /* ty=Tensor[(2, 11, 6), float32] */;
+  %404 = cast(meta[relay.Constant][15] /* ty=Tensor[(63, 1), float64] */, dtype="float32") /* ty=Tensor[(63, 1), float32] */;
+  %405 = rsqrt(%404) /* ty=Tensor[(63, 1), float32] */;
+  %406 = cast(meta[relay.Constant][15] /* ty=Tensor[(63, 1), float64] */, dtype="float32") /* ty=Tensor[(63, 1), float32] */;
+  %407 = shape_of(%405, dtype="int32") /* ty=Tensor[(2), int32] */;
+  %408 = cast(%405, dtype="float32") /* ty=Tensor[(63, 1), float32] */;
+  %409 = dyn.reshape(%406, %407, newshape=[]) /* ty=Tensor[(?, ?), float32] */;
+  %410 = minimum(%408, %409) /* ty=Tensor[(63, ?), float32] */;
+  %411 = cast(%405, dtype="int32") /* ty=Tensor[(63, 1), int32] */;
+  %412 = shape_of(%410, dtype="int32") /* ty=Tensor[(2), int32] */;
+  %413 = cast(%410, dtype="int32") /* ty=Tensor[(63, ?), int32] */;
+  %414 = dyn.reshape(%411, %412, newshape=[]) /* ty=Tensor[(?, ?), int32] */;
+  %415 = cast(meta[relay.Constant][16] /* ty=Tensor[(385), float32] */, dtype="float32") /* ty=Tensor[(385), float32] */;
+  %416 = reshape(%415, newshape=[7, 5, 11]) /* ty=Tensor[(7, 5, 11), float32] */;
+  %417 = @func_1993(%416) /* ty=(Tensor[(14, 3, 11), float64], Tensor[(462), float64], Tensor[(4, 5, 3), float64], Tensor[(7, 5, 11), int8], Tensor[(7, 5, 11), float32], Tensor[(7, 5, 11), int64]) */;
+  %418 = @func_1047() /* ty=(Tensor[(4, 5, 3), float64], Tensor[(16, 12, 1), float32], Tensor[(4, 5, 14), float64]) */;
+  %419 = cast(%402, dtype="float32") /* ty=Tensor[(2, 11, 6), float32] */;
+  %420 = %401.0;
+  %421 = asinh(%403) /* ty=Tensor[(2, 11, 6), float32] */;
+  %422 = logical_xor(%413, %414) /* ty=Tensor[(63, ?), int32] */;
+  %423 = %417.0;
+  %424 = %418.1;
+  %425 = cosh(%419) /* ty=Tensor[(2, 11, 6), float32] */;
+  (%420, %421, %422, %423, meta[relay.Constant][16] /* ty=Tensor[(385), float32] */, %424, %425)
+}
+
+def @func_3408() -> Tensor[(4, 5, 3), float64] {
+  @func_3281() /* ty=Tensor[(4, 5, 3), float64] */
+}
+
+def @func_4780() -> (Tensor[(16, 12, ?), float64], Tensor[(4, 5, 3), float64]) {
+  @func_4778() /* ty=(Tensor[(16, 12, ?), float64], Tensor[(4, 5, 3), float64]) */
+}
+
+def @func_1800() -> (Tensor[(4, 5, 3), float64], Tensor[(16, 12, 1), float32]) {
+  @func_1798() /* ty=(Tensor[(4, 5, 3), float64], Tensor[(16, 12, 1), float32]) */
+}
+
+def @func_611() -> Tensor[(16, 12, 1), float32] {
+  @func_384() /* ty=Tensor[(16, 12, 1), float32] */
+}
+
+def @func_3005(%var_2984: Tensor[(1, 9, 7), float64]) -> (Tensor[(1, 9, 7), float64], Tensor[(3, 7, 3), int8]) {
+  %426 = cast(%var_2984, dtype="float64") /* ty=Tensor[(1, 9, 7), float64] */;
+  %427 = asinh(%426) /* ty=Tensor[(1, 9, 7), float64] */;
+  %428 = cast(%427, dtype="int8") /* ty=Tensor[(1, 9, 7), int8] */;
+  %429 = cast(%427, dtype="int8") /* ty=Tensor[(1, 9, 7), int8] */;
+  %430 = reshape(%428, newshape=[3, 7, 3]) /* ty=Tensor[(3, 7, 3), int8] */;
+  %431 = reshape(%429, newshape=[3, 7, 3]) /* ty=Tensor[(3, 7, 3), int8] */;
+  %432 = @func_2045(%430, %431) /* ty=Tensor[(3, 7, 3), int8] */;
+  (%427, %432)
+}
+
+def @func_3049(%var_3048: Tensor[(2, 6, 15), float64]) -> (Tensor[(2, 6, 15), float64],) {
+  %435 = fn (%var_3037: Tensor[(2, 6, 15), float64]) -> (Tensor[(2, 6, 15), float64],) {
+    %433 = cast(%var_3037, dtype="float64") /* ty=Tensor[(2, 6, 15), float64] */;
+    %434 = log10(%433) /* ty=Tensor[(2, 6, 15), float64] */;
+    (%434,)
+  };
+  %435(%var_3048) /* ty=(Tensor[(2, 6, 15), float64],) */
+}
+
+def @func_1519() -> (Tensor[(4, 5, 3), float64],) {
+  %436 = @func_564() /* ty=(Tensor[(4, 5, 3), float64],) */;
+  %437 = %436.0;
+  (%437,)
+}
+
+def @func_3195(%var_3193: Tensor[(1152, 2), float64]) -> (Tensor[(4, 5, 3), float64], Tensor[(12, 16, 12), float64], Tensor[(1152, 2), float64], Tensor[(4, 5, 3), float32]) {
+  @func_3192(%var_3193) /* ty=(Tensor[(4, 5, 3), float64], Tensor[(12, 16, 12), float64], Tensor[(1152, 2), float64], Tensor[(4, 5, 3), float32]) */
+}
+
+def @func_2953() -> (Tensor[(2, 11, 6), float32],) {
+  @func_2951() /* ty=(Tensor[(2, 11, 6), float32],) */
+}
+
+def @func_1589() -> (Tensor[(4, 5, 3), float64], Tensor[(4, 5, 3), uint64]) {
+  %443 = fn () -> (Tensor[(4, 5, 3), float64], Tensor[(4, 5, 3), uint64]) {
+    %438 = @func_292() /* ty=Tensor[(4, 5, 3), float64] */;
+    %439 = cast(%438, dtype="float32") /* ty=Tensor[(4, 5, 3), float32] */;
+    %440 = reshape(%439, newshape=[4, 5, 3]) /* ty=Tensor[(4, 5, 3), float32] */;
+    %441 = @func_891(%440) /* ty=(Tensor[(4, 5, 3), uint64], Tensor[(4, 5, 3), float64]) */;
+    %442 = %441.0;
+    (%438, %442)
+  };
+  %443() /* ty=(Tensor[(4, 5, 3), float64], Tensor[(4, 5, 3), uint64]) */
+}
+
+def @func_2525(%var_2522: Tensor[(63), int8]) -> (Tensor[(4, 5, 3), float32], Tensor[(2, 11, 6), float32], Tensor[(4, 5, 3), float64], Tensor[(3, 7, 3), int8], Tensor[(63), int8]) {
+  %444 = @func_121() /* ty=(Tensor[(4, 5, 3), float64],) */;
+  %445 = %444.0;
+  %446 = cast(%445, dtype="float32") /* ty=Tensor[(4, 5, 3), float32] */;
+  %447 = @func_1338() /* ty=(Tensor[(4, 5, 3), float64],) */;
+  %448 = cast(%var_2522, dtype="int8") /* ty=Tensor[(63), int8] */;
+  %449 = cast(%var_2522, dtype="int8") /* ty=Tensor[(63), int8] */;
+  %450 = reshape(%448, newshape=[3, 7, 3]) /* ty=Tensor[(3, 7, 3), int8] */;
+  %451 = reshape(%449, newshape=[3, 7, 3]) /* ty=Tensor[(3, 7, 3), int8] */;
+  %452 = cos(%446) /* ty=Tensor[(4, 5, 3), float32] */;
+  %453 = @func_1773() /* ty=Tensor[(2, 11, 6), float32] */;
+  %454 = %447.0;
+  %455 = @func_2045(%450, %451) /* ty=Tensor[(3, 7, 3), int8] */;
+  (%452, %453, %454, %455, %var_2522)
+}
+
+def @func_268() -> (Tensor[(4, 5, 3), float64], Tensor[(4, 5, 3), float64], Tensor[(4, 5, 3), float64]) {
+  @func_266() /* ty=(Tensor[(4, 5, 3), float64], Tensor[(4, 5, 3), float64], Tensor[(4, 5, 3), float64]) */
+}
+
+def @func_2788(%var_2786: Tensor[(4, 5, 3), float64]) -> (Tensor[(4, 5, 3), uint64], float32, float32, Tensor[(63), float64], Tensor[(4, 5, 3), float32], Tensor[(4, 5, 3), float64]) {
+  @func_2785(%var_2786) /* ty=(Tensor[(4, 5, 3), uint64], float32, float32, Tensor[(63), float64], Tensor[(4, 5, 3), float32], Tensor[(4, 5, 3), float64]) */
+}
+
+def @func_2951() -> (Tensor[(2, 11, 6), float32],) {
+  %456 = @func_1773() /* ty=Tensor[(2, 11, 6), float32] */;
+  (%456,)
+}
+
+def @func_266() -> (Tensor[(4, 5, 3), float64], Tensor[(4, 5, 3), float64], Tensor[(4, 5, 3), float64]) {
+  %457 = @func_121() /* ty=(Tensor[(4, 5, 3), float64],) */;
+  %458 = @func_121() /* ty=(Tensor[(4, 5, 3), float64],) */;
+  %459 = @func_121() /* ty=(Tensor[(4, 5, 3), float64],) */;
+  %460 = %457.0;
+  %461 = %458.0;
+  %462 = %459.0;
+  (%460, %461, %462)
+}
+
+def @func_1798() -> (Tensor[(4, 5, 3), float64], Tensor[(16, 12, 1), float32]) {
+  %463 = @func_34() /* ty=(Tensor[(4, 5, 3), float64],) */;
+  %464 = %463.0;
+  %465 = @func_611() /* ty=Tensor[(16, 12, 1), float32] */;
+  (%464, %465)
+}
+
+def @func_4287(%var_4285: Tensor[(63), int8]) -> (Tensor[(4, 5, 3), float64], Tensor[(3, 7, 3), int8], Tensor[(63), int8], Tensor[(4, 5, 3), uint8]) {
+  @func_4284(%var_4285) /* ty=(Tensor[(4, 5, 3), float64], Tensor[(3, 7, 3), int8], Tensor[(63), int8], Tensor[(4, 5, 3), uint8]) */
+}
+
+def @func_1430() -> (Tensor[(16, 12, ?), float64], Tensor[(60), float32], Tensor[(4, 5, 3), float32]) {
+  %480 = fn () -> (Tensor[(16, 12, ?), float64], Tensor[(60), float32], Tensor[(4, 5, 3), float32]) {
+    %466 = @func_384() /* ty=Tensor[(16, 12, 1), float32] */;
+    %467 = @func_1206() /* ty=(Tensor[(4, 5, 3), float64], Tensor[(4, 5, 3), float64], Tensor[(4, 5, 3), float32], Tensor[(16, 12, 1), float32]) */;
+    %468 = %467.3;
+    %469 = cast(%468, dtype="float64") /* ty=Tensor[(16, 12, 1), float64] */;
+    %470 = shape_of(%466, dtype="int32") /* ty=Tensor[(3), int32] */;
+    %471 = cast(%466, dtype="float64") /* ty=Tensor[(16, 12, 1), float64] */;
+    %472 = dyn.reshape(%469, %470, newshape=[]) /* ty=Tensor[(?, ?, ?), float64] */;
+    %473 = cast(meta[relay.Constant][17] /* ty=Tensor[(60), float32] */, dtype="float32") /* ty=Tensor[(60), float32] */;
+    %474 = reshape(%473, newshape=[4, 5, 3]) /* ty=Tensor[(4, 5, 3), float32] */;
+    %475 = @func_891(%474) /* ty=(Tensor[(4, 5, 3), uint64], Tensor[(4, 5, 3), float64]) */;
+    %476 = %475.1;
+    %477 = cast(%476, dtype="float32") /* ty=Tensor[(4, 5, 3), float32] */;
+    %478 = floor_mod(%471, %472) /* ty=Tensor[(16, 12, ?), float64] */;
+    %479 = sqrt(%477) /* ty=Tensor[(4, 5, 3), float32] */;
+    (%478, meta[relay.Constant][17] /* ty=Tensor[(60), float32] */, %479)
+  };
+  %480() /* ty=(Tensor[(16, 12, ?), float64], Tensor[(60), float32], Tensor[(4, 5, 3), float32]) */
+}
+
+def @func_3673(%var_3672: Tensor[(4, 5, 3), float64]) -> (Tensor[(16, 12, 1), float64], Tensor[(4, 5, 3), uint8]) {
+  %494 = fn (%var_3662: Tensor[(4, 5, 3), float64]) -> (Tensor[(16, 12, 1), float64], Tensor[(4, 5, 3), uint8]) {
+    %481 = @func_2344() /* ty=(Tensor[(4, 5, 3), float64],) */;
+    %482 = %481.0;
+    %483 = cast(%var_3662, dtype="float64") /* ty=Tensor[(4, 5, 3), float64] */;
+    %484 = shape_of(%482, dtype="int32") /* ty=Tensor[(3), int32] */;
+    %485 = cast(%482, dtype="float64") /* ty=Tensor[(4, 5, 3), float64] */;
+    %486 = dyn.reshape(%483, %484, newshape=[]) /* ty=Tensor[(?, ?, ?), float64] */;
+    %487 = floor_divide(%485, %486) /* ty=Tensor[(4, 5, 3), float64] */;
+    %488 = cast(%482, dtype="uint8") /* ty=Tensor[(4, 5, 3), uint8] */;
+    %489 = shape_of(%487, dtype="int32") /* ty=Tensor[(3), int32] */;
+    %490 = cast(%487, dtype="uint8") /* ty=Tensor[(4, 5, 3), uint8] */;
+    %491 = dyn.reshape(%488, %489, newshape=[]) /* ty=Tensor[(?, ?, ?), uint8] */;
+    %492 = @func_2578() /* ty=Tensor[(16, 12, 1), float64] */;
+    %493 = multiply(%490, %491) /* ty=Tensor[(4, 5, 3), uint8] */;
+    (%492, %493)
+  };
+  %494(%var_3672) /* ty=(Tensor[(16, 12, 1), float64], Tensor[(4, 5, 3), uint8]) */
+}
+
+def @func_3760() -> (Tensor[(16, 12, 1), float32], Tensor[(4, 5, 3), float32], Tensor[(2304), float64], Tensor[(16, 12, 1), float32]) {
+  @func_3758() /* ty=(Tensor[(16, 12, 1), float32], Tensor[(4, 5, 3), float32], Tensor[(2304), float64], Tensor[(16, 12, 1), float32]) */
+}
+
+def @func_1551(%var_1542: Tensor[(8, 13, 1), uint16]) -> Tensor[(8, 13, 1), uint16] {
+  %495 = cast(meta[relay.Constant][18] /* ty=uint16 */, dtype="uint16") /* ty=uint16 */;
+  %496 = cast(%var_1542, dtype="uint16") /* ty=Tensor[(8, 13, 1), uint16] */;
+  minimum(%495, %496) /* ty=Tensor[(8, 13, 1), uint16] */
+}
+
+def @func_1207() -> (Tensor[(4, 5, 3), float64], Tensor[(4, 5, 3), float64], Tensor[(4, 5, 3), float32], Tensor[(16, 12, 1), float32]) {
+  %508 = fn () -> (Tensor[(4, 5, 3), float64], Tensor[(4, 5, 3), float64], Tensor[(4, 5, 3), float32], Tensor[(16, 12, 1), float32]) {
+    %497 = @func_34() /* ty=(Tensor[(4, 5, 3), float64],) */;
+    %498 = @func_931() /* ty=(Tensor[(4, 5, 3), float64], Tensor[(16, 12, 1), float64]) */;
+    %499 = %498.0;
+    %500 = cast(%499, dtype="float32") /* ty=Tensor[(4, 5, 3), float32] */;
+    %501 = reshape(%500, newshape=[4, 5, 3]) /* ty=Tensor[(4, 5, 3), float32] */;
+    %502 = @func_551(%501) /* ty=(Tensor[(4, 5, 3), int16], Tensor[(4, 5, 3), float32]) */;
+    %503 = @func_384() /* ty=Tensor[(16, 12, 1), float32] */;
+    %504 = cast(%503, dtype="float32") /* ty=Tensor[(16, 12, 1), float32] */;
+    %505 = %497.0;
+    %506 = %502.1;
+    %507 = exp(%504) /* ty=Tensor[(16, 12, 1), float32] */;
+    (%505, %499, %506, %507)
+  };
+  %508() /* ty=(Tensor[(4, 5, 3), float64], Tensor[(4, 5, 3), float64], Tensor[(4, 5, 3), float32], Tensor[(16, 12, 1), float32]) */
+}
+
+def @func_4778() -> (Tensor[(16, 12, ?), float64], Tensor[(4, 5, 3), float64]) {
+  %509 = @func_1691() /* ty=(Tensor[(16, 12, ?), float64],) */;
+  %510 = @func_34() /* ty=(Tensor[(4, 5, 3), float64],) */;
+  %511 = %509.0;
+  %512 = %510.0;
+  (%511, %512)
+}
+
+def @func_3559(%var_3557: uint16, %var_3558: Tensor[(2288), int16]) -> (Tensor[(9, 6, 9), uint16], Tensor[(4, 5, 3), float64], float32, Tensor[(2, 11, 6), float32], Tensor[(2288), int16]) {
+  @func_3555(%var_3557, %var_3558) /* ty=(Tensor[(9, 6, 9), uint16], Tensor[(4, 5, 3), float64], float32, Tensor[(2, 11, 6), float32], Tensor[(2288), int16]) */
+}
+
+def @func_2290() -> (Tensor[(4, 5, 3), float64], Tensor[(16, 12, 1), float32]) {
+  @func_2288() /* ty=(Tensor[(4, 5, 3), float64], Tensor[(16, 12, 1), float32]) */
+}
+
+def @func_4897() -> (Tensor[(16, 12, ?), float64], Tensor[(4, 5, 3), float32]) {
+  @func_4895() /* ty=(Tensor[(16, 12, ?), float64], Tensor[(4, 5, 3), float32]) */
+}
+
+def @func_4417() -> (Tensor[(16, 12, ?), float64],) {
+  %513 = @func_1666() /* ty=Tensor[(16, 12, ?), float64] */;
+  (%513,)
+}
+
+def @func_3938(%var_3904: Tensor[(15, 8, 1), float64]) -> (Tensor[(16, 12, 1), float32], Tensor[(15, 8, ?), int8], Tensor[(4, 5, 3), uint64], Tensor[(4, 5, 3), float32], Tensor[(15, 8, 1), float64]) {
+  %514 = @func_3893() /* ty=(Tensor[(16, 12, 1), float32], Tensor[(4, 5, 3), uint64]) */;
+  %515 = cast(%var_3904, dtype="float64") /* ty=Tensor[(15, 8, 1), float64] */;
+  %516 = atanh(%515) /* ty=Tensor[(15, 8, 1), float64] */;
+  %517 = cast(%516, dtype="float32") /* ty=Tensor[(15, 8, 1), float32] */;
+  %518 = erf(%517) /* ty=Tensor[(15, 8, 1), float32] */;
+  %519 = cast(%516, dtype="int8") /* ty=Tensor[(15, 8, 1), int8] */;
+  %520 = shape_of(%518, dtype="int32") /* ty=Tensor[(3), int32] */;
+  %521 = cast(%518, dtype="int8") /* ty=Tensor[(15, 8, 1), int8] */;
+  %522 = dyn.reshape(%519, %520, newshape=[]) /* ty=Tensor[(?, ?, ?), int8] */;
+  %523 = @func_1588() /* ty=(Tensor[(4, 5, 3), float64], Tensor[(4, 5, 3), uint64]) */;
+  %524 = @func_3881() /* ty=(Tensor[(4, 5, 3), float32], Tensor[(1440), float32], Tensor[(2304), float64], Tensor[(2304), float64]) */;
+  %525 = cast(%516, dtype="float64") /* ty=Tensor[(15, 8, 1), float64] */;
+  %526 = %514.0;
+  %527 = bitwise_or(%521, %522) /* ty=Tensor[(15, 8, ?), int8] */;
+  %528 = %523.1;
+  %529 = %524.0;
+  %530 = exp(%525) /* ty=Tensor[(15, 8, 1), float64] */;
+  (%526, %527, %528, %529, %530)
+}
+
+def @func_2346() -> (Tensor[(4, 5, 3), float64],) {
+  @func_2344() /* ty=(Tensor[(4, 5, 3), float64],) */
+}
+
+def @func_173(%var_171: float64, %var_172: Tensor[(14, 3, 11), float64]) -> (Tensor[(4, 5, 3), float64], Tensor[(14, 3, 11), float64]) {
+  %541 = fn (%var_154: float64, %var_155: Tensor[(14, 3, 11), float64]) -> (Tensor[(4, 5, 3), float64], Tensor[(14, 3, 11), float64]) {
+    %531 = @func_121() /* ty=(Tensor[(4, 5, 3), float64],) */;
+    %532 = cast(%var_154, dtype="bool") /* ty=bool */;
+    %533 = cast(%var_155, dtype="bool") /* ty=Tensor[(14, 3, 11), bool] */;
+    %534 = greater(%532, %533) /* ty=Tensor[(14, 3, 11), bool] */;
+    %535 = cast(%var_155, dtype="float64") /* ty=Tensor[(14, 3, 11), float64] */;
+    %536 = shape_of(%534, dtype="int32") /* ty=Tensor[(3), int32] */;
+    %537 = cast(%534, dtype="float64") /* ty=Tensor[(14, 3, 11), float64] */;
+    %538 = dyn.reshape(%535, %536, newshape=[]) /* ty=Tensor[(?, ?, ?), float64] */;
+    %539 = %531.0;
+    %540 = mod(%537, %538) /* ty=Tensor[(14, 3, 11), float64] */;
+    (%539, %540)
+  };
+  %541(%var_171, %var_172) /* ty=(Tensor[(4, 5, 3), float64], Tensor[(14, 3, 11), float64]) */
+}
+
+def @func_4977() -> (Tensor[(4, 5, 3), float64], float32, float32, Tensor[(21, 3), float64]) {
+  %550 = fn () -> (Tensor[(4, 5, 3), float64], float32, float32, Tensor[(21, 3), float64]) {
+    %542 = @func_2344() /* ty=(Tensor[(4, 5, 3), float64],) */;
+    %543 = cast(-9.22966f /* ty=float32 */, dtype="float32") /* ty=float32 */;
+    %544 = cast(meta[relay.Constant][19] /* ty=Tensor[(21, 3), float64] */, dtype="float64") /* ty=Tensor[(21, 3), float64] */;
+    %545 = reshape(%543, newshape=[]) /* ty=float32 */;
+    %546 = reshape(%544, newshape=[63]) /* ty=Tensor[(63), float64] */;
+    %547 = @func_2742(%545, %546) /* ty=(Tensor[(16, 12, ?), float64], Tensor[(16, 12, 1), float32], Tensor[(9, 12, 6), float32], float32, Tensor[(4, 5, 3), float64], Tensor[(3, 7, 3), bool], Tensor[(63), float64]) */;
+    %548 = %542.0;
+    %549 = %547.3;
+    (%548, %549, -9.22966f /* ty=float32 */, meta[relay.Constant][19] /* ty=Tensor[(21, 3), float64] */)
+  };
+  %550() /* ty=(Tensor[(4, 5, 3), float64], float32, float32, Tensor[(21, 3), float64]) */
+}
+
+def @func_757(%var_723: Tensor[(3, 3, 11), bool]) -> (Tensor[(3, 3, 11), bool], Tensor[(16, 12, 1), float32]) {
+  %551 = cast(meta[relay.Constant][20] /* ty=Tensor[(3, 3, 11), bool] */, dtype="bool") /* ty=Tensor[(3, 3, 11), bool] */;
+  %552 = shape_of(%var_723, dtype="int32") /* ty=Tensor[(3), int32] */;
+  %553 = cast(%var_723, dtype="bool") /* ty=Tensor[(3, 3, 11), bool] */;
+  %554 = dyn.reshape(%551, %552, newshape=[]) /* ty=Tensor[(?, ?, ?), bool] */;
+  %555 = logical_or(%553, %554) /* ty=Tensor[(3, 3, 11), bool] */;
+  %556 = @func_611() /* ty=Tensor[(16, 12, 1), float32] */;
+  (%555, %556)
+}
+
+def @func_3883() -> (Tensor[(4, 5, 3), float32], Tensor[(1440), float32], Tensor[(2304), float64], Tensor[(2304), float64]) {
+  @func_3881() /* ty=(Tensor[(4, 5, 3), float32], Tensor[(1440), float32], Tensor[(2304), float64], Tensor[(2304), float64]) */
+}
+
+def @func_2935() -> (Tensor[(4, 5, 3), float32], Tensor[(4, 5, 3), float64]) {
+  %560 = fn () -> (Tensor[(4, 5, 3), float32], Tensor[(4, 5, 3), float64]) {
+    %557 = @func_121() /* ty=(Tensor[(4, 5, 3), float64],) */;
+    %558 = @func_2623() /* ty=Tensor[(4, 5, 3), float32] */;
+    %559 = %557.0;
+    (%558, %559)
+  };
+  %560() /* ty=(Tensor[(4, 5, 3), float32], Tensor[(4, 5, 3), float64]) */
+}
+
+def @func_3758() -> (Tensor[(16, 12, 1), float32], Tensor[(4, 5, 3), float32], Tensor[(2304), float64], Tensor[(16, 12, 1), float32]) {
+  %561 = @func_2009() /* ty=(Tensor[(16, 12, 1), float32],) */;
+  %562 = cast(meta[relay.Constant][21] /* ty=Tensor[(2304), float64] */, dtype="float64") /* ty=Tensor[(2304), float64] */;
+  %563 = reshape(%562, newshape=[1152, 2]) /* ty=Tensor[(1152, 2), float64] */;
+  %564 = @func_3192(%563) /* ty=(Tensor[(4, 5, 3), float64], Tensor[(12, 16, 12), float64], Tensor[(1152, 2), float64], Tensor[(4, 5, 3), float32]) */;
+  %565 = @func_1741() /* ty=(Tensor[(16, 12, 1), float32],) */;
+  %566 = %561.0;
+  %567 = %564.3;
+  %568 = %565.0;
+  (%566, %567, meta[relay.Constant][21] /* ty=Tensor[(2304), float64] */, %568)
+}
+
+def @func_4447() -> Tensor[(2, 11, 6), float64] {
+  %572 = fn () -> Tensor[(2, 11, 6), float64] {
+    %569 = @func_2951() /* ty=(Tensor[(2, 11, 6), float32],) */;
+    %570 = %569.0;
+    %571 = cast(%570, dtype="float64") /* ty=Tensor[(2, 11, 6), float64] */;
+    log10(%571) /* ty=Tensor[(2, 11, 6), float64] */
+  };
+  %572() /* ty=Tensor[(2, 11, 6), float64] */
+}
+
+def @func_760(%var_758: Tensor[(3, 3, 11), bool]) -> (Tensor[(3, 3, 11), bool], Tensor[(16, 12, 1), float32]) {
+  @func_757(%var_758) /* ty=(Tensor[(3, 3, 11), bool], Tensor[(16, 12, 1), float32]) */
+}
+
+def @func_2871(%var_2870: Tensor[(16, 12, 63), bool]) -> (Tensor[(16, 12, ?), float64], Tensor[(16, 12, 63), float64], Tensor[(16, 12, 63), bool], Tensor[(16, 12, 63), uint32], Tensor[(4, 5, 3), float64]) {
+  %603 = fn (%var_2817: Tensor[(16, 12, 63), bool]) -> (Tensor[(16, 12, ?), float64], Tensor[(16, 12, 63), float64], Tensor[(16, 12, 63), bool], Tensor[(16, 12, 63), uint32], Tensor[(4, 5, 3), float64]) {
+    %573 = @func_2154() /* ty=(Tensor[(3, 7, 3), int8], Tensor[(16, 12, ?), float64], Tensor[(16, 12, 63), bool]) */;
+    %574 = @func_2154() /* ty=(Tensor[(3, 7, 3), int8], Tensor[(16, 12, ?), float64], Tensor[(16, 12, 63), bool]) */;
+    %575 = %574.2;
+    %576 = cast(%var_2817, dtype="bool") /* ty=Tensor[(16, 12, 63), bool] */;
+    %577 = shape_of(%575, dtype="int32") /* ty=Tensor[(3), int32] */;
+    %578 = cast(%575, dtype="bool") /* ty=Tensor[(16, 12, 63), bool] */;
+    %579 = dyn.reshape(%576, %577, newshape=[]) /* ty=Tensor[(?, ?, ?), bool] */;
+    %580 = not_equal(%578, %579) /* ty=Tensor[(16, 12, 63), bool] */;
+    %581 = cast(%580, dtype="float32") /* ty=Tensor[(16, 12, 63), float32] */;
+    %582 = cos(%581) /* ty=Tensor[(16, 12, 63), float32] */;
+    %583 = cast(%580, dtype="float64") /* ty=Tensor[(16, 12, 63), float64] */;
+    %584 = shape_of(%582, dtype="int32") /* ty=Tensor[(3), int32] */;
+    %585 = cast(%582, dtype="float64") /* ty=Tensor[(16, 12, 63), float64] */;
+    %586 = dyn.reshape(%583, %584, newshape=[]) /* ty=Tensor[(?, ?, ?), float64] */;
+    %587 = cast(%var_2817, dtype="bool") /* ty=Tensor[(16, 12, 63), bool] */;
+    %588 = shape_of(%575, dtype="int32") /* ty=Tensor[(3), int32] */;
+    %589 = cast(%575, dtype="bool") /* ty=Tensor[(16, 12, 63), bool] */;
+    %590 = dyn.reshape(%587, %588, newshape=[]) /* ty=Tensor[(?, ?, ?), bool] */;
+    %591 = cast(meta[relay.Constant][22] /* ty=Tensor[(16, 12, 63), bool] */, dtype="uint32") /* ty=Tensor[(16, 12, 63), uint32] */;
+    %592 = shape_of(%575, dtype="int32") /* ty=Tensor[(3), int32] */;
+    %593 = cast(%575, dtype="uint32") /* ty=Tensor[(16, 12, 63), uint32] */;
+    %594 = dyn.reshape(%591, %592, newshape=[]) /* ty=Tensor[(?, ?, ?), uint32] */;
+    %595 = @func_34() /* ty=(Tensor[(4, 5, 3), float64],) */;
+    %596 = %595.0;
+    %597 = cast(%596, dtype="float64") /* ty=Tensor[(4, 5, 3), float64] */;
+    %598 = %573.1;
+    %599 = add(%585, %586) /* ty=Tensor[(16, 12, 63), float64] */;
+    %600 = logical_and(%589, %590) /* ty=Tensor[(16, 12, 63), bool] */;
+    %601 = bitwise_and(%593, %594) /* ty=Tensor[(16, 12, 63), uint32] */;
+    %602 = acosh(%597) /* ty=Tensor[(4, 5, 3), float64] */;
+    (%598, %599, %600, %601, %602)
+  };
+  %603(%var_2870) /* ty=(Tensor[(16, 12, ?), float64], Tensor[(16, 12, 63), float64], Tensor[(16, 12, 63), bool], Tensor[(16, 12, 63), uint32], Tensor[(4, 5, 3), float64]) */
+}
+
+def @func_1048() -> (Tensor[(4, 5, 3), float64], Tensor[(16, 12, 1), float32], Tensor[(4, 5, 14), float64]) {
+  %609 = fn () -> (Tensor[(4, 5, 3), float64], Tensor[(16, 12, 1), float32], Tensor[(4, 5, 14), float64]) {
+    %604 = @func_611() /* ty=Tensor[(16, 12, 1), float32] */;
+    %605 = cast(%604, dtype="float32") /* ty=Tensor[(16, 12, 1), float32] */;
+    %606 = @func_452() /* ty=Tensor[(4, 5, 3), float64] */;
+    %607 = atanh(%605) /* ty=Tensor[(16, 12, 1), float32] */;
+    %608 = @func_338() /* ty=Tensor[(4, 5, 14), float64] */;
+    (%606, %607, %608)
+  };
+  %609() /* ty=(Tensor[(4, 5, 3), float64], Tensor[(16, 12, 1), float32], Tensor[(4, 5, 14), float64]) */
+}
+
+def @func_3410() -> Tensor[(4, 5, 3), float64] {
+  @func_3408() /* ty=Tensor[(4, 5, 3), float64] */
+}
+
+def @func_2156() -> (Tensor[(3, 7, 3), int8], Tensor[(16, 12, ?), float64], Tensor[(16, 12, 63), bool]) {
+  @func_2154() /* ty=(Tensor[(3, 7, 3), int8], Tensor[(16, 12, ?), float64], Tensor[(16, 12, 63), bool]) */
+}
+
+def @func_122() -> (Tensor[(4, 5, 3), float64],) {
+  %612 = fn () -> (Tensor[(4, 5, 3), float64],) {
+    %610 = @func_34() /* ty=(Tensor[(4, 5, 3), float64],) */;
+    %611 = %610.0;
+    (%611,)
+  };
+  %612() /* ty=(Tensor[(4, 5, 3), float64],) */
+}
+
+def @func_2686() -> (Tensor[(4, 5, 3), float64],) {
+  @func_2684() /* ty=(Tensor[(4, 5, 3), float64],) */
+}
+
+def @func_891(%var_839: Tensor[(4, 5, 3), float32]) -> (Tensor[(4, 5, 3), uint64], Tensor[(4, 5, 3), float64]) {
+  %613 = @func_266() /* ty=(Tensor[(4, 5, 3), float64], Tensor[(4, 5, 3), float64], Tensor[(4, 5, 3), float64]) */;
+  %614 = %613.2;
+  %615 = cast(%614, dtype="float32") /* ty=Tensor[(4, 5, 3), float32] */;
+  %616 = sin(%615) /* ty=Tensor[(4, 5, 3), float32] */;
+  %617 = cast(%var_839, dtype="uint64") /* ty=Tensor[(4, 5, 3), uint64] */;
+  %618 = shape_of(%616, dtype="int32") /* ty=Tensor[(3), int32] */;
+  %619 = cast(%616, dtype="uint64") /* ty=Tensor[(4, 5, 3), uint64] */;
+  %620 = dyn.reshape(%617, %618, newshape=[]) /* ty=Tensor[(?, ?, ?), uint64] */;
+  %621 = @func_266() /* ty=(Tensor[(4, 5, 3), float64], Tensor[(4, 5, 3), float64], Tensor[(4, 5, 3), float64]) */;
+  %622 = minimum(%619, %620) /* ty=Tensor[(4, 5, 3), uint64] */;
+  %623 = %621.0;
+  (%622, %623)
+}
+
+def @func_5036() -> (Tensor[(4, 5, 3), float64],) {
+  @func_5034() /* ty=(Tensor[(4, 5, 3), float64],) */
+}
+
+def @func_932() -> (Tensor[(4, 5, 3), float64], Tensor[(16, 12, 1), float64]) {
+  %628 = fn () -> (Tensor[(4, 5, 3), float64], Tensor[(16, 12, 1), float64]) {
+    %624 = @func_611() /* ty=Tensor[(16, 12, 1), float32] */;
+    %625 = cast(%624, dtype="float64") /* ty=Tensor[(16, 12, 1), float64] */;
+    %626 = @func_292() /* ty=Tensor[(4, 5, 3), float64] */;
+    %627 = asinh(%625) /* ty=Tensor[(16, 12, 1), float64] */;
+    (%626, %627)
+  };
+  %628() /* ty=(Tensor[(4, 5, 3), float64], Tensor[(16, 12, 1), float64]) */
+}
+
+def @func_3126(%var_3124: Tensor[(1, 5, 10), uint16], %var_3125: Tensor[(13, 5, 10), uint16]) -> Tensor[(13, 5, 10), uint16] {
+  @func_3122(%var_3124, %var_3125) /* ty=Tensor[(13, 5, 10), uint16] */
+}
+
+def @func_452() -> Tensor[(4, 5, 3), float64] {
+  %629 = @func_266() /* ty=(Tensor[(4, 5, 3), float64], Tensor[(4, 5, 3), float64], Tensor[(4, 5, 3), float64]) */;
+  %629.0
+}
+
+def @func_1261(%var_1259: Tensor[(13, 16, 11), int16], %var_1260: Tensor[(13, 16, 11), int16]) -> Tensor[(13, 16, 11), int16] {
+  %634 = fn (%var_1242: Tensor[(13, 16, 11), int16], %var_1243: Tensor[(13, 16, 11), int16]) -> Tensor[(13, 16, 11), int16] {
+    %630 = cast(%var_1243, dtype="int16") /* ty=Tensor[(13, 16, 11), int16] */;
+    %631 = shape_of(%var_1242, dtype="int32") /* ty=Tensor[(3), int32] */;
+    %632 = cast(%var_1242, dtype="int16") /* ty=Tensor[(13, 16, 11), int16] */;
+    %633 = dyn.reshape(%630, %631, newshape=[]) /* ty=Tensor[(?, ?, ?), int16] */;
+    right_shift(%632, %633) /* ty=Tensor[(13, 16, 11), int16] */
+  };
+  %634(%var_1259, %var_1260) /* ty=Tensor[(13, 16, 11), int16] */
+}
+
+def @func_2049(%var_2047: Tensor[(3, 7, 3), int8], %var_2048: Tensor[(3, 7, 3), int8]) -> Tensor[(3, 7, 3), int8] {
+  @func_2045(%var_2047, %var_2048) /* ty=Tensor[(3, 7, 3), int8] */
+}
+
+def @func_2288() -> (Tensor[(4, 5, 3), float64], Tensor[(16, 12, 1), float32]) {
+  %635 = @func_292() /* ty=Tensor[(4, 5, 3), float64] */;
+  %636 = cast(%635, dtype="float64") /* ty=Tensor[(4, 5, 3), float64] */;
+  %637 = @func_1206() /* ty=(Tensor[(4, 5, 3), float64], Tensor[(4, 5, 3), float64], Tensor[(4, 5, 3), float32], Tensor[(16, 12, 1), float32]) */;
+  %638 = exp(%636) /* ty=Tensor[(4, 5, 3), float64] */;
+  %639 = %637.3;
+  (%638, %639)
+}
+
+def @func_2154() -> (Tensor[(3, 7, 3), int8], Tensor[(16, 12, ?), float64], Tensor[(16, 12, 63), bool]) {
+  %640 = cast(meta[relay.Constant][23] /* ty=Tensor[(63), int8] */, dtype="int8") /* ty=Tensor[(63), int8] */;
+  %641 = cast(meta[relay.Constant][23] /* ty=Tensor[(63), int8] */, dtype="int8") /* ty=Tensor[(63), int8] */;
+  %642 = reshape(%640, newshape=[3, 7, 3]) /* ty=Tensor[(3, 7, 3), int8] */;
+  %643 = reshape(%641, newshape=[3, 7, 3]) /* ty=Tensor[(3, 7, 3), int8] */;
+  %644 = @func_1741() /* ty=(Tensor[(16, 12, 1), float32],) */;
+  %645 = %644.0;
+  %646 = cast(meta[relay.Constant][23] /* ty=Tensor[(63), int8] */, dtype="bool") /* ty=Tensor[(63), bool] */;
+  %647 = cast(%645, dtype="bool") /* ty=Tensor[(16, 12, 1), bool] */;
+  %648 = @func_2045(%642, %643) /* ty=Tensor[(3, 7, 3), int8] */;
+  %649 = @func_1666() /* ty=Tensor[(16, 12, ?), float64] */;
+  %650 = equal(%646, %647) /* ty=Tensor[(16, 12, 63), bool] */;
+  (%648, %649, %650)
+}
+
+def @func_2528(%var_2526: Tensor[(63), int8]) -> (Tensor[(4, 5, 3), float32], Tensor[(2, 11, 6), float32], Tensor[(4, 5, 3), float64], Tensor[(3, 7, 3), int8], Tensor[(63), int8]) {
+  @func_2525(%var_2526) /* ty=(Tensor[(4, 5, 3), float32], Tensor[(2, 11, 6), float32], Tensor[(4, 5, 3), float64], Tensor[(3, 7, 3), int8], Tensor[(63), int8]) */
+}
+
+def @func_5142() -> (Tensor[(4, 5, 3), float32], Tensor[(2, 11, 6), float32], Tensor[(63, ?), int32], Tensor[(14, 3, 11), float64], Tensor[(385), float32], Tensor[(16, 12, 1), float32], Tensor[(2, 11, 6), float32]) {
+  @func_5140() /* ty=(Tensor[(4, 5, 3), float32], Tensor[(2, 11, 6), float32], Tensor[(63, ?), int32], Tensor[(14, 3, 11), float64], Tensor[(385), float32], Tensor[(16, 12, 1), float32], Tensor[(2, 11, 6), float32]) */
+}
+
+def @func_551(%var_541: Tensor[(4, 5, 3), float32]) -> (Tensor[(4, 5, 3), int16], Tensor[(4, 5, 3), float32]) {
+  %651 = @func_34() /* ty=(Tensor[(4, 5, 3), float64],) */;
+  %652 = %651.0;
+  %653 = @func_292() /* ty=Tensor[(4, 5, 3), float64] */;
+  %654 = cast(%653, dtype="float32") /* ty=Tensor[(4, 5, 3), float32] */;
+  %655 = shape_of(%652, dtype="int32") /* ty=Tensor[(3), int32] */;
+  %656 = cast(%652, dtype="float32") /* ty=Tensor[(4, 5, 3), float32] */;
+  %657 = dyn.reshape(%654, %655, newshape=[]) /* ty=Tensor[(?, ?, ?), float32] */;
+  %658 = mod(%656, %657) /* ty=Tensor[(4, 5, 3), float32] */;
+  %659 = cast(%var_541, dtype="int16") /* ty=Tensor[(4, 5, 3), int16] */;
+  %660 = shape_of(%658, dtype="int32") /* ty=Tensor[(3), int32] */;
+  %661 = cast(%658, dtype="int16") /* ty=Tensor[(4, 5, 3), int16] */;
+  %662 = dyn.reshape(%659, %660, newshape=[]) /* ty=Tensor[(?, ?, ?), int16] */;
+  %663 = cast(%653, dtype="float32") /* ty=Tensor[(4, 5, 3), float32] */;
+  %664 = shape_of(%652, dtype="int32") /* ty=Tensor[(3), int32] */;
+  %665 = cast(%652, dtype="float32") /* ty=Tensor[(4, 5, 3), float32] */;
+  %666 = dyn.reshape(%663, %664, newshape=[]) /* ty=Tensor[(?, ?, ?), float32] */;
+  %667 = power(%665, %666) /* ty=Tensor[(4, 5, 3), float32] */;
+  %668 = cast(%667, dtype="float32") /* ty=Tensor[(4, 5, 3), float32] */;
+  %669 = bitwise_and(%661, %662) /* ty=Tensor[(4, 5, 3), int16] */;
+  %670 = asinh(%668) /* ty=Tensor[(4, 5, 3), float32] */;
+  (%669, %670)
+}
+
+/* For debugging purposes the metadata section has been omitted.
+ * If you would like to see the full metadata section you can set the 
+ * option to `True` when invoking `astext`. 
+ */The type inference pass was unable to infer a type for this expression.
+This usually occurs when an operator call is under constrained in some way, check other reported errors for hints of what may of happened.
+
+===================================
+note: run with `TVM_BACKTRACE=1` environment variable to display a backtrace.
