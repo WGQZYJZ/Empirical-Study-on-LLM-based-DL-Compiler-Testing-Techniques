@@ -1,0 +1,23 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+ 
+        self.linear1 = torch.nn.Linear(768, 32)
+        self.relu1  = torch.nn.ReLU()
+ 
+        self.linear2 = torch.nn.Linear(32,  8)
+ 
+    def forward(self, x):
+        x = self.linear1(x)
+        x = self.relu1(x)
+        output = self.linear2(x)
+        return output
+ 
+# Initializing the model and checking that all parameters are initialized as zero. Note that the parameter `weight` has a shape (768, 32), so we will initialize this matrix with values sampled from normal distribution with mean 0 and standard deviation equal to sqrt(1/32). The other parameters (`bias`, `running_mean`) are initialized by default.
+m = Model()
+for n, p in m.named_parameters():
+    print('{}: {}'.format(n, p))
+assert (p.data[...] == 0.).all()
+```
+

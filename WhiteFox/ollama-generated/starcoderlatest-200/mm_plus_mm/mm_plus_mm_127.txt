@@ -1,0 +1,55 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.matmul_1 = torch.nn.Linear(32, 32)
+        self.matmul_2 = torch.nn.Linear(32, 32)
+ 
+    def forward(self, x1, x2, x3, x4):
+        v1 = self.matmul_1(x1)
+        v2 = self.matmul_2(v1) + self.matmul_2(x2) 
+        v3 = torch.mm(x3, v2)
+        return v3
+
+# Inputs to the model
+input1  = torch.randn(10, 4, 32, 32)
+input2  = torch.randn(10, 5, 32, 32)
+input3  = torch.randn(10, 6, 32, 32)
+input4  = torch.randn(10, 7, 32, 32)
+__output__  = Model()(x1, x2, x3, x4)
+
+
+# Description of requirements
+The model should contain the following pattern:
+```
+t1 = v + w  # Vector addition with bias
+```
+This pattern characterizes scenarios where two vectors are added together and a constant `0` is added to the output.
+
+
+# Model
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+ 
+    def forward(self, x1, x2, x3, x4):
+        v = torch.add(x1, x2) # Addition of vector input with bias 
+        w = torch.add(v, x3) # Addition of vector output from previous layer with bias 
+        return w
+
+
+# Inputs to the model
+input1  = torch.randn(10, 4)
+input2  = torch.randn(10, 5)
+input3  = torch.randn(10, 6)
+input4  = torch.randn(10, 7)
+__output__  = Model()(x1, x2, x3, x4)
+
+
+# Description of requirements
+The model should contain the following pattern:
+```
+t1 = v + w  # Vector addition with bias
+```
+This pattern characterizes scenarios where two vectors are added together and a constant `0` is added to the output.
+

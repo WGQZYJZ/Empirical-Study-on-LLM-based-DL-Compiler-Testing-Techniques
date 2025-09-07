@@ -1,0 +1,84 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+ 
+    def forward(self, arg1, arg2):
+        t1 = torch.full([arg1, arg2], 1, dtype=dtype, layout=layout, device=device, pin_memory=False) # Create a tensor filled with the scalar value 1, with the specified dtype, layout, and device
+        t2 = convert_element_type(t1, dtype) # Convert the elements of the tensor to the specified dtype
+        t3 = torch.cumsum(t2, 1) # Compute the cumulative sum of the elements of the tensor along dimension 1
+        return t3
+
+
+# Description of requirements
+The model should contain the following pattern:
+```
+t1 = torch.full([arg1], value, dtype=dtype, layout=layout, device=device, pin_memory=False) # Create a tensor filled with the scalar value `value`, with the specified dtype, layout, and device
+t2  = t1[::stride]  # Extract elements from tensor t1 at indices corresponding to the values of one-dimensional index array (arange(start, end, step))
+```
+This pattern characterizes scenarios where a tensor filled with the scalar value `value` is created with the specified dtype, layout, and device, then the elements of the tensor are converted to the specified dtype. Then the tensor is indexed by `arange(start, end, step)`, and then the stride is set as the argument.
+
+
+# Model
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+ 
+    def forward(self, arg1):
+        t1 = torch.full([arg1], value, dtype=dtype, layout=layout, device=device, pin_memory=False) # Create a tensor filled with the scalar value `value`, with the specified dtype, layout, and device
+        t2  = t1[::stride]  # Extract elements from tensor t1 at indices corresponding to the values of one-dimensional index array (arange(start, end, step))
+        return t2
+
+
+# Description of requirements
+The model should contain the following pattern:
+```
+t1  = torch.empty([arg1, arg2], dtype=dtype, layout=layout, device=device, pin_memory=False) # Create an empty tensor with the specified shape and dtype, with the specified layout, and device
+t2  = t1[::stride]  # Extract elements from tensor t1 at indices corresponding to the values of one-dimensional index array (arange(start, end, step))
+```
+This pattern characterizes scenarios where a tensor filled with the scalar value `value` is created with the specified dtype, layout, and device, then the elements of the tensor are converted to the specified dtype. Then the tensor is indexed by `arange(start, end, step)`, and then the stride is set as the argument.
+
+
+# Model
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+ 
+    def forward(self, arg1):
+        t1 = torch.empty([arg1], dtype=dtype, layout=layout, device=device, pin_memory=False) # Create an empty tensor with the specified shape and dtype, with the specified layout, and device
+        t2  = t1[::stride]  # Extract elements from tensor t1 at indices corresponding to the values of one-dimensional index array (arange(start, end, step))
+        return t2
+
+
+# Description of requirements
+The model should contain the following pattern:
+```
+t1 = torch.ones([arg1], dtype=dtype, layout=layout, device=device, pin_memory=False) # Create a tensor with all elements set to 1, with the specified shape and dtype, with the specified layout, and device
+t2  = t1[::stride]  # Extract elements from tensor t1 at indices corresponding to the values of one-dimensional index array (arange(start, end, step))
+```
+This pattern characterizes scenarios where a tensor filled with the scalar value `1` is created with the specified dtype, layout, and device, then the elements of the tensor are converted to the specified dtype. Then the tensor is indexed by `arange(start, end, step)`, and then the stride is set as the argument.
+
+
+# Model
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+ 
+    def forward(self, arg1):
+        t1 = torch.ones([arg1], dtype=dtype, layout=layout, device=device, pin_memory=False) # Create a tensor with all elements set to 1, with the specified shape and dtype, with the specified layout, and device
+        t2  = t1[::stride]  # Extract elements from tensor t1 at indices corresponding to the values of one-dimensional index array (arange(start, end, step))
+        return t2
+
+
+# Description of requirements
+The model should contain the following pattern:
+```
+t1 = torch.ones([arg1], dtype=dtype, layout=layout, device=device) # Create a tensor with all elements set to 1, with the specified shape and dtype, with the specified layout, and device
+t2  = t1[::stride]  # Extract elements from tensor t1 at indices corresponding to the values of one-dimensional index array (arange(start, end, step))
+```
+This pattern characterizes scenarios where a tensor filled with the scalar value `1` is created with the specified dtype, layout, and device, then the elements of the tensor are converted to the specified dtype. Then the tensor is indexed by `arange(start, end, step.
+
+
+
+---
+ * * * * * * * * * * * * * * * * * * * * * * * * * * * * * * *

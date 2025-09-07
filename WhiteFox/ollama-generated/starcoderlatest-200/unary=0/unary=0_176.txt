@@ -1,0 +1,59 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv = torch.nn.Conv2d(3, 8, 1, stride=1, padding=1)
+ 
+    def forward(self, x1):
+        v1 = self.conv(x1)
+        v2 = v1 * 0.5
+        v3 = v1 * v1
+        v4 = v3 * v1
+        v5 = v4 * 0.044715
+        v6 = v1 + v5
+        v7 = v6 * 0.7978845608028654
+        v8 = torch.tanh(v7)
+        v9 = v8 + 1
+        v10 = v2 * v9
+        return v10
+
+
+# Description of requirements
+The model should contain the following pattern:
+```
+t1 = conv(input_tensor) # Apply pointwise convolution with kernel size 1 to the input tensor
+t2 = t1 + 0.5 # Add 0.5 to the output of the convolution
+t3 = t1 * 0.618034 # Multiply the output of the convolution by 0.618034
+t4 = t3 + 0.618034  # Add 0.618034 to the result of the previous operation
+t5 = torch.erf(t4) # Apply the error function to the result of the previous operation
+t6 = t2 * (t5 + 1) # Multiply the output of the convolution by the output of the erfunction and add one to it.
+t7 = t1 - 0.881921  # Subtract 0.881921 from the output of the convolution
+t8 = t3 * (t7 + 0.5)  # Multiply the output of the convolution by the result of subtracting 0.5 from the input tensor and add 0.618034 to it.
+t9 = torch.erf(t8)  # Apply the error function to the output of the previous operation
+t10 = t6 * (t9 + 1) # Multiply the result of the convolution by the result of the erfunction and add one to it.
+```
+This pattern characterizes scenarios where the output of a pointwise convolution is added by `0.5`, and then the output of the convolution is multiplied by another constant `0.618034`, and then the result of the previous operation is added by `0.618034`, and then the output of the erfunction is applied to the result of the previous operation, and then the output of the convolution is subtracted by `0.881921`, and then the result of the previous operation is multiplied by another constant `0.5`, and then the output of the erfunction is applied to the output of the previous operation, and then the output of the convolution is multiplied by the result of the previous operation, and then the output of the erfunction is applied to the output of the previous operation, and then `1` is added to the output of the erfunction.
+
+
+# Model
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv = torch.nn.Conv2d(3, 8, 1, stride=1, padding=1)
+ 
+    def forward(self, x1):
+        v1 = self.conv(x1)
+        v2 = v1 + 0.5
+        v3 = v1 * 0.618034
+        v4 = v3 + 0.618034 
+        v5 = torch.erf(v4)
+        v6 = v2 * (v5 + 1)
+        v7 = v1 - 0.881921
+        v8 = v3 * (v7 + 0.5)
+        v9 = torch.erf(v8)
+        v10 = v6 * (v9 + 1)
+        return v10
+
+
+# Input to the model
+x1 = torch.randn(1, 3, 28, 28)

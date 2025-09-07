@@ -1,0 +1,32 @@
+
+class Model(torch.nn.Module):
+    def __init__(self, num_classes=10, dim=-2):
+        super().__init__()
+ 
+        self.dim = dim
+ 
+        # Initialization of the matrix with random values in range [0.1; 1.5]
+        self.matrix = torch.empty(32)
+        self.matrix.uniform_(0.1, 1.5)
+ 
+        # Matrix multiplication with random values
+        self.m1 = torch.rand(self.matrix.shape).cuda()
+ 
+ 
+    def forward(self, x):
+        v1 = torch.addmm(x, self.matrix, self.m1)
+        v2 = torch.cat([v1], dim=self.dim)
+        return v2
+
+# Initializing the model
+m  = Model().cuda()
+
+ # Inputs to the model
+x1 = torch.randn(320, 4096).cuda()
+__output__  = m(x1)
+
+## Expected output
+```
+>>> torch.max(__output__, dim=self.dim)[0].sum().backward()
+```
+

@@ -1,0 +1,39 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+
+    def forward(self, x1, x2):
+        v1  = torch.randn(30, 4)
+        v1a  = torch.bmm(v1[None], x1[:, None])
+        v1a  = v1a.squeeze()
+
+        v2  = x2.permute((0, 2))
+        v3  = torch.bmm(v1a, v2)
+
+        return (v3 + x2).squeeze().permute((0, 2)).reshape(-1)
+
+
+# Initializing the model
+m = Model()
+
+
+# Inputs to the model
+x1  = torch.randn(4096, 57) # This is the input tensor A
+x2  = torch.randn(30, 16) # This is the input tensor B
+
+
+__output__  = m(x1, x2)
+
+# Description of requirements
+The model should contain the following pattern:
+```
+t1  = torch.bmm(t1_1, t1_2) or torch.matmul(t1_1, t1_2)
+t2  = torch.nn.functional.linear(t3_1, ...) # Apply linear transformation to the first input tensor.
+```
+or
+```
+t4  = torch.bmm(input_tensor_A, input_tensor_B) or torch.matmul(input_tensor_A, input_tensor_B)
+```
+This pattern characterizes scenarios where the `torch.nn.functional.linear` function is invoked on a tensor obtained from two tensors that have been multiplied by one or both tensors' permute method.
+

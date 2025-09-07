@@ -1,0 +1,17 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv = torch.nn.Conv2d(3, 8, 1, stride=1, padding=1)
+ 
+    def forward(self, x1):
+        split_tensor0  = torch.split(x1, (64,), dim=1)  # Split the input tensor along the first dimension into two tensors
+        concatenate_tensor0  = torch.cat([split_tensor0[i] for i in range(len(split_tensor0))], dim=1)  # Concatenate the split tensors along the first dimension
+        
+        # Split the second input tensor along the second dimension into two tensors
+        split_tensor1  = torch.split(concatenate_tensor0, (64,), dim=2)  # Split the second input tensor along the second dimension into two tensors
+        concatenate_tensor1  = torch.cat([split_tensor1[i] for i in range(len(split_tensor1))], dim=2)  # Concatenate the split tensors along the second dimension
+        
+        # Check the two concatenations are equal to each other
+        assert torch.all(concatenate_tensor0 == concatenate_tensor1)
+```

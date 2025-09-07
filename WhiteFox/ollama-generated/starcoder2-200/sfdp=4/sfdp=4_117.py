@@ -1,0 +1,16 @@
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+
+        # A fully connected network
+        self.fc = torch.nn.Linear(4, 3)
+    
+    # The forward pass
+    def forward(self, x1):
+        
+        # Initialize the output tensor as zeros
+        v2  = torch.zeros_like(x1, dtype=torch.float64).type_as(x1)
+
+        v3  = self.fc(x1)  # Apply a fully connected layer to the input tensor
+
+        return x1 * v3

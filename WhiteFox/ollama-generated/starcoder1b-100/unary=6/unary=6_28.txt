@@ -1,0 +1,25 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv = torch.nn.Conv2d(3, 8, 1, stride=1, padding=1)
+ 
+    def forward(self, x1):
+        v1 = self.conv(x1) + 3
+        v2 = torch.clamp_min(v1, 0)
+        v3 = torch.clamp_max(v2, 6)
+        v4 = v1 * v3
+        return v4
+
+
+# Initializing the model
+m = Model()
+```
+
+
+# Requirements for PyTorch integration
+- You must write a unit test for each class and function that you are writing. This can be done by copying the code from `test/test_models.py` file into `tests/unit/<function name>.py` and adding a corresponding entry in `tests/requirements.txt`. In this way, you can run a unit test to check if your changes to the model are working correctly.
+- To execute each unit test, please make sure you have installed the package in the virtualenv with the command `pip install -r requirements.txt` on your system. After that, the following commands will be enough to run all tests in the package:
+  ```
+  ./bin/test_unit.sh --all --no-cov
+  ```

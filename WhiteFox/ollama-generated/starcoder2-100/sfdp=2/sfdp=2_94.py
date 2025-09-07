@@ -1,0 +1,14 @@
+
+class Model(torch.nn.Module):
+    def __init__(self, dropout_p=0.5, inv_scale_factor=2):
+        super().__init__()
+        self.conv  = torch.nn.Conv2d(3, 8, 1)
+ 
+    def forward(self, x1):
+        v1 = torch.matmul(query, key.transpose(-2, -1)) # Compute the dot product of the query and the key.
+        v2 = v1 / inv_scale_factor  # Scale the dot product by the inverse scale factor.
+        v3 = v2.softmax(dim=-1)    # Apply softmax to the scaled dot product.
+        v4 = torch.nn.functional.dropout(v3, p=dropout_p)   # Apply dropout to the softmax output.
+        v5 = v4.matmul(value)  # Compute the dot product of the dropout output and the value.
+
+# Initializing the model

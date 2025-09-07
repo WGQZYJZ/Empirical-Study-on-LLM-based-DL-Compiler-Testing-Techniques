@@ -1,0 +1,39 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+ 
+    def forward(self, x1):
+        qk = torch.matmul(x1, x1.transpose(-2, -1)) # Compute the dot product of the query and key tensors
+        scaled_qk = qk.mul(0.5) # Scale the dot product by a factor
+        softmax_qk = scaled_qk.softmax(dim=-1) # Apply softmax to the scaled dot product
+        dropout_qk = torch.nn.functional.dropout(softmax_qk, p=0.25) # Apply dropout to the softmax output
+        output = dropout_qk.matmul(x1) # Compute the dot product of the dropout output and the value tensor
+        return output
+
+
+# Model for testing inference time
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+ 
+    def forward(self, x1, x2):
+        v1 = x1 + x2 # Add x1 to x2
+        v2 = torch.erf(v1)  # Apply the error function to v1
+        v3 = v2 * v1  # Multiply the output of the error function by v1
+        return v3
+
+
+# Model for testing performance
+class Model(torch.nn.Module):
+    def __init__(self, dropout_p: float):
+        super().__init__()
+        self.dropout_p = dropout_p
+ 
+    def forward(self, x1, x2):
+        v1 = x1 + x2 # Add x1 to x2
+        v2 = torch.erf(v1)  # Apply the error function to v1
+        v3 = v2 * v1  # Multiply the output of the error function by v1
+        return v3
+```
+

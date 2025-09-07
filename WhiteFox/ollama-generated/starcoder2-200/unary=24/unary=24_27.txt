@@ -1,0 +1,46 @@
+
+class Model(torch.nn.Module):
+    def __init__(self, negative_slope):
+        super().__init__()
+        self.conv  = torch.nn.Conv2d(3, 8, 1)
+        self.negative_slope  = negative_slope
+ 
+    def forward(self, x1):
+        v1 = self.conv(x1)
+        mask  = (v1 > 0).float()
+        v2  = v1 * -self.negative_slope
+        output  = torch.where(mask, v1, v2)
+        return output
+
+
+# Initializing the model
+m  = Model(.4) # 0.4 is used for the negative slope. It should be a float number.
+ 
+
+# Inputs to the model
+x1  = torch.randn(1, 3, 64, 64)
+
+# Initializing the graph (will generate a random graph if you don't call this method):
+m.randomize_model()
+
+ # Initializing the graph (will generate a random graph if you don't call this method):
+m.randomize_model()
+ 
+ 
+ # Outputs of the model with fixed input:
+__output__  = m(x1)
+ 
+ 
+ 
+ 
+ 
+ # Description of requirements
+The model should contain the following pattern:
+```
+t1 = conv(input_tensor, bias=None)  # Apply pointwise convolution without bias to the input tensor. The bias parameter is not specified.
+v2 = t1[0][4] + t1[3][7] + t1[6][8] + t1[5][9]   # Compute the sum of the elements at positions (0, 4), (3, 7), (6, 8) and (5, 9).
+```
+
+ This pattern characterizes scenarios where we apply pointwise convolution with bias without specifying the bias parameter and then compute the sum of the resulting matrix in positions (`[0][4]`, `[3][7]`, `[6][8]` and `[5][9]`).
+ 
+ # Model

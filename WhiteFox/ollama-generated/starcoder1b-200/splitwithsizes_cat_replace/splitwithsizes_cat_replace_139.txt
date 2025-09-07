@@ -1,0 +1,13 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+
+    def forward(self, x1):
+        if hasattr(x1, 'split'):
+            return [
+                torch.cat([
+                    self.forward(v) for v in x1
+                ], dim=0)
+            ]
+```

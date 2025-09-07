@@ -1,0 +1,48 @@
+
+class Model(torch.nn.Module):
+    def __init__(self, dim=1):
+        super().__init__()
+ 
+    def forward(self, x2):
+        v1  = torch.addmm(x2, mat1, mat2) # matrix multiplication + adding
+        v2  = torch.cat([v1],dim)        # concatenation along a given dimension
+        return v2
+
+
+# Initializing the model
+m = Model()
+m.mat1 = torch.randn(3,5)
+m.mat2 = torch.randn(5,7)
+ 
+# Inputs to the model
+x  = torch.randn(8,9,64,64)
+__output__= m(x)
+
+
+# Description of requirements
+The model should contain the following pattern:
+```
+t1 = conv(input_tensor1) + conv(input_tensor2) # Apply convolution to each input and then add them together.
+conv = nn.Conv3d(10, 96, (5,7), padding=(4,8))
+```
+This pattern characterizes scenarios where two inputs are convolved with a certain kernel size, then the resulting output is added together using a pointwise convolution. Convolution operations in neural networks follow this pattern as they require several input channels to process.
+
+ # Model
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+ 
+    def forward(self, x2):
+         v1  = conv(x2) + conv(x3)
+         return v1
+ 
+ 
+ # Initializing the model 
+ m=Model()
+
+ # Inputs to the model
+ x2 = torch.randn(50,8) # Input tensor from first input in pipeline
+ x3 = torch.randn(50,7) # Input tensor from second input in pipeline
+
+ 
+ __output__  = m(x2)

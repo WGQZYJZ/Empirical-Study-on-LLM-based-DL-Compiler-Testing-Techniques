@@ -1,0 +1,12 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv = torch.nn.ConvXd(3, 16, ...)
+
+    def forward(self, x):
+        bn = torch.nn.functional.batch_norm(...) # fuse the batch norm and conv layers into a single one in functional API pattern
+
+        v = bn(self.conv(x))
+        return v
+```

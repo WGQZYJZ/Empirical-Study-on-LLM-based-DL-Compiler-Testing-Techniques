@@ -1,0 +1,26 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.linear = torch.nn.Linear(3, 8)
+ 
+    def forward(self, x1):
+        v1 = self.linear(x1)
+        v2 = clamp(min=0, max=6, v1 + 3)
+        v3 = v2 / 6
+        return v3
+
+
+# Initializing the model
+m = Model()
+```
+The difference between the input and output of the model is that in the case where `clamp` method added with a value `min` to an output, then the result would be negative. In this case, the first layer (conv) has its output subtracted by `3`. Then the output of the first linear transformation will have the same sign as the clamped output, so it is set to zero when we apply `l1 / 6` in the following layers.
+```
+v4 = v2 + 3  # Add 3 to the output of the linear transformation. The result is positive, and in that case, we need to subtract 3 from each layer's result
+v5 = v4 / 6  # Divide the first linear transformation result by 6 so that the clamped input will be less than -3
+```
+The difference between the input and output of the model is that in the case where `clamp` method added with a value `max` to an output, then the result would be positive. In this case, the first layer (conv) has its output subtracted by `6`, and then it will be set to zero when we apply `l1 / 6` in the following layers.
+```
+v6 = v2 - 3 # Subtract 3 from the output of the linear transformation. The result is negative, and in that case, we need to subtract 6 from each layer's result
+v7 = v6 / 6  # Divide the first linear transformation result by 6 so that the clamped input will be greater than -6
+```

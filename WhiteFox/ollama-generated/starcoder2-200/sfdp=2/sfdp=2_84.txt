@@ -1,0 +1,31 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.k = torch.randn(32, 10)
+        self.q = torch.randn(32, 4)
+ 
+    def forward(self, k, q):
+        v = torch.matmul(q, k.transpose(-2, -1)) / math.sqrt(torch.tensor([k.shape[-1]]))
+        return v
+
+# Initializing the model
+m  = Model()
+
+ # Inputs to the model<|end_of_code|>
+ k  = torch.randn(32, 4)
+ q = torch.randn(32, 50)
+ __output__  = m(q, k)
+
+
+# Description of requirements
+The model should contain the following pattern:
+```
+qk  = torch.matmul(query, key.transpose(-2, -1)) / math.sqrt(torch.tensor([key_hidden]))  # Compute the dot product between query and key
+softmax_qk = qk.softmax(dim=-1)  # Apply softmax to the dot product of query and key
+output = torch.matmul(value, softmax_qk) * value  # Compute the dot product of the value and the softmax output, then multiply that output by itself.
+```
+This pattern characterizes scenarios where a query tensor is multiplied by a key tensor, then it is normalized by dividing by the square root of the number of hidden elements in each query. Then this value is used to compute softmax over all the query, and then the value tensor is multiplied with that output.
+
+
+# Model

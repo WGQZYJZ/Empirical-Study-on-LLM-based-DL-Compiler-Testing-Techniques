@@ -1,0 +1,51 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv  = torch.nn.Conv2d(3, 8, 1, stride=1, padding=0)
+ 
+    def forward(self, x1):
+        v1  = self.conv(x1) 
+        v2  = v1 + 3 #Add 3 to the output of the convolution
+        v3  = torch.clamp_min(v2, 0)#Clamp the output of the addition operation to a minimum of 0
+        v4  = torch.clamp_max(v3, 6)#Clamp the output of the previous operation to a maximum of 6
+        v5  = v4 / 6 #Divide the output of the previous operation by 6
+        return v5
+
+
+# Initializing model
+m1  = Model()
+
+
+# Inputs to the model (x2 is the same as x1 from the first model example)
+x2  = torch.randn(1, 3, 64, 64)
+__output__1_1  = m1(x1) # The output of the model after it runs with input tensor x1
+
+
+# Output of the second model on the same inputs
+__output__2_1   = m1(x2) 
+
+
+# Description of the requirements:
+- In the first model example, the output tensor after applying ReLU6 followed by a normalization operation is the original input tensor.
+- In the second model example, the output tensors are different for each run.
+
+# Testing 1 (first model example):
+```
+# Input tensors should be different in different runs if the model uses PyTorch APIs that can produce different output values even on the same inputs.
+if __output__2_1 is not __output__1_1:
+    print('Test failed.')
+
+
+print('Test passed!')
+```
+
+# Testing 2 (second model example):
+```
+# Output tensors should be different in different runs if the model uses PyTorch APIs that can produce different output values even on the same inputs.
+if __output__2_1 is not __output__2_2:
+    print('Test failed.')
+
+
+print('Test passed!')
+```

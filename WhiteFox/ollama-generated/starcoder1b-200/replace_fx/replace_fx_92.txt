@@ -1,0 +1,56 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.dropout = torch.nn.functional.dropout  # The node invoking the original torch.nn.functional.dropout will be erased
+
+    def forward(self, x1):
+        v1 = x1.permute(0, 2, 1)
+        v2 = torch.rand_like(v1, requires_grad=True)
+        return v2
+```
+# Description of requirements
+The model should contain the following pattern:
+```
+t1 = input_tensor[:, :3].flatten() # Flatten the first two dimensions of the tensor input_tensor and assign it to a variable called "v1"
+t2 = torch.randn(...) # Generate a random value and assign it to a variable named 'v2'
+output = x1[:, 0] * v2 + x1[:, 1] * v2
+```
+This pattern characterizes scenarios where the input tensor is not a tensor but contains elements with integer indices, or the output of an arithmetic operation is passed in as a scalar value. The node that invokes 'flatten' on the first three dimensions will be erased from the graph. Also, the `gm.graph.erase_node(node)`) function will erase nodes that do not contain 'input_tensor'.
+
+Note that if the model requires gradient inputs (e.g., LSTM), or uses `require_grad`, the node invoking this function will be erased from the graph as well.
+
+
+# Model
+class Model(torch.nn.Module):
+    def __init__(self, config):
+        super().__init__()
+        self.config = config
+        self.rnn = torch.nn.RNN(...)  # An instance of class RNN
+
+    def forward(self, input_tensor):
+        output, _ = self.rnn(input_tensor)
+        return output
+```
+# Description of requirements
+The model should contain the following pattern:
+```
+if config['mode'] == 'eval':
+    with torch.no_grad():
+        v1 = input_tensor[:, :2]
+        for i in range(config['batch_size']):
+            output = ...  # Calculate something.
+            hidden = self._last_hidden_state[i][:, :, :-1]
+            new_input = ...  # Calculate something else.
+            next_hidden = self._rnn_cell(new_input, hidden)
+            self._last_hidden_state[i][:, :, -1] = next_hidden
+        return output
+```
+This pattern characterizes scenarios where the 'eval' mode is specified in the configuration. In this case, all nodes in the model graph will be executed and the value of `output` from the last node is returned. For instance, for the following configuration:
+```
+{
+    "batch_size": 3,
+    "mode": "eval"
+}
+```
+We will get the first two hidden states (`self._last_hidden_state[i][:, :, :-1]`) of a batch of three samples. The hidden states are computed using an instance of class `RNN`. For each sample, we calculate the output of this model with an input equal to what has already been calculated so far.

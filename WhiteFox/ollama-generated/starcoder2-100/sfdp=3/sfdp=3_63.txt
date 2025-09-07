@@ -1,0 +1,34 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+ 
+    def forward(self, query, key, value):
+        v1  = torch.matmul(query, key.transpose(-2,-1))
+        v2  = self.v1.mul(scale_factor) # <--- missing dot product multiplication
+        v3  = v2.softmax(dim=-1)
+        v4  = torch.nn.functional.dropout(v3, p=dropout_p) 
+        v5  = v4.matmul(value)
+
+        return v5
+
+
+# Initializing the model
+m = Model()
+
+# Inputs to the model
+query = torch.randn(batchsize, num_heads*head_dim // d_k, seqlength) # 1. query tensor
+key   = torch.randn(batchsize, num_heads*head_dim // d_k, seqlength) # 2. key tensor
+value = torch.randn(batchsize, num_heads, head_dim//d_k,seqlength) # 3. value tensor
+
+# Computing the output of the model
+__output__=m(query,key,value).view(-1, head_dim//d_k*num_heads)
+
+
+# Description of requirements
+The model should contain the following pattern:
+```
+t1 = t1 * 0.5  # Multiply the output of the convolution by 0.5
+```
+This pattern characterizes scenarios where the output of a pointwise convolution is multiplied by a constant `0.5`, that is, multiplying a PyTorch model with an existing layer.
+

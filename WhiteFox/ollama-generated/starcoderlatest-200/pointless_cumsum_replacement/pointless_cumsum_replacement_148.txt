@@ -1,0 +1,37 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+ 
+    def forward(self, x1, x2):
+        v1 = torch.full([x1, x2], 1, dtype=x1.dtype, layout=x1.layout, device=x1.device)
+        v2 = convert_element_type(v1, x2.dtype)
+        v3 = torch.cumsum(v2, 0)
+        return v3
+```
+
+ # Input
+torch.full([45678], 0, dtype=torch.float32, layout=torch.strided, device='cuda:0')
+# Description of requirements
+The model should contain the following pattern:
+```
+t1 = torch.full([arg1, arg2], [arg3, arg4], dtype=dtype, layout=layout, device=device)  # Create a tensor filled with the scalar value [arg3, arg4] with the specified dtype and device
+t2 = convert_element_type(t1, dtype)  # Convert the elements of the tensor to the specified dtype
+t3 = torch.cumsum(t2, dim=dim)  # Compute the cumulative sum of the elements of the tensor along dimension dim
+```
+
+
+The input tensors should satisfy the following constraints:
+- t1 must be a parameter to the Model model
+
+# Description of requirements
+You can choose a model with the pattern:
+```
+class Model(torch.nn.Module):
+    def __init__(self, arg1):
+        super().__init__()
+ 
+    def forward(self, x1):
+        return None
+```
+

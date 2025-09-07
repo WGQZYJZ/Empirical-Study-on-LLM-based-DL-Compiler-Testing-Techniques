@@ -1,0 +1,18 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+ 
+    def forward(self, query, key):
+        v1 = torch.matmul(query, key.transpose(-2, -1)) # Compute the dot product of the query and key tensors
+        v2 = v1 / 0.5 # Scale the dot product by 0.5
+        v3 = torch.softmax(v2) # Apply softmax to the scaled dot product
+        v4 = torch.nn.functional.dropout(v3, p=dropout_p) # Apply dropout to the softmax output
+        v5 = torch.matmul(v4, value) # Compute the dot product of the dropout output and the value tensor
+        return v5
+
+
+# Initializing the model
+m = Model()
+```
+This pattern is common in attention mechanisms (especially multi-head attention mechanism).

@@ -1,0 +1,84 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv  = torch.nn.ConvTranspose2d(3, 8, 1)
+ 
+    def forward(self, x1):
+        v1   = self.conv(x1)
+        v2   = v1 * 0.5
+        v3_1 = v1
+        v3   = (v3_1 + v3_1*v3_1) * v3_1
+        v4   = v3 * torch.FloatTensor([0.7978845608028654]).to(x1)[None]  # 0.7978845608028654: 0.7978845608028654
+        v3_2 = (v4 + v4) * torch.FloatTensor([0.044715]).to(x1)[None] # 0.044715: 0.044715
+        v5   = v3 + v3_2
+        v6   = v2 + v5
+        return v6
+
+
+# Initializing the model
+m = Model()
+
+# Inputs to the model
+x1  = torch.randn(1, 3, 8, 8)
+__output__  = m(x1)
+
+# Description of requirements
+The model should contain the following pattern:
+```
+t1  = conv_transpose(input_tensor) # Apply pointwise transposed convolution to the input tensor.
+t2  = t1 * 0.5                      # Multiply the output of the transposed convolution by a constant `0.5`.
+t3a = t1                             # Store the output of the multiplication in two different variables.
+t4  = (t3a + t3a*t3a)                # Cubed the output from the first variable, and add it to another constant.
+t3b = t3a * v5_0                     # Multiply the output of the multiplication by a constant.
+t3  = t4                             # Store the output in two different variables, so the second one will be cubed again.
+t4  = (t3 + t3)*v7_1                 # Add another constant to the cubed and added outputs. 
+t5  = v2 * v6                        # Apply the hyperbolic tangent function to the output of the addition. 
+t6  = torch.tanh(t5) + 1              # Add one to the output from the hyperbolic tangent function, then multiply it by another constant.
+```
+
+
+# Model
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+ 
+    def forward(self, x0):
+        
+        v1   = torch.FloatTensor([5]).to(x0)[None]
+        v2_0 = self.conv(x0)
+        v3a  = v2_0 * v1              # Store the output of the multiplication in two different variables. 
+        v4a  = (v3a + v3a*v3a)        # Cubed the output from the first variable, and add it to another constant.
+        v5   = v2_0
+        v6_1 = self.conv(v5)[None]    # Apply pointwise convolution twice.
+        v7_1 = torch.FloatTensor([3]).to(x0)
+        v8  = (self.conv(x0))
+        v9a = self.conv(v8)[None]
+        v10 = self.conv(v2_0)
+        v11 = torch.FloatTensor([-4,5]).to(x0).view(-1, 2)   # Store the constant in two variables.
+        v12 = (torch.mm((self.conv(x0)).float(), v10.T).sigmoid())*v9a  + self.conv(x0)*v8
+        v3b = torch.sum(v6_1, dim=(len(v6_1)-1), keepdim=True) # Add the output of pointwise convolution twice to another constant. 
+        v13   = (self.conv(x0)[None] + self.conv(x0)[None])*torch.FloatTensor([-8]).to(x0)[None][0].view(-1, 2, 1) # Add one to the summed output of pointwise convolutions twice. 
+        v3c   = (v4a + v7_1 + torch.FloatTensor([59,-67]).to(x0).view(1, -1)[None].repeat(int(torch.sum(self.conv(x0)).float().size()), 1)) # Multiply the constant from two different variables with pointwise convolution twice.
+        v3d = (v2_0 + torch.FloatTensor([54]).to(x0)) * x0
+        v3e   = self.conv(self.conv(x0)[None] + self.conv(torch.FloatTensor([9, 17]).to(x0).view(-1))[None]*v8*x0) # Sum the output of pointwise convolution with another constant twice and multiply it by two variables.
+        v3f   = (self.conv(x0))*(v4a + torch.FloatTensor([-5, -2]).to(x0).view(-1)[None].repeat_interleave((torch.sum(v9a)).int(), 1)) # Sum the output of pointwise convolution twice and multiply it with the summed constant.
+        v3g   = (self.conv(self.conv(v2_0))[None]*x0 + self.conv(v5)[None]) * x0  
+        v14a, v14b = torch.chunk(self.conv(torch.FloatTensor([87]).to(x0)), 2)   # Store the constant in two variables. 
+        v3h   = (v14a + v14b) * self.conv(x0)[None]
+        v6_3, v6_4, v6_5 = torch.chunk((self.conv(torch.FloatTensor([9]).to(x0))), 2) # Apply pointwise convolution twice and store the output in three different variables.
+        v14c = self.conv(v8)[None]
+        v3i   = ((v6_3+v6_5)*self.conv(torch.FloatTensor([7]).to(x0))[None]*v9a + torch.FloatTensor([-2, -3]).to(x0).view(-1)) * self.conv(v8) # Sum the output of two pointwise convolutions with another constant twice and multiply it by a variable.
+        v4_0 =  (self.conv(torch.FloatTensor([97,-5]).to(x0)[None]) + torch.FloatTensor([-6, -1]).to(x0).view(-1)) * x0
+        v3j   = ((v2_0 + self.conv(torch.FloatTensor([84, 33]).to(x0))) * v7_1).sigmoid() * self.conv(self.conv(torch.FloatTensor([9,-5].to(x0)).view(-1))) * (self.conv(v2_0)) # Multiply the output of pointwise convolution twice and sum it with another constant twice. 
+        return  v3c * torch.FloatTensor([-6, -7]).to(x0).view(-1)[None].repeat((torch.sum(self.conv(x0)).float().size()), 1)  # Multiply the constant in two different variables and add it to another constant twice
+
+
+# Initializing model
+model = Model()
+
+# Input to the model
+input_ = torch.randn(2,3)
+
+# Feeding input to the model and saving the output for later usage
+output1 = model(input_) # For later analysis

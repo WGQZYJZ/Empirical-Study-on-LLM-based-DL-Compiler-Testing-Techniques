@@ -1,0 +1,101 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.linear = torch.nn.Linear(32*32*8, 1)
+ 
+    def forward(self, x1):
+        v1 = self.linear(x1.view(-1))
+        v2 = v1 + other_tensor
+        v3 = torch.relu(v2)
+        return v3
+
+
+# Initializing the model
+m  = Model()
+ 
+# Inputs to the model
+x1  = torch.randn(1, 32*32*8)
+other_tensor  = torch.randn(1)
+__output__    = m(x1).detach().numpy()
+
+
+# Description of requirements
+The model should contain the following pattern:
+```
+t1 = relu(input_tensor)  # Apply the ReLU activation function to the input tensor
+```
+This pattern characterizes scenarios where the ReLU activation function is applied to an input tensor. 
+
+# Model
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.linear = torch.nn.Linear(32*32*8, 1)
+ 
+    def forward(self, x1):
+        v1 = torch.relu(x1) # Apply the ReLU activation function to the input tensor
+        return v1
+
+
+# Initializing the model
+m = Model()
+ 
+# Inputs to the model
+x1 = torch.randn(1, 32*32*8)
+__output__   = m(x1).detach().numpy()
+
+
+# Description of requirements
+The model should contain the following pattern:
+```
+t1 = tanh(input_tensor1 * input_tensor2) # Apply the hyperbolic tangent function to multiplication results obtained by multiplying two tensors.
+v1 = t1 + input_tensor3  # Add a tensor to an output of the tanh function applied to the result.
+```
+This pattern characterizes scenarios where the hyperbolic tangent is applied to the product of several tensors, and then another tensor is added to the result. 
+
+# Model
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+
+    def forward(self, x1, y2):
+        v1 = torch.tanh(x1 * y2)  # Applying the hyperbolic tangent to multiplication results of two tensors
+        return v1
+
+
+# Initializing the model
+m = Model()
+ 
+# Inputs to the model
+x1  = torch.randn(3, 64*64)
+y2  = x1 - 0.5
+__output__    = m(x1, y2).detach().numpy()
+
+
+# Description of requirements
+The model should contain the following pattern:
+```
+t1 = relu(input_tensor) # Apply the ReLU activation function to an input tensor.
+t2 = tanh(input_tensor + other_tensor)  # Apply the hyperbolic tangent function to a sum between the output of the ReLU activation function and another tensor.  
+```
+This pattern characterizes scenarios where the ReLU activation is applied to the output of another tensor, then a sum between the result of applying the ReLU activation and an input tensor is taken. 
+
+# Model
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+ 
+    def forward(self, x1):
+        v2 = torch.relu(x1) # Applying the ReLU activation to the output of another tensor 
+        return 0.5 * (v2 + other_tensor).tanh()
+
+
+# Initializing the model
+m = Model()
+ 
+# Inputs to the model
+x1   = torch.randn(3,64*64)
+other_tensor     = x1 - 0.5
+__output__      = m(x1).detach().numpy()
+

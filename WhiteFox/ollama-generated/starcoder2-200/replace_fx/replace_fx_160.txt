@@ -1,0 +1,48 @@
+
+
+```
+import torch
+from pytorch_fx import GraphModule
+from pytorch_fx.symbolic_trace import symbolic_ trace, symbolic_ replace_ fx
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+
+    def forward(self, x1):
+        v2 = torch.nn.functional.dropout(x1)  # Apply dropout to the input tensor
+
+        return v2
+
+
+m  = Model()
+gm = GraphModule(m, m.forward.graph)
+t0 = torch.randn(5)
+
+@symbolic_trace(allow_missing=True)
+def f(gm):
+    x1  = t0
+
+    # Apply dropout on the first node
+    gm._run_node_post_process_hooks(x1, gm.graph.nodes["Dropout"])
+    return gm._forward(x1), gm._output
+
+
+@symbolic_replace_fx(fallback=True)
+def f2(gm):
+    x1  = t0
+
+    # Apply dropout on the first node
+    gm._run_node_post_process_hooks(x1, gm.graph.nodes["Dropout"])
+    return gm._forward(x1), gm._output
+
+
+@symbolic_replace_fx()
+def f3(gm):
+    x1  = t0
+
+    # Apply dropout on the first node
+    gm._run_node_post_process_hooks(x1, gm.graph.nodes["Dropout"])
+    return gm._forward(x1), gm._output
+
+

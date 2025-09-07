@@ -1,0 +1,19 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+ 
+    def forward(self, x1):
+        mat1 = torch.randn(8, 32) * 0.5 + 1
+        mat2 = torch.randn(4, 64) * 0.7071067811865476 - 1
+        input = torch.randn(1, 96, 1, 1)
+        t1 = torch.addmm(input, mat1, mat2) # Perform a matrix multiplication of mat1 and mat2 and add it to the input
+        t2 = torch.cat([t1], dim=3) # Concatenate the result along a specified dimension
+        return t2
+ 
+
+# Initializing the model
+m = Model()
+
+ # Inputs to the model
+x1 = torch.randn(1, 96, 1, 1)

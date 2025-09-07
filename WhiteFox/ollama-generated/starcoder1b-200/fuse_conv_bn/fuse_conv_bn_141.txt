@@ -1,0 +1,26 @@
+
+class Module(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv = torch.nn.ConvXd(...)
+        self.bn   = torch.nn.BatchNormXd(...)
+
+    @torch.jit._overload_method
+    def forward(self, input):
+        return self.bn(self.conv(input))
+
+    @torch.jit._overload_method
+    def forward(self, input):
+        return self.bn(self.conv(input), training=training)
+```
+The model should contain the following pattern:
+```
+x1 = input_tensor.permute(...)  # Permute the input tensor
+# ...
+bn1 = torch.nn.BatchNormXd(...)  # Fuse the above patterns to implement batch norm.
+conv1 = self.bn1(self.conv(input)) # The output of the convolution layer is used as the input of bn1.
+x2 = conv1.permute(...).permute(...) # Permute x1 and get the output of the linear transformation.
+y1 = torch.nn.functional.linear(x1, self.linear_weight, self.linear_bias) 
+return y2
+
+

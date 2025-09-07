@@ -1,0 +1,21 @@
+
+class Model(torch.nn.Module):
+    def __init__(self, miminum=10., maximum=20.):
+        super().__init__()
+        self.lin  = torch.nn.Linear(8375649, 8)
+ 
+    def forward(self, x1):
+        v1 = self.lin(x1)
+        v2 = torch.clamp_min(v1, min=miminum)
+        v3 = torch.clamp_max(v2, max=maximum)
+
+        return v3
+
+# Initializing the model
+m  = Model()
+
+
+# Inputs to the model
+x1 = torch.randn(8375649)
+__output__  = m(x1)
+

@@ -1,0 +1,1 @@
+This pattern characterizes scenarios where a list of tensors are concatenated along dimension 1, then another slice of the tensor is taken along dimension 1, and then the original concatenated tensor and the sliced tensor are concatenated along dimension 1.

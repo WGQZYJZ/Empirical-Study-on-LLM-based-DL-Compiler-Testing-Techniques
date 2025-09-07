@@ -1,0 +1,33 @@
+import torch
+torch.manual_seed(42)
+ 
+class Model(torch.nn.Module):
+    def __init__(self, query, key):
+        super().__init__()
+        scale = 10**-3  # Use a value for the scale factor of ~0.001
+        dropout = .95  # Use a value for the dropout probability of ~0.05 (must be < 1)
+        
+        self.qk_dot = torch.nn.Linear(query.shape[-1], query.shape[1]) 
+        self.scale = scale
+        self.softmax_qk = torch.nn.Softmax(dim=-1)
+        self.dropout = dropout
+ 
+    def forward(self, query, key):
+        
+        # Compute the dot product of the query and key tensors
+        # Replace <...fill...> with your code for computing the dot product
+        qk = self.qk_dot(<...fill...)
+        
+        # Scale the dot product by a factor
+        # Replace <...fill...> with your code for scaling the dot product
+        scaled_qk = <...fill...> * self.scale
+        
+        # Apply softmax to the scaled dot product and apply dropout to it 
+        # Replace <...fill...> with your code for applying softmax and dropout
+        drop_prob  = torch.tensor(self.dropout, dtype=torch.float32)
+        drop_mask = (torch.rand(*qk.shape[-1]) <= drop_prob).float()
+        
+        # Compute the dot product of the scaled dot product with the dropout mask and value tensor
+        output  = qk * drop_mask * torch.nn.functional.dropout(self.softmax_qk(qk), p=0) 
+        
+        return output

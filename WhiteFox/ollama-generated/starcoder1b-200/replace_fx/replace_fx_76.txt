@@ -1,0 +1,151 @@
+
+class Model(torch.nn.Module):
+    def __init__(self, num_layers):
+        super().__init__()
+        self.layer1 = torch.nn.Linear(...) # Generate a random linear transformation matrix on the shape [batch, in_features, num_nodes]
+        self.layer2 = ... # Generate some layers to be applied in sequence
+
+    def forward(self, x):
+        for i in range(num_layers):
+            x = self.layer1(x)  # Generate a new input tensor with an affine transformation applied
+            x = self.layer2(x)  # Generate another new input tensor with another affine transformation applied to it
+    ```
+
+
+# Model
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.linear_1 = torch.nn.Linear(...)
+        self.dropout = ...
+
+    def forward(self, x, hidden_states, attention_mask=None):
+        if attention_mask is None:
+            output_mask = torch.ones_like(hidden_states)
+            attention_mask = output_mask # The mask on which the linear layer and dropout are applied is assumed to be 1s.
+        else:
+            output_mask = attention_mask # The mask on which the linear layer and dropout are applied has been already computed with the attention mask provided as an argument
+
+        # Perform multiple passes over a sequence of sequences through the linear layers and dropout
+        for i in range(num_layers):
+            hidden_states = ... # Generate a new input tensor with the same shape as hidden_states
+
+            x = self.linear_1(x)  # Generate a new input tensor with an affine transformation applied
+            x = torch.nn.functional.dropout(x, self.dropout) # Apply dropout to the input tensor
+        return output
+
+
+# Model
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.linear_1 = torch.nn.Linear(...)
+
+        if not use_cuda:
+            self.linear_2 = torch.nn.Linear(...)  # Generate a random linear transformation matrix on the shape [batch, in_features, num_nodes]
+        else:
+            self.linear_2 = ... # Generate some layers to be applied in sequence
+    ```
+
+## Note
+- The model can also contain `forward` or `backward` functions (if any). In this case, if the original input is passed through an internal module first followed by a linear layer and then another linear layer for inference purposes, that way it should not trigger the generation of the replacement function.
+
+# Model
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.dropout = ...
+
+        if not use_cuda:
+            self.linear_1 = torch.nn.Linear(...) # Generate a random linear transformation matrix on the shape [batch, in_features, num_nodes]
+
+            if not use_cuda:
+                self.linear_2 = torch.nn.Linear(...) # Generate a random linear transformation matrix on the shape [batch, in_features, num_nodes]
+            else:
+                self.linear_2 = ...
+        else:
+            self.linear_2 = ...
+    ```
+- If `forward` or `backward` functions are present in the model, the number of arguments will be different from the number of nodes/edges generated for each input to that module. For example, if `forward` is called with a batch size of 10 and a sequence length of 5 (say), the replacement function should have one argument (`x`), and the number of outputs from both inputs should be `batch * num_nodes`, and thus also should have two output tensors (`y1`, `y2`). In addition, note that the order in which these arguments are passed is not important.
+
+# Model
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+
+        # Generate a new random linear transformation matrix on the shape [batch, in_features, num_nodes]
+        self.linear_1 = ... # Generate some layers to be applied in sequence
+    ```
+
+
+# Model
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+
+        # Generate a random linear transformation matrix on the shape [batch, in_features, num_nodes]
+        self.linear_1 = ... # Generate some layers to be applied in sequence
+
+        if not use_cuda:
+            self.linear_2 = torch.nn.Linear(...)  # Generate a random linear transformation matrix on the shape [batch, in_features, num_nodes]
+        else:
+            self.linear_2 = ... # Generate some layers to be applied in sequence
+    ```
+
+
+# Model
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+
+        if not use_cuda:
+            self.linear_1 = torch.nn.Linear(...)  # Generate a random linear transformation matrix on the shape [batch, in_features, num_nodes]
+
+            if not use_cuda:
+                self.linear_2 = torch.nn.Linear(...) # Generate a random linear transformation matrix on the shape [batch, in_features, num_nodes]
+            else:
+                self.linear_2 = ...
+        else:
+            self.linear_2 = ...
+    ```
+
+## Note
+- For the generation of the replacement function (if any), a node is only replaced if it does not contain an input tensor. A tensor is created by invoking `t.view(-1, t.size()[1])` if the original shape is [batch, in_features, num_nodes]. Otherwise, this argument will be ignored and the replacement function can be used with both tensors as input (`forward`) or only a single tensor (`backward`).
+
+
+# Model
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+
+        if not use_cuda:
+            self.linear_1 = torch.nn.Linear(...)  # Generate a random linear transformation matrix on the shape [batch, in_features, num_nodes]
+
+            if not use_cuda:
+                self.linear_2 = torch.nn.Linear(...) # Generate a random linear transformation matrix on the shape [batch, in_features, num_nodes]
+            else:
+                self.linear_2 = ...
+        else:
+            self.linear_2 = ...
+    ```
+
+
+# Model
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+
+        if not use_cuda:
+            self.linear_1 = torch.nn.Linear(...)
+  // --- - - -- - - - - - - - - - - - - -
+
+    # -- Function Definition --#
+    function get_random_int($start, $end) {
+        return (rand() % ($end + 1)) + 1);
+    }
+
+    # -- Test Code --#
+    get_random_int(50, 100);
+    get_random_int(100, 100);
+
+}

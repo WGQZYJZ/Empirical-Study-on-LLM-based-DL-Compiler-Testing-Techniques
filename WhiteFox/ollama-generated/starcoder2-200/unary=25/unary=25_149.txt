@@ -1,0 +1,57 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.linear = torch.nn.Linear(10, 4)
+        self.activation_fnc = lambda x: -2 * ((x > 0).float())
+ 
+    def forward(self, x1):
+        v1 = self.linear(x1)
+        v2 = (v1 > 0).float()
+        v3 = negative_slope * v1
+        v4 = torch.where(v2, v1, v3)
+        return v4
+
+# Initializing the model
+m = Model()
+# Inputs to the model
+x1 = torch.randn(8, 10)
+
+
+# Description of requirements
+The model should contain the following pattern:
+```
+t1 = conv(input_tensor) # Apply a convolution on the input tensor
+t2 = t1 * 4 + 6 # Multiply the output of the convolution by 4 and add 6 to it
+t3 = torch.sigmoid(t2)# Apply sigmoid function to the output of the previous multiplication operation plus addition operation, and then apply a threshold to the resulting tensor with values above 0.5
+```
+This pattern characterizes scenarios where the input is passed through a 1D convolution layer followed by multiplication by four plus six. The resultant tensor from the convolution layer gets passed through sigmoid activation function which is applied to the output of the previous operation that results in a new tensor and thresholding (for example, for a new tensor where each element value is greater than or equal to 0.5).
+
+# Model
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv = torch.nn.Conv1d(24, 32, 8)
+        self.mult_fnc = lambda x: (x > 0).float() * 4 + 6
+        self.sigm_fnc = lambda y: torch.sigmoid(y)
+ 
+    def forward(self, input):
+        v1 = self.conv(input)
+        v2 = mult_fnc(v1) # This is the pattern for a model that contains convolution and an activation function.
+        threshold = 0.5 
+        v3 = sigm_fnc(v2 + threshold)
+        return v3
+
+# Initializing the model
+model = Model()
+
+
+# Description of requirements
+The model should contain the following pattern:
+```
+t1 = linear(input_tensor)# Apply a linear transformation to an input tensor
+t2 = t1  * 0.5 # Multiply the output of the previous linear transformation by 0.5
+t3 = 4 + 6# Add 4 and 6 to the output of the multiplication operation
+```
+This pattern characterizes scenarios where a linear transformation is applied on an input tensor, then the output of that linear transformation is multiplied by 0.5, followed by adding 4 plus 6 (the output from this operation is 10).
+

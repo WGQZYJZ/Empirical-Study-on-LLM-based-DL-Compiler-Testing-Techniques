@@ -1,0 +1,42 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.linear = torch.nn.Linear(2, 2)
+
+    def forward(self, x1):
+        t0 = torch.nn.functional.relu(x1)
+        t0_norm = F.normalize(t0)
+        t1 = t0 / t0_norm
+        t2 = self.linear(t1)
+        return t2
+```
+This pattern characterizes scenarios where the `torch.nn.functional.dropout` or `torch.rand_like` functions are invoked and replaced by their corresponding replacements in the graph of the model. In the following example, a node is deleted in two steps:
+
+Node 0: `nn.Linear(2, 2)`
+Node 1: `F.normalize`
+Node 2: `F.normalize`, after being invoked on the result of Node 1
+Node 3: `relu`
+
+The last node is deleted, and this pattern will no longer trigger the `gm.graph.erase_node(node)` line in our analysis.
+
+# Model
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.linear = torch.nn.Linear(2, 2)
+
+    def forward(self, x1):
+        t0 = x1 * torch.sigmoid(x1)
+        t1 = self.linear(t0)
+        return t1
+```
+This pattern characterizes scenarios where the `torch.sigmoid` function is invoked on an input tensor with more than 2 dimensions, and it swaps the last two dimensions of this tensor. This modified tensor is then used as the main input for the linear function, that uses it as its output value.
+
+
+# Additional notes
+1. The `gm.graph.replace_node` method only works on nodes that have their original shape in the graph of a model. Therefore, it can be used to replace nodes that are created by `torch.nn.functional.linear`.
+2. To test whether a function has been replaced correctly:
+* Generate a valid PyTorch model example with public PyTorch APIs meets the specified requirements, and check whether the pattern 't1 = x1.permute(...)  # Permute the input tensor' is present. For each generated node, run `gm.graph.check_original` to check that the original nodes invoking the function have been deleted in our analysis.
+* In addition to this, also generate the corresponding input tensors for those models and compare their shapes and content. The generated tensor with random values should be identical to the input ones.
+

@@ -1,0 +1,27 @@
+
+class ScaledDotProductAttention(nn.Module):
+    def __init__(self):
+        super().__init__()
+ 
+    def forward(self, x1, x2):
+        # [batch_size * sequence_length, num_heads, depth]
+        # [batch_size * sequence_length, depth, depth]
+        batch_size, sequence_length = x1.shape[0], x1.shape[1]
+        # [num_heads, query_depth, key_depth]
+        # [num_heads, key_depth, value_depth]
+        # [batch_size * sequence_length, num_heads, depth] * [batch_size * sequence_length, depth, depth] -> [batch_size * sequence_length, num_heads, depth]
+        query, key = x1.view(batch_size * sequence_length, -1), x2.view(batch_size * sequence_length, -1)
+        # [num_heads, query_depth, key_depth] -> [num_heads, depth] / sqrt(key_depth)
+        # [num_heads, key_depth, depth] * [num_heads, depth] / sqrt(key_depth) -> [num_heads, key_depth]
+        inv_scale = 1.0 / torch.sqrt(torch.abs(query).sum(-1))
+        # [batch_size * sequence_length, num_heads, depth] + [batch_size * sequence_length, depth, depth] -> [batch_size * sequence_length, num_heads, depth]
+        x = x2.matmul(torch.transpose(key, 0, 1))
+        # [batch_size * sequence_length, num_heads, depth] + [num_heads, key_depth, depth] -> [batch_size * sequence_length, num_heads, key_depth]
+        x += query.matmul(torch.transpose(key, 0, 1))
+        # [num_heads, depth] / sqrt(key_depth) * [batch_size * sequence_length, num_heads, key_depth] -> [batch_size * sequence_length, num_heads, key_depth]
+        x = inv_scale.unsqueeze(-2).expand_as(x) * x
+        # [batch_size * sequence_length, num_heads, key_depth] + [batch_size * sequence_length, depth, depth] -> [batch_size * sequence_length, num_heads, depth]
+        return x
+```
+This class characterizes the ScaledDotProductAttention mechanism. Its `forward()` method is similar to the one used in Transformer models (see https://github.com/NVIDIA/DeepLearningExamples/blob/master/PyTorch/LanguageModeling/Transformer.py). In this model, the scaled dot product of each pair of input vectors are computed, which can be seen as a combination of the softmax function and the addition operator (plus) in linear algebra. The value tensors are multiplied by `inv_scale` to compute the attention weights; after that, the value is added with the values in the attention weights (the same operation used in the previous model).
+

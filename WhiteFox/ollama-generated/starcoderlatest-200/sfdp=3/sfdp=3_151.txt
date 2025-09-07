@@ -1,0 +1,32 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+ 
+    def forward(self, x1, x2, scale_factor, dropout_p):
+        query = self._linear(x1)
+        key   = self._linear(x2)
+        qk    = torch.matmul(query, key.transpose(-2, -1)) # Compute the dot product of the query and key tensors
+        scaled_qk  = qk.mul(scale_factor)                     # Scale the dot product by a factor
+        softmax_qk = scaled_qk.softmax(dim=-1)                # Apply softmax to the scaled dot product
+        dropout_qk = torch.nn.functional.dropout(softmax_qk, p=dropout_p) # Apply dropout to the softmax output
+        output     = dropout_qk.matmul(value)              # Compute the dot product of the dropout output and the value tensor
+        return output
+ 
+    def _linear(self, x):
+        x = torch.nn.functional.avg_pool2d(x, (1, 8), stride=(1, 8))
+        return torch.nn.Linear()(x)
+
+
+# Initializing the model
+m = Model()
+ 
+# Inputs to the model
+x1 = torch.randn(4, 3, 64, 64)
+x2 = torch.randn(4, 8, 32, 32)
+scale_factor = 0.7071067811865476
+dropout_p    = 0.4
+ 
+# __output__ is defined as the output of m
+```
+

@@ -1,0 +1,21 @@
+
+class Model(torch.nn.Module):
+    def __init__(self, channels, kernel_size=3):
+        super().__init__()
+        self.conv = torch.nn.Conv1d(...)  # X can be 1, 2, or 3 representing the dimension
+        self.bn   = torch.nn.BatchNorm1d(...)
+
+    def forward(self, x):
+        conv = self.conv(x)
+        bn = self.bn(conv)
+        return bn
+
+
+# Initializing the model
+m = Model()
+
+
+# Inputs to the model
+inputs  = torch.randn(2, 3, 4, 5)
+outputs = m(inputs)
+```

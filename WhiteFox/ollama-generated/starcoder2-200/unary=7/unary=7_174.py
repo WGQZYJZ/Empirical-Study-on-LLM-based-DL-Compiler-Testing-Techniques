@@ -1,0 +1,8 @@
+
+# Initializing the model
+m = SELUModel()
+
+# Inputs to the model
+x1 = torch.randn(3, 450).requires_grad_(True)
+
+#

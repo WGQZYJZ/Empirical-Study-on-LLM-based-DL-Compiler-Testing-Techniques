@@ -1,0 +1,14 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.linear = torch.nn.Linear(10, 2)
+ 
+    def forward(self, x1):
+        v1 = self.linear(x1)
+        return torch.where(v1 > 0, v1 * negative_slope, v1 * positive_slope)
+
+
+# Initializing the model
+m = Model()
+

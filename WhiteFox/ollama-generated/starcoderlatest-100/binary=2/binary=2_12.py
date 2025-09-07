@@ -1,0 +1,15 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv = torch.nn.Conv2d(3, 8, 1, stride=1, padding=1)
+ 
+    def forward(self, x1):
+        v1 = self.conv(x1)
+        v2 = v1 - other_tensor
+        return v6
+
+
+# Inputs to the model
+x1 = torch.randn(1, 3, 64, 64)
+other = torch.randn_like(v1) # generate a tensor that has the same shape as v1

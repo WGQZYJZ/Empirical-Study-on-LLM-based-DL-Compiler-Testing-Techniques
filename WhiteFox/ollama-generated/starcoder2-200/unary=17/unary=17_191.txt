@@ -1,0 +1,329 @@
+
+class Model2(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv = torch.nn.ConvTranspose2d(3, 8, 1, stride=1)
+ 
+    def forward(self, x1):
+        v1  = self.conv(x1)
+        v2  = nn.functional.relu(v1)
+return v2
+
+ # Initializing the model and generate input tensor with the same type of tensor as the model
+m  = Model2()
+x1  = torch.randn(1, 3, 64, 64).type_as(next(m.parameters()).data)
+ 
+# Output of the model on the generated inputs
+__output__  = m(x1)
+
+ # In the previous example we had `conv` as a module that was used in a function definition and then applied to an input tensor. Now, it is defined as a class property but it is still being used in function definition of the model’s forward method.
+
+# Description of requirements
+The model should contain the following pattern:
+```
+class Model3(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+ 
+    def forward(self, x1): # In the class definition, add a property, conv, which is a pointwise convolution
+        v2  = self.conv(x1)
+```
+This pattern characterizes scenarios where a model contains a pointwise convolution that is used in its forward method, and it’s being accessed as an attribute of the model instance (in this case via the `conv` property). The output of the pointwise convolution will be used to initialize a fully connected layer.
+
+ # Model
+class Model3(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+ 
+    def forward(self, x1): # In the class definition, add a property, conv, which is a pointwise convolution 
+        v2  = self.conv(x1)
+        v7= torch.nn.Linear(80*80*3 ,50)(v2).view(-1, 64, 80, 80)
+return v7
+
+# Initializing the model and generate input tensor with the same type of tensor as the model
+    m = Model3()
+
+    # Inputs to the model on the generated inputs for torch.nn.Linear and .view methods
+    x1 = torch.randn(5,64*80*80).type_as(next(m.parameters()).data)
+ 
+# Output of the model with .view method applied (torch.nn.Linear  will be used as the initialization of a fully connected layer.)
+    v7  = m(x1)
+
+ # In the previous example we had `conv` defined in its class definition and it was being used in function definitions in `forward`, both of them are now part of the model’s forward method.
+
+# Description of requirements
+The model should contain the following pattern:
+```
+class Model4(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+ 
+    def forward(self, x1): # In the class definition, add a property, conv, which is a pointwise convolution 
+        v2  = self.conv(x1)
+
+        v3 = v2 * torch.ones_like(v2).to(v2.device, dtype=torch.float32)
+        v4 = torch.nn.Linear(80*80*3 ,50)(v2).view(-1, 64, 80, 80)
+```
+This pattern characterizes scenarios where a model contains a pointwise convolution that is used in its forward method and then the ReLU activation function will be applied to it. The output of the pointwise convolution is being multiplied by `torch.ones_like` to initialize a fully connected layer with weights. Also, the fully connected layer’s input dimension is being multiplied by 50 for some reason which is not required in the model architecture.
+
+ # Model
+class Model4(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+ 
+    def forward(self, x1): 
+        v2 = self.conv_relu(x1)
+
+        v3  = nn.functional.relu(v2)
+ 
+        v7= torch.nn.Linear(80*80*5 ,6)(v3).view(-1, 40, 80, 80)
+return v7
+
+    def conv_relu(self, x):
+        return nn.functional.relu(torch.nn.ConvTranspose2d(in_channels=x.size(1), out_channels=5, kernel_size=(3, 3), stride=1)(x))
+
+ # Initializing the model and generate input tensor with the same type of tensor as the model
+    m = Model4()
+
+    # Inputs to the model on the generated inputs for .ConvTranspose2d in the conv_relu property.
+    x1 = torch.randn(5,80*80*3).type_as(next(m.parameters()).data)
+ 
+# Output of the model with ConvTranspose2d applied (torch.nn.Linear and  .view methods will be used as the initialization of fully connected layers.)
+    v7 = m(x1)
+
+# Description of requirements
+The model should contain the following pattern:
+```
+        class Model5(torch.nn.Module):
+            def __init__(self, device):
+                super().__init__()
+ 
+            def forward(self, x1): # In the class definition, add a property, conv, which is a pointwise convolution 
+                v2 = self.conv_relu(x1)
+
+                v3  = nn.functional.relu(v2)
+```
+This pattern characterizes scenarios where a model contains a pointwise transposed convolution that is used in its forward method and then the ReLU activation function will be applied to it. The output of the pointwise transposed convolution is being multiplied by `torch.ones_like` to initialize a fully connected layer with weights. Also, the fully connected layer’s input dimension is being multiplied by 50 for some reason which is not required in the model architecture.
+
+# Model
+    class Model5(torch.nn.Module):
+        def __init__(self, device):
+            super().__init__()
+ 
+        def forward(self, x1): # In the class definition, add a property, conv, which is a pointwise transposed convolution 
+            v2 = self.conv_relu(x1)
+
+            v3  = nn.functional.relu(v2)
+ 
+# Initializing the model and generate input tensor with the same type of tensor as the model
+            m5 = Model5()
+
+            # Inputs to the model on the generated inputs for .ConvTranspose2d in the conv_relu property.
+                x1 = torch.randn(80*80).to('cuda:0')
+
+                m5 = Model5().to('cuda:0')
+
+        # Output of the model with ConvTranspose2d applied (torch.nn.Linear and  .view methods will be used as the initialization of fully connected layers.)
+                v3_ = nn.functional.relu(m5(x1)).view(-1, 80*80*6).to('cuda:0')
+
+    # Description of requirements
+    The model should contain the following pattern:
+```
+            class Model6(torch.nn.Module):
+
+                def __init__(self, device):
+                    super().__init__()
+        
+                def forward(self, x1):  # In the class definition, add a property, conv, which is a pointwise convolution 
+                    v2 = self.conv_relu(x1)
+
+                    v3= nn.functional.relu(v2).to('cuda:0')
+```
+This pattern characterizes scenarios where a model contains a pointwise transposed convolution that is used in its forward method and then the ReLU activation function will be applied to it. The output of the pointwise transposed convolution will be multiplied by `torch.ones_like` to initialize a fully connected layer with weights. Also, the fully connected layer’s input dimension is being multiplied by 50 for some reason which is not required in the model architecture.
+
+# Model
+    class Model6(torch.nn.Module):
+
+        def __init__(self, device):
+            super().__init__()
+        
+        def forward(self, x1): # In the class definition, add a property, conv, which is a pointwise transposed convolution 
+            v2 = self.conv_relu(x1)
+
+            v3= nn.functional.relu(v2).to('cuda:0')
+ 
+# Initializing the model and generate input tensor with the same type of tensor as the model
+            m6 = Model6().to('cuda:0')
+
+            # Inputs to the model on the generated inputs for .ConvTranspose2d in the conv_relu property.
+                x1 = torch.randn(80*80).type(torch.float32)
+
+            # Output of the model with ConvTranspose2d applied (nn.Linear and  .view methods will be used as the initialization of fully connected layers.)
+
+                v4= nn.functional.relu(m6(x1)).to('cuda:0')
+
+    # Description of requirements
+    The model should contain the following pattern:
+```
+            class Model7(torch.nn.Module):
+                def __init__(self, device):
+                    super().__init__()
+        
+                def forward(self, x1):  # In the class definition, add a property, conv, which is a pointwise convolution 
+                    v2 = self.conv_relu(x1)
+
+                    v3= nn.functional.relu(v2).to('cuda:0')
+```
+This pattern characterizes scenarios where a model contains a pointwise transposed convolution that is used in its forward method and then the ReLU activation function will be applied to it. The output of the pointwise transposed convolution will be multiplied by `torch.ones_like` to initialize a fully connected layer with weights. Also, the fully connected layer’s input dimension is being multiplied by 50 for some reason which is not required in the model architecture.
+
+# Model
+    class Model7(torch.nn.Module):
+        def __init__(self, device):
+            super().__init__()
+        
+        def forward(self, x1): # In the class definition, add a property, conv, which is a pointwise transposed convolution 
+            v2 = self.conv_relu(x1)
+
+            v3= nn.functional.relu(v2).to('cuda:0')
+ 
+# Initializing the model and generate input tensor with the same type of tensor as the model
+            m7 = Model6().to('cuda:0')
+
+            # Inputs to the model on the generated inputs for .ConvTranspose2d in the conv_relu property.
+                x1 = torch.randn(80*80).type(torch.float32)
+
+            # Output of the model with ConvTranspose2d applied (nn.Linear and  .view methods will be used as the initialization of fully connected layers.)
+
+                v4= nn.functional.relu(m7(x1)).to('cuda:0')
+
+    # Description of requirements
+    The model should contain the following pattern:
+```
+            class Model8(torch.nn.Module):
+                def __init__(self, device):
+                    super().__init__()
+        
+                def forward(self, x1):  # In the class definition, add a property, conv, which is a pointwise convolution 
+                    v2 = self.conv_relu(x1)
+
+                    v3= nn.functional.relu(v2).to('cuda:0')
+```
+This pattern characterizes scenarios where a model contains a pointwise transposed convolution that is used in its forward method and then the ReLU activation function will be applied to it. The output of the pointwise transposed convolution will be multiplied by `torch.ones_like` to initialize a fully connected layer with weights. Also, the fully connected layer’s input dimension is being multiplied by 50 for some reason which is not required in the model architecture.
+
+# Model
+    class Model8(torch.nn.Module):
+        def __init__(self, device):
+            super().__init__()
+        
+        def forward(self, x1): # In the class definition, add a property, conv, which is a pointwise transposed convolution 
+            v2 = self.conv_relu(x1)
+
+            v3= nn.functional.relu(v2).to('cuda:0')
+ 
+# Initializing the model and generate input tensor with the same type of tensor as the model
+            m8 = Model6().to('cuda:0')
+
+            # Inputs to the model on the generated inputs for .ConvTranspose2d in the conv_relu property.
+                x1 = torch.randn(80*80).type(torch.float32)
+
+            # Output of the model with ConvTranspose2d applied (nn.Linear and  .view methods will be used as the initialization of fully connected layers.)
+
+                v4= nn.functional.relu(m7(x1)).to('cuda:0')
+
+    # Description of requirements
+    The model should contain the following pattern:
+```
+            class Model9(torch.nn.Module):
+                def __init__(self, device):
+                    super().__init__()
+        
+                def forward(self, x1):  # In the class definition, add a property, conv, which is a pointwise convolution 
+                    v2 = self.conv_relu(x1)
+
+                    v3= nn.functional.relu(v2).to('cuda:0')
+```
+This pattern characterizes scenarios where a model contains a pointwise transposed convolution that is used in its forward method and then the ReLU activation function will be applied to it. The output of the pointwise transposed convolution will be multiplied by `torch.ones_like` to initialize a fully connected layer with weights. Also, the fully connected layer’s input dimension is being multiplied by 50 for some reason which is not required in the model architecture.
+
+# Model
+    class Model9(torch.nn.Module):
+        def __init__(self, device):
+            super().__init__()
+        
+        def forward(self, x1): # In the class definition, add a property, conv, which is a pointwise transposed convolution 
+            v2 = self.conv_relu(x1)
+
+            v3= nn.functional.relu(v2).to('cuda:0')
+ 
+# Initializing the model and generate input tensor with the same type of tensor as the model
+            m9 = Model6().to('cuda:0')
+
+            # Inputs to the model on the generated inputs for .ConvTranspose2d in the conv_relu property.
+                x1 = torch.randn(80*80).type(torch.float32)
+ 
+# Initializing the model and generate input tensor with the same type of tensor as the model
+            m9 = Model6().to('cuda:0')
+
+            # Inputs to the model on the generated inputs for .ConvTranspose2d in the conv_relu property.
+                x1 = torch.randn(80*80).type(torch.float32)
+ 
+# Initializing the model and generate input tensor with the same type of tensor as the model
+            m9 = Model6().to('cuda:0')
+
+            # Inputs to the model on the generated inputs for .ConvTranspose2d in the conv_relu property.
+                x1 = torch.randn(80*80).type(torch.float32)
+ 
+# Initializing the model and generate input tensor with the same type of tensor as the model
+            m9 = Model6().to('cuda:0')
+
+            # Inputs to the model on the generated inputs for .ConvTranspose2d in the conv_relu property.
+                x1 = torch.randn(80*80).type(torch.float32)
+ 
+# Initializing the model and generate input tensor with the same type of tensor as the model
+            m9 = Model6().to('cuda:0')
+
+            # Inputs to the model on the generated inputs for .ConvTranspose2d in the conv_relu property.
+                x1 = torch.randn(80*80).type(torch.float32)
+ 
+# Initializing the model and generate input tensor with the same type of tensor as the model
+            m9 = Model6().to('cuda:0')
+
+            # Inputs to the model on the generated inputs for .ConvTranspose2d in the conv_relu property.
+                x1 = torch.randn(80*80).type(torch.float32)
+ 
+# Initializing the model and generate input tensor with the same type of tensor as the model
+            m9 = Model6().to('cuda:0')
+
+            # Inputs to the model on the generated inputs for .ConvTranspose2d in the conv_relu property.
+                x1 = torch.randn(80*80).type(torch.float32)
+ 
+# Initializing the model and generate input tensor with the same type of tensor as the model
+            m9 = Model6().to('cuda:0')
+
+            # Inputs to the model on the generated inputs for .ConvTranspose2d in the conv_relu property.
+                x1 = torch.randn(80*80).type(torch.float32)
+ 
+# Initializing the model and generate input tensor with the same type of tensor as the model
+            m9 = Model6().to('cuda:0')
+
+            # Inputs to the model on the generated inputs for .ConvTranspose2d in the conv_relu property.
+                x1 = torch.randn(80*80).type(torch.float32)
+ 
+# Initializing the model and generate input tensor with the same type of tensor as the model
+            m9 = Model6().to('cuda:0')
+
+            # Inputs to the model on the generated inputs for .ConvTranspose2d in the conv_relu property.
+                x1 = torch.randn(80*80).type(torch.float32)
+ 
+# Initializing the model and generate input tensor with the same type of tensor as the model
+            m9 = Model6().to('cuda:0')
+
+            # Inputs to the model on the generated inputs for .ConvTranspose2d in the conv_relu property.
+                x1 = torch.randn(80*80).type(torch.float32)
+ 
+# Initializing the model and generate input tensor with the same type of tensor as the model
+            m9 = Model6().to('cuda:0')
+
+            # Inputs to the model on the generated inputs for .ConvTranspose2d in the conv_relu property.
+                x1 = torch.randn(80*80).type(torch.float32)
+ 
+# Initial

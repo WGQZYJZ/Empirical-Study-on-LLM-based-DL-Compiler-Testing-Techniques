@@ -1,0 +1,51 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.linear1 = torch.nn.Linear(2, 2)
+        self.linear2 = torch.nn.Linear(2, 2)
+
+    def forward(self, x1, x2):
+        v1 = x1.permute(0, 2, 1)
+        v2 = torch.bmm(v1, input_tensor_B)  # or torch.matmul(input_tensor_A, input_tensor_B)
+        return v2
+```
+or
+```
+t1 = x1.permute(0, 2, 1)
+t2 = input_tensor_B.permute(...)
+t3 = torch.bmm(t1, t2)  # or torch.matmul(t1, t2)
+```
+or
+```
+t1 = x1.permute(0, 2, 1)
+t2 = input_tensor_B.permute(...)
+t3 = torch.bmm(input_tensor_A, t1)  # or torch.matmul(input_tensor_A, t1)
+```
+This pattern characterizes scenarios where the tensor method  'permute' is invoked on one or both input tensors, and then the `torch.bmm` or `torch.matmul` function is invoked on the permuted tensors. The permute method is invoked on an input tensor with more than 2 dimensions, and it swaps the last two dimensions of this tensor. This modified tensor is then used as the main input for the `torch.bmm` or `torch.matmul` function.
+
+
+# Description of requirements
+The model should contain the following pattern:
+```
+t1 = input_tensor  # Permute the input tensor
+t2 = torch.cat([t1, t3], dim=-1)  # Concatenate the permuted tensors in last dimension to a single tensor and then apply a linear transformation.
+```
+This pattern characterizes scenarios where the tensor method 'permute' is invoked first, and then the `torch.cat` function is invoked on input tensors A and B concatenated together and applied to the new concatenated tensor.
+The permute method is invoked on an input tensor with more than 2 dimensions, and it swaps the last two dimensions of this tensor. This modified tensor is then used as the main input for the `torch.cat` function.
+
+
+# Description of requirements
+The model should contain the following pattern:
+```
+t1 = torch.cat([t1, t3], dim=-1)  # Concatenate the permuted tensors in last dimension to a single tensor and then apply a linear transformation.
+t2 = input_tensor  # Permute the input tensor
+t3 = torch.bmm(t2, input_tensor)  # or torch.matmul(input_tensor, input_tensor)
+```
+or
+```
+t1 = torch.cat([t1, t3], dim=-1)  # Concatenate the permuted tensors in last dimension to a single tensor and then apply a linear transformation.
+t2 = input_tensor  # Permute the input tensor
+t3 = torch.bmm(input_tensor, t2)  # or torch.matmul(input_tensor, input_tensor)
+```
+This pattern characterizes scenarios where the tensor method 'permute' is invoked on one or both input tensors, and then the `torch.cat` function is invoked on input tensors A and B concatenated together and applied to the new concatenated tensor. The permute method is invoked on an input tensor with more than 2 dimensions, and it swaps the last two dimensions of this tensor. This modified tensor is then used as the main input for the `torch.cat` function.

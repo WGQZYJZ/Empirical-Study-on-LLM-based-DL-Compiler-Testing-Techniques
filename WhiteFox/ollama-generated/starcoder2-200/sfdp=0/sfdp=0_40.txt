@@ -1,0 +1,39 @@
+
+```
+class ScaledDotProductAttention(torch.nn.Module):
+    def __init__(self, scale=None):
+        super().__init__()
+        self.scale = torch.tensor(1., dtype=torch.float) if scale is None else scale
+ 
+    def forward(self, query, key, value):
+        scaled_dot_product  = torch.matmul(query, key.transpose(-2, -1)) / self.scale 
+        attention_weights  = scaled_dot_product.softmax(dim=-1) # (..., N, Q, K)
+        output  = attention_weights.matmul(value)              # (..., N, Q, V)
+ 
+        return output
+```
+# Initializing the model
+m = ScaledDotProductAttention()
+
+
+Inputs to the model:
+```
+query = torch.randn((8, 120)) / math.sqrt(256.)
+key   = torch.randn_like(query)
+value = query + torch.randn_like(query).mul_(1e-3)
+```
+
+# Initializing the model
+m = ScaledDotProductAttention()
+
+
+Inputs to the model:
+```
+query  = torch.randn((8, 256)) / math.sqrt(2048.)
+key    = torch.randn_like(query)
+value  = query + torch.randn_like(query).mul_(1e-3)
+inv_scale = int(m._get_scale(torch.Size([2, 56])).tolist()) == 104 # inv_scale is 8 in this example
+
+```
+
+

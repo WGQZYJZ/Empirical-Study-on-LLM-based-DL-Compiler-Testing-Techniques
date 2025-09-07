@@ -1,0 +1,1 @@
+This pattern characterizes scenarios where convolution and batch normalization layers are in evaluation mode (not in training mode), and the batch normalization layer is tracking running statistics, as shown below:

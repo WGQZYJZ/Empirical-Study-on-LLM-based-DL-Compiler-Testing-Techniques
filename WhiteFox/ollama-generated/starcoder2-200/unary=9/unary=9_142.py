@@ -1,0 +1,3 @@
+t2 = t1  * 0.6 + 1 - torch.cos(t1) # Apply pointwise multiplication by a constant 0.5, add 1 to the output and then subtract the cosine function from the input tensor as the error operation is performed afterwards.
+t3 = torch.erf(torch.abs(x)) * t2 + 4  # Apply the error function on the absolute value of the input tensor followed by pointwise multiplication by a constant 0.6, add another constant 1 to the output and then apply a pointwise addition operation.
+t5 = torch.sinh(torch.tan(t3)) / t2 + 4 # Apply the sine hyperbolic function on the tangent function of the output of the previous error function followed by pointwise division by the constant 0.6, add another constant 1 to the output and then apply a pointwise addition operation.

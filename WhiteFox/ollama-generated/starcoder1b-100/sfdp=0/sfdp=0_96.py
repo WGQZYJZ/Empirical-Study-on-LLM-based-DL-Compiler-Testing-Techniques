@@ -1,0 +1,4 @@
+
+The above model is exactly the same as the previous one. Please use this approach only when the input features of the two inputs of the network are close enough to each other to form a vector that is easier to deal with than a linear combination of them. It's also possible for these inputs to be very different types, such as image features and sentence segments, which would result in undesired results.
+
+Please take some time to read the above two models. They are similar in the sense that they have the same input and output tensors, but with different inputs and outputs of different shapes.

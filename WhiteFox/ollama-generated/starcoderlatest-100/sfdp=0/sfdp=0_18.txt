@@ -1,0 +1,58 @@
+
+class ScaledDotProductAttention(torch.nn.Module):
+    def __init__(self, dropout=0., scale=None):
+        super().__init__()
+        self.dropout = torch.nn.Dropout(dropout)
+        if scale is None:
+            self.scale = nn.Parameter(torch.ones(1))
+ 
+    def forward(self, q, k, v, mask=None):
+        w_qkv = torch.einsum('b h i j, b j h m -> b h i m', q, k, v) # b*n_heads*d_k
+        w_qkv = self.scale * w_qkv  # scale the dot product by a scalar
+        if mask is not None:
+            w_qkv += mask  # apply attention mask
+
+        softmax_weights = torch.nn.functional.softmax(w_qkv, dim=-1)
+        softmax_weights = self.dropout(softmax_weights)
+ 
+        output = (softmax_weights * v).sum(-2)
+ 
+        return output, softmax_weights
+ 
+class SelfAttentionLayer(torch.nn.Module):
+    def __init__(self, d_model=768, num_heads=12, dropout=0.):
+        super().__init__()
+        self.num_heads = num_heads
+        # Scaled Dot-Product Attention with dimension of key and query equal to `d_k`
+        self.attention_layer_qkv = ScaledDotProductAttention(dropout)
+ 
+        # Multi-Head Self-Attention with `n_heads=8`, dimension of output from the previous layer is `d_model/8`
+        attention_output_dim = d_model // num_heads
+        self.self_attention_layer_out = nn.Sequential(
+            nn.LayerNorm(d_model),
+            nn.Linear(d_model, attention_output_dim),
+            nn.GELU(),
+            nn.Dropout(dropout),
+            nn.LayerNorm(d_model),
+            nn.Linear(attention_output_dim, d_model)
+        )
+ 
+    def forward(self, x):
+        qkv, attention_weights = self.attention_layer_qkv(x, x, x) # b*n_heads*(d_k/n_heads)*m
+        output = self.self_attention_layer_out(qkv).transpose(-1, -2) # (b*n_heads, m, d_model//n_heads) * (m, d_model//n_heads, d_model) -> (b*n_heads, m, d_model)
+        return output, attention_weights
+
+
+# Initialize the model with Self-Attention Layer 8 times
+num_heads = 8
+satt = SelfAttentionLayer(d_model=768, num_heads=num_heads, dropout=0.5)
+# `qkv` is of shape `(batch_size * n_heads, seq_len, d_k)` where `seq_len` and `d_k` are both equal to the length of input tensor
+_, qkv = satt(x1.transpose(-2, -1)) # transpose back because we are using linear layers on sequence dimension with transposed dimension as last one in Pytorch's convention
+qkv = qkv.view(x1.shape[0], x1.shape[1] * num_heads, x1.shape[2], x1.shape[3]) # `n_heads` will be removed since it is a linear transformation on self-attention output
+print(f'qkv has shape {qkv.shape}')
+ 
+# Initialize the linear layer with dimension of input qkv and output `b*n_heads * m` to calculate attention weights for each head, and multiply attention weights by input tensor then sum over heads
+attention_output = torch.einsum('b n h i m, b d k -> b nm', qkv, x1).reshape(x1.shape[0], -1)  # `n` is equal to the batch size * number of heads, and `d_k/n_heads` is equal to length of the input tensor (768 in this example)
+ 
+print(f'attention_output has shape {attention_output.shape}')
+```

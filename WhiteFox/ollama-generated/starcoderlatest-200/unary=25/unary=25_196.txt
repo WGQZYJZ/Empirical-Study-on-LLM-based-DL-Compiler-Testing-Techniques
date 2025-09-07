@@ -1,0 +1,24 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv = torch.nn.Linear(64, 32)
+ 
+    def forward(self, x1):
+        v1 = self.conv(x1)
+        v2 = torch.where(v1 > 0, v1, -self.conv.negative_slope * v1)
+        return v2
+
+
+# Initializing the model
+m = Model()
+```
+The output of the linear transformation is multiplied by a negative slope and then applied as an input to another linear transformation where the negative slope is `0.05`. The output of the first linear transformation after applying the Leaky ReLU activation function is subtracted from the output of the second linear transformation.
+
+
+# Expected Output:
+```
+t1 = torch.randn(1, 64, 7, 7) * 1e-3  # Scale and shift tensor with small negative slope to avoid overflow
+t2 = t1 > 0                                # Create boolean tensor where each element is True if the corresponding element in t1 is greater than 0, and False otherwise
+t3 = torch.where(t2, t1, 0)                # For each element in t2, if the element is True, choose the corresponding element from t1, otherwise choose zero
+t4 = (t1 - 0) / 0                          # Divide the input tensor by 0

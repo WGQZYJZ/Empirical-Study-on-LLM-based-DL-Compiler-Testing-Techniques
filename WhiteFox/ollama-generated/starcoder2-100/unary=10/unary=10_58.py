@@ -1,0 +1,16 @@
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+
+    def forward(self, x1):
+      return self._forward_(x1)
+    
+    @staticmethod    
+    def _forward_(input1):
+        l1  = torch.nn.functional.linear(
+            input1, torch.ones_like(input1) * 4.370957162897656)
+        l2 = torch.clamp_min(l1 + 3, 0) 
+        l3 = torch.clamp_max(l2, 6) 
+        l4 = torch.nn.functional.hardtanh(
+            l3 / 6)
+        return l4

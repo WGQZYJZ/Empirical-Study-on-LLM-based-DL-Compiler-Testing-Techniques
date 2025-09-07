@@ -1,0 +1,19 @@
+class ScaledDotProductAttention(nn.Module):
+
+    def __init__(self, dim: int) -> None:
+        super().__init__()
+
+        self.scale = 1 / math.sqrt(dim)
+
+    # pylint: disable=arguments-differ
+    def forward(self, query: torch.Tensor, key: torch.Tensor, value: torch.Tensor,
+                masking_key: Optional[torch.BoolTensor] = None):
+        scaled_dot_product = torch.matmul(query, key.transpose(-2, -1)) / self.scale
+        attention_weights = scaled_dot_product.softmax(dim=-1)
+
+        if masking_key is not None:
+            # we will replace masked values with -inf so that they are ignored by softmax function later
+            attention_weights[masking_key] = torch.tensor(-np.inf).type_as(attention_weights)
+        output = attention_weights @ value
+
+        return output, attention_weights

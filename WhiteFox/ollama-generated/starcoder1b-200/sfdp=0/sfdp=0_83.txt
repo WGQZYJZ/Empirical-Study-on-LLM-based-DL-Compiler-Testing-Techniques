@@ -1,0 +1,15 @@
+
+class Model(torch.nn.Module):
+    def __init__(self, dim):
+        super().__init__()
+        self.dim = dim
+ 
+    def forward(self, x1, x2):
+        v1 = x1.contiguous().view(-1, self.dim)  # Reshape the input tensor to [batch_size, length]
+        v2 = x2.contiguous().view(-1, self.dim)  # Reshape the input tensor to [batch_size, length]
+        sdp = torch.matmul(v1, v2) / math.sqrt(self.dim)  # Compute the Scaled Dot-Product Attention
+        att_weights = sdp.softmax(-1)  # Softmax over dimensions of v1 and v2
+        output = att_weights.matmul(v2)  # Multiply the result by value in v2 using the attention weights
+        return output
+```
+This pattern characterizes scenarios where the query or key tensor is resized to `self.dim` dimensions (which can be computed from the shape of the input tensors), and then it is multiplied with another tensor and scaled by `inv_scale`. The value tensor is used as a weighted sum to produce an output using the attention weights, which is then multiplied with the value in v2 to produce the final output.

@@ -1,0 +1,22 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.attn = torch.nn.Linear(d_model, d_k * 4)
+ 
+    def forward(self, x1, x2, key):
+        attn = self.attn(x2).transpose(-2, -1)
+        qk = torch.matmul(query, key)
+        scaled_qk = qk / math.sqrt(d_k)
+        dropout_qk = torch.nn.functional.dropout(scaled_qk.softmax(dim=-1), p=dropout_p)
+        output = dropout_qk.matmul(value).transpose(-2, -1)
+        return output
+
+
+# Initializing the model
+m = Model()
+```
+
+## TODO:
+    * Test CTC model on both datasets
+    * Generate model file and input tensor file (not necessary in the paper)

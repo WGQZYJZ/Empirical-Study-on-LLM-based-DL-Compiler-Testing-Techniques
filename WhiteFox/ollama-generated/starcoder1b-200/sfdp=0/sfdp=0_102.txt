@@ -1,0 +1,21 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.linear1 = torch.nn.Linear(2048, 256)
+        self.linear2 = torch.nn.Linear(256, 10)
+ 
+    def forward(self, x1, x2):
+        query = x1.view(x1.size(0), -1)
+        key   = x2.view(-1, x2.size(1))
+        # Use torch.nn.Linear.weight to access the weight in a non-parameterized way
+        inv_scale  = math.sqrt(self.linear1.weight.shape[1])
+        scaled_dot_product = torch.matmul(query, key.transpose(-2, -1)) / inv_scale
+        attention_weights = scaled_dot_product.softmax(dim=-1)
+        output            = attention_weights.matmul(x2).view(-1, 10)
+        return output
+
+
+# Initializing the model
+m = Model()
+```

@@ -1,0 +1,21 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.linear = torch.nn.Linear(32, 48)
+ 
+    def forward(self, x1):
+        v1  = self.linear(x1)
+        v2  = v1 > 0
+        v3  = v1 * negative_slope
+        v4  = torch.where(v2, v1, v3) # For each element in t2, if the element is True, choose the corresponding element from t1, otherwise choose the corresponding element from t3
+        return v4
+
+
+# Initializing the model
+m = Model()
+
+negative_slope  = torch.randn(v4).detach().clone() * -0.5 # Negative slope
+
+# Inputs to the model
+x1 = torch.randn(1, 32)

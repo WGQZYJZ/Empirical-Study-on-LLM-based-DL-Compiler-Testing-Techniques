@@ -1,0 +1,33 @@
+
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+ 
+        self._query  = torch.nn.Linear(64, 32)
+        self._key  = torch.nn.Linear(198576, 32)
+        self._value  = torch.nn.Linear(198576, 32)
+ 
+        self._scale_factor  = torch.sqrt(torch.FloatTensor([32]))
+ 
+        self._dropout  = torch.nn.Dropout(0.1)
+ 
+    def forward(self, query):
+        v1  = self._query(query).view(-1, int(len(v2) / len(self._value)), -1) 
+        v2  = self._key(torch.zeros_like(v1)).view(-1, int(len(v3) / len(self._value)), -1)
+        qk  = torch.matmul(v1, v2.transpose(-2, -1))
+        scaled_qk  = qk.div(self._scale_factor) 
+        softmax_qk  = scaled_qk.softmax(dim=-1)
+        dropout_qk  = self._dropout(softmax_qk)
+        output  = dropout_qk.matmul(v3)
+
+
+# Initializing the model:
+m = Model()
+
+# Input to the model:
+x2  = torch.randn(4, 64)
+
+__output__  = m(x2)
+
+```

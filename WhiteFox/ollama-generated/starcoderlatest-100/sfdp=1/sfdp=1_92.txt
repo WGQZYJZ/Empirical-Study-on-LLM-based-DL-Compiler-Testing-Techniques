@@ -1,0 +1,45 @@
+
+class Model(torch.nn.Module):
+    def __init__(self, qk_scale, softmax_p):
+        super().__init__()
+        self.q = torch.nn.Linear(dim, dim)
+        self.k = torch.nn.Linear(dim, dim)
+        self.v = torch.nn.Linear(dim, dim)
+ 
+        self.softmax_qk_scale = qk_scale
+        self.softmax_p = softmax_p
+ 
+    def forward(self, x):
+        q  = torch.tanh(self.q(x))
+        k  = torch.tanh(self.k(x))
+        v  = torch.tanh(self.v(x))
+ 
+        qk   = torch.matmul(q, k)  # Compute the dot product of the query and key tensors
+        scaled_qk  = qk.div(self.softmax_qk_scale)  # Scale the dot product by an inverse scale factor
+        softmax_qk  = scaled_qk.softmax(dim=-1)  # Apply softmax to the scaled dot product
+ 
+        dropout_qk = torch.nn.functional.dropout(softmax_qk, p=self.softmax_p)  # Apply dropout to the softmax output
+ 
+        output  = dropout_qk.matmul(v)  # Compute the dot product of the dropout output and the value tensor
+        return output
+ 
+ class Model:
+    def __init__(self, qk_scale=0.00784313626953125, softmax_p=0.1):
+        self.qk_scale = qk_scale
+        self.softmax_p = softmax_p
+ 
+    @torch.no_grad()
+    def forward(self, query, key, value):
+        q  = torch.tanh(self.q(query))
+        k  = torch.tanh(self.k(key))
+        v  = torch.tanh(self.v(value))
+ 
+        qk   = torch.matmul(q, k)  # Compute the dot product of the query and key tensors
+        scaled_qk  = qk.div(self.softmax_qk_scale)  # Scale the dot product by an inverse scale factor
+        softmax_qk  = scaled_qk.softmax(dim=-1)  # Apply softmax to the scaled dot product
+ 
+        dropout_qk = torch.nn.functional.dropout(softmax_qk, p=self.softmax_p)  # Apply dropout to the softmax output
+ 
+        output  = dropout_qk.matmul(v)  # Compute the dot product of the dropout output and the value tensor
+        return output
+```

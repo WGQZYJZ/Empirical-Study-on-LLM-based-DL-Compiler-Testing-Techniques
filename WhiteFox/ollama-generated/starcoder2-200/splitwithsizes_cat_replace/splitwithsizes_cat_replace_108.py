@@ -1,0 +1,10 @@
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+ 
+    def forward(self, x1):
+ 
+        v2 = torch.split(x1, [80], 1) # Splitting the input tensor into two tensors of sizes [80] and [56] along dimension 1 (which is the channel axis)
+        v3 = torch.cat([v2[i][0].view(-1, 7, 4) for i in range(len(split_sizes))], 1).cuda() # Concatenate two tensors of sizes [80] and [56] along dimension 1 to form a new tensor with size [136, 7, 4]. This is the concatenation operation.
+        return v3
+ 

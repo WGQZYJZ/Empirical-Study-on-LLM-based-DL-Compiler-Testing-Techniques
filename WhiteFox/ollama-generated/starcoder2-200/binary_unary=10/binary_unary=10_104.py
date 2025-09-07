@@ -1,0 +1,13 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.linear = torch.nn.Linear(32768 + 64, 1)
+ 
+    def forward(self, x1):
+        v1 = self.linear(x1)
+        v2 = v1 + other
+        v3 = v2 if v2 > 0 else 0
+        return v3
+
+# Initializing the model

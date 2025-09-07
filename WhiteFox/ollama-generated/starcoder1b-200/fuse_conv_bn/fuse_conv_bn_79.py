@@ -1,0 +1,16 @@
+This pattern characterizes scenarios where two convolution layers are followed by a batch normalization layer. The output of the convolution layer is used as the input to the batch normalization layer.
+
+The `fuse_conv_bn` optimization is triggered when both convolution and batch normalization layers are in evaluation mode (not in training mode), and they track running statistics. 
+After the optimization, two convolution layers are fused into one, and batch normalization is removed from the graph. If input to the second layer is used by other nodes, the optimization will not be performed.
+
+The optimization also applies to the functional API equivalent of the above pattern, where `torch.nn.functional.conv2d` and `torch.nn.functional.batch_norm` are used instead of the module API. The constraints for the functional API pattern are similar to the module API pattern.
+
+The model should have a valid forward pass at training time (i.e. the loss function should not be zero).
+
+
+# Usage
+Please make sure the test case works as intended before submitting your submission. If your submittion is accepted and the results of evaluation (e.g. accuracy) are acceptable, please proceed to the next step.
+
+
+# Submission
+If you have finished preparing your model and data for training and evaluation (for a more detailed description of each requirement), please submit an assignment to the following page: https://deepmind.com/blog/open-sourcing-the-newest-research-on-reinforcement-learning/. The final score is 0.5 points in each round. You should be able to reproduce all results reported in [DARTS: Deep Reinforcement Learning from Scratch](https://arxiv.org/abs/1609.08295).

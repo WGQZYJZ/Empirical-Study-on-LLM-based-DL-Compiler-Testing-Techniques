@@ -1,0 +1,21 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.query = torch.nn.Parameter(
+            torch.randn(3, 8, 16, 24), requires_grad=True)
+        self.key = torch.nn.Parameter(
+            torch.randn(5, 16, 24, 48), requires_grad=True)
+        self.value = torch.nn.Parameter(torch.randn(3, 8, 48, 16))
+ 
+    def forward(self, query, key):
+        scaled_qk = query.matmul(key.transpose(-2, -1))
+        softmax_qk = F.softmax(scaled_qk, dim=-1)
+        dropout_qk = F.dropout(softmax_qk, p=0.5)
+        output = dropout_qk.matmul(self.value)
+        return output
+
+
+# Initializing the model
+m = Model()
+```

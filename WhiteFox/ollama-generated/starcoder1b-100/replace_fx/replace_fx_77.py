@@ -1,0 +1,40 @@
+This pattern characterizes scenarios where a user has an existing model and wants to use the `from_state_dict` function to transfer their model to PyTorch. The class method 'forward' is not overriden by the generated code, which means that the `forward` will be called directly on the given tensor and return an output similar to what was generated with the `t1 = input_tensor.permute(...)  # Permute the input tensor` example above.
+
+
+# User: I found that a large portion of my existing codebase was written for PyTorch v0.4. So I want to transfer the code and replace functions from PyTorch v0.4 with their corresponding replacements, such as `lowmem_dropout`. Please check if I have misunderstood what your goal is.
+
+
+# User: A new feature has been introduced in the model you proposed. Please try it by yourself to find out whether it's working or not.
+
+
+# Description of requirements
+Please describe how to make this feature work with your existing PyTorch models and inputs, and what exactly happens after your code changes. It is important to provide a detailed description of the new feature as well as the current PyTorch model. Please also try the proposed code to make sure it works as expected on other input/models.
+
+
+# Model
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+
+    @classmethod
+    def from_state_dict(cls, state_dict: dict, name: str = None):
+        raise NotImplementedError
+
+    def forward(self, x1):
+        ...
+
+
+# User: I found that the model you proposed has no public API for generating input tensor. Please generate a valid PyTorch model example with public PyTorch APIs meets the specified requirements and also generate the input tensor for the newly generated model.
+
+
+# Model
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+
+    @classmethod
+    def from_state_dict(cls, state_dict: dict, name: str = None):
+        raise NotImplementedError
+
+    def forward(self, x1, x2=None):
+        ...

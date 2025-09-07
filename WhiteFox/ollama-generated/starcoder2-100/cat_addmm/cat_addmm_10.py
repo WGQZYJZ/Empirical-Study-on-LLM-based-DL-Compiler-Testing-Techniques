@@ -1,0 +1,3 @@
+t1 = add_bias_to_weight(t2) # A 4D tensor, where the first dimension is batch size and the second one is the output number from previous layer. The third and fourth dimensions are the width and height of the input data.
+t3 = torch.nn.Linear(100, 60)(x) # A 2D linear layer. Linear layers will take the input tensor in the first argument to their forward() function and output a number according to the number in the second parameter. In this case, there is an input of 60 neurons
+t4 = torch.nn.Dropout(p)(t3) # A dropout layer that takes in the tensor created by Linear as its input and outputs another 60-dimension tensor based on the p.

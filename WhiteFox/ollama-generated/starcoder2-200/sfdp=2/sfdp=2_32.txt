@@ -1,0 +1,35 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.k  = torch.randn([32, 64])
+        self.v  = torch.randn([32, 108576])
+        self.query  = torch.randn([1920, 64])
+ 
+    def forward(self):
+        v1  = torch.matmul(self.query, self.k)
+        v2  = v1.div_(inv_scale_factor)
+        v3  = scaled_qk.softmax(dim=-1)
+        dropout_qk  = torch.nn.functional.dropout(v3, p=dropout_p)
+        v6  = dropout_qk.matmul(self.v)
+```
+
+# Initializing the model
+m = Model()
+
+# Inputs to the model
+query  = torch.randn([1920, 64])
+
+
+# Input for Model 1
+
+```
+qk  = torch.matmul(query, key.transpose(-2, -1)) # Compute the dot product of the query and the key
+scaled_qk  = qk.div(inv_scale_factor) # Scale the dot product by the inverse scale factor
+softmax_qk  = scaled_qk.softmax(dim=-1) # Apply softmax to the scaled dot product
+dropout_qk  = torch.nn.functional.dropout(softmax_qk, p=dropout_p) # Apply dropout to the softmax output
+output  = dropout_qk.matmul(value) # Compute the dot product of the dropout output and the value
+```
+
+# Input for Model 2
+

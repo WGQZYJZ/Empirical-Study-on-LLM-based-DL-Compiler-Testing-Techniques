@@ -1,0 +1,28 @@
+
+class Model(torch.nn.Module):
+    def __init__(self, key_size, attn_head_num):
+        super().__init__()
+        self.key_size = key_size
+        self.attn_head_num = attn_head_num
+        # The attention mechanism uses 2 attention heads and a query-key size of 16. 
+        # The intermediate hidden state size is also 16 * 8, where the number of channels for the first head is 8, and the number of channels for the second head is 8. 
+        self.layer_norm = torch.nn.LayerNorm(attn_head_num * key_size)
+        self.attn_weight = torch.nn.Linear(key_size * 2, attn_head_num * key_size)
+        self.attention_dropout = torch.nn.Dropout(p=0.5)
+        self.value = torch.nn.Linear(attn_head_num * key_size, key_size)
+ 
+    def forward(self, query, key, value):
+        attn_weight  = torch.einsum('...k,...j->...ij', [query, key]) / math.sqrt(query.size(-1)) # Compute the dot product of the query and key, and scale it by sqrt(query.size(-1)). Here attn_head_num = 2.
+        attn_weight += torch.ones_like(attn_weight) * -9e6  # Add a small negative value to attention weights that are not masked. 
+        attn_weight = self.attn_dropout(F.softmax(attn_weight, dim=-1)) # Apply dropout to the softmax output.
+        value = torch.einsum('...ij,...j->...k', [attn_weight, value])  # Compute the dot product of the dropout output and the value. Here attn_head_num = 2.
+        value = self.layer_norm(torch.cat([value, key], dim=1))
+        value = F.relu(self.attn_weight(value).view(-1, self.key_size * 2, self.attn_head_num, 1)) # Perform a matrix multiplication for each element in the attention weights and combine the result. 
+        value = self.attention_dropout(F.relu(value).view(-1, self.attn_head_num, self.key_size, 1))  # Apply dropout to the attention output.
+        return self.value(value)
+
+# Initializing the model and printing out the size of the model parameters for your reference
+m = Model(16, 2)
+print(sum(p.numel() for p in m.parameters()))
+```
+

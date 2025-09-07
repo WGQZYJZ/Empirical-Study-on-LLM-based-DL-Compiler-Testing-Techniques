@@ -1,0 +1,15 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+
+    def forward(self, x1):
+        return self.__linear__(x1)
+
+    def __linear__(self, input_tensor):
+        v = self.__add__(input_tensor, self.__mul__(input_tensor, 1.5))
+        v = torch.nn.functional.linear(v, weight, bias)
+        return v
+```
+This pattern characterizes scenarios where the tensor method 'permute' is invoked first on an input tensor and then the `torch.nn.functional.linear` function is invoked on the output tensor of this linear transformation.
+

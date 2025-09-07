@@ -1,0 +1,17 @@
+This pattern characterizes scenarios where the output of a pointwise convolution is multiplied by a constant `0.5`, and then the output of the convolution is squared, multiplied by another constant `0.044715` square root, and then the result of the previous operation is added to the output of the previous operation, and then the previous operation is multiplied by a constant `0.7978845608028654` cube root, and then the hyperbolic tangent function is applied to the previous operation, and then `1` is added to the output of the hyperbolic tangent function.
+
+# Model
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv = torch.nn.Conv2d(3, 8, 1, stride=1, padding=1)
+ 
+    def forward(self, x1):
+        v1 = self.conv(x1) * 0.5
+        v2 = v1 ** 2
+        v3 = (v2 + 1) * 0.7978845608028654
+        return torch.tanh(v3)
+
+
+# Initializing the model
+m = Model()

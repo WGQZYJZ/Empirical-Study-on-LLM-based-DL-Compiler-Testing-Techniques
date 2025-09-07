@@ -1,0 +1,66 @@
+
+class ScaledDotProductAttention(torch.nn.Module):
+    def __init__(self, dim: int = 64):
+        super().__init__()
+        self.dim = dim
+ 
+    # In this function, `x` is of size (batch_size, dim) while `scale` is of size (batch_size, 1).
+    def forward(self, x, scale):
+        return scaled_dot_product(...)
+ 
+ 
+class TransformerEncoderLayer(torch.nn.Module):
+    def __init__(self, d_model: int = 512, nhead: int = 8, dim_feedforward: int = 4096):
+        super().__init__()
+        self.norm1 = torch.nn.LayerNorm(d_model)
+        self.attn = ScaledDotProductAttention(dim=d_model)
+        self.dropout = torch.nn.Dropout(p=0.35) # TODO: Change p to a larger value for better performance.
+        self.norm2 = torch.nn.LayerNorm(d_model)
+        self.ffn = torch.nn.Linear(d_model, dim_feedforward)
+ 
+    def forward(self, x):
+        # TODO: Implement
+        y  = ...
+        
+        return x + self.dropout(...)
+
+
+class TransformerEncoder(torch.nn.Module):
+    def __init__(self, nhead: int = 8, d_model: int = 512, dim_feedforward: int = 4096):
+        super().__init__()
+        self.layers = torch.nn.ModuleList([])
+        for _ in range(12):
+            # TODO: Implement
+            l  = ...
+            
+            self.layers.append(l)
+    
+    def forward(self, x):
+        # TODO: Implement
+        return x
+ 
+class Transformer(torch.nn.Module):
+    def __init__(self, nhead: int = 8, d_model: int = 512, dim_feedforward: int = 4096):
+        super().__init__()
+ 
+        self.encoder = TransformerEncoder(...)
+ 
+        self.decoder = TransformerDecoder(...)
+ 
+    def forward(self, x):
+        # TODO: Implement
+        return x
+ 
+class Model(torch.nn.Module):
+    def __init__(self, nhead: int = 8, d_model: int = 512, dim_feedforward: int = 4096):
+        super().__init__()
+ 
+        self.encoder = TransformerEncoder(...)
+ 
+        self.decoder = TransformerDecoder(...)
+ 
+    def forward(self, x):
+        # TODO: Implement
+        return x
+```
+

@@ -1,0 +1,22 @@
+
+class Model(torch.nn.Module):
+    def __init__(self, num_heads):
+        super().__init__()
+ 
+        self.ln1 = torch.nn.LayerNorm(64)
+        
+        # Transformer layers
+        for i in range(10):
+            setattr(self, f'layer{i}', TransformerEncoderBlock(dim=32, depth=2, heads=num_heads))
+ 
+    def forward(self, x):
+        attns = []
+        x = self.ln1(x)  # LayerNorm on inputs
+        for i in range(len(self)):
+            output = getattr(self, f'layer{i}')(x)  # Forward pass through Transformer encoder layer
+            atts = output.attention_weights  # Compute attention weights from the output of a layer
+            attns.append(attns[i].permute(1, 0))  # Convert into format required by the model
+        x = torch.cat(attns, dim=-1)  # Concatenate all attention values together
+        return x
+```
+

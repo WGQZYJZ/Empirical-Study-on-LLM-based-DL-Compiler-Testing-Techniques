@@ -1,0 +1,11 @@
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+ 
+    def forward(self, x1, inp=None): # Accepts an additional argument 'inp' as a keyword argument
+        if  not  inp is None:
+            t3 = torch.mm(x1, inp)
+        else: 
+            return torch.mm(x1, 2 * x1 + 100 * (torch.ones((x1.size(-2), x1.size(-1))) - 1))
+        t4 = t3 + inp # Add the result of matrix multiplication to 'inp' 
+        return t4

@@ -1,0 +1,13 @@
+class Model(torch.nn.Module):
+    def __init__(self, dim):
+        super().__init__()
+
+        self.split_tensor = torch.randn(32, 10)
+        self.dim = dim
+ 
+    def forward(self, input1, input2):
+
+        split_tensors = torch.split(input2, [5], dim=self.dim)
+        concatenated_tensor = torch.cat([split_tensors[i] for i in range(len(split_tensors))], self.dim)
+
+        return 3 + self.__output__

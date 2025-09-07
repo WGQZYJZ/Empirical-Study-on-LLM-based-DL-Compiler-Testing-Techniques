@@ -1,0 +1,23 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv1 = torch.nn.Conv2d(3, 8, 1, stride=1, padding=1)
+        self.fc   = torch.nn.Linear(8, 4096)
+ 
+    def forward(self, x1):
+        # Perform pointwise convolution on the input tensor with kernel size 1
+        v1 = self.conv1(x1)
+        # Normalize with respect to max value of the convolution's output tensor
+        v2 = (v1 / torch.max(v1, dim=-1, keepdim=True)[0]).squeeze()
+        # Apply the error function to the output of the convolution
+        v3 = torch.erf(v2) + 1
+        # Rescale the input tensor by the inverse scale value from the max value of the convolution's output tensor
+        # which helps to stabilize the gradients especially when the dimensions are large.
+        v4 = v2 * inv_scale
+        return v3 * v4
+```
+
+
+# Inputs to the model
+x1 = torch.randn(1, 3, 64, 64)

@@ -1,0 +1,13 @@
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+
+        self.norm1 = torch.nn.LayerNorm(8, 3)
+        self.attn = torch.nn.MultiheadAttention(embed_dim=64, num_heads=2)
+ 
+    def forward(self, x):
+        v1 = self.norm1(x)
+        v2, v3 = self.attn(v1)
+        return v2
+
+

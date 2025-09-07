@@ -1,0 +1,12 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv = torch.nn.Conv2d(3, 8, 1, stride=1, padding=1)
+
+    def is_valid_splitwithsizes_cat(x: Tensor):
+        return not torch.any([
+            isinstance(o.parent, torch.nn.Split) and len(o.parents) == 0 for o in x.parents if type(o) is torch.nn.Split]) and \
+               len(list(set(torch.cat(x.parents, dim=-1)))) == 1
+```
+The input `is_valid_splitwithsizes_cat` function takes the input tensor as its only parameter, and then checks if there are any `torch.nn.Split` operations in the input tensor, and if so, whether they share a parent (i.e., `torch.nn.Conv2d`). If not, there is exactly one `torch.cat`, and all the split tensors used within that `torch.cat` must also be used in it.

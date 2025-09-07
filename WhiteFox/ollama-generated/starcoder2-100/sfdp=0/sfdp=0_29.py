@@ -1,0 +1,10 @@
+class AttentionBlock(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+ 
+        self.scale = torch.nn.Parameter(torch.ones([]) * 0.5, requires_grad=False)
+ 
+    def forward(self, query, key, value):
+        scaled_dot_product  = torch.matmul(query, key.transpose(-2, -1)) / self.scale
+        attention_weights  = scaled_dot_product.softmax(dim=-1)
+        return  attention_weights.matmul(value), 0.3 # Return the context vector and scaling factor for the backward pass

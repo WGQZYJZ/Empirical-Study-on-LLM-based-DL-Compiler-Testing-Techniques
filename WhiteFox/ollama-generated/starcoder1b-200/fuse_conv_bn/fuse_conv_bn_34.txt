@@ -1,0 +1,19 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv1 = torch.nn.ConvXd(...) # X can be 1, 2, or 3 representing the dimension
+        self.batch_norm = torch.nn.BatchNormXd(...) 
+        self.conv2 = torch.nn.ConvXd(...) # Y can be 1, 2, or 3 representing the dimension
+        self.linear  = torch.nn.Linear(2, 2)
+
+    def forward(self, x1):
+        v1 = x1.permute(0, 2, 1)
+        output  = self.batch_norm(self.conv1(v1))
+        output  = self.linear(output)
+        return output
+
+
+# Initializing the model
+m = Model()
+```

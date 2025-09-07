@@ -1,0 +1,75 @@
+
+class ScaledDotProductAttention(torch.nn.Module):
+    def __init__(self, dropout=0):
+        super().__init__()
+        self.dropout = torch.nn.Dropout(p=dropout)
+
+    def forward(self, query, key, value):
+        # This method computes scaled dot-product attention between the key and
+        # the query using keys of shape (bs, n_h, q, k). The attention weights are returned by applying softmax to this tensor.
+
+        ## TODO: Replace with implementation for Scaled Dot-Product Attention
+        
+        return
+
+class MultiHeadAttention(torch.nn.Module):
+    def __init__(self, embed_dim, num_heads, dropout=0):
+        super().__init__()
+        self.num_heads = num_heads
+        self.head_dim = embed_dim // num_heads
+
+        self.in_proj_q = torch.nn.Linear(embed_dim, embed_dim)
+        self.in_proj_k = torch.nn.Linear(embed_dim, embed_dim)
+        self.in_proj_v = torch.nn.Linear(embed_dim, embed_dim)
+
+        self.out_proj = torch.nn.Linear(embed_dim, embed_dim)
+
+        self.attn = ScaledDotProductAttention(dropout=dropout)
+
+    def forward(self, x):
+        ## TODO: Replace with implementation for Multi-head Attention
+        
+        return
+
+class TransformerEncoderBlock(torch.nn.Module):
+    def __init__(self, embed_dim, num_heads, mlp_ratio, dropout=0):
+        super().__init__()
+        self.ln1 = torch.nn.LayerNorm(embed_dim)
+        self.attn = MultiHeadAttention(embed_dim, num_heads, dropout=dropout)
+        self.mlp = torch.nn.Sequential(
+            torch.nn.Linear(embed_dim, embed_dim * 4),
+            torch.nn.GELU(),
+            torch.nn.Linear(embed_dim * 4, embed_dim),
+            torch.nn.Dropout(dropout)
+        )
+
+    def forward(self, x):
+        # The Transformer encoder consists of multiple blocks, so the input to each block is an output from a previous block.
+        ## TODO: Replace with implementation for TransformerEncoderBlock
+        
+        return
+
+class TransformerEncoderLayer(torch.nn.Module):
+    def __init__(self, embed_dim, num_heads, mlp_ratio, dropout=0):
+        super().__init__()
+        self.block = TransformerEncoderBlock(embed_dim, num_heads, mlp_ratio, dropout)
+
+    def forward(self, x):
+        # The Transformer encoder is made up of multiple layers. Each layer consists of a block.
+        ## TODO: Replace with implementation for TransformerEncoderLayer
+        
+        return
+
+class TransformerEncoder(torch.nn.Module):
+    def __init__(self, embed_dim, num_layers, num_heads, mlp_ratio, dropout=0):
+        super().__init__()
+        self.layer = torch.nn.ModuleList([])
+        for i in range(num_layers):
+            self.layer.append(TransformerEncoderLayer(embed_dim, num_heads, mlp_ratio, dropout))
+
+    def forward(self, x):
+        # The Transformer encoder is made up of multiple layers. For each layer, the output from one block can be input to another.
+        ## TODO: Replace with implementation for TransformerEncoder
+        
+        return
+```

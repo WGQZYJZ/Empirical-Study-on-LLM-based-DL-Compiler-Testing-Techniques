@@ -1,0 +1,3 @@
+v5 = conv1(v3, 64, 7, stride=2)
+t9 = max_pooling(v5, 2)  # Apply a 2x2 pooling operation to the output from the previous convolution layer with kernel size 1.
+...

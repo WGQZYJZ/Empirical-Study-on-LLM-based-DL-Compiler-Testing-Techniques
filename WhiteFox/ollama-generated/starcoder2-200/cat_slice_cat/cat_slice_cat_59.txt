@@ -1,0 +1,14 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+ 
+    def forward(self, x1):
+        v1 = torch.cat([x1[0], x1[-2]], dim=1)
+        v2 = v1[:, 0:9223372036854775807] 
+        v3 = v2[:, 0:size] 
+        return torch.cat([v1, v3], dim=1)
+
+# Initializing the model
+m = Model()
+

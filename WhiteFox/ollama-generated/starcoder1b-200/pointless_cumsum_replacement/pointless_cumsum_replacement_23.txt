@@ -1,0 +1,39 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+ 
+    def forward(self, x1, arg2):
+        t1 = torch.full([arg1], 1, dtype=dtype, layout=layout, device=device, pin_memory=False)
+        t2 = convert_element_type(t1, dtype)
+        t3 = torch.cumsum(t2, dim=dim)
+        return t3
+
+
+# Initializing the model
+m = Model()
+__output__  = m(x1, arg2)
+
+
+# Description of requirements
+The model should contain the following pattern:
+```
+v0 = conv(input_tensor) # Apply pointwise convolution with kernel size 1 to the input tensor
+v1 = torch.abs(v0) # Absolute value of the input tensor
+v2 = v1 * 0.5 # Multiply absolute value of the input tensor by 0.5
+v3 = convert_element_type(v2, dtype) # Convert elements of v2 to a different type
+v4 = torch.sigmoid(v3) # Compute sigmoid function from the input tensor
+```
+This pattern characterizes scenarios where the input tensor is converted to `dtype=torch.float32`, and then `1` is added to the output of `torch.abs(x0)`, followed by a multiplication, followed by an addition, followed by a division.
+
+
+# Model
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+ 
+    def forward(self, x1):
+        t1 = torch.abs(x1) * 0.5
+        t2 = convert_element_type(t1, dtype=torch.float32)
+        t3 = torch.sigmoid(t2)
+        return t3

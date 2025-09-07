@@ -1,0 +1,48 @@
+
+
+class Attn(torch.nn.Module):
+    def __init__(self, dim=768, d_head=12):
+        super().__init__()
+ 
+        self.query = torch.nn.Linear(dim, d_head) 
+        self.key = torch.nn.Linear(dim, d_head) 
+        self.value = torch.nn.Linear(dim, 3 * dim // d_head)
+ 
+    def forward(self, query, key=None):
+        # Compute the dot product of the query and key
+        if key is None:
+            key = value.transpose(-2,-1)
+        score = torch.matmul(query,key)/math.sqrt(query.size(-1))
+ 
+        attn_weight = torch.softmax(score+self.attn_mask,dim=-1)
+ 
+        # Apply dropout to the softmax output
+        attn_drop = torch.dropout(attn_weight,p=0.1,inplace=False)
+ 
+        # Compute the dot product of the dropout output and the value 
+        output = torch.matmul(attn_drop, self.value)
+ 
+return output
+
+# Initializing the model with a batch size of 2, a dimensionality of 768, and 1 head for attention computation. 
+m = Attn(dim=768, d_head=1)
+
+ # Inputs to the model
+ qk = torch.randn(2,4096,768)
+ attn_mask = torch.nn.Parameter(torch.ones(q1.shape).bool())
+ 
+ 
+ m(qk, k)
+ 
+ 
+ 
+# Description of requirements
+The model should contain the following pattern: 
+```
+t1 = torch.tanh(w1 * a1 + b1) # Apply an activation function to the dot product between the input and weight matrix a1 with bias term b1. The output is then multiplied by another input.
+t2 = w2 * t1 + b2  # Apply another activation function, and then multiply the output of this first activation function by another matrix w2.  Add the bias term to the output of that multiplication
+```
+This pattern characterizes a model in which the input is multiplied by one weight matrix `a1` with a bias vector `b1`, and then that result is passed through an activation function. That output is then multiplied by another matrix `w2`. The resulting sum is added to a constant term, yielding  the final activation.
+
+
+# Model

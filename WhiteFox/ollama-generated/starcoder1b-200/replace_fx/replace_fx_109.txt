@@ -1,0 +1,23 @@
+
+class Model(torch.nn.Module):
+    def __init__(self, config=None):
+        super().__init__()
+
+    @classmethod
+    def fallback_random(cls, module, input, output):
+        if torch.rand(input.shape) == 0 and not isinstance(output, VariableType):
+            return cls.fallback_random(module, input, output), False
+        return cls.fallback_forward(module, input, output)
+
+    @classmethod
+    def fallback_forward(cls, module, input, output):
+        if torch.rand(input.shape) == 0 and not isinstance(output, VariableType):
+            return super().forward(input)
+        else:
+            return super().forward(input, **kwargs)
+```
+This pattern characterizes scenarios where the `torch.nn.functional.dropout` or `torch.rand_like` functions are invoked and their corresponding fallback versions (`lowmem_dropout` and `rand_like`) are replaced with a new node (a call to `__call__`). The fallback implementation is a simple version of the original function that always returns zeroes (or random ones) when called with the same input. In addition, it may have its own input or output shapes for which the fallback version expects different inputs and outputs.
+
+Note that if the `fallback_random` configuration is set, or if the model is running on a CPU device, the nodes invoking these functions will not be replaced and thus will not trigger the `gm.graph.erase_node(node)
+```
+

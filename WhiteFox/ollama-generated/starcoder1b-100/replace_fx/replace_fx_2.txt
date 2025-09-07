@@ -1,0 +1,32 @@
+
+class Model(torch.nn.Module):
+    def __init__(self, replace_fx=False):
+        super().__init__()
+        self.linear = torch.nn.Linear(2, 2)
+
+    def forward(self, x1):
+        if replace_fx:
+            return self._replace(x1)
+
+        v1 = x1.permute(0, 2, 1)
+        v2 = torch.nn.functional.linear(v1, self.linear.weight, self.linear.bias)
+        return v2
+
+    def _replace(self, x1):
+        if hasattr(x1, 'lowmem_dropout'):
+            x1 = x1.lowmem_dropout(...)  # Replace with your desired replacement here.
+        else:
+            x1 = torch.rand_like(input_tensor, ...)  # Generate a tensor with the same size as input_tensor filled with random numbers
+        
+        return x1
+```
+
+# Model
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+
+    def forward(self, x1):
+        t2 = self.apply(x1)  # Apply the fallback to the output node of the current model's graph, and then call `apply` with it.
+        return t2
+```

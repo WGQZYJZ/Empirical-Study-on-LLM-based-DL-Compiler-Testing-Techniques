@@ -1,0 +1,17 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.query = torch.nn.Linear(256, 10)
+        self.key    = torch.nn.Linear(256, 30)
+        self.value  = torch.nn.Linear(256, 50)
+ 
+    def forward(self, x1, x2):
+        query = self.query(x1).view(-1, 10)
+        key    = self.key(x2).view(-1, 30, 1)
+        value  = self.value(x2).view(-1, 50, 1)
+ 
+        attention_weights = torch.matmul(query, key.transpose(-2, -1)) / torch.sqrt(torch.pow(query.shape[-1], 0.5) * torch.pow(key.shape[-2], 0.5))
+        output            = attention_weights.matmul(value)
+        return output
+```

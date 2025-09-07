@@ -1,0 +1,20 @@
+
+class Model(torch.nn.Module):
+    def __init__(self, conv=None):
+        super().__init__()
+        self.conv = conv
+        self.bn = torch.nn.BatchNorm1d(...) if conv else None
+
+    def forward(self, x):
+        if not self.training or (self.training and not self.bn):
+            return x  # Return input tensor unchanged
+        v = self.conv(x)
+        if self.bn:
+            v = self.bn(v)  # Keep running statistics of the BN layer
+            output = self.conv(v)
+        else:
+            output = self.conv(v)
+        return output
+```
+This pattern characterizes scenarios where the module API is followed by a functional API and both APIs use the same module.
+

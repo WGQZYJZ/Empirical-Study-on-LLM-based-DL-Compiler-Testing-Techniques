@@ -1,0 +1,19 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.fc = torch.nn.Linear(64, 1)
+
+    def forward(self, x):
+        x = torch.nn.functional.dropout(x, p=0.1) # Dropout can be applied to the model in two steps: 1) Apply dropout and rescale, and 2) Compute the output of the dropout layer as follows:
+    v = self.fc(x)  # Use a linear layer to transform query and key tensor to vector of vectors
+    k = torch.transpose(v, -2, -1) # Transform the output of the fc to a key tensor
+    s = torch.matmul(x, k) # Use the dot product between the query and the key to produce a score matrix s
+    dropout_s  = torch.nn.functional.dropout(s, p=0.3) # Dropout can be applied to the model in two steps: 1) Apply dropout and rescale, and 2) Compute the output of the dropout layer as follows:
+    softmax_s  = torch.softmax(dropout_s, dim=-1) # Softmax the output of the fc layer
+    qk  = torch.matmul(x, k.transpose(-2, -1)) # Perform dot product between the query and key tensors
+    scaled_qk = qk.div(inv_scale_factor) # Scale the dot product by an inverse scale factor
+    dropout_qk = torch.nn.functional.dropout(softmax_qk, p=0.3) # Dropout can be applied to the model in two steps: 1) Apply dropout and rescale, and 2) Compute the output of the dropout layer as follows:
+    output = dropout_qk.matmul(value) # Perform dot product between the output of the fc and a value tensor
+```
+

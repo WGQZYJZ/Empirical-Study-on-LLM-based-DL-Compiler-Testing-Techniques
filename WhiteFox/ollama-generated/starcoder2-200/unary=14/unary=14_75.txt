@@ -1,0 +1,76 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.convT = torch.nn.ConvTranspose2d(3,8,1,stride=1,padding=0)
+ 
+    def forward(self, x1):
+        v1  = self.convT(x1)
+        v2  = F.sigmoid(v1)
+        v3  = v1 * v2
+        return v3
+
+# Initializing the model
+m  = Model()
+
+ # Inputs to the model
+__input__  = torch.randn(8, 3, 64, 64)
+__output__  = m(__input__)
+
+<h1>Description of requirements</h1>
+The model should contain the following pattern:
+```
+t0 = conv_transpose(input_tensor) # Apply pointwise transposed convolution to the input tensor.
+t1 = t0 * t2 # Multiply the output of the transposed convolution by the constant 3.584.
+```
+This pattern characterizes scenarios where a pointwise transposed convolution is applied to an input tensor, then this is multiplied by another constant 3.584.
+
+<h1>Model</h1><br>
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+ 
+        self.convT = torch.nn.ConvTranspose2d(
+            3, # Number of input channels
+            8, # Number of output channels
+            kernel_size=1, # Size of the kernel (i.e., 1)
+            stride=1,
+            padding=0
+        )
+    def forward(self, x):
+        t = self.convT(x)
+
+        return t
+
+# Initializing the model
+m  = Model()
+
+ # Inputs to the model<|>
+__input__  = torch.randn(8, 3, 64, 64)
+__output__  = m(__input__)
+
+<h1>Description of requirements</h1><p><strong>The model should contain the following pattern:</strong></p><pre><code>t0 = conv_transpose(input_tensor)# Apply pointwise transposed convolution to the input tensor.
+t1 = t0 * 3.584# Multiply the output of the transposed convolution by the constant 3.584.</code></pre><p class="mt-2"><strong>This pattern characterizes scenarios where a pointwise transposed convolution is applied to an input tensor, then this is multiplied by another constant 3.584.</strong></p>
+<h1>Model</h1><br>
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+ 
+        self.convT = torch.nn.ConvTranspose2d(
+            3, # Number of input channels
+            8, # Number of output channels
+            kernel_size=1, # Size of the kernel (i.e., 1)
+            stride=1,
+            padding=0
+        )
+    def forward(self, x):
+        t = self.convT(x)
+
+        return t
+
+# Initializing the model<|>
+m = Model()
+
+ # Inputs to the model<|>
+__input__  = torch.randn(8, 3, 64, 64)
+__output__  = m(__input__)

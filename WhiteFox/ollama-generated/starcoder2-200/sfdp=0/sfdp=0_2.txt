@@ -1,0 +1,107 @@
+
+```
+
+import torch
+from torch import nn as nn  # noqa: E402
+from torch.nn import functional as F  # noqa: E402
+import math  # noqa: E402
+
+
+
+class EncoderLayer(nn.Module):
+
+    def __init__(self, d_model=512, d_ffn=2048, num_heads=8, dropout=0.0):
+        super().__init__()
+
+        self.layernorm = nn.LayerNorm(d_model)
+        self.dropout   = nn.Dropout(dropout)
+
+        self.selfattn = nn.MultiheadAttention(
+            embed_dim       = d_model,  # 1
+            num_heads       = 8,
+            dropout         = dropout)
+
+        self.ffn = nn.Sequential(
+
+            nn.Linear(d_model, d_ffn),
+            nn.ReLU(),
+            nn.Dropout(dropout),
+            nn.Linear(d_ffn, d_model),
+            nn.Dropout(dropout))
+
+    def forward(self, src):
+
+        batchsize  = len(src)
+        length     = len(src[0])
+
+        selfattn = self.selfattn(src)   # [batch, len, 512]
+
+        output    = selfattn + self.layernorm(src)
+
+        ffn = self.ffn(output[:, :, -length:])  # [batch, len, 512]
+        output += (1 / math.sqrt(d_model)) * ffn
+
+        output = self.dropout(output)   # [batchsize, length, d_model=512]
+
+        return output
+
+
+```
+
+Initializing the model
+m  = EncoderLayer()
+__output__  = m(x1)
+
+
+
+
+## Generated Model Input (might be not useful for you)
+
+```
+import torch
+from torch import nn as nn  # noqa: E402
+from torch.nn import functional as F  # noqa: E402
+
+
+class DecoderLayer(nn.Module):
+    def __init__(self, d_model=512, d_ffn=2048, num_heads=8, dropout=0.0):
+        super().__init__()
+
+        self.layernorm = nn.LayerNorm(d_model) # [batchsize, length, 512]
+        self.dropout   = nn.Dropout(dropout)
+
+        self.selfattn    = nn.MultiheadAttention(embed_dim=d_model, num_heads=8) # [batchsize, len, 4x256], [batchsize, len, 4x256]
+        self.encattn     = nn.MultiheadAttention(
+            embed_dim       = d_model, 
+            num_heads       = 32, 
+            dropout         = 0)
+
+        self.ffn = nn.Sequential(
+
+            nn.Linear(d_model, d_ffn),
+            nn.ReLU(), # [batchsize, len]
+            nn.Dropout(dropout),
+            nn.Linear(d_ffn, d_model),
+            nn.Dropout(dropout))
+
+
+    def forward(self, src, tgt):
+
+        batchsize  = len(src)
+        length     = len(tgt[0])
+
+        selfattn   = self.selfattn(src) + tgt
+        output     = selfattn + self.layernorm(src)
+
+        encattn    = self.encattn(tgt).transpose(-2, -1) # [batchsize, 4x256], [4x256]
+        output     += torch.matmul(selfattn[:, :, :length], encattn / math.sqrt(d_model)) + tgt
+
+        ffn = self.ffn(output).transpose(-2, -1) # [batchsize, length, 512]
+        output    += (1/math.sqrt(d_model)) * ffn
+
+        output     = self.dropout(output) # [batchsize, length, d_model=512]
+
+        return output
+
+```
+

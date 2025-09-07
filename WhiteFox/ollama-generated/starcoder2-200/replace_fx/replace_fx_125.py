@@ -1,0 +1,20 @@
+import torch
+from torch.nn import functional as F
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+
+    def forward(self, x1):  # Input x with shape (N, 2)
+        v = F.linear(x1[:, None].expand_as(x1), self.weight) + \
+            F.dropout(x1[:, None], 0.8).mean()
+        return v
+
+
+m = Model()
+
+
+def forward(self, x):
+    v = torch.nn.functional.linear(F.dropout(torch.rand_like(v)), self.linear.weight) + \
+         F.linear(x[:, None], self.linear.weight, self.linear.bias).sum()
+    return v

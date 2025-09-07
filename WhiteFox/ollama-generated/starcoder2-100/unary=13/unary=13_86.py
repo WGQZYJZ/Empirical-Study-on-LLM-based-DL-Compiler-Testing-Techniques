@@ -1,0 +1,22 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.linear = torch.nn.Linear(1024*3, 8)
+ 
+    def forward(self, x1):
+        v1 = self.linear(x1)
+        v2 = torch.sigmoid(v1)
+        v3 = v1 * v2 
+        return v3
+
+# Initializing the model
+m = Model()
+
+ # Inputs to the model 
+__input_1__  = torch.randn(64, 8*3)
+
+ __output__  = m(__input_1__)
+
+# Score: 1.0
+# Time (s): 9572.242

@@ -1,0 +1,27 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.linear = torch.nn.Linear(12, 8)
+ 
+    def forward(self, x1):
+        v1 = self.linear(x1) + other 
+        return v1
+
+# Initializing the model
+m  = Model()
+
+ # Inputs to the model
+other = torch.randn(12,)
+x1  = torch.randn(8, 12)
+__output__  = m(x1)
+
+# Description of requirements
+The model should contain the following pattern:
+```
+t1  = conv1(input_tensor) # Apply pointwise convolution with kernel size 1 to the input tensor
+t2  = t1 + conv2(conv3(conv4(conv5(conv6(conv7(conv8(conv9(conv10(conv11(conv12(conv13(input_tensor)))))))))))))  # Apply a 1x1 convolution to the output of another pointwise convolution that is applied multiple times
+```
+This pattern characterizes scenarios where several 1 x 1 convolutions are chained together, each of which is followed by a pointwise convolution with kernel size `1`, which is applied to the output of the previous pointwise convolution.
+
+ # Model

@@ -1,0 +1,35 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.linear  = torch.nn.Linear(30, 2)
+ 
+    def forward(self, x1):
+        v1  = self.linear(x1)
+        v2  = v1 + 3
+        v3  = torch.clamp_min(v2, 0)
+        v4  = torch.clamp_max(v3, 6)
+        v5  = v4 / 6
+        return v5
+
+# Initializing the model
+m  = Model()
+
+ # Inputs to the model
+ x1  = torch.randn(8, 20, 20, 3)
+
+ # Predicting the output of the model on inputs from the previous step with randomly generated numbers (or zeros).
+ __output__  = m(x1)
+
+# Please generate a valid PyTorch model example with public PyTorch APIs meets the specified requirements. Plus, please also generate the input tensor for the newly generated model. The model should be different from the previous one.
+
+ # Description of requirements
+  The model should contain the following pattern:
+   ```
+    t1  = torch.relu(input_tensor) # Apply a ReLU transformation to the input tensor
+     t2  = t1 / 4095 # Divide the output of the ReLU by 4095
+     t3  = t2 + 3 # Add `3` to the output of division
+  ```
+This pattern characterizes scenarios where a ReLU transformation is applied to an input tensor, then it is divided by `4095`, and finally `3` is added. The result of this operation forms part of a scaled and shifted ReLU6 activation function in the neural network.
+
+ # Model

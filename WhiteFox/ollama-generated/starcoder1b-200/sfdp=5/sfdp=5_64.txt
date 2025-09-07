@@ -1,0 +1,42 @@
+
+class Model(torch.nn.Module):
+    def __init__(self, hidden_dim=16, num_heads=4):
+        super().__init__()
+        self.pos = torch.nn.Parameter(torch.randn(hidden_dim, 2), requires_grad=True)
+        self.conv1 = torch.nn.Linear(hidden_dim, hidden_dim)
+        self.relu = torch.nn.ReLU()
+        self.conv2 = torch.nn.Linear(hidden_dim, hidden_dim)
+        self.dropout = torch.nn.Dropout(0.5)
+ 
+    def forward(self, x1, x2):
+        x1_norm = torch.div(x1, torch.sqrt((torch.pow(x1, 2)).sum(-1).unsqueeze(-1)).contiguous())
+        # Calculate the norm for the input features (batch size: N, C x L x W)
+        x2_norm = torch.div(x2, torch.sqrt((torch.pow(x2, 2)).sum(-1).unsqueeze(-1)).contiguous())
+        # Calculate the norm for the attention weights (batch size: N, H x K x L x W)
+        pos = self.pos
+        x_input = self.relu((self.conv1(x2_norm)) + pos.contiguous().view(-1, 1).unsqueeze(0)) + x2_norm
+        # Perform the same operation for the second input feature
+        # x2_norm = torch.div(x2, torch.sqrt((torch.pow(x2, 2)).sum(-1).unsqueeze(-1)).contiguous())
+        # x_input = (self.relu(self.conv1(x2_norm)) + pos.contiguous().view(-1, 1).unsqueeze(0)).transpose(-1, -2)
+        # Calculate the norm for the input features (batch size: N, C x L x W)
+        x2_norm = torch.div(x2, torch.sqrt((torch.pow(x2, 2)).sum(-1).unsqueeze(-1)).contiguous())
+        # Calculate the norm for the attention weights (batch size: N, H x K x L x W)
+        pos = self.pos
+        x_input = (self.relu((self.conv1(x2_norm)) + pos.contiguous().view(-1, 1).unsqueeze(0))) + \
+            x2_norm
+        # Perform the same operation for the second input feature
+        # x2_norm = torch.div(x2, torch.sqrt((torch.pow(x2, 2)).sum(-1).unsqueeze(-1)).contiguous())
+        # x_input = (self.relu((self.conv1(x2_norm)) + pos.contiguous().view(-1, 1).unsqueeze(0))).transpose(-1, -2)
+        # Calculate the norm for the input features (batch size: N, C x L x W)
+        x1_norm = torch.div(x1, torch.sqrt((torch.pow(x1, 2)).sum(-1).unsqueeze(-1)).contiguous())
+        # Calculate the norm for the attention weights (batch size: N, H x K x L x W)
+        pos = self.pos
+        x_input = ((self.relu((self.conv2(x1_norm)) + pos.contiguous().view(-1, 1).unsqueeze(0))) + \
+            x1_norm) * (attn_weight + 1e-6) # This is the same as applying an attention mechanism to the two input features
+        return torch.cat([x_input, self.dropout((self.conv2(x1_norm)) + pos.contiguous().view(-1, 1).unsqueeze(0))), dim=-1)
+
+
+# Initializing the model
+m = Model()
+```
+

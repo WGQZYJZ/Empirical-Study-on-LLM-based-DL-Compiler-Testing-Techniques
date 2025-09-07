@@ -1,0 +1,2 @@
+This pattern characterizes scenarios where a weighted sum is computed between the query and key tensors. This mechanism is useful when training Transformer models with long sequences of data. For example, for a sequence of words (e.g., `"The quick brown fox jumps over the lazy dog."`), it is not feasible to compute the full attention weights for every word in the input sentence. The weighted sum approach computes a weighted sum of `q_t * k_i` where `q_t = torch.dot(query_tensor, key_tensor.transpose(-2, -1)) / scale`, and then `output = weight[word] * value`.
+

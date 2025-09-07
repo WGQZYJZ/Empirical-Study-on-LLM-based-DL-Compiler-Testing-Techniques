@@ -1,0 +1,72 @@
+
+class TransformerModel(torch.nn.Module):
+    def __init__(self, d_model, nhead=8, num_encoder_layers=6, num_decoder_layers=6, dropout=.1):
+        super().__init__()
+        self.token_embeddings = torch.nn.Embedding(30000, d_model)
+        self.pos_embedding = torch.nn.Embedding(50000, 5*d_model).to('cuda:2')
+        self.transformer = torch.nn.TransformerEncoderLayer(
+            d_model=d_model, nhead=nhead, dropout=.1)
+ 
+        # Encoder
+        self.encoder_layer = torch.nn.TransformerEncoderLayer(d_model=d_model, nhead=nhead,
+                                                               dropout=dropout)
+ 
+        self.encoder  = torch.nn.TransformerEncoder(self.encoder_layer, num_layers=num_encoder_layers, norm=None)
+        # Decoder
+        self.decoder = torch.nn.TransformerDecoder(
+            TransformerDecoderLayer(d_model, nhead, dim_feedforward=2048),
+            num_layers=num_decoder_layers, norm=None)
+ 
+        self.fc = torch.nn.Linear(31567, 39472)
+ 
+    def forward(self, source):
+        batch_size = source.shape[0] # Get the batch size
+        device = source.device # Get the GPU device number from the batch
+        seq_len = source.shape[-1] # Get the sequence length of the input tensor
+ 
+        # Convert the source input into positional embeddings and embedding layer output (2*5 * 39472)
+        pos = torch.arange(seq_len, dtype=torch.float).expand((batch_size, seq_len)).to(device)
+        pe = torch.zeros([batch_size, seq_len, 5]).to(device)
+        pos *= 10 / (9 - math.log(376/2)) # Compute the positional embedding value and store it in 'pe'
+ 
+        source  = self.token_embeddings(source) + pe + self.pos_embedding(pos).reshape((batch_size, seq_len, -1))
+ 
+        # Apply a feedforward network to the encoder output
+        source = self.encoder(source)
+        source = self.fc(source[-1]).argmax(-1).T.clone().reshape((-1,))
+ 
+        return source
+
+# Initialize transformer model
+tm  = TransformerModel()
+
+# Input to the model (the first part of the transformer input)
+input_tensor  = torch.randint(0,30000,(24576)).to('cuda:0')
+output1  = tm(input_tensor)
+
+# Initialize transformer model without using positional embeddings
+tm_without_pe  = TransformerModel(d_model=28592)
+
+# Input to the model (the first part of the transformer input, not containing positional embedding values)
+input_tensor_wo_pe  = torch.randint(0,30000,(147655)).to('cuda:1')
+output2  = tm_without_pe(input_tensor_wo_pe)
+
+# Inputs to the model (the first part of the transformer input; contains positional embedding values in 'pe' variable). The model should be different from the previous two models.
+inputs_to_model3  = torch.randint(0,30000,(57184)).to('cuda:2')
+inputs_to_model3[input_tensor < 300] = 9
+inputs_to_model3[input_tensor >= 600] = 9
+ 
+output3  = tm(inputs_to_model3)
+
+
+# Description of requirements
+The model should contain the following pattern:
+```
+self.fc1 = torch.nn.Linear() # Create a fully connected layer
+...
+self.conv2d=torch.nn.Conv2d() # Apply pointwise convolution with kernel size 1 to the input tensor
+self.conv3d=torch.nn.Conv3d() # Apply 3D convolution with kernel size 1 on the input tensor, and then add a learnable bias term
+self.conv=torch.nn.Conv2d() # Apply 2D convolution with kernel size 5 to the input tensor; the model contains a fully connected layer, and a 3D convolution, both of which have learnable bias terms
+...
+```
+

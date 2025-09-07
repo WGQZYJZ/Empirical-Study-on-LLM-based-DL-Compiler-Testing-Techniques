@@ -1,0 +1,51 @@
+
+class Model(torch.nn.Module):
+    def __init__(self, in_features, out_features):
+        super().__init__()
+
+        # Initializing Conv1
+        self.conv1 = torch.nn.Conv2d(...)
+
+        # Initializing BatchNorm1
+        self.batchnorm1 = torch.nn.BatchNorm2d(in_channels=...)
+
+        # Initializing ReLU1
+        self.relu1 = torch.nn.ReLU(...)
+        
+        # Initializing Conv2
+        self.conv2 = torch.nn.Conv2d(...)
+
+        # Initializing BatchNorm2
+        self.batchnorm2 = torch.nn.BatchNorm2d(in_channels=...)
+
+        # Initializing ReLU2
+        self.relu2 = torch.nn.ReLU(...)
+        
+        # Initializing Conv3
+        self.conv3 = torch.nn.Conv2d(...)
+
+        # Initializing BatchNorm3
+        self.batchnorm3 = torch.nn.BatchNorm2d(in_channels=...)
+
+        # Initializing ReLU3
+        self.relu3 = torch.nn.ReLU(...)
+        
+        # Final output of the model
+        self.conv4 = torch.nn.Conv2d(...)
+    
+    def forward(self, x):
+        # The input to the model is always the batch size 1 tensor of shape (1, ...). 
+        # The following statements are equivalent with: conv1(x) + batchnorm1(conv1(x)) + relu1(batchnorm1(conv1(x))) + conv2(relu1(batchnorm1(conv1(x)))) + batchnorm2(conv2(relu1(batchnorm1(conv1(x))))) + relu2(batchnorm2(conv2(relu1(batchnorm1(conv1(x))))) + conv3(relu2(batchnorm2(conv2(relu1(batchnorm1(conv1(x))))))) + batchnorm3(conv3(relu2(batchnorm2(conv2(relu1(batchnorm1(conv1(x)))))) + relu3(batchnorm3(conv4(relu3(batchnorm3(conv4(relu3(batchnorm3(conv4(relu3(batchnorm3(conv4(relu3(input_tensor)))))))))))))
+        
+        output = self.conv1(x) + self.batchnorm1(self.conv1(x)) + self.relu1(self.batchnorm1(self.conv1(x)))
+        output += self.conv2(self.relu1(self.batchnorm1(self.conv1(x)))) + self.batchnorm2(self.conv2(self.relu1(self.batchnorm1(self.conv1(x)))))
+        output += self.relu2(self.batchnorm2(self.conv2(self.relu1(self.batchnorm1(self.conv1(x)))))) + self.conv3(self.relu2(self.batchnorm2(self.conv2(self.relu1(self.batchnorm1(self.conv1(x)))))))
+        output += self.batchnorm3(self.conv3(self.relu2(self.batchnorm2(self.conv2(self.relu1(self.batchnorm1(self.conv1(x)))))) + self.relu3(self.batchnorm3(self.conv4(self.relu3(self.batchnorm3(self.conv4(self.relu3(self.batchnorm3(self.conv4(self.relu3(input_tensor)))))))))))))
+        output = self.conv4(output)
+
+        return output
+
+
+# Initializing the model
+m  = Model(2, 2)
+```

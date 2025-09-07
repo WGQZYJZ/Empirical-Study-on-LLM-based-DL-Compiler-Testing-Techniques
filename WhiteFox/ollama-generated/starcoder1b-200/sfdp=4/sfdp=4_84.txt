@@ -1,0 +1,25 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.query  = torch.nn.Linear(10, 25)
+        self.key    = torch.nn.Linear(25, 30)
+        self.value  = torch.nn.Linear(30, 64)
+        self.dropout = torch.nn.Dropout(p=0.3)
+ 
+    def forward(self, query, key, value):
+        attn_weight = torch.softmax(
+            (query @ key.transpose(-2, -1)) / math.sqrt((query.size(-1))))
+        return self.value + (attn_weight @ value)
+
+
+# Initializing the model
+m = Model()
+
+
+# Inputs to the model
+x1  = torch.randn(10, 64, requires_grad=True)
+__output__  = m(x1)
+```
+This pattern characterizes scenarios where the query and key tensors are broadcasted, i.e., they contain the same number of elements.
+

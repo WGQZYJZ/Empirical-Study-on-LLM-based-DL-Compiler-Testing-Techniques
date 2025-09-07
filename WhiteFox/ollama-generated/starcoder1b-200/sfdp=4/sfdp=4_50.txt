@@ -1,0 +1,23 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.linear1 = torch.nn.Linear(3, 8)
+        self.linear2 = torch.nn.Linear(8, 16)
+ 
+    def forward(self, x):
+        q = self.linear1(x).unsqueeze(0)
+        k = self.linear2(q).transpose(-2, -1)
+        k *= math.sqrt(k.size(1))  # Prevent divide-by-zero errors
+        return torch.softmax(k, dim=-1) @ x
+```
+## Citation:
+@inproceedings{
+Liu_etal_2021_ICCV,
+author = {<NAME> <NAME>},
+title = {Generative Transformer for Image Classification},
+booktitle = {Proceedings of the IEEE/CVF Conference on Computer Vision and Pattern Recognition},
+month = aug,
+year = 2021,
+url = {https://openaccess.thecvf.com/content/ICCV2021/papers/G-Transformer_Generative_Transformer_for_Image_Classification_ICCV_2021_paper.pdf}
+}

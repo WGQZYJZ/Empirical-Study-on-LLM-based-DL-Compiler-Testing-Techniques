@@ -1,0 +1,26 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+ 
+    def forward(self, x1, x2):
+        return torch.mm(x1, x2) + 10
+```
+
+The model should contain the following pattern:
+```
+# Forward pass
+v1 = self.layer1(input_tensor1)
+if self.use_bias:
+    v2 = torch.bias(v1)
+else:
+    v2 = v1
+output_tensor1 = self.activation(v2)
+
+if self.use_bias:
+    v3 = torch.bias(v4)
+else:
+    v3 = v4
+output_tensor2 = self.activation(v3)
+```
+This pattern characterizes scenarios where one or more of the input tensors are passed to both forward() and backward() as inputs, and then that output is multiplied by `10`.

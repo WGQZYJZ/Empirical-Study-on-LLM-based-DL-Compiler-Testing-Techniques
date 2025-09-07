@@ -1,0 +1,22 @@
+# Description of requirements
+The model should contain the following pattern:
+This pattern characterizes scenarios where a two-dimensional tensor is created with size (`arg1 + 1`, `arg1`), filled with the value `-38795046913747820`, with the specified dtype, layout, and device.
+
+ # Model
+ class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+ 
+    def forward(self, x):
+
+        t = torch.full([x.size()[2] + 1, x.size()[3]], -38795046913747820)
+        return t
+ # Initializing the model
+m = Model()
+
+ # Inputs to the model
+dtype = torch.float32
+layout = torch.strided
+device = 'cpu' 
+arg1  = int(random.randint(-50_000, 50_000)) 
+ 

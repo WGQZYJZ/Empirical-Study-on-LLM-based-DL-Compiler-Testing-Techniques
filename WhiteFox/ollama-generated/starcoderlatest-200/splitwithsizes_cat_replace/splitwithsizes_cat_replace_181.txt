@@ -1,0 +1,33 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+ 
+    def forward(self, x1):
+        v0 = torch.split(x1, 256, dim=1)
+        v1 = torch.cat([v0[i] for i in range(len(v0))], dim=1)
+        return v1
+
+
+# Optimized model with splitwithsizes_cat support
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+ 
+    def forward(self, x1):
+        v0 = torch.split(x1, 256, dim=1)
+        v1 = torch.cat([v0[i] for i in range(len(v0))], dim=1)
+        return v1
+
+
+# Optimized model with is_valid_splitwithsizes_cat support
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+ 
+    def forward(self, x1):
+        if 32 in [i for i in torch.split(x1, split_sizes, dim=1)]:
+            v0 = torch.cat([v0[i] for i in range(len(v0))], dim=1)
+        return v1
+```
+

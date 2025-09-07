@@ -1,0 +1,5 @@
+# Initializing the model
+m = torch.nn.Linear(784, 50)
+ 
+# Inputs to the model
+x1 = torch.randn(32, 784) # The input tensor is a random tensor with shape [batch size x number of features]

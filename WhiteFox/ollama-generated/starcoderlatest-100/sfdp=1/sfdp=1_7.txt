@@ -1,0 +1,73 @@
+
+class Attention(torch.nn.Module):
+    def __init__(self, embed_dim, num_heads, scale=False, dropout=0):
+        super().__init__()
+
+        self.query = torch.nn.Linear(embed_dim, embed_dim)
+        self.key = torch.nn.Linear(embed_dim, embed_dim)
+        self.value = torch.nn.Linear(embed_dim, embed_dim)
+
+        self.num_heads = num_heads
+        self.scale = scale
+        if scale:
+            self.gamma = torch.nn.Parameter(torch.Tensor([1]).repeat(self.num_heads))
+
+    def forward(self, query):
+        # Compute queries, keys and values
+        q = self.query(query).transpose(-2, -1)  # (bs, h, l, d_q) => (bs, d_k, l, h)
+        k = self.key(query).transpose(-2, -1)  # (bs, h, l, d_k) => (bs, d_k, l, h)
+        v = self.value(query).transpose(-2, -1)  # (bs, h, l, d_v) => (bs, d_v, l, h)
+
+        q = q / math.sqrt(embed_dim) if self.scale else q
+        k = k / math.sqrt(embed_dim) if self.scale else k
+        v = v / math.sqrt(embed_dim) if self.scale else v
+
+        # Compute scaled dot product attention with shape (bs, l, h, d_v), where the softmax is applied over dimensions (h, l, bs) => (bs, h, l)
+        attn = torch.matmul(q, k).transpose(-2, -1)  # (bs, h, l, d_k) * (bs, d_k, l, h) => (bs, h, l, d_v)
+        softmax_attn = attn / math.sqrt(embed_dim) if self.scale else attn
+        softmax_attn = torch.nn.functional.softmax(softmax_attn, dim=-1)  # Softmax is applied over the last dimension
+
+        dropout_attn = torch.nn.functional.dropout(softmax_attn, p=dropout)  # Dropout is applied on the softmax output
+        output = torch.matmul(dropout_attn, v)  # Apply the dot product between the scaled and attention-weighted tensor and the value tensor
+
+        # Project the output to the original space
+        output = torch.transpose(output, -2, -3).reshape((embed_dim, 0))
+        return self.gamma * output
+
+
+class MultiHeadAttention(torch.nn.Module):
+    def __init__(self, embed_dim, num_heads, scale=False, dropout=0):
+        super().__init__()
+
+        # Initialize the multi-head attention layers
+        self.attn = Attention(embed_dim, num_heads, scale, dropout)
+
+    def forward(self, query, key):
+        return self.attn(query, key).transpose(-2, -1)
+
+
+class TransformerModel(torch.nn.Module):
+    def __init__(self, embed_dim, num_heads, num_layers, num_classes=10):
+        super().__init__()
+
+        # Initialize the encoder layers
+        self.encoder = torch.nn.ModuleList([
+            MultiHeadAttention(embed_dim, num_heads)
+            for _ in range(num_layers)]
+        )
+
+        # Initialize the output layer
+        self.output = torch.nn.Linear(embed_dim, num_classes)
+
+    def forward(self, x1):
+        y = x1
+        for i in range(num_layers - 2, -1, -1):
+            y = self.encoder[i](y)
+
+        return self.output(y).reshape((-1,))
+# Initialize the model
+model = TransformerModel(embed_dim=512, num_heads=8, num_layers=6)
+```
+This pattern characterizes scenarios where attention is applied in a multi-head attention mechanism followed by a feed forward layer.
+
+

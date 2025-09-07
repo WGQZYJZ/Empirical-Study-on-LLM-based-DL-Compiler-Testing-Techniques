@@ -1,0 +1,19 @@
+
+
+```
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.scale = torch.rand([])
+ 
+    def forward(self, query_, key_, value_):
+        v1  = query_.matmul(key_.transpose(-2, -1))
+        scale_factor  = self.scale * .5
+        scaled_qk  = v1.mul(scale_factor)
+        v3  = scaled_qk.softmax(dim=-1)
+        dropout_qk  = torch.nn.functional.dropout(v3, p=0.4)
+        v6  = dropout_qk.matmul(value_)
+        return v6
+```
+
+# Initializing the model

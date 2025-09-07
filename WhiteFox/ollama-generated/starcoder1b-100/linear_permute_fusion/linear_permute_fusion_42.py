@@ -1,0 +1,12 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+
+    def forward(self, x1):
+        t1 = torch.nn.functional.linear(x1, self.weight, self.bias)
+        return t1.permute(0, 2, 1)
+
+
+# Inputs to the model
+input_tensor  = ...

@@ -1,0 +1,1 @@
+This test case requires you to generate a public PyTorch example that meets all requirements. The output of this example is supposed to be different from the previous one, but its structure and number of layers should be similar as the first version.

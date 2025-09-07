@@ -1,0 +1,13 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+ 
+    def forward(self, x1):
+        split_tensor1 = torch.split(x1, [1], dim=0)
+        split_tensor2 = torch.split(x1, [2], dim=1)
+        concatenated_tensor = torch.cat([split_tensor1[i] for i in range(len(split_tensor1))], dim=0)
++       concat_sizes  = list(split_sizes[i] for i in range(len(concat_sizes))) + [x2] # The split sizes and the sizes of the input tensor should be identical
+        return concatenated_tensor
+```
+

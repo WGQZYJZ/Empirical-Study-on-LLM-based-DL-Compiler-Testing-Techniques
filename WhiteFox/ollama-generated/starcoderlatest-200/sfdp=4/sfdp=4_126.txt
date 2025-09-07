@@ -1,0 +1,31 @@
+
+class Attention(torch.nn.Module):
+    def __init__(self, d_model):
+        super().__init__()
+        self.query = torch.nn.Linear(d_model, d_model) # Shape: (batch, heads, query_len, head_dim)
+        self.key   = torch.nn.Linear(d_model, d_model)
+        self.value = torch.nn.Linear(d_model, d_model)
+        self.scale = torch.nn.Parameter(torch.ones(1))
+ 
+    def transpose_for_scores(self, x):
+        new_x_shape = x.size()[:-1] + (x.size(-2), x.size(-1)) # Shape: (batch, heads, key_len, head_dim)
+        x = x.view(*new_x_shape) # Shape: (batch*heads, query_len, head_dim)
+        return x.permute(0, 2, 1, 3).contiguous()
+ 
+    def forward(self, v):
+        batch_size = v.size()[0]
+ 
+        q  = self.query(v).view(-1, v.size()[-1]) # Shape: (batch*heads, query_len)
+        k  = self.key(v).view(-1, v.size()[-1])   # Shape: (batch*heads, key_len)
+        v  = self.value(v).view(-1, v.size()[-1]) # Shape: (batch*heads, value_len)
+ 
+        qk = torch.matmul(q, k.transpose(-2, -1)) / math.sqrt(self.scale.item()) + attn_mask # Shape: (batch, query_len, key_len)
+        qk = qk.view(batch_size, -1, self.heads * v.size()[-1]) # Shape: (batch, query_len, heads*value_dim)
+ 
+        return attn_weight  @ value  # Compute the dot product of the attention weights and the value
+```
+This pattern characterizes a scaled dot-product attention mechanism, which is a key component of Transformer models. In this mechanism, the attention weights are computed as the softmax of the scaled dot product of the query and key tensors, and these weights are then used to compute a weighted sum of the value tensor. The attention mask is used to prevent attention to certain positions.
+
+## Please add more examples in `test_api/test_generate_example.py` for your models to generate.
+
+

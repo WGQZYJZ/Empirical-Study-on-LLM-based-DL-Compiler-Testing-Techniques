@@ -1,0 +1,13 @@
+
+class Model(torch.nn.Module):
+    def __init__(self, dim):
+        super().__init__()
+        self.conv = torch.nn.Conv2d(dim, 8, 1, stride=1, padding=0)
+ 
+    def forward(self, x):
+        v1 = torch.full([x.shape[0], 1], 1, dtype=x.dtype, layout=x.layout, device=x.device, pin_memory=False)
+        v2 = convert_element_type(v1, x.dtype)
+        v3 = torch.cumsum(v2, 1)
+        return self.conv(v3).mean(-1).mean(-1)
+```
+

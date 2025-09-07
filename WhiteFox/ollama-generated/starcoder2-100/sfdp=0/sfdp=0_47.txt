@@ -1,0 +1,26 @@
+
+```
+import torch
+class ScaledDotProductAttention(torch.nn.Module):
+    def __init__(self, dim):
+        super().__init__()
+        self.scale = 1 / (dim ** 0.5)
+ 
+    def forward(self, query: torch.Tensor, key: torch.Tensor, value: torch.Tensor):
+        scaled_dot_product  = torch.matmul(query, key.transpose(-2, -1)) * self.scale
+        attention_weights = scaled_dot_product.softmax(dim=-1)
+        output = attention_weights.matmul(value)
+
+        return output
+```
+# Initializing the model
+sdpa  = ScaledDotProductAttention(768)
+
+
+# Inputs to the model
+query  = torch.randn(32, 50, 49) # (batch size=32, sequence length=50, dimension of query/key vectors=49)
+key   = torch.randn(32, 768)  #(batch size=32, dimension of key/query vectors=768)
+value = torch.randn(32, 768) # (batch size=32, sequence length=50, dimension of value vector=768)
+
+
+# Expected output

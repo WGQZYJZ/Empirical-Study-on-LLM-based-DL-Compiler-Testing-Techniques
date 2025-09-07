@@ -1,0 +1,29 @@
+
+class Model(torch.nn.Module):
+    def __init__(self, min_value=0., max_value=1.):
+        super().__init__()
+        self.conv = torch.nn.ConvTranspose2d(8, 3, kernel_size=2, stride=2, padding=1)
+ 
+    def forward(self, x2):
+        v2 = self.conv(x2)
+        return torch.clamp_min(v2, min_value), torch.clamp_max(v2, max_value)
+
+
+# Initializing the model
+m  = Model()
+
+
+# Inputs to the model
+x1 = torch.randn(4, 3, 64, 64)
+__output__, __error__ = m(x1)
+```
+
+# Description of requirements
+The model should contain the following pattern:
+```
+t1 = conv_transpose(input_tensor) # Apply pointwise transposed convolution to the input tensor
+t2 = torch.clamp(t1, min_value=0., max_value=0.5)  # Clamp the output of the transposed convolution to zero and a half
+t3 = torch.cat([input_tensor, t2], dim=-1) # Stack the input tensor to a second dimension
+```
+This pattern characterizes scenarios where the input is stacked on a second dimension, then it is clamped to zero and a half.
+

@@ -1,0 +1,12 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+
+    def forward(self, x1, inp):
+        v1 = torch.mm(x1, inp)  # Perform matrix multiplication on two input tensors with keyword argument
+        v2 = v1 + inp   # Add the result of this operation to another tensor 'inp'
+        return v2
+
+# Initializing the model
+m = Model()

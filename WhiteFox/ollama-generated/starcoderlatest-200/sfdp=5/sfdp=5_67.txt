@@ -1,0 +1,23 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.attn = torch.nn.Linear(3, 8, bias=False)
+ 
+    def forward(self, x1, x2):
+        qk = query @ key.transpose(-2, -1) / math.sqrt(query.size(-1))
+        qk = qk + attn_mask
+        attn_weight = torch.softmax(qk, dim=-1)
+        attn_weight = torch.dropout(attn_weight, dropout_p, True)
+        output = attn_weight @ value
+        return output
+
+
+# Description of requirements
+The model should contain the following pattern:
+```
+t  = self-attention_layer(x) # Apply the self-attention layer to the input tensor
+t  = t * math.sqrt(head_dim)  # Scale the output by square root of head_dim
+output += t  # Add scaled attention vector to the output tensor, and finally perform residual connection
+```
+This pattern characterizes the self-attention operation in transformer models, where the query and key are same as input (the input), and there is no linear transformation between the queries and keys. The scaled dot product of this scaled dot product and the value is added to the output tensor, and finally we perform residual connection with the output from self-attention.

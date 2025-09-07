@@ -1,0 +1,10 @@
+t1 = conv(input_tensor) # Apply pointwise convolution with kernel size 1 to the input tensor
+t2 = t1 + 0.5 # Add 0.5 to the output of the convolution
+t3 = t1 * 0.618034 # Multiply the output of the convolution by 0.618034
+t4 = t3 + 0.618034  # Add 0.618034 to the result of the previous operation
+t5 = torch.erf(t4) # Apply the error function to the result of the previous operation
+t6 = t2 * (t5 + 1) # Multiply the output of the convolution by the output of the erfunction and add one to it.
+t7 = t1 - 0.881921  # Subtract 0.881921 from the output of the convolution
+t8 = t3 * (t7 + 0.5)  # Multiply the output of the convolution by the result of subtracting 0.5 from the input tensor and add 0.618034 to it.
+t9 = torch.erf(t8)  # Apply the error function to the output of the previous operation
+t10 = t6 * (t9 + 1) # Multiply the result of the convolution by the result of the erfunction and add one to it.

@@ -1,0 +1,27 @@
+
+class Model(torch.nn.Module):
+    def __init__(self, num_splits: int = 3):
+        super().__init__()
+        self.split_tensors = torch.nn.Parameter(__generate_tensor_for_model_input())
+        self.num_splits = num_splits
+
+    def is_valid_splitwithsizes_cat(self, input_tensor):
+        if len([i for i in list(input_tensor) if isinstance(i, torch.Tensor)]) != 1:
+            return False
+        else:
+            split_tensors = []
+            split_sizes = []
+
+            for split_op in input_tensor[0]:
+                if not isinstance(split_op, torch.nn.Split):
+                    break
+
+                split_sizes += [torch.prod(dim) for dim in split_op.chunks]
+                split_tensors += [torch.chunk(input_tensor[0][i], chunks, dim) for i, chunks in enumerate(split_sizes)]
+
+            return (self.num_splits - 1) <= len(split_sizes) and all([len(chunks) == self.num_splits for chunks in split_tensors])
+
+
+# Initializing the model
+m = Model()
+```

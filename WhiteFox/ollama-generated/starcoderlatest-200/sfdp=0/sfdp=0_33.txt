@@ -1,0 +1,28 @@
+
+class ScaledDotProductAttention(torch.nn.Module):
+    def __init__(self, d_model, nhead, dropout=0.1):
+        super().__init__()
+        self.dropout = torch.nn.Dropout(dropout)
+        self.scaled_dot_product = torch.nn.Linear(d_model, nhead * d_model, bias=False)
+        self.nhead = nhead
+    
+    def forward(self, q, k, v):
+        attention_scores = self.scaled_dot_product(torch.cat([q, k], dim=-1)).view(-1, self.nhead, 2, *k.shape[-3:])
+        
+        weights = torch.softmax(attention_scores, dim=-1)
+        scaled_attention = self.dropout(weights).matmul(v)
+
+        return scaled_attention # (B, nh, d, h, w)
+
+
+# Initializing the model
+m = ScaledDotProductAttention(d_model=64, nhead=8)
+
+# Inputs to the model
+query = torch.randn(1024, 8, 64, 64) # (B, nh, d, h, w)
+key = torch.randn(1024, 8, 64, 64)
+value = torch.randn(1024, 8, 64, 64) # (B, nh, d, h, w)
+
+
+scaled_dot_product = ScaledDotProductAttention(d_model=64, nhead=8).forward(query, key, value)
+```

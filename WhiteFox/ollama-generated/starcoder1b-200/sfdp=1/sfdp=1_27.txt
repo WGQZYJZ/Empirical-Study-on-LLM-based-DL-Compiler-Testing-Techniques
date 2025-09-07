@@ -1,0 +1,18 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.query = torch.nn.Linear(10, 8)
+        self.key   = torch.nn.Linear(10, 8)
+        self.value = torch.nn.Linear(32, 32)
+ 
+    def forward(self, x1, x2):
+        kq = torch.matmul(x1, self.key.transpose(-2, -1))
+        scaled_qk = kq.div(torch.norm(self.key, p=2).view((1, -1), 1) + KEPS)
+        softmax_qk = scaled_qk.softmax(dim=-1)
+        dropout_qk = torch.nn.functional.dropout(softmax_qk, p=dropout_p)
+        v = self.value(dropout_qk)
+        return torch.matmul(v, x2), kq
+```
+# Testing
+Please refer to the `test.py` in the folder `examples/`. The input tensor of the model example is the same as the one given in the description of requirements.

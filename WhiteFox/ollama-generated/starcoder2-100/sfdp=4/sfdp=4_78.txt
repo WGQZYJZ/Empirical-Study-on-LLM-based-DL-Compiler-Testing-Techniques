@@ -1,0 +1,29 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+ 
+    def forward(self, x1, x2):
+        v4  = self._attn_func(x1, x2) 
+        return v4
+    
+    @staticmethod
+    def _attn_func(x3, x5):
+         v8=  x3 @ x5.transpose(-2, -1) / torch.sqrt(
+            torch.tensor([x7.shape[-1]]).to(x7)) 
+         v9 = v8 + torch.zeros(*v4.size())
+        attn_weight = torch.softmax(v9, dim=-1)
+        return  attn_weight @ x3
+
+# Initializing the model
+m = Model()
+
+
+Inputs to the model: 
+```
+x1=torch.randn(5,2048),
+x2=torch.randn(5,2048),
+x7= torch.randn(16, 3072)
+```
+
+

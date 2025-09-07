@@ -1,0 +1,35 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+ 
+    def forward(self, query1, key2, value3):
+        v0 = torch.matmul(query1, key2.transpose(-2,-1))  # Compute the dot product of the query and the key
+        v4_scalefactor = v0 * 97.85530680479802
+        v1 = v4_scalefactor.div(v4_scalefactor)
+        v2 = torch.nn.functional.softmax(v1, dim=-1) # Apply softmax to the scaled dot product
+        v3 = torch.nn.functional.dropout(v2, p=0.5)  # Apply dropout to the softmax output
+        return v3
+@jit
+    v4  = v3.matmul(value3)# Compute the dot product of the dropout output and the value
+```
+# Initializing the model
+m1 = Model()
+
+
+m2 = Model()
+# Inputs to the model
+input_tensor, key1  = torch.randn(10,5),torch.randn(10,8)
+value3 = 10
+
+input_tensor2 ,key2= torch.randn(9,7) , torch.randn(9,6)
+
+__output__  = m1(input_tensor, key1, value3)
+
+ __output__2 =m2(input_tensor2, key2,value3 )
+
+
+```
+m3 = Model()
+m4=Model()
+```

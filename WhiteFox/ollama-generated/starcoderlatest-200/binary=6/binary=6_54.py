@@ -1,0 +1,18 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.linear = torch.nn.Linear(32, 16)
+ 
+    def forward(self, x1):
+        v1 = self.linear(x1)
+        v2 = v1 - other_tensor
+        return v2
+
+
+# Initializing the model
+m = Model()
+ 
+# Inputs to the model
+x1 = torch.randn(32, 64)
+other_tensor = torch.tensor([0.5])  # Please set 'other' as a tensor with shape [1]. The value of each element in the tensor should be different from every other element in the tensor. 

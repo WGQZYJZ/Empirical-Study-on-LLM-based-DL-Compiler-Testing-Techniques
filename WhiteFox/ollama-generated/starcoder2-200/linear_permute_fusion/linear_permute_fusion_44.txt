@@ -1,0 +1,26 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.linear = torch.nn.Linear(3, 1)
+
+    def forward(self, x1):
+        v2 = torch.nn.functional.linear(x1, self.linear.weight, self.linear.bias)
+        v1 = v2.permute(0, 2, 1)
+        return v1
+
+
+# Initializing the model
+m  = Model()
+
+# Inputs to the model
+x1  = torch.randn(3, 4)
+__output__   = m(x1)
+
+
+
+
+```
+System: You are a source code analyzer for PyTorch.
+
+User: 

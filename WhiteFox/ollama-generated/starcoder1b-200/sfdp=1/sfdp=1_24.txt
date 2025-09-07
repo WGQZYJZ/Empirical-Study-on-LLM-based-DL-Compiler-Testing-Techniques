@@ -1,0 +1,17 @@
+
+class Model(torch.nn.Module):
+    def __init__(self, scale_factor):
+        super().__init__()
+        self.query = torch.nn.Parameter(torch.randn(8, 4))
+        self.key   = torch.nn.Parameter(torch.randn(8, 4))
+        self.value = torch.nn.Parameter(torch.randn(2, 10))
+        self.scale_factor = scale_factor
+ 
+    def forward(self, x1):
+        qk = self.query.mm(self.key.transpose(-2, -1))
+        inv_scale_factor = 1 / torch.pow(self.scale_factor, -0.5)
+        softmax_qk = (qk / torch.sqrt(torch.pow(qk + epsilon, 2))) * inv_scale_factor
+        dropout_qk = torch.nn.functional.dropout(softmax_qk, p=dropout_p)
+        v = self.value.matmul(dropout_qk)
+        return v
+```

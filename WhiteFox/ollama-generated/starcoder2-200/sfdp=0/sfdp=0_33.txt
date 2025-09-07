@@ -1,0 +1,21 @@
+
+class ScaledDotProductAttention(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+ 
+    def forward(self, query, key, value, inv_scale=1.0):  # 5.19
+        scaled_dot_product = torch.matmul(query, key.transpose(-2, -1)) / \
+                             torch.rsqrt(inv_scale) 
+        attention_weights = scaled_dot_product.softmax(dim=-1)  
+        return attention_weights.matmul(value), attention_weights
+```
+
+# Initializing the model
+m  = ScaledDotProductAttention()
+ 
+# Inputs to the model
+query   = torch.randn(3, 4096, 256//8) # (batch size x seq len x hidden dim)
+key     = torch.randn(3, 4096, 256//8) 
+value    = torch.randn(3, 4096, 256//8) 
+
+__output__, __attention_weights__  = m(query, key, value, inv_scale=1.0)

@@ -1,0 +1,46 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv = torch.nn.ConvTranspose2d(3, 8, 1)
+
+    def forward(self, x1):
+        v1 = self.conv(x1)
+        v2 = torch.tanh(v1)
+        return v2
+
+
+# Initializing the model
+m = Model()
+
+# Inputs to the model
+x1 = torch.randn(3, 8, 64, 64)
+__output__  = m(x1)
+
+# Description of requirements
+The model should contain the following pattern:
+```
+t1 = conv_transpose(input_tensor)  # Apply a transposed convolution to the input tensor. This is an elementwise product with the weight tensor. The number of channels in both tensors will be preserved after applying a transposed convolution operation. The output size of this transposed convolution will depend on the kernel shape and stride, assuming the default padding mode is used.
+t2 = conv(t1)  # Apply a point-wise convolution to the output tensor of the first transposed convolution. The input channel number will be equal to the number of input channels in the output size of t1. The output size of this transposed convolution will depend on the kernel shape and stride, assuming the default padding mode is used. This operation preserves the spatial dimensionality for t1.
+t3 = conv(t2)  # Apply another point-wise convolution to the output tensor of the previous transposed convolution. The input channel number will be equal to the number of input channels in the output size of t2. The output size of this transposed convolution will depend on the kernel shape and stride, assuming the default padding mode is used. This operation preserves the spatial dimensionality for t1, resulting in a 4d output tensor.
+```
+This pattern characterizes scenarios where two pointwise transposed convolutions are applied to an input tensor with 3d output size. In each of these operations, the input channel number will equal the number of input channels as defined by the output size after applying the previous operation. These three operations can be interpreted as a sequence of stacked layers with one hidden layer between t1 and t2, and another hidden layer between t2 and t3.
+
+
+# Model
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+
+        self._weight_conv = torch.nn.ConvTranspose2d(
+            8, 64, 1)
+
+    def forward(self, input):
+        out = self._weight_conv(input).permute([0,3,1,2])
+        return out
+
+m = Model()
+
+x1 = torch.randn(25, 8, 96, 96)
+__output__  = m(x1)
+

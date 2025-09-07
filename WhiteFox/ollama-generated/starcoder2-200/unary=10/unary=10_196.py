@@ -1,0 +1,16 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.linear  = torch.nn.Linear(1, 2)
+
+    def forward(self, x1):
+        v1  = self.linear(x1)
+        v2  = v1 + 3
+        v3  = torch.clamp_min(v2, 0) # clamp_min
+        v4  = torch.clamp_max(v3, 6) # clamp_max
+        v5  = v4 / 6                # div 
+        return v5
+
+
+# Initializing the model

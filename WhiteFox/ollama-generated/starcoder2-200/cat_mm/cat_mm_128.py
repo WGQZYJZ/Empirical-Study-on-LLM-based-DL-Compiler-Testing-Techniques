@@ -1,0 +1,9 @@
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv1  = torch.nn.Conv2d(3, 8, 1)
+
+    def forward(self, x):
+        v1  = self.conv1(x)
+        v2  = torch.cat([v1, v1], dim=0) # Concatenate the output of the convolution by 2 times along dimension zero
+        return v2

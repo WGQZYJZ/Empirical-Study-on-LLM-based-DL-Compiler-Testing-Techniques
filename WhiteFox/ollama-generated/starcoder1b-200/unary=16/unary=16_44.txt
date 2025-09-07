@@ -1,0 +1,13 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.fc1 = torch.nn.Linear(784, 256)
+        self.fc2 = torch.nn.Linear(256, 2)
+ 
+    def forward(self, x):
+        # x.view is a special function to convert the input into a shape that can be used by PyTorch's Linear layers.
+        # See: https://pytorch.org/docs/stable/nn.html#torch.nn.Linear
+        return torch.relu(self.fc1(x.view(-1, 784))) * self.fc2(x)
+```
+```

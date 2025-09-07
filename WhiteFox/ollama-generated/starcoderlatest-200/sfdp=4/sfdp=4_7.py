@@ -1,0 +1,1 @@
+This pattern characterizes a scaled dot-product attention mechanism which is a key component of Transformer models. In this mechanism, the attention weights are computed as softmax of the scaled dot product of query and key tensors and these weights are then used to compute a weighted sum of value tensor. The attention mask is used to prevent attention to certain positions.

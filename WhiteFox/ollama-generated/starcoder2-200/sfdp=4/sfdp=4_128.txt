@@ -1,0 +1,18 @@
+
+class ScaledDotProductAttention(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+ 
+    def forward(self, query: torch.Tensor, key: torch.Tensor, value: torch.Tensor, attn_mask=None) -> Tuple[torch.Tensor]:
+        qk = (
+            torch.matmul(query, key.transpose(-2, -1)) / math.sqrt(key.size(-1)))
+        if attn_mask is not None:
+            attn_mask = attn_mask.to("cuda")  # Convert the attention mask to CUDA
+            qk += attn_mask
+        attn_weight = torch.softmax(qk, dim=-1)
+ 
+        output = (attn_weight @ value).type(query.dtype)
+        return output
+```
+
+# Initializing the model

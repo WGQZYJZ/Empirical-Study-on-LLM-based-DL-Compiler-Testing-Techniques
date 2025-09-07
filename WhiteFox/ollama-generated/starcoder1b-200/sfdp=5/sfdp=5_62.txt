@@ -1,0 +1,18 @@
+
+class TransformerModel(torch.nn.Module):
+    def __init__(self, embed_dim, d_model=1024, heads=8):
+        super().__init__()
+        self.layers = torch.nn.ModuleList([
+            EncoderLayer(embed_dim, d_model, heads)  # Each layer in the Transformer
+            for _ in range(num_hidden_layers)])
+ 
+    def forward(self, x1):
+        y = x1
+        for layer in self.layers:
+            y = layer(y)
+        return y
+
+
+# Initializing the model
+m = TransformerModel(embed_dim)
+```

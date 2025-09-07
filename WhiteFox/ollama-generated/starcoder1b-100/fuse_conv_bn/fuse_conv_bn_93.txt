@@ -1,0 +1,31 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+
+    @torch.jit.script
+    def forward(x1, x2, x3):
+        t = x1 + x2
+        t  # This is a symbolic representation for the permuted tensor
+        o = torch.nn.functional.conv2d(t, weight, ...) # Apply convolution to this tensor.
+```
+This pattern characterizes scenarios where 3 input tensors are fed to `torch.nn.functional.conv2d` together with each other, and the output of these 3 inputs is then used as a main input of another 2-dimensional tensor method `torch.nn.functional.conv2d`. The `input_tensor` and `weight` tensors must have matching shape, and their type and number of dimensions should match with the constraints of the module API pattern.
+The input tensor type is not specified here because the input to this pattern is a permuted tensor (the argument is called 't' in the module API).
+
+# Model
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+
+    @torch.jit.script
+    def forward(x1, x2, weight):
+        t = x1 + x2  # This is a symbolic representation for the permuted tensor
+        o = torch.nn.functional.conv2d(t, weight, ...)  # Apply convolution to this tensor.
+```
+This pattern characterizes scenarios where 3 input tensors are fed to `torch.nn.functional.conv2d` together with each other and a main input of the 1-dimensional functional API function is used as the second argument, and it is passed in two consecutive arguments as inputs to the module API equivalent of this pattern, as in the example above:
+```
+v1 = x1.permute(0, 2, 1) # Permute input tensor with last 2 dimensions swapped for first two
+w = torch.nn.functional.linear(...)  # Apply linear transformation to permuted tensor v1
+o  # This is a symbolic representation for the result of applying the main function o on v1.
+```
+

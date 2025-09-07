@@ -1,0 +1,15 @@
+
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+ 
+    def forward(self, x1):
+        v0 = [x1[i] for i in range(8)] # The number of slices along dimension 1 could be any integer
+        v2 = torch.cat(v0, dim=1)
+        v3 = v2[:, 0:9223372036854775807]
+        v4 = v3[torch.randperm(9223372036854775807)] 
+        v1 = [v4[:i].clone() for i in range(-3, -len(x1), -1)] # The number of sliced tensors along dimension 1 could be any integer
+        v5 = torch.cat([v2] + v1[:-1], dim=1)
+```
+

@@ -1,0 +1,18 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv_transpose = torch.nn.ConvTranspose2d(8, 3, 4, stride=2, padding=1)
+ 
+    def forward(self, x2):
+        v2 = self.conv_transpose(x2)
+        v3 = v2 * 0.5
+        v4 = v2  * torch.Tensor([1/math.sqrt(8)]).view(1, 1, 1, 1)  # Constant in the form of a matrix and a list with one item
+        v5 = torch.Tensor([1/(math.pi**0.5 * math.sqrt(8))]).view(1, 1, 1, 1)
+        v6 = v3  * (v4  + v5)  # Multiplication by the two previous operations
+        return v6
+```
+# Initializing the model
+m = Model()
+
+

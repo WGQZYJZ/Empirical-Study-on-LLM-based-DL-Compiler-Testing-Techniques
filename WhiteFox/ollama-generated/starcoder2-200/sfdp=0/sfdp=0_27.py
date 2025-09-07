@@ -1,0 +1,10 @@
+import torch
+import torch.nn as nn
+class MyModel(nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv1 = nn.Conv2d(3, 8, 3)
+
+    def forward(self, x):
+        x = self.conv1(x)
+        return torch.sum(x)

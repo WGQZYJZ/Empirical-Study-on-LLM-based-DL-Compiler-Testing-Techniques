@@ -1,0 +1,82 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv  = torch.nn.ConvXd(...) # X can be 1, 2, or 3 representing the dimension
+        self.bn    = torch.nn.BatchNormXd(...) # X should match with ConvXd
+        self.relu  = torch.nn.ReLU()
+        self.pool  = torch.nn.MaxPool2d(...)
+
+    def forward(self, x1):
+        v = self.conv(x1)
+        v = self.bn(v)
+        v = self.relu(v)
+        v = self.pool(v) # If this layer is in evaluation mode (not in training), it will not be fused into a single ConvXd.
+```
+The model should contain the following pattern:
+```
+conv = torch.nn.Conv2d(...)  # X can be 1, 2, or 3 representing the dimension
+bn   = torch.nn.BatchNorm2d(...)  # X should match with Conv2d
+relu = torch.nn.ReLU()
+pool = torch.nn.MaxPool2d(...)
+
+output = bn(conv(input_tensor))
+```
+This pattern characterizes scenarios where a convolution layer (`torch.nn.ConvXd` or `torch.nn.Conv2d`) is followed by a batch normalization layer  (`torch.nn.BatchNormXd` or `torch.nn.BatchNorm2d`). The output of the convolution layer is used as the input to the batch normalization layer.
+
+The `fuse_conv_bn` optimization is triggered when the convolution and batch normalization layers are in evaluation mode (not in training mode), and the batch normalization layer is tracking running statistics. 
+
+After the optimization, the convolution and batch normalization layers are fused into a single convolution layer, and the batch normalization layer is removed from the graph. If the output of the convolution layer is used by other nodes, the optimization will not be performed.
+
+The optimization also applies to the functional API equivalent of the above pattern, where `torch.nn.functional.convXd` or `torch.nn.functional.batch_norm` are used instead of the module API. The constraints for the functional API pattern are similar to the module API pattern.
+
+# Performance test
+The input should be a valid model example. For the testing, the model can either be implemented by yourself, or you need to use `torchserve`. We provide two ways to verify the inference results: (1) by comparing the predicted and actual values obtained during the inferences using the `tensorrt_api` tool provided by Intel and (2) by comparing the CPU performance.
+
+## Verify the prediction
+Please run the following command under the source code directory where your model resides, and enter the following command to verify the output result:
+```python
+python tensorrt/trtexec.py --model_path path/to/your/models/model-000100/model.onnx --input_name "input_tensor"  \
+    --output_name "conv_output" --data_type uint8 --batch 2 --is_dynamic 0 --verbose
+```
+You can also get the predicted output results from `model.onnx` and compare it to the actual outputs in the `actual_outputs/model-000100`. The comparison of the two predictions is as follows:
+
+ | model   | predict    | actual   |
+ | ---     | ---        | ---      |
+ |  model  | conv_output| input_tensor.permute(2,3,1) * linear_result + batchnorm_result |
+ 
+## Verify the inference time
+We also provide a script to evaluate inferences time of `trtexec` and PyTorch models by following the instructions in the [README](/README.md). The two APIs are used to obtain inference times: (1) by using PyTorch API to perform inference with dynamic batch sizes, and (2) by using `tensorrt_api`. 
+
+For (1), the script should be executed as follows:
+```python
+# Use 1520 as the batch size for predicting time
+python tensorrt/predict.py --model_path path/to/your/models/model-000100/model.onnx --input_name "input_tensor" \
+    --output_name "conv_output" --data_type uint8 --batch 1520 --is_dynamic 0
+```
+The script should be executed as follows:
+```python
+# Use 2048 as the batch size for inference time
+python tensorrt/predict.py --model_path path/to/your/models/model-000100/model.onnx --input_name "input_tensor" \
+    --output_name "conv_output" --data_type uint8 --batch 2048 --is_dynamic 0
+```
+The `trtexec` tool provides the `--time` option to get the inference time for all the models provided by Intel. For example, we can obtain the prediction time and inference time of a model:
+```python
+# Use 1520 as the batch size for predicting time
+python tensorrt/predict.py --model_path path/to/your/models/model-000100/model.onnx --input_name "input_tensor" \
+    --output_name "conv_output" --data_type uint8 --batch 1520 --is_dynamic 0 --time
+```
+
+For (2), the script should be executed as follows:
+```python
+# Use 1520 as the batch size for predicting time
+python tensorrt/predict.py --model_path path/to/your/models/model-000100/model.onnx --input_name "input_tensor" \
+    --output_name "conv_output" --data_type uint8 --batch 1520 --is_dynamic 1
+```
+The script should be executed as follows:
+```python
+# Use 2048 as the batch size for inference time
+python tensorrt/predict.py --model_path path/to/your/models/modelmodel
+|   </li>
+      <li class="c3">
+        BraintreePaymentPayPayPayPayPayPayPayPayPayPayPayPayPayPayPayPayPayPayPayPayPayPayPayPayPayPayPayPayPayPayPay

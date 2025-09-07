@@ -1,0 +1,15 @@
+
+class ScaledDotProductAttention(nn.Module):
+    def __init__(self):
+        super().__init__()
+ 
+    def forward(self, query: TensorType, key: TensorType, value: TensorType) -> Tuple[TensorType]:
+
+        qk = query @ key.transpose(-2, -1).contiguous() / math.sqrt(query.size(-1))
+        qk = qk + self._attn_mask  # noqa: PLW0613
+        attn_weights = F.softmax(qk, dim=-1)
+ 
+        output = torch.einsum("...nd,...dk->...nk", attn_weights, value)
+        return output
+```
+# Initializing the model

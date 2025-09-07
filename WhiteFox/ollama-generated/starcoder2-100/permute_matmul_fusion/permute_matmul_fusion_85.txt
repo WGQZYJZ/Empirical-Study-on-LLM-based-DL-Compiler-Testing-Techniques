@@ -1,0 +1,22 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+
+    def forward(self, x1, x2):
+        v3 = torch.bmm(x1.permute(0, 2, 1), x2) # This line should return an error if you don't permute the tensors correctly before using them as input of BMM function.
+        v4 = torch.bmm(torch.nn.functional.linear(v3, self.linear.weight, self.linear.bias), x3) # This line should return an error if you don't apply linear transformation on the permute tensors correctly before using them as input of BMM function.
+        v5 = torch.matmul(x1.permute(0, 2, 1), v4)
+        return v5
+
+
+# Initializing the model
+m = Model()
+# Inputs to the model - A 3-dimension tensor, B 2-dimension tensor and C is a scalar (a number).
+x1 = torch.randn(20, 8, 9) # You should be able to generate 10 or more inputs. 
+x2 = torch.randn(7, 5)
+
+
+# Error in input tensors
+m(x1, x2)
+```

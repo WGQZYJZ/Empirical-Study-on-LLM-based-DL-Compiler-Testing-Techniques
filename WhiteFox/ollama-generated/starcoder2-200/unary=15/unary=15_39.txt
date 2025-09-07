@@ -1,0 +1,70 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv = torch.nn.Conv2d(3, 8, 1, stride=1, padding=0)
+
+    def forward(self, x1):
+      v1 = self.conv(x1) # Pointwise convolution
+      v2 = torch.nn.functional.relu(v1)# ReLU activation function
+      return v2
+
+# Initializing the model
+m  = Model()
+
+ # Inputs to the model
+x1 = torch.randn(1, 3, 64, 64)
+
+ __output__  = m(x1)
+
+# Description of requirements
+The model should contain the following pattern:
+```
+t1 = conv(input_tensor)# Apply pointwise convolution with kernel size 1 to the input tensor
+t2 = tanh(conv(conv(tanh(t1)))) # Apply a three-layered hierarchical operation using tanh functions.
+```
+This pattern characterizes scenarios where a three-layered hierarchical operation is applied to an input tensor using tanh functions, starting from the first convolution layer, followed by the second convolutional layer, and then applying the ReLU activation function before applying another 3rd conv layer. The use of the tanh activation function in this pattern may be due to a desire to learn non-linear relationships through the intermediate layers between two or more convolutional layers.
+
+ # Model
+ class Model(torch.nn.Module):
+     def __init__(self):
+         super().__init__()
+         self.conv = torch.nn.Conv2d(3, 8, 1)
+
+     def forward(self, x1):
+        v1 = self.conv(x1)# Pointwise convolution
+       v2 = torch.tanh(v1) # ReLU activation function
+        v3 = torch.tanh(torch.sigmoid(v2))# sigmoid activation function
+        return v3
+ # Initializing the model
+m  = Model()
+
+ # Inputs to the model
+x1 = torch.randn(1, 3, 64, 64)
+  __output__  = m(x1)
+
+# Description of requirements
+The model should contain the following pattern:
+```
+t1 = conv(input_tensor)# Apply a pointwise convolution to the input tensor
+t2 = tanh(conv(t1)) # Apply a ReLU activation function after applying another pointwise convolution.
+```
+This pattern characterizes scenarios where a pointwise convolution is applied to an input tensor, and then the ReLU activation function is applied on the output of this first 3rd pointwise convolution operation. This pattern may be due to the desire for non-linearity in the final convolution layer after applying multiple ReLU operations between two or more convolutional layers.
+
+ # Model
+ class Model(torch.nn.Module):
+     def __init__(self):
+         super().__init__()
+         self.conv = torch.nn.Conv2d(3, 8, 1)
+
+     def forward(self, x1):
+       v1 = self.conv(x1)# Pointwise convolution
+      v2 = v1 * -0.5 # Multiplying the output of first conv by a constant
+      v3 = torch.tanh(v1 * v2) # ReLU activation function
+      return  t3
+# Initializing the model
+m  = Model()
+
+ # Inputs to the model
+x1 = torch.randn(1, 3, 64, 64)
+  __output__  = m(x1)

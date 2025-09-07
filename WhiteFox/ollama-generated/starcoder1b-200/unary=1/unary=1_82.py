@@ -1,0 +1,31 @@
+
+# Description of requirements
+The model should contain the following pattern:
+
+-   [nn.Conv2d](https://pytorch.org/docs/stable/generated/torch.nn.Conv2d.html)
+-   [torch.nn.functional.conv2d](https://pytorch.org/docs/stable/generated/torch.nn.functional.conv2d.html)
+-   [torch.nn.functional.elu](https://pytorch.org/docs/stable/generated/torch.nn.functional.elu.html)
+-   [torch.nn.functional.max_pool1d](https://pytorch.org/docs/stable/generated/torch.nn.functional.max_pool1d.html)
+-   [torch.nn.functional.relu](https://pytorch.org/docs/stable/generated/torch.nn.functional.relu.html)
+-   [torch.nn.Linear](https://pytorch.org/docs/stable/generated/torch.nn.Linear.html)
+-   [torch.nn.ReLU](https://pytorch.org/docs/stable/generated/torch.nn.ReLU.html)
+-   [torch.nn.Tanh](https://pytorch.org/docs/stable/generated/torch.nn.Tanh.html)
+-   [torch.nn.functional.softplus](https://pytorch.org/docs/stable/generated/torch.nn.functional.softplus.html)
+
+
+# Model
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv = torch.nn.Conv2d(3, 8, kernel_size=1, stride=1, padding=1)
+        self.linear = torch.nn.Linear(10, 40)
+
+    def forward(self, x1):
+        v1 = self.conv(x1)
+        v2 = torch.nn.functional.relu(v1)
+        v3 = self.linear(v2)
+        return v3
+
+
+# Initializing the model
+m = Model()

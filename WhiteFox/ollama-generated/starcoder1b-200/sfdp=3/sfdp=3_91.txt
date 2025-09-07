@@ -1,0 +1,21 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.qkv = torch.nn.Linear(512, 3 * self.dim, bias=True)
+        self.scale_factor = 0.25
+
+    def forward(self, x):
+        b, c, _, _ = x.shape
+        qk = self.qkv(x).view(b, c, -1).div(self.scale_factor ** 0.5)
+        qk = torch.nn.functional.softmax(qk, dim=-1)
+        scaled_qk = qk.mul(self.scale_factor)
+        dropout_qk = torch.nn.functional.dropout(scaled_qk, p=dropout_p)
+        output = dropout_qk.matmul(value)
+        return output
+```
+
+# Inputs to the model
+x1 = torch.randn(1024, 3, 64, 64)
+
+ 

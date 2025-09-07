@@ -1,0 +1,99 @@
+
+class Model(torch.nn.Module):
+    def __init__(self, num1=2, num2=3):
+        super().__init__()
+
+        # Initializing linear module: 1st input_size and output_size is defined by num1 while the number of bias
+        # elements is fixed at one for simplicity in model creation.
+        self.linear = torch.nn.Linear(num1, num2, bias=False)
+
+    def forward(self, x):
+        # Concatenating the input tensor with itself 3 times to get a concatenated tensor.
+        v1 = torch.cat([x, x], dim=-1)
+
+        # Reshaping the concatenated tensor into a 4D tensor (4-dimensional tensor). The size of each dimension in this
+        # tensor is obtained by dividing the size of input_tensor and number_of_concatenations_before_reshape. This way, we get a 32x2x8x16 4d tensor.
+        v2 = v1.view(-1, 8*self.linear(torch.randn(num1)).shape[-1])
+
+        # Applying ReLU to the reshaped tensor
+        v3 = torch.nn.functional.relu(v2)
+
+        return v3
+
+
+# Initializing the model with some initial parameters.
+num1= 8; num2=9
+m = Model(num1, num2); 
+
+# Inputs for the model:
+x  = torch.randn(160*num2)
+
+# Running the forward pass of the model. 
+output  = m(x).shape[-1] # The shape should be 8x32.
+
+# In the output above, 8 is determined by the number of bias elements in the linear module and num1=5 while there are 9 tensors concatenated into a single tensor along dimension=-1 which is used as input for reshaping to get the final 4D tensor. 32 is determined using the input_size defined in the linear module and bias set to False.
+
+<br>
+
+## <span id="f1">Scenario 1: [Pytorch code](#anchor-f1)</span>
+
+```python
+t = torch.ones(5,4)
+p = torch.nn.Parameter(t) # This will convert the torch tensor to Parameter. Parameters are used for parameters in neural networks which will be optimized during training and updated accordingly.
+u = t * p  # Pointwise multiplication of parameter and tensor is performed here where u is obtained as 5x4.
+u = torch.transpose(u,1,2)
+v = torch.nn.functional.softmax(u, dim=0)
+
+```
+
+
+## <span id="f3">Scenario 1: [Pytorch code](#anchor-f1)</span>
+
+```python
+t = torch.ones(5,4)
+p = t * p # Pointwise multiplication of parameter and tensor is performed here where u is obtained as 5x4.
+u = torch.transpose(u,1,2)
+v = torch.nn.functional.softmax(u, dim=0)
+
+
+```
+
+
+
+
+## <span id="f4">Scenario 1: [Pytorch code](#anchor-f3)</span>
+
+```python
+t = torch.ones(5,7,8).permute([2, 1]) # permute is used to swap the dimensions in a tensor while keeping all the elements intact which can be done with transpose as well however, for this scenario permute is more efficient than transpose because its implementation avoids unnecessary operations.
+p = t * p # Pointwise multiplication of parameter and tensor is performed here where u is obtained as 5x7 x8 .
+v = torch.nn.functional.linear(u)
+
+
+```
+
+
+
+
+## <span id="f2">Scenario 1: [Pytorch code](#anchor-f4)</span>
+
+```python
+u  = t * p # Pointwise multiplication of parameter and tensor is performed here where u is obtained as 5x7 x8 .
+v = torch.nn.functional.linear(u)
+
+
+```
+
+
+
+
+## <span id="f3">Scenario 1: [Pytorch code](#anchor-f2)</span>
+
+```python
+u  = t * p # Pointwise multiplication of parameter and tensor is performed here where u is obtained as 5x7 x8 .
+v = torch.nn.functional.linear(u)
+
+
+```
+
+
+

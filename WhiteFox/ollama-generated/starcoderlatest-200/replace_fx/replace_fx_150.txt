@@ -1,0 +1,17 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.dropout = torch.nn.Dropout2d()
+
+    def forward(self, x1):
+        v1 = torch.nn.functional.dropout(x1, p=0.1) # Apply dropout to the input tensor.
+        v2 = torch.rand_like(v1, dtype=torch.float32, device=v1.device) # Generate a tensor with the same size as input_tensor filled with random numbers
+        return v1 * 2 + v2
+
+# Initializing the model
+m = Model()
+# The following command will invoke `gm.graph.erase_node(node)` for all nodes invoking torch.nn.functional.dropout and torch.rand_like.
+m.to('cuda:0', fallback_random=True)
+```
+

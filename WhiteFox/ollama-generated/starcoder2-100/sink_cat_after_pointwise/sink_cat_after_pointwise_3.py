@@ -1,0 +1,14 @@
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+
+    def forward(self, t1):
+        v1 = torch.relu(t1)
+        return v1
+
+ # Initializing the model
+m  = Model()
+
+ # Inputs to the model
+t1 = torch.randn(2, 2, 2)
+t2 = torch.cat([t1] * 5 + [None], dim=0)

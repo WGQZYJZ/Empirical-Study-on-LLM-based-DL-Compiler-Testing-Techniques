@@ -1,0 +1,53 @@
+
+class Model(torch.nn.Module):
+    def __init__(self, *args):
+        super().__init__()
+ 
+    def forward(self, x1, *args): # The input to the model is an array of input tensors.
+        splitted  = torch.split(x1[0], 32)
+        concatenated_tensor = torch.cat([splitted[i] for i in range(len(splitted))], dim=0)
+        return [concatenated_tensor, *args]
+ 
+# Initializing the model
+m = Model()
+
+ # Input to the model
+x1  = []
+ 
+ 
+
+x2  = torch.randn(32, 64, 64)
+   
+
+__output__  = m([x1, x2])
+
+# Description of requirements
+The model should contain the following pattern:
+```
+split_tensors  = input_tensor.chunk(split_size)[0] # Split the input tensor into chunks with a given size using `input_tensor.chunk` and then access one chunk from that split
+```
+This pattern characterizes scenarios where an input tensor is split into several chunks of a specified size using `torch.Tensor.chunk`, and then one of these chunks is accessed. This scenario might be triggered by optimization passes like `split_withsize` or `is_valid_splitwithsizes`.
+# Model
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+ 
+    def forward(self, x1): # The input to the model is an array of input tensors.
+        splitted  = torch.split(x1[0], 32)
+        concatenated_tensor = torch.cat([splitted[i] for i in range(len(splitted))], dim=0)
+        return [concatenated_tensor, *args]
+ 
+# Initializing the model
+m = Model()
+
+ # Input to the model
+x1  = []
+ 
+ 
+
+x2  = torch.randn(32, 64, 64)
+   
+
+__output__  = m([x1, x2])
+
+

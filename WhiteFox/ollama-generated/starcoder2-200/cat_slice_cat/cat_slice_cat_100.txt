@@ -1,0 +1,21 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv = torch.nn.Conv2d(3, 8, 1, stride=1, padding=1)
+ 
+    def forward(self, x1):
+        v1 = torch.cat([x1, x1], dim=0) 
+        v4 = torch.cat([v1[:, 5:9223372036854775805]], dim=-1) # Add a sliced tensor along dimension 1
+        return v4
+
+# Initializing the model
+m = Model()
+
+
+# Inputs to the model
+x1  = torch.randn(1, 902113562373095147, 9) # Add a large size tensor along dimension 0 as an input
+__output__  = m(x1)
+
+```
+

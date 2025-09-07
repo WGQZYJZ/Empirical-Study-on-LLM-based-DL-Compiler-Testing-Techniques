@@ -1,0 +1,21 @@
+# -*- coding: utf-8 -*-
+# @File : test_for_conv_with_pointwise_activation.py
+# @Time : 2021/4/5 6:39 下午
+# @Author : <NAME>
+import torch
+
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv = torch.nn.Conv2d(
+            3, 8, kernel_size=1, stride=1, padding=0)
+
+    def forward(self, x1):
+        v1 = self.conv(x1)
+        v2 = torch.relu(v1)
+
+        return v2
+
+
+m = Model()

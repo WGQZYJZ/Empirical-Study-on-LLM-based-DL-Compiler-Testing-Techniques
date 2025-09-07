@@ -1,0 +1,56 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv  = torch.nn.Conv2d(3,8,1,stride=1,padding=1)
+ 
+    def forward(self, x1): 
+        v1  = self.conv(x1)
+        v2  = v1 + 3
+        v3  = torch.clamp_min(v2,0) # Clamp to a minimum of zero
+        v4  = torch.clamp_max(v3,6)# Clamp to a maximum of six 
+        v5  = v1 * v4
+        v6  = v5 / 6
+        return v6
+
+# Initializing the model
+m  = Model()
+ 
+# Inputs to the model
+x1  = torch.randn(1,3,64,64)
+__output__  = m(x1)#<|code|><|/code|>
+
+<img align="right" width=25% height=75% src="assets/pytorch_basic_conv_mul.png">
+
+# Description of the scenario
+The purpose of this test is to verify the proper handling of the following pattern in a PyTorch convolutional neural network model: `t1 * 0.5`. The pattern characterizes scenarios where the output of a pointwise convolution is multiplied by another constant `0.5` and then that result is passed through a ReLU activation function (i.e., the output is clamped to a minimum value of zero). This pattern is often used in implementations of various activation functions. The test consists of checking whether the model:
+1. Has only one instance of `torch.nn.ReLU()`; and 
+2. All the instances of `torch.nn.Conv2d()` have only one instance of the ReLU activation function after the pointwise convolution operation.
+
+This scenario is relevant to PyTorch models that use a ReLU activation function after each layer of a residual block in a network architecture, where the residual block contains a pointwise convolution and then a ReLU activation function, which is followed by a pointwise convolution. The pattern also appears in other scenarios where the output of a pointwise convolution is multiplied by another constant `0.5`, and then that result is passed through one or more ReLU activation functions (i.e., each ReLU activation function clamps to zero).
+
+# Model
+```python
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv = torch.nn.Conv2d(3, 8, 1)
+
+    def forward(self, x1): 
+        v1 = self.conv(x1) # Apply a pointwise convolution to the input tensor
+
+        # Pass the output through one or more ReLU activation functions (in this case only one)
+        v2a = torch.nn.functional.relu(v1 * 0.5) 
+        v3b = torch.nn.functional.relu(v2a + 3) 
+        v4c = torch.nn.functional.relu(v3b / 6)
+        return v4c
+```
+<img align="right" width=75% height=100% src="assets/pytorch_basic_conv_mul_with_relu.png">
+
+ # Initializing the model
+m = Model()
+ 
+# Inputs to the model
+x1  = torch.randn(1,3,64,64)
+ 
+ 

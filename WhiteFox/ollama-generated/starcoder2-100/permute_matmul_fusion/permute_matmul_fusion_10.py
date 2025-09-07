@@ -1,0 +1,9 @@
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+
+    def forward(self, x1, y1):  # or forward(self, x2, x3) to make sure the model is different from previous model
+        t1 = x1.permute(...).permute(...)   # Permute two input tensors
+        t2 = torch.bmm(t1, ...)             # or use torch.matmul instead of torch.bmm for both cases
+
+        return t2

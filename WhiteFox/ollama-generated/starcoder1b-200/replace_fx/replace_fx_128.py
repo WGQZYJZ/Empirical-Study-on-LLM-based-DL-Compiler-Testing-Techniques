@@ -1,0 +1,1 @@
+This example will pass, since the `m` and `m_copy` are different from each other. However, it's not obvious how to invoke the methods defined in class `Model`. The only way is to run the test code, or look at the graph of the model. In order to obtain a graphical representation of what `m` does, use `gm.graph_viz(model)`.

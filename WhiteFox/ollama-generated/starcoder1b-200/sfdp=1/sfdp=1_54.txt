@@ -1,0 +1,28 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv = torch.nn.Conv2d(3, 8, 1)
+ 
+    def forward(self, x1):
+        qk = torch.matmul(x1, x1.transpose(-2, -1)) # Compute the dot product of the input tensors and the input tensors
+        inv_scale_factor = qk.div(q_scale_factor) # Scale the dot product by the query-key scale factor
+        softmax_qk = torch.nn.functional.softmax(scaled_qk / q_scale_factor, dim=-1) # Apply softmax to the scaled dot product
+        dropout_qk = torch.nn.functional.dropout(softmax_qk, p=dropout_p) # Apply dropout to the softmax output
+        value = dropout_qk.matmul(x2)  # Compute the dot product of the dropout output and the key tensor
+```
+This pattern characterizes scenarios where the dot product of two tensors is computed, then scaled by a scalar, then softmax is applied, then dropout is applied, and finally the dot product of the dropout output and a value tensor is computed. This is a typical pattern found in the attention mechanism of Transformer models.
+
+
+# Model
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+ 
+    def forward(self, x1):
+        m = torch.nn.Linear(x_size_1, z)  # Create a linear layer (fully connected) to map from input of size x_size_1 to latent space of dimension z
+        return m(x1)
+
+
+# Inputs to the model
+x1 = torch.randn(256, 3, 64, 64)

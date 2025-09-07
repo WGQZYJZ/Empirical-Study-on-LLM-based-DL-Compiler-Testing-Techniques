@@ -1,0 +1,23 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+
+    def forward(self, x):
+        # Use torch.nn.functional.convXd and torch.nn.functional.batch_norm instead of torch.nn.ConvXd and torch.nn.BatchNormXd
+        output =  # Apply a convolution layer to the input tensor, followed by batch normalization
+        return output
+
+
+# Initializing the model
+m = Model()
+
+
+def prepare(module):
+    if hasattr(module, 'conv') or hasattr(module, 'bn'):
+        module._apply_conv_bn_pattern()
+        # Modify the code that needs to use conv or bn. 
+        module.conv = None  # The conv layer has been fused with the batch normalization layer in forward function of Model
+        module.bn = None  # Remove batch normalization from graph
+```
+

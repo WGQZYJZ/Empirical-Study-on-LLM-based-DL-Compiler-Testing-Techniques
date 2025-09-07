@@ -1,0 +1,30 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.linear = torch.nn.Linear(2, 2)
+
+    def forward(self, x1):
+        t1 = input_tensor.permute(0, 2, 1)
+        t2 = torch.nn.functional.dropout(t1, ...) # Apply dropout to the input tensor
+        t3 = torch.rand_like(t1, ...) # Generate a tensor with the same size as input_tensor filled with random numbers
+        t4 = input_tensor + (t3 * ... * t4) # Perform addition in the same manner as the 'forward' function.
+        return t4
+
+
+# Initializing the model
+m = Model()
+__output__  = m(x1)  # This should be replaced with a `gm.graph.replace_node(...)`. Note that, in this case, the fallback will not work for CPU devices (see `gm.config.fallback_random` and `torch.manual_seed`).
+
+
+# Description of requirements
+The model should contain the following pattern:
+```
+t1 = input_tensor[...]  # Get a slice with given start and stop indices
+t2 = t3[..., ...i] # Get a slice along specific axis
+t4 = t5[..., : , ..., i] # Get a slice along multiple axes. In this case, we use ellipsis to index as many axes as there are dimensions of the input tensor. The `...` in the slice indicates that all dimensions of the input tensor will be used to obtain a specific subsection from it.
+```
+This pattern characterizes scenarios where the slices obtained with `input_tensor[: , ...]` or `t3[..., ...i]` functions are invoked. 
+
+Note that if the `fallback_random` configuration is set, or if the model is running on a CPU device, these nodes will not be replaced and thus will not trigger the `gm.graph.erase_node(node) if node.opname == "slicing_index"`.
+

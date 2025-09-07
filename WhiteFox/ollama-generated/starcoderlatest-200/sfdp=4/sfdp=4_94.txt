@@ -1,0 +1,47 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.attn_layer = torch.nn.Linear(1024, 8)
+        self.ffn_layers = torch.nn.Sequential(
+            torch.nn.Conv2d(16, 32, kernel_size=1),
+            torch.nn.BatchNorm2d(32),
+            torch.nn.ReLU(),
+            torch.nn.Conv2d(32, 8, kernel_size=1),
+        )
+ 
+    def forward(self, q1, k1, v1):
+        b, c, h, w = q1.shape
+        _, _ , kc, kw = k1.shape
+
+        # Compute scaled dot-product attention weights for each position in the query
+        attn_weight = torch.einsum('b c d h w, b c kd hd wd -> b c d k', (q1, k1)) / math.sqrt(k1.size(-2) * k1.size(-3))
+        attn_weight  += attn_mask
+
+        # Apply softmax to the dot-product attention weights
+        attn_weight = torch.softmax(attn_weight, dim=-1)
+
+        # Compute weighted sum of the value tensor with query, key and attention weights
+        output = torch.einsum('b c d k, b c kd hd wd -> b c d h w', (attn_weight, v1))
+
+        # Apply the feedforward network to the output
+        ffn_output = self.ffn_layers(output)
+        return output, ffn_output
+
+
+# Initializing the model
+m = Model()
+
+# Inputs to the model
+q1  = torch.randn(16, 3, 64, 64)
+k1  = torch.randn(16, 8, 64, 64)
+v1  = torch.randn(16, 1024, 64, 64)
+attn_mask  = torch.ones([q1.shape[0], k1.shape[-2], q1.shape[-3], q1.shape[-4]]) * -float('inf')
+__output__, __ffn_output__ = m(q1, k1, v1)
+
+
+# Please fill in the correct answer: None is valid; 8 is invalid.
+```
+
+
+## Answer

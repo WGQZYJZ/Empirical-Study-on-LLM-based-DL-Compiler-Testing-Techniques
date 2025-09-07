@@ -1,0 +1,59 @@
+
+class MultiheadAttention(torch.nn.Module):
+    def __init__(self, heads=16, embedding_size=512):
+        super().__init__()
+        self.heads = heads
+        self.embedding_size = embedding_size
+ 
+    def forward(self, query, key, value, mask=None):
+        dq = torch.nn.Linear(self.embedding_size, self.heads * 3)
+        dk = torch.nn.Linear(self.embedding_size, self.heads * 3)
+        dv = torch.nn.Linear(self.embedding_size, self.heads * 3)
+ 
+        batch_size = query.shape[0]
+        head_dim = dq.out_features // self.heads
+ 
+        # Apply linear transformation for the query and key tensors
+        qkv = torch.stack((dq(query), dk(key), dv(value)), dim=2).reshape(batch_size, -1, 3, self.heads)
+        
+        # Mask out elements in the softmax computation
+        if mask is not None:
+            assert mask.shape == query.shape[:-1] + (self.heads,)
+            attn_mask = mask * -1e9
+            qkv[attn_mask > 0] = float('-inf')
+ 
+         # Compute the dot product of the query and key tensors
+        qk = torch.einsum('bhqd,bhd->bhqd', qkv, [2])
+ 
+        # Scale the dot product by the inverse scale factor
+        inv_scale_factor = self._get_scaled_inv_square_root_dim(head_dim)  # Inverse square root dim of a tensor
+        scaled_qk = qk.div(inv_scale_factor)  # In-place operation
+ 
+        # Apply softmax to the scaled dot product
+        attn_weights = torch.nn.functional.softmax(scaled_qk, dim=-1)
+ 
+         # Apply dropout to the softmax output
+        if self.training:
+            dropout_prob = np.random.rand()
+            if dropout_prob > dropout_p:
+                dropout_mask = torch.ones_like(attn_weights).float().bernoulli_(1 - dropout_p)
+                attn_weights = attn_weights * dropout_mask
+ 
+         # Compute the dot product of the dropout output and the value tensor
+        output = torch.einsum('bhqd,bhd->bhqd', attn_weights, [2])
+ 
+        # Transpose the resulting tensors to a linear index tensor with the shape (bs, nheads, lq, lv)
+        permute_mask = torch.ones(query.shape[0], self.heads * 3).triu_(diagonal=1).bool()
+        output = torch.transpose(output, -2, -1)[permute_mask]
+        attn_weights = torch.transpose(attn_weights, -2, -1)[permute_mask]
+ 
+        # Concatenate the linear index tensor and the dot product output to create a multi-head attention output
+        attn_output = torch.cat((torch.reshape(qk[0], batch_size, -1), output), dim=1)
+ 
+        return attn_weights, attn_output
+ 
+    def _get_scaled_inv_square_root_dim(self, dim):
+        scale_factor = np.sqrt(2.0 / (self.heads * (head_dim ** 3)))  # sqrt(2/dim)
+        return torch.tensor(scale_factor).to(attn_weights.device) 
+```
+

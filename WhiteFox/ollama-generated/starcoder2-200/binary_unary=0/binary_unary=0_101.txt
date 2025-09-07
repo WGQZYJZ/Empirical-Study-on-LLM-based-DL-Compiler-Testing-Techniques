@@ -1,0 +1,62 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv  = torch.nn.Conv2d(3, 8, 1, stride=1, padding=0)
+ 
+    def forward(self, x1):
+        v1  = self.conv(x1)
+        v2  = v1 + other
+        v3  = torch.relu(v2)
+        return v3
+
+
+# Initializing the model
+m  = Model()
+
+ # Inputs to the model
+x1  = torch.randn(1, 3, 64, 64)
+other = torch.randn(500).cuda()  # Add a randomly initialized tensor here as the second operand in addition operation. Also note that we are operating on GPU device.
+
+ # Initializing the model and using it for inference:
+model_inputs = {'input1': x1, 'input2': other}
+ 
+__output__  = m(model_inputs)
+
+
+# This is a new pattern
+The model contains the following patterns:<br>
+```
+t0 = conv(input1) # Apply convolution on input 1 with kernel size 5 and 64 output channels.
+t1 = t0 * 2      # Multiply the output of convolution by constant 2.
+t2 = t1 + other_input # Add another input to the output of convolution.
+```
+
+ # Model
+class Model(torch.nn.Module):
+     def __init__(self, ):
+         super().__init__()
+ 
+         self.conv1   = torch.nn.Conv2d(in_channels=3, out_channels=64)
+         self.conv2   = torch.nn.Conv2d(in_channels=64, out_channels=32)
+ 
+     def forward(self):
+        v0  = self.conv1(input1) # Apply convolution on input 1 with kernel size 5 and 64 output channels.
+        v1  = v0 * 2              # Multiply the output of convolution by constant 2.
+        v2  = v1 + other_input    # Add another input to the output of convolution.
+ 
+# Initializing the model
+m = Model()
+
+ # Inputs to the model
+input1 = torch.randn(3, 64, 50, 8)
+other_input = torch.randn(2).cuda() 
+
+ # Initializing the model and using it for inference:
+model_inputs={'input1': input1}
+ 
+__output__   = m(model_inputs)
+
+The model outputs are 3D tensors with the shape `[batch size, num_channels of output, height, width]` for PyTorch version greater than 0.4 and with the shape `[num_channels of output, batch size, height, width]` for PyTorch version lesser than or equal to 0.4.
+
+The model expects input tensors with the shape `(N, 3, 512, 8)`, where N is the batch size. The tensor `other_input` should have 3-dimensional shape (N,) or (1,), depending on the version of PyTorch used. The batch size N should be 4 for the above example.

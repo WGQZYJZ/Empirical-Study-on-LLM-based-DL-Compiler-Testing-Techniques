@@ -1,0 +1,11 @@
+split_size  = torch.prod(input_tensor.shape[dim])
+split_tensor  = input_tensor[::split_size] # Split the input tensor into several tensors along a given dimension
+concatenated_tensor  = torch.cat([split_tensors[i] for i in range(len(split_sizes))], dim)  # Concatenate the split tensors along the same dimension
+split_size  = torch.prod(input_tensor.shape[dim])
+indices  = torch.randperm(split_size).reshape((1, split_size))[0] # Reordering a vector of integers into another shape using permute operator.
+split_tensor  = input_tensor[indices] # Split the input tensor into several tensors along a given dimension
+concatenated_tensor  = torch.cat([split_tensors[i] for i in range(len(split_sizes))], dim)  # Concatenate the split tensors along the same dimension
+split_size  = torch.prod(input_tensor.shape[dim])
+indices  = torch.randperm(split_size).reshape((1, split_size))[0] # Reordering a vector of integers into another shape using permute operator.
+split_tensor  = input_tensor[:, indices] # Split the input tensor along dimension d and then extract a sub-block along given dimensions
+concatenated_tensor  = torch.cat([split_tensors[i] for i in range(len(split_sizes))], dim)  # Concatenate the split tensors along the same dimension

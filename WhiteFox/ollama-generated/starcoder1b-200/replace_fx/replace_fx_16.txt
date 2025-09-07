@@ -1,0 +1,29 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+
+    @staticmethod
+    def replace_dropout_with_lowmem_dropout(*args, **kwargs):
+        # Replace torch.nn.functional.dropout with lowmem_dropout.
+        # This function is invoked in a static method.
+        node = args[0]
+        delattr(node, 'torch.nn.functional.dropout')
+
+        # Erase the original call to dropout.
+        return m.lowmem_dropout(*args, **kwargs)
+
+    @staticmethod
+    def replace_randlike_with_random(*args, **kwargs):
+        # Replace torch.rand_like with random.
+        # This function is invoked in a static method.
+        node = args[0]
+        delattr(node, 'torch.rand_like')
+
+        return m.random(*args, **kwargs)
+
+
+# Initializing the model
+m = Model()
+```
+

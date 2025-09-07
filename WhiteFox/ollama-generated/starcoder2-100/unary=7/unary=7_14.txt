@@ -1,0 +1,23 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.linear1 = torch.nn.Linear(4, 8)
+        self.linear2 = torch.nn.Linear(736, 80)
+
+    def forward(self, x1):
+        v1  = self.linear1(x1)
+        v2  = v1 * clamp(min=0, max=6, v1 + 3) # Apply the clamped operation
+        v3  = torch.nn.functional.selu(v2) # Apply SELU
+        v4  = self.linear2(v3) 
+        return v4
+
+# Initializing the model
+m = Model()
+
+
+# Inputs to the model (input_tensor in this example is not used by the forward function definition because we do not care about the shape of input tensors and we want to find some kind of pattern that is more complicated than just multiplication by 0.5)
+x1  = torch.randn(8,4) # The shape here can be different from the previous example in that it contains an extra batch dimension
+__output__  = m(x1)
+
+```

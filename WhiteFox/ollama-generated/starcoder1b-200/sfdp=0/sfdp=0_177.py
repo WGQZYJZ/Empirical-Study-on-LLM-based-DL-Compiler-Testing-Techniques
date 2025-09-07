@@ -1,0 +1,9 @@
+query_norm  = query  * scale.unsqueeze(-1).expand(batch, seq_len)  # Scale the query to be unit length
+key_norm    = key   * scale.unsqueeze(-2).expand(batch, num_heads, seq_len, seq_len)
+scaled_attention = softmax((query_norm @ key_norm.transpose(-1, -2))).unsqueeze(-1)
+output  = scaled_attention @ value  # Compute the weighted sum of all heads
+attention_weights = query @ key.transpose(-1, -2).contiguous()
+query_norm          = query  * scale.unsqueeze(-1).expand(batch, seq_len)  # Scale the query to be unit length
+key_norm            = key   * scale.unsqueeze(-2).expand(batch, num_heads, seq_len, seq_len)
+scaled_attention    = softmax((query_norm @ key_norm.transpose(-1, -2))).unsqueeze(-1)  # Compute the softmax of scaled dot product attention weight
+attention_weights   = scaled_attention @ value  # Compute the weighted sum of all heads

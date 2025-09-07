@@ -1,0 +1,20 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv = torch.nn.Conv2d(3, 8, 1, stride=1, padding=1)
+ 
+    def forward(self, x1):
+        v1 = self.conv(x1)
+        qk = torch.matmul(v1, x1.transpose(-2, -1))
+        s_qk = qk.div(inv_scale_factor)
+        softmax_qk = s_qk.softmax(-1)
+        dropout_qk = torch.nn.functional.dropout(softmax_qk, p=dropout_p)
+        return dropout_qk.matmul(value)
+
+# Initializing the model
+m = Model()
+
+
+# Inputs to the model
+x1 = torch.randn(1, 3, 64, 64)

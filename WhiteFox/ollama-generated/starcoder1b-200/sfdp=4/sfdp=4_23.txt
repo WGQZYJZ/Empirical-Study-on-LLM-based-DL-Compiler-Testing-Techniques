@@ -1,0 +1,18 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv = torch.nn.Conv2d(3, 8, 1, stride=1, padding=1)
+
+    def forward(self, x1, x2):
+        # Compute the dot product of the query and key tensors
+        qk = x1 @ x2 / math.sqrt(x1.size(-1))
+        # Add the attention mask to the scaled dot product
+        attn_weight = torch.softmax(qk, dim=-1)
+
+        # Compute the weighted sum of value tensor
+        output = attn_weight @ x2  # Apply softmax on the weights and value
+
+        return output
+```
+The model should be different from the previous one.

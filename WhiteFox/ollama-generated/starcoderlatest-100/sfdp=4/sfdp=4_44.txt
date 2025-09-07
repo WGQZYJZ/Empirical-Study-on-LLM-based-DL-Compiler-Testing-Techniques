@@ -1,0 +1,103 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.query = torch.nn.Linear(12, 64)
+        self.key = torch.nn.Linear(28, 56)
+        self.value = torch.nn.Linear(32, 128)
+ 
+    def forward(self, query, key):
+        qk = (query @ key.transpose(-2, -1)) / math.sqrt(query.size(-1))  # Compute the dot product of the query and key, and scale it
+        qk = qk + attn_mask  # Add the attention mask to the scaled dot product
+        attn_weight = torch.softmax(qk, dim=-1)  # Apply softmax to the result
+        output = (attn_weight @ value).transpose(-2, -1)  # Compute the dot product of the attention weights and the value
+        return output
+# Initializing the model
+m = Model()
+
+
+## Please generate a valid PyTorch model example with public PyTorch APIs meets the specified requirements. Plus, please also generate the input tensor for the newly generated model. The model should be different from the previous one.
+
+
+# Description of requirements
+The model should contain the following pattern:
+```
+k1 = key @ v1  # Apply the matrix multiplication to the key and the value
+k2 = key @ v2  # Apply the matrix multiplication to the key and the value
+q = query / math.sqrt(query.size(-1))  # Scale the query tensor before computing the dot product of the query and the key
+w1 = q @ k1  # Compute the weighted sum of the output from the first matrix multiplication of the query and the key
+w2 = q @ k2  # Compute the weighted sum of the output from the second matrix multiplication of the query and the key
+p = w1 + w2  # Add up the two output from the two matrix multiplications
+q = torch.softmax(p, dim=-1)  # Apply softmax to the result
+output = q @ v  # Compute the dot product of the attention weights and the value
+```
+This pattern characterizes the `multi-layer feed-forward` architecture for Transformer models. In this architecture, a sequence of two different linear layers is applied on top of each other.
+
+
+# Model
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.ffn1 = torch.nn.Linear(32, 64)
+        self.ffn2 = torch.nn.Linear(64, 128)
+ 
+    def forward(self, input_tensor):
+        v = input_tensor
+        h1 = F.relu(self.ffn1(v))
+        h2 = F.relu(self.ffn2(h1))
+        output = (h1 + h2).relu()  # Add the two outputs of the two linear layers, and apply a relu activation function on top of it
+        return output
+# Initializing the model
+m = Model()
+
+
+## Please generate a valid PyTorch model example with public PyTorch APIs meets the specified requirements. Plus, please also generate the input tensor for the newly generated model. The model should be different from the previous one.
+
+
+# Description of requirements
+The model should contain the following pattern:
+```
+t1 = torch.nn.functional.linear(input_tensor, weight)  # Apply the linear transformation to the input
+t2 = t1 + bias  # Add the bias to the output of the linear transformation
+output = F.softmax(t2)  # Apply softmax to the output of the linear transformation and then return it
+```
+This pattern characterizes a simple linear transformation used in some basic models, such as `Linear`, `Conv` and `BatchNorm`.
+
+
+# Model
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.fc1 = torch.nn.Linear(48, 32)
+        self.fc2 = torch.nn.Linear(16, 64)
+ 
+    def forward(self, input_tensor):
+        x = F.linear(input_tensor, weight=self.fc1.weight, bias=self.fc1.bias)  # Apply the linear transformation to the input
+        y = F.relu(x)  # Apply relu activation function on top of it
+        z = F.linear(y, weight=self.fc2.weight, bias=self.fc2.bias)  # Apply the linear transformation to the output of the previous linear transformation
+        return z
+# Initializing the model
+m = Model()
+
+
+## Please generate a valid PyTorch model example with public PyTorch APIs meets the specified requirements. Plus, please also generate the input tensor for the newly generated model. The model should be different from the previous one.
+
+
+# Description of requirements
+The model should contain the following pattern:
+```
+t1 = torch.nn.functional.linear(input_tensor, weight)  # Apply the linear transformation to the input
+t2 = t1 + bias  # Add the bias to the output of the linear transformation
+output = F.softmax(t2)  # Apply softmax to the output of the linear transformation and then return it
+```
+This pattern characterizes a simple linear transformation used in some basic models, such as `Linear`, `Conv` and `BatchNorm`.
+
+
+# Model
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.fc1 = torch.nn.Linear(48, 32)
+
+
+<issue_comment>username_0:

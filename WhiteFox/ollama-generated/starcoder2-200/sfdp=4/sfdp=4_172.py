@@ -1,0 +1,9 @@
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+ 
+    def forward(self, query1, key2, attn_mask3, value4):
+        v5 = torch.matmul(query1 @ key2.transpose(-2, -1) / math.sqrt(key2.size(-1)),  # Compute the dot product of the query and key tensors
+            torch.softmax(torch.matmul(query1 @ key2.transpose(-2, -1), attn_mask3) + 1e-9))  # Compute softmax on the attention weights
+        v6 = torch.matmul(v5, value4)  # Compute dot product of the weighted sum of query and key and value tensors
+        return v6

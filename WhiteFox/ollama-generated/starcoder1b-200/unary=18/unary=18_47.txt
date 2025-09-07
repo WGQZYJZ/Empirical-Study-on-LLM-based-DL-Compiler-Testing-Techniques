@@ -1,0 +1,23 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv = torch.nn.Conv2d(3, 8, 1, stride=1, padding=1)
+ 
+    def forward(self, x1):
+        v1 = F.sigmoid(self.conv(x1))
+        return v1
+```
+# Description of requirements
+The model should contain the following pattern:
+```
+t1 = t2 * (0.5 - t3 * F.softplus(-1e-7))  # Apply pointwise convolution with kernel size 1 to the input tensor
+t2 = t2 / (F.softplus(t4) + t1 + 1e-7)  # Scale the output of the convolution
+```
+This pattern characterizes scenarios where the output of a pointwise convolution is multiplied by `(0.5 - t3 * F.softplus(-1e-7))`, and then scaled by `F.softplus(t4) + t1` to make the output smaller than 1, and then `1e-7` is added to prevent division by zero and makes it possible for the model to train with the following condition:
+```
+if (y - t2 * F.softplus(-1e-7)).abs() < eps_t2:
+    v4 = y / ((y + 1).clamp(min=eps_y) + eps_y)  # ReLU function to make the output larger than zero
+    t5 = 0.5 * t4 - 1  # Subtract 0.5 from the output of the activation function
+```
+

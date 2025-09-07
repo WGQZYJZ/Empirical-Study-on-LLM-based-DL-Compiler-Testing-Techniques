@@ -1,0 +1,84 @@
+
+
+# Model #2
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv = torch.nn.Conv2d(3, 8, 1, stride=1, padding=1)
+ 
+    def forward(self, x1):
+        v1 = self.conv(x1)
+        v2 = torch.addmm(v1, torch.eye(64), torch.eye(64).t())
+        return v2
+
+
+# Model #3
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv = torch.nn.Conv2d(3, 8, 1, stride=1, padding=1)
+ 
+    def forward(self, x1):
+        v1 = self.conv(x1)
+        v2 = torch.addmm(v1, torch.eye(64), torch.eye(64).t())
+        return v2
+
+
+# Model #4
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv = torch.nn.Conv2d(3, 8, 1, stride=1, padding=1)
+ 
+    def forward(self, x1):
+        v1 = self.conv(x1)
+        v2 = torch.addmm(v1, torch.eye(64), torch.eye(64).t())
+        return v2
+
+
+# Model #6
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv = torch.nn.Conv2d(3, 8, 1, stride=1, padding=1)
+ 
+    def forward(self, x1):
+        v1 = self.conv(x1)
+        v2 = torch.addmm(v1, torch.eye(64), torch.eye(64).t())
+        return v2
+
+
+# Model #7
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv = torch.nn.Conv2d(3, 8, 1, stride=1, padding=1)
+ 
+    def forward(self, x1):
+        v1 = self.conv(x1)
+        v2 = torch.addmm(v1, torch.eye(64), torch.eye(64).t())
+        return v2
+
+
+# Model #9
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv = torch.nn.Conv2d(3, 8, 1, stride=1, padding=1)
+ 
+    def forward(self, x1):
+        v1 = self.conv(x1)
+        v2 = torch.addmm(v1, torch.eye(64), torch.eye(64).t())
+        return v2
+
+
+# Model #11
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv = torch.nn.Conv2d(3, 8, 1, stride=1, padding=1)
+ 
+    def forward(self, x1):
+        v1 = self.conv(x1)
+        v2 = torch.addmm(v1, torch.eye(64), torch.eye(64).t())
+        return v2

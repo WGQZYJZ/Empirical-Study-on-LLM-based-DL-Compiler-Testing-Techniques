@@ -1,0 +1,31 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.linear  = torch.nn.Linear(3, 1)
+ 
+    def forward(self, x1):
+        l1  = self.linear(x1)
+        l2  = l1 + 3 
+        l3  = torch.clamp_min(l2, 0) 
+        l4  = torch.clamp_max(l3, 6)
+        l5  = l4 / 6
+        return l5
+
+# Initializing the model<|end_of_code|>
+m = Model()
+
+
+Inputs to the model<|end_of_code|>
+x1 = torch.randn(20, 3, 1)
+__output__  = m(x1).shape
+
+## Description of requirements<|end_of_code|>
+The model should contain the following pattern: 
+
+```
+l1=torch.mean(input_tensor, dim=0)#Apply the mean function along dimension 0 to an input tensor.
+l2=l1/6#Divide the output of applying the mean function by 6.
+```
+This pattern characterizes scenarios where a model takes an input tensor and applies its mean across one dimension in order to reduce the size of each batch. By performing division by 6 at the end, you can ensure that the resulting vector or matrix contains a constant number of elements divided equally among each component.
+

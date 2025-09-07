@@ -1,0 +1,32 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.attn = torch.nn.MultiheadAttention(3, 16)
+ 
+    def forward(self, x, k, v, attn_mask=None):
+        qk = self.attn(x, k, v, attn_mask)[0]
+        return qk
+
+
+# Initializing the model
+m = Model()
+
+
+# Inputs to the model
+x = torch.randn(1, 3, 64, 64)
+k = torch.randn(1, 16, 64, 64)
+v = torch.randn(1, 16, 64, 64)
+attn_mask = torch.ones((1, 1, 64, 64), dtype=torch.bool)
+
+
+# _________________________________________________________________________________________________________________________ #
+
+# Description of requirements
+The model should contain the following pattern:
+```
+qk = self.attn(x, k, v, attn_mask)[0]
+output = torch.sum(qk, dim=-2)  # Reduce sum along last dimension
+return output
+```
+

@@ -1,0 +1,14 @@
+import torch
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+ 
+    def forward(self, query, key, value):
+         scaled_qk  = self._compute_dot_product(query, key) * scale_factor # Scale the dot product by a factor
+         softmax_qk = scaled_qk.softmax(-1) # Apply softmax to the scaled dot product
+         dropout_qk = torch.nn.functional.dropout(softmax_qk, p=dropout_p) # Apply dropout to the softmax output
+         output  = dropout_qk.matmul(value)# Compute the dot product of the dropout output and the value tensor
+         return output
+ 
+    def _compute_dot_product(self, query: torch.Tensor, key: torch.Tensor):
+        

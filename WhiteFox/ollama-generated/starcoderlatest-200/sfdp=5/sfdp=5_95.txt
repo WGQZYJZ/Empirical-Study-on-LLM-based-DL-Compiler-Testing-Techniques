@@ -1,0 +1,67 @@
+
+class AttentionLayer(torch.nn.Module):
+    def __init__(self, num_attn_heads: int = 8, dropout_p: float = 0.1):
+        super().__init__()
+
+        self.attn_norm = torch.nn.LayerNorm(normalized_shape=[256])
+        self.layer_norm = torch.nn.LayerNorm(normalized_shape=[192])
+        self.scale = math.sqrt(num_attn_heads)
+
+        # Attention Heads
+        self.attn_layer_norm_1 = torch.nn.LayerNorm(normalized_shape=[320])
+        self.attn_conv_qkv_1 = torch.nn.Conv2d(in_channels=256, out_channels=96, kernel_size=(1, 1), stride=1, padding=(0, 0))
+        self.attn_layer_norm_2 = torch.nn.LayerNorm(normalized_shape=[96])
+
+        self.attn_conv_qkv_2 = torch.nn.Conv2d(in_channels=96, out_channels=192, kernel_size=(1, 1), stride=1, padding=(0, 0))
+        self.attn_fc_o_linear = torch.nn.Linear(in_features=192, out_features=num_attn_heads * 384)
+
+        # Feed Forward Layer
+        self.ff_layer_norm_1 = torch.nn.LayerNorm(normalized_shape=[1024])
+        self.ff_conv_qkv_1 = torch.nn.Conv2d(in_channels=192, out_channels=384, kernel_size=(1, 1), stride=1, padding=(0, 0))
+
+        # Final Fully Connected Layer
+        self.output_layer = torch.nn.Linear(in_features=num_attn_heads * 384, out_features=768)
+
+    def forward(self, query: torch.Tensor, key: torch.Tensor, value: torch.Tensor, attn_mask: torch.Tensor):
+        qk = self.attn_conv_qkv_1(self.attn_norm(query))  # (B, H, T, C // H) * (B, C // H, H, T) + (B, H, T, C // H) @ (B, C // H, H, T) => (B, H, T, H)
+        qk = torch.transpose(qk, dim0=1, dim1=2) # Transpose the result of dot product to be compatible with convolution operation.
+
+        o  = self.attn_fc_o_linear(self.attn_layer_norm_1(self.attn_conv_qkv_2(self.attn_layer_norm_2(qk)) + qk))
+        # (B, H, T, C // H) * (B, H, T, C // H) @ (B, C // H, OH, OW) => (B, H, T, O)
+
+        o = torch.transpose(o, dim0=1, dim1=2) # Transpose the result of dot product to be compatible with convolution operation.
+        o = o.reshape((o.shape[0], -1)) # Reshape into shape (B, O) => (B, H * T, O)
+
+        qk = self.ff_conv_qkv_1(self.ff_layer_norm_1(o))  # (B, H * T, C // H) @ (B, H * T, OH, OW) => (B, H * T, O)
+
+        output = torch.matmul(qk, value.transpose(-2, -1)).contiguous()
+        # Attention Output: Query*Key^T + V
+        output = self.scale * output  # Scale the attention output to make it a probability distribution
+
+        return output
+
+class Model(torch.nn.Module):
+    def __init__(self, num_attn_heads: int = 8, dropout_p: float = 0.1):
+        super().__init__()
+        
+        self.attention_layer = AttentionLayer(num_attn_heads=num_attn_heads)
+
+    def forward(self, x1):
+        v6 = self.attention_layer(query=x1, key=v5, value=v6, attn_mask=t6)
+
+        return v6
+```
+This pattern characterizes the transformer models as described in [Attention is all you need](https://arxiv.org/abs/1706.03762).
+
+
+# Model
+class AttentionLayer(torch.nn.Module):
+    def __init__(self, num_attn_heads: int = 8, dropout_p: float = 0.1):
+        super().__init__()
+
+        self.layer_norm_q = torch.nn.LayerNorm(normalized_shape=[576])
+        self.conv_qkv_q = torch.nn.Conv2d(in_channels=384, out_channels=576, kernel_size=(1, 1), stride=1, padding=(0, 0))
+
+        # Attention Heads
+        self.attn_layer_norm_1 = torch.nn.LayerNorm(normalized_shape=[288])
+        self.attn_conv_qkv_1 = torch.nn.Conv2d(self._)

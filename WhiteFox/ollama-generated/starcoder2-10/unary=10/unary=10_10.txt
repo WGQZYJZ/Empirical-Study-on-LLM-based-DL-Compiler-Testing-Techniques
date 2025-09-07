@@ -1,0 +1,22 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.linear  = torch.nn.Linear(32, 8)
+ 
+    def forward(self, x1):
+        v1  = self.linear(x1) # Applying a linear transformation to an input tensor
+        v2  = v1 + 3 
+        v3  = torch.clamp_min(v2, 0)
+        v4  = torch.clamp_max(v3, 6)
+        v5  = v4 / 6 # Divide the output of the clamp operation by 6 to implement a scaled and shifted ReLU6 activation function
+        return v5
+
+
+# Initializing model
+m = Model()
+
+# Input tensor for model
+x1  = torch.randn(32)
+
+ __output__  = m(x1)

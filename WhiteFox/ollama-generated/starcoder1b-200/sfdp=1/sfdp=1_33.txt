@@ -1,0 +1,58 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.query  = torch.nn.Linear(d_model, d_k)
+        self.key    = torch.nn.Linear(d_model, d_k)
+        self.value  = torch.nn.Linear(d_model, d_v)
+ 
+    def forward(self, x1):
+        # Compute the dot product of the query and key tensors
+        kq  = self.query(x1).matmul(self.key.transpose(-2, -1))  # The output shape is [batch_size * seq_len * d_k, seq_len]
+        # Scale the dot product by an inverse scale factor
+        scaled_qk = kq.div(math.sqrt(self.d_k) * self.scale_factor)  # Divide the dot product by the inverse scale factor
+        # Apply softmax to the scaled dot product
+        softmax_qk = torch.nn.functional.softmax(scaled_qk, dim=-1)  # The output shape is [batch_size * seq_len * d_k]
+        # Apply dropout to the softmax output
+        dropout_qk = torch.nn.functional.dropout(softmax_qk, p=dropout_p)  # The output shape is [batch_size * seq_len]
+        # Compute the dot product of the dropout output and the value tensor
+        output = dropout_qk.matmul(self.value(x1))  # The output shape is [batch_size]
+```
+This pattern characterizes scenarios where the dot product of a query, key and value tensors is computed, then scaled by an inverse scale factor, then softmax is applied, then dropout is applied, and finally the dot product of the dropout output and the value tensor is computed. The attention mechanism of Transformer models often uses this method to calculate the output for a given position in a sequence. This pattern characterizes scenarios where the dot product of the query, key, and value tensors is multiplied by `scale_factor`, then the softmax function is applied to the scaled dot product, and then dropout is applied to the softmax output.
+
+
+# Description of requirements
+The model should contain the following pattern:
+```
+attn = torch.matmul(query, key)  # Compute the dot product of the query and key tensors
+scaled_attention = attn.div_(math.sqrt(d_k) * scale_factor)  # Scale the dot product by an inverse scale factor
+softmax_attention = scaled_attention.softmax(-1)  # Apply softmax to the scaled dot product
+attn_output = (softmax_attention / math.sqrt(d_k)) * value  # The output shape is [batch_size * seq_len, seq_len]
+```
+This pattern characterizes scenarios where the dot product of a query and key tensor is computed, then scaled by an inverse scale factor, then softmax is applied to the scaled dot product, and then `scale_factor` times `softmax(x)` (where `x = softmax(x)`) is added to all elements in the dropout output, which multiplies the output of a pointwise convolution with the output of the error function, so that it contains the summation between the two components.
+
+
+# Model
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.query  = torch.nn.Linear(d_model, d_k)
+        self.key    = torch.nn.Linear(d_model, d_k)
+        self.value  = torch.nn.Linear(d_model, d_v)
+ 
+    def forward(self, x1):
+        # Compute the dot product of the query and key tensors
+        kq  = self.query(x1).matmul(self.key.transpose(-2, -1))  # The output shape is [batch_size * seq_len * d_k, seq_len]
+        # Scale the dot product by an inverse scale factor
+        scaled_qk = kq.div(math.sqrt(self.d_k) * self.scale_factor)  # Divide the dot product by the inverse scale factor
+        # Apply softmax to the scaled dot product
+        softmax_qk = torch.nn.functional.softmax(scaled_qk, dim=-1)  # The output shape is [batch_size * seq_len * d_k]
+        # Compute the dropout output
+        # We multiply attn_output by `scale_factor` first so that the two components contribute in a summation process, and then we add a constant `1.0` to all elements of this tensor (as done in the attention mechanism), which makes it be equal to `softmax(x) / sqrt(d_k)`
+        attn_output = (softmax_qk / math.sqrt(self.d_k)) * scaled_attention  # The output shape is [batch_size * seq_len, seq_len]
+        # Apply dropout to the softmax output
+        dropout_qk = torch.nn.functional.dropout(attn_output, p=dropout_p)  # The output shape is [batch_size * seq_len]
+        # Compute the dot product of the dropout output and the value tensor
+        output = dropout_qk.matmul(self.value(x1))  # The output shape is [batch_size]
+```
+This pattern characterizes scenarios where the dot product of a query, key and value tensors is computed, then scaled by an inverse scale factor, then else if endif for for for for for for for for for for for for for for for for for for for for for for for for for for for for for for for

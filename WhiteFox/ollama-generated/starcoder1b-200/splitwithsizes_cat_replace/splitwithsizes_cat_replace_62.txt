@@ -1,0 +1,22 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+
+    def is_valid_splitwithsizes_cat(self, sizes):
+        return True
+
+    def forward(self, x1):
+        if self.is_valid_splitwithsizes_cat([64, 32]):
+            x2 = torch.zeros((1,), dtype=torch.float)
+        elif self.is_valid_splitwithsizes_cat([10, 20]):
+            x2 = torch.zeros((5, ), dtype=torch.float)
+        else:
+            raise RuntimeError("This model can't be used as a valid test case because some parts are invalid.")
+        return x2
+
+
+# Inputs to the model
+__input_tensor__ = torch.randn(10, 3, 64, 64)
+output = m(__input_tensor__)
+```

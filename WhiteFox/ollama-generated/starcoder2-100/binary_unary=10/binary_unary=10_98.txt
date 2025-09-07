@@ -1,0 +1,15 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.linear = torch.nn.Linear(32*32*8, 4)
+ 
+    def forward(self, x1):
+        v1  = self.linear(x1)
+        v2  = v1 + other_tensor # add another tensor
+        v3  = relu_(v2) 
+        return v3
+
+# Initializing the model
+m = Model()
+

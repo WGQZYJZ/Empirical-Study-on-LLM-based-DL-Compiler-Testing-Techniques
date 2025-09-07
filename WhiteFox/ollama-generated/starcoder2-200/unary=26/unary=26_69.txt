@@ -1,0 +1,111 @@
+
+class Model(torch.nn.Module):
+    def __init__(self, negative_slope=0.2534879713764739):
+        super().__init__()
+        self.convt = torch.nn.ConvTranspose2d(
+            in_channels=8, out_channels=3, kernel_size=(1, 1), stride=(1, 1), padding=(0, 0))
+
+    def forward(self, x1):
+        v1 = self.convt(x1)
+
+        v2 = (v1 > 0).to(torch.bool)
+        v3 = negative_slope * v1
+        
+        v4 = torch.where(v2, v1, v3)
+        return v4
+
+# Initializing the model
+m  = Model()
+
+ # Inputs to the model
+ x1 = torch.randn(1, 8, 64, 64)
+__output__= m(x1)
+ 
+
+# Description of requirements
+The model should contain the following pattern:
+```
+t1 = batchnorm2d_layer(input_tensor) # Apply BatchNorm to the input tensor.
+t2 = torch.cat((t1, t3), 1) # Concatenate tensors on dimension 0 with dim_size 8 and dim_size 3 along dim=1. This is a typical pattern for concatenating two BatchNorm layers to form a single BatchNorm layer with more channels.
+```
+This pattern characterizes scenarios where a BatchNorm layer is applied to an input tensor, then the output of that batchnorm is concatenated with another batchnorm layer to create a new batchnorm. This can be done for any dimension size, which helps in creating BatchNorm layers.
+
+ # Model
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+ 
+    def forward(self, x1):
+        
+        v4 = torch.cat((v3, t2), 1)
+
+        return v4
+
+# Initializing the model
+m = Model()
+
+ # Inputs to the model
+ x1=torch.randn(batch_size, dim0) 
+ x2=torch.randn(batch_size, 8*dim0)
+ t3 = torch.randn(batch_size, 4*dim0).cuda().detach()
+ 
+ __output__=m(x1, x2)
+ 
+ 
+ 
+# Description of requirements
+The model should contain the following pattern:
+```
+t1 = batchnorm1d(input_tensor) # Apply BatchNorm to the input tensor.
+t2 = convtranspose1d(input_tensor) # Apply pointwise transposed convolution on the input tensor. 
+t3 = torch.concat((t1, t2), dim=dim0) # Concatenate tensors along dim=2 with dim_size 4*dim0
+```
+This pattern characterizes scenarios where a BatchNorm layer is applied to an input tensor and then a pointwise transposed convolution is applied on the output of the batchnorm. The output of the convtranspose is concatenated with another BatchNorm layer to create a new batchnorm with 2x dim_size 4*dim0 channels. This can be done for any dimension size, which helps in creating BatchNorm layers.
+
+ # Model
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+ 
+    def forward(self, x1):
+        
+        v3 = torch.cat((t2, t3), 0)
+
+        return v3
+# Initializing the model
+m=Model()
+
+ # Inputs to the model
+x1 =torch.randn(batch_size*4*dim0).cuda().detach() 
+x2 = torch.randn(4 * dim0).cuda().detach()
+t3 = torch.randn(5*dim0, 8*dim0) 
+ __output__=m(x1)
+
+ # Description of requirements
+The model should contain the following pattern:
+```
+t1 = batchnorm2d_layer(input_tensor) # Apply BatchNorm to the input tensor.
+t2 = convtranspose2d(input_tensor)  # Apply pointwise transposed convolution on the input tensor with kernel size (3, 5).
+t3 = torch.concat((t1, t2), dim=dim0)  # Concatenate tensors along dimension dim 0 with dimsize 4*dim1. This is a typical pattern for concatenating two batchnorm layers to form one single batchnorm layer.
+```
+This pattern characterizes scenarios where BatchNorm and pointwise transposed convolution are applied on an input tensor, then they are concatenated on a specified dimension. It can be used for any dimension size such as dim0 or dim1, which helps in creating batchnorm layers with more channels.
+
+ # Model
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+ 
+    def forward(self, x1):
+        
+        v3 = torch.concat((t2, t3), 0)
+
+        return v3
+# Initializing the model
+m=Model()
+
+ # Inputs to the model
+x1 =torch.randn(batch_size*4*dim0).cuda().detach()
+ __output__= m(x1)
+
+ 
+ 

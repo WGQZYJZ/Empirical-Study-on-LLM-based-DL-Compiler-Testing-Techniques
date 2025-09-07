@@ -1,0 +1,9 @@
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.mm = torch.nn.Linear(784, 10)
+ 
+    def forward(self, x):
+       inp = torch.randn(65536 * 2) # Initialize the input tensor
+       v1  = torch.mm(x, x) + inp # Perform matrix multiplication on two input tensors 'inp' and 'x', and then add the result to 'inp'.
+       return self.mm(v1)

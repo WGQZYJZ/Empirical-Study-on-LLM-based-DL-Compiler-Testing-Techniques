@@ -1,0 +1,55 @@
+
+class Model(torch.nn.Module):
+    def __init__(self, d_k, d_v):
+        super().__init__()
+        self.d_k = d_k
+        self.d_v = d_v
+        self.gamma = nn.Parameter(torch.zeros((d_k,)))  # Pre-computed matrix for normalization
+        self.beta = nn.Parameter(torch.zeros((d_v,))) # Pre-computed matrix for scaling values by (sqrt(d_k))^0.5
+        self.softmax = nn.Softmax(-1)  # Initialize softmax layer
+
+    def forward(self, x1, x2):
+        batch_size = x1.shape[0]
+
+        # Get the mask to make it same length of queries and keys and then zero-pad as necessary
+        assert (x1.shape[1:] == x2.shape[1:])  # Shape of input tensors must be same
+        x1 = torch.nn.functional.pad(x1, (0, 0, 0, 0), mode='constant', value=0)
+        x2 = torch.nn.functional.pad(x2, (0, 0, 0, 0), mode='constant', value=0)
+
+        # Compute the mask to make the output attn_mask same length as query and key and then zero-pad as necessary
+        attn_mask = self._make_attn_mask(x1.shape[1:])  # Compute mask for same shape as inputs
+        x1 = torch.nn.functional.dropout(x1, p=self.beta) # Perform dropout on input
+        x2 = torch.nn.functional.dropout(x2, p=self.beta)
+
+        # Compute attn_weight as softmax of scaled dot product (qk^T @ v) + mask
+        qk = self._dot(x1, x2, transpose=False, masked=attn_mask)  # Compute Q @ K
+        qk = torch.nn.functional.dropout(qk, p=self.beta) # Perform dropout on scaled dot product output
+        attn_weight = self.softmax(qk)  # Apply softmax to the result
+
+        # Compute value as (qk^T @ v)^T + mask
+        kv = self._dot(x1, x2, transpose=True, masked=attn_mask)  # Compute K @ V
+        kv = torch.nn.functional.dropout(kv, p=self.beta) # Perform dropout on dot product output
+        value = self._dot(qk, kv, transpose=False, masked=attn_mask) + self.gamma # Add the computed value to scaled dot product
+
+        return value
+
+    def _make_attn_mask(self, x):
+        batch_size, max_len, *_ = x.shape
+        mask = torch.tril(torch.ones((batch_size, batch_size)), diagonal=0)  # Compute mask for the input tensor (avoid calculating it in the future)
+        mask[(x >= -1) & (x <= 1)] = float('-inf')  # Make sure that mask is infinite except at (0,0) of an integer value
+        return mask
+
+    def _dot(self, x1, x2, transpose, masked):
+        batch_size, len_q, *_ = x1.shape
+        assert (len_q == len_k)  # Shape of query and key tensors must be same
+        if not transpose:
+            x1 = torch.reshape(x1, (-1, len_q))  # Reshape the input tensor (batch size x seq length -> seq length x batch size)
+            x2 = torch.reshape(x2, (-1, len_k))
+        dot = torch.einsum('ijk,iabc,jbc->iajb', x1, x2, transpose=True)  # Perform the dot product of input tensors
+        if masked:
+            return dot * masked + self.gamma * (dot < -10).float() + (1 - masked) * (dot > 10).float()  # Add scaled value to dots and mask
+        else:
+            return dot
+```
+This pattern characterizes the Transformer model in the paper: [Attention Is All You Need](https://arxiv.org/pdf/1706.03762.pdf), which is a neural network-based technique for language models.
+

@@ -1,0 +1,13 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.dropout = torch.nn.functional.dropout
+
+    # Add code for the new model here...
+
+    def forward(self, x1):
+        v1  = x1.permute(0, 2, 1)  # Permute to be a linear transformation on input_tensor
+        v2  = self.dropout(v1)    # Dropout is implemented in the fallback module
+        return v2
+```

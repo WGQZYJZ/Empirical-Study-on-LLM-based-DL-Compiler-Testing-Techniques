@@ -1,0 +1,15 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv = torch.nn.ConvXd(...)  # X can be 1, 2, or 3 representing the dimension
+        self.bn   = torch.nn.BatchNormXd(...)  # X should match with ConvXd
+
+    @torch.jit._trace_module
+    def forward(self, input):
+        output = self.bn(input)
+        return self.conv(output)
+
+
+# Inputs to the model
+x1 = torch.randn(1, 2, 2)

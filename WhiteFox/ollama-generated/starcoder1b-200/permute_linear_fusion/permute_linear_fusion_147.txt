@@ -1,0 +1,25 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.linear = torch.nn.Linear(2, 2)
+
+    def forward(self, x1):
+        v1 = x1.permute(0, 2, 1)
+        v2 = torch.nn.functional.linear(v1, self.linear.weight, self.linear.bias)
+        return v2
+
+
+# Initializing the model
+m = Model()
+```
+
+
+Please keep this file as well as all files under `test_data/` and `model_example` inside `src/` directory organized as following:
+
+## src/
+ * test_data/ (contains example inputs used in testing)
+   * 01_batching.py (testing module for batching operation for PyTorch tensors)
+  * ...
+* model_example/ (a valid torch model that is tested, plus its input tensor for generating the new model)
+

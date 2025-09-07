@@ -1,0 +1,68 @@
+
+class ScaledDotProductAttention(torch.autograd.Function):
+    @staticmethod
+    def forward(ctx, query, key, value, scale=None):
+        if isinstance(scale, torch.Tensor):
+            return ScaledDotProductAttention_backward(query, key, value, scale)
+        else:
+            # Calculate the scaled dot product and normalize
+            scaled_dot_product = torch.matmul(query, key.transpose(-2, -1)) / scale  # [B, T] * [T, K] => [B, T, K]
+            attention_weights = scaled_dot_product.softmax(dim=-1)      # [B, T, K] => [B, T, K]
+            # Calculate the weighted sum of the value tensor with the output of the
+            # query and key tensors.
+            return ScaledDotProductAttention_backward(query, key, value, scale), attention_weights
+
+    @staticmethod
+    def backward(ctx, grad_output):
+        scale = ctx.saved_tensors[1].data
+        grad_input = torch.matmul(grad_output, inverse_scale(scale))  # [B, T, K] * [T, K, B] => [B, T, K]
+        return grad_input
+
+
+# Function to calculate the inverse of the scale
+def inverse_scale(x):
+    if x > 1e-5:
+        return torch.rsqrt(x + 1)  # Reciprocal square root, used as the inversescale
+
+    # If |x| < 1e-5, we don't need to calculate it since
+    # the scale is 1 anyway.
+    raise RuntimeError("inv_scale failed. Scale should not be larger than one.")
+
+
+class ScaledDotProductAttention_backward(torch.autograd.Function):
+    @staticmethod
+    def forward(ctx, query, key, value, scale=None):
+        if isinstance(scale, torch.Tensor):
+            ctx.saved_tensors = (query, key, value, inverse_scale(scale))  # Use the saved values to calculate grad_output
+            return ScaledDotProductAttentionBackward_backward(query, key, value, scale)
+
+        else:
+            # Calculate the scaled dot product and normalize
+            scaled_dot_product = torch.matmul(query, key.transpose(-2, -1)) / scale  # [B, T] * [T, K] => [B, T, K]
+            attention_weights = scaled_dot_product.softmax(dim=-1)      # [B, T, K] => [B, T, K]
+            # Calculate the weighted sum of the value tensor with the output of the
+            # query and key tensors.
+            grad_input = torch.matmul(value, attention_weights.transpose(-2, -1))  # [B, T, K] * [T, K, B] => [B, T, K]
+            return ScaledDotProductAttentionBackward_backward(query, key, value, scale), grad_input
+
+    @staticmethod
+    def backward(ctx, grad_output):
+        query = ctx.saved_tensors[0]
+        key = ctx.saved_tensors[1]
+        value = ctx.saved_tensors[2]
+        inverse_scale = ctx.saved_tensors[3]
+
+        # Calculate the gradients for each input channel in [B, T, K].
+        grad_output = torch.einsum('bhik, bhk->bhi', grad_output, key)  # [B, T, K] * [T, K, B] => [B, T, K]
+
+        # Calculate the gradients for each input channel in [B, T, K].
+        scaled_dot_product = torch.einsum('bhik, bhk->bhi', grad_output, key)  # [B, T, K] * [T, K, B] => [B, T, K]
+        attention_weights = scaled_dot_product.softmax(dim=-1)   # [B, T, K] => [B, T, K]
+
+        # Calculate the gradients for each input channel in [B, T, K].
+        grad_input = torch.einsum('bhik, bhk->bhi', grad_output, value)  # [B, T, K] * [T, K, B] => [B, T, K]
+        grad_input = torch.matmul(grad_input, inverse_scale(inverse_scale * attention_weights))
+
+        return grad_input
+```
+

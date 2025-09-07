@@ -1,0 +1,14 @@
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+ 
+    def forward(self, x1):  # Use one input tensor for the entire model
+        return torch.split(x1, split_sizes=4, dim=0)
+
+
+# Initializing the model
+m = Model()
+
+# Input to the model
+input_tensor = torch.randn(8, 32, 56, 56)
+output = m(input_tensor)

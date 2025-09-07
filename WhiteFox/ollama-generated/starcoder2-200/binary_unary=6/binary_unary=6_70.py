@@ -1,0 +1,21 @@
+import torch
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+
+        self.linear2 = torch.nn.Linear(in_features=480, out_features=3)
+
+    def forward(self, x1):
+        v1 = torch.relu(x1 - other) # Apply ReLU to the result of subtraction 
+        return v1
+m  = Model()
+other  = 27.5
+
+
+__output__  = m(torch.tensor([[0., 1694384.,  21.],
+        [55.,      -7.,    15.],
+        [-99.,      87.,   31.],
+        [9.,       880.,    3.]]))
+
+# 9.1693148272359e-07, 1301014.3470558536, -952.9279065491049
+

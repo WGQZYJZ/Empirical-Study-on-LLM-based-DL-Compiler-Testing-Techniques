@@ -1,0 +1,17 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv = torch.nn.Conv2d(3, 8, 1, stride=1, padding=1)
+ 
+    def forward(self, x1):
+        v1 = torch.cat([x1[:, 0:9223372036854775807], x1], dim=1) # Concatenate the original concatenated tensor and the sliced tensor along dimension 1
+        return self.conv(v1[:, :, :3, :3])
+
+
+# Description of requirements
+The model should contain the following pattern:
+```
+t1 = torch.zeros([20, 5], dtype=torch.float32)  # Create a tensor with shape [20, 5] and data type float32. All entries are zero.
+t2 = torch.arange(20, dtype=torch.int64) # Create a tensor containing even numbers from 0 to 19 (exclusive). Data type is int64. 
+t3 = t1[t2[:, None], t2] # Perform selection of rows and columns in the input tensor by row indices and column indices, respectively.

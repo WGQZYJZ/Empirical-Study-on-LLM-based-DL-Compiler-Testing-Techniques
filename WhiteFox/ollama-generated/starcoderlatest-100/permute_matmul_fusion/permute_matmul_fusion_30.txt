@@ -1,0 +1,46 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.linear = torch.nn.Linear(2, 3)
+
+    def forward(self, x1, x2):
+        v1 = x1.permute(0, 2, 1)
+        v2 = torch.bmm(v1, x2.permute(0, 2, 1)) # or torch.matmul(v1, x2.permute(0, 2, 1))
+        return self.linear(v2)
+
+
+# Inputs to the model
+x1 = torch.randn(1, 3, 4) # A tensor with dimension (B, C, H, W).
+x2 = torch.randn(1, 5, 6) # B tensor with dimension (B, D, H, W).
+
+
+# Please generate a valid PyTorch model example with public PyTorch APIs meets the specified requirements. Plus, please also generate the input tensors for the newly generated model. The model should be different from the previous one.
+
+# Description of requirements
+The model should contain the following pattern:
+```
+t1 = torch.matmul(...)  # Multiply two input tensors.
+t2 = torch.nn.functional.relu(t1)  # Apply ReLU activation to the result of multiplication.
+return t2
+```
+This pattern characterizes scenarios where the tensor method 'matmul' is invoked on one or both input tensors, and then the `torch.nn.functional.relu` function is invoked on the multiplied tensors.
+
+
+# Model
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+
+    def forward(self, x1, x2):
+        t1 = torch.matmul(x1, x2) # Multiply two input tensors.
+        t2 = torch.nn.functional.relu(t1)  # Apply ReLU activation to the result of multiplication.
+        return t2
+
+
+# Inputs to the model
+x1 = torch.randn(1, 5)  # A tensor with dimension (B, D).
+x2 = torch.randn(1, 3)  # B tensor with dimension (B, C).
+
+
+# Please generate a valid PyTorch model example with public PyTorch APIs meets the specified requirements. Plus, please also generate the input tensors for the newly generated model. The model should be different from the previous one.

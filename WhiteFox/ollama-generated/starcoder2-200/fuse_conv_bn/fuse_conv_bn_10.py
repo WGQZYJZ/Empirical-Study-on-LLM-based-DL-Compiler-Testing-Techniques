@@ -1,0 +1,24 @@
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.linear  = torch.nn.Linear(2, 4)
+
+    def forward(self, x1):
+      v1  = x1.permute(0, 2, 1) # permute the input tensor 
+      v2  = torch.nn.functional.linear(v1, self.linear.weight, self.linear.bias)
+      
+      conv_ = torch.nn.Conv2d(4 ,53, [7])
+      bn_   = torch.nn.BatchNormNd([0])
+
+      conv_ = torch.ops._torch.native_fused.fuse_conv_bn(v1, conv_, bn_)
+      
+      return v2, conv_, 
+# Initializing the model 
+m  = Model() 
+
+# Inputs to the model 
+x1  = torch.randn(40,53) # 2-d Tensor. The number of channels is 4 in this example. 
+__output__, conv_,  = m(x1) # This example contains a fused layer.
+
+# A non-fused example: 
+__output__, conv_,  = m_non(x1)

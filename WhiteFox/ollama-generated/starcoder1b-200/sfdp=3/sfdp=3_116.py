@@ -1,0 +1,1 @@
+This pattern characterizes scenarios where the output from a convolution is multiplied by `0.5` and then the input to that convolution is multiplied by `0.7071067811865476`, so the error function `torch.erf()` is applied, and then the result of the error function is added to the output, resulting in a new value from the model.

@@ -1,0 +1,25 @@
+
+class ScaledDotProductAttention(torch.nn.Module):
+    def __init__(self, dim: int, inv_scale=1.0):
+        super().__init__()
+
+        self.dim = dim
+        self.inv_scale  = torch.tensor([float(inv_scale)], dtype=torch.float32)
+ 
+    @torch.no_grad()
+    def forward(self, query, key, value):
+        
+        # Compute the scaled dot product
+        scaled_dot_product  = torch.matmul(query, key.transpose(-2, -1)) / self.inv_scale
+
+        # Softmax on the last dimension of scaled dot product to compute attention weights
+        attention_weights  = scaled_dot_product.softmax(dim=-1)
+        
+        output = attention_weights.matmul(value)
+
+        return output
+```
+
+# Initializing the model
+sdpa = ScaledDotProductAttention()
+

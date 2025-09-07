@@ -1,0 +1,31 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.linear = torch.nn.Linear(2, 2)
+
+    def forward(self, x1):
+        v1 = x1.permute(0, 2, 1)
+        v2 = torch.nn.functional.linear(v1, self.linear.weight, self.linear.bias)
+        return v2
+
+
+# Initializing the model
+m = Model()
+
+# Inputs to the model
+x1 = torch.randn(1, 2, 2)
+__output = m(x1)
+
+```
+The above example of a class is not allowed because there's no class instance can be created. Therefore, you need to define the `Model` class outside. Note that it's recommended to initialize the `Model` class in __init__, since otherwise you will encounter the problem: "TypeError: __init__() missing 1 required positional argument: 'self'".
+
+## How to run
+```shell script
+python scripts/generate_model_example.py --file [input model file] -o [output model example file name (with extension)]
+python scripts/verify_model_correctness.py --input-name [the name of the generated input tensor in this model file] --model-name [the name of the generated model class in this model file]
+```
+The script will run `torch.nn.functional.linear` to verify whether the inputs and outputs are valid.
+
+## Citation
+Please cite our paper if you find it useful: https://arxiv.org/abs/2005.12847

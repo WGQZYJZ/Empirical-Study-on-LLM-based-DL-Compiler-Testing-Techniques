@@ -1,0 +1,25 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv_transpose = torch.nn.ConvTranspose2d(3, 8, 1, stride=1, padding=0)
+ 
+    def forward(self, x1):
+        v1 = self.conv_transpose(x1)
+        v2 = torch.sigmoid(v1)
+        return v2
+```
+
+
+# Expected outputs
+| Output of conv_transpose | Actual output of the model |
+|---|---|
+| t1  | (180,  3,  64,  64)  |
+| t2  | tensor([[0.0753],
+        [0.0978],
+        [0.1203],
+        ...,
+        [0.2752],
+        [0.2976],
+        [0.32    ]]) |
+

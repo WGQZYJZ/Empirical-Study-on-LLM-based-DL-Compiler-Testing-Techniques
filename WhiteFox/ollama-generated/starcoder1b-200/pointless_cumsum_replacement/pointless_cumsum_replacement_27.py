@@ -1,0 +1,1 @@
+This pattern characterizes scenarios where a tensor is created with the specified dtype and layout, then the elements of the tensor are converted to the specified dtype, then the elements in the tensor are summed along dimension `1`, then the resulting tensor is flattened, and then the elements are concatenated.

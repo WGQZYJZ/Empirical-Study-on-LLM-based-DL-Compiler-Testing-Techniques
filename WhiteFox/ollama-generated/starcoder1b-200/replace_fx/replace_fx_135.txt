@@ -1,0 +1,33 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+
+    @staticmethod
+    def _fake_function1(x, y=None):
+        return x
+
+    @staticmethod
+    def _fake_function2(z):
+        return z
+
+
+def fake_function3(*args):
+    ...
+
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+
+        self._fake_function1 = staticmethod(fake_function1)  # `staticmethod` is a built-in keyword in Python 2.7, while `classmethod` is in Python 3.4
+        self._fake_function2 = staticmethod(fake_function2)
+
+    def forward(self):
+        x = torch.randn(...)  # Input to the model
+        return self._fake_function1(x)
+
+
+# Initializing the model
+m = Model()
+```

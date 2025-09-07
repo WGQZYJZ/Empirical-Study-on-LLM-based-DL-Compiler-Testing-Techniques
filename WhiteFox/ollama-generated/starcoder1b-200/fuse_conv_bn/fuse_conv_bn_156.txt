@@ -1,0 +1,24 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv1 = torch.nn.Conv2d(3, 6, kernel_size=5) # X can be 1, 2, or 3 representing the dimension
+        self.bn1   = torch.nn.BatchNorm2d(6)
+        self.pool1 = torch.nn.MaxPool2d((2, 2))
+
+    def forward(self, x):
+        # Input tensor is the input tensor of Conv2d and MaxPool2d
+        # Input tensor can have more than 3 dimensions, but X should match with X of the original conv2d
+        # Output tensor from the convolution layer and max-pool layer can be same type as input_tensor
+        # A fused convolution layer followed by a batch normalization layer should not be added to graph.
+
+        output = self.conv1(x)  # input_tensor will become output of the following conv2d+batchnorm layer
+        output = self.bn1(output)
+        output = self.pool1(output) # input_tensor will become output of MaxPool2d
+
+        return output
+```
+# Input type
+Each tensor has a different datatype. It is recommended to use `torch.Tensor` to represent all inputs of model.
+
+The data type that models a `PyTorch API` depends on the number of dimensions, shape of input_tensor and output_tensor. For example, the shape of the input tensor for a Conv2d or a MaxPool2d depends on the spatial dimension, and the number of channels is the last dimension (X = 3).

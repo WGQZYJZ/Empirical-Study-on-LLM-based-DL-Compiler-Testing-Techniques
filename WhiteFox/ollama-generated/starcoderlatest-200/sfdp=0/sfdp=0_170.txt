@@ -1,0 +1,25 @@
+
+class Model(torch.nn.Module):
+    def __init__(self, attention_heads=4):
+        super().__init__()
+        self.attention_heads = attention_heads
+        self.fc1 = torch.nn.Linear(768*3, 3072) # The dimension of fc1 is 768 because the model output shape is (batch size, 768, h, w). In this case, the shape of the attention_probs_flat tensor is (batch size, num heads, query length * key length, depth per head), while the shape of v and k are (batch size, sequence length, embedding dim)
+        self.fc2 = torch.nn.Linear(3072*4, 1536) # The dimension of fc2 is 3072 because the model output shape is (batch size, num heads, query length * key length, depth per head). In this case, the shape of attention_probs_flat tensor is (batch size, sequence length, embedding dim)
+        self.fc3 = torch.nn.Linear(1536*4, 768) # The dimension of fc3 is 1536 because the model output shape is (batch size, num heads, query length * key length, depth per head). In this case, the shape of attention_probs_flat tensor is (batch size, sequence length, embedding dim)
+        self.fc4 = torch.nn.Linear(768*3, 256) # The dimension of fc4 is 768 because the model output shape is (batch size, num heads, query length * key length, depth per head). In this case, the shape of attention_probs_flat tensor is (batch size, sequence length, embedding dim)
+        self.fc5 = torch.nn.Linear(256*3, 128) # The dimension of fc4 is 768 because the model output shape is (batch size, num heads, query length * key length, depth per head). In this case, the shape of attention_probs_flat tensor is (batch size, sequence length, embedding dim)
+        self.fc6 = torch.nn.Linear(128*3, 32) # The dimension of fc4 is 768 because the model output shape is (batch size, num heads, query length * key length, depth per head). In this case, the shape of attention_probs_flat tensor is (batch size, sequence length, embedding dim)
+        self.fc7 = torch.nn.Linear(32*3, 64) # The dimension of fc4 is 768 because the model output shape is (batch size, num heads, query length * key length, depth per head). In this case, the shape of attention_probs_flat tensor is (batch size, sequence length, embedding dim)
+        self.fc8 = torch.nn.Linear(64*3, 1)
+ 
+    def forward(self, x):
+        v = self.attention_heads * torch.matmul(x[0], self.fc1(x[0])) # Apply the linear transformation of fc1 to the model output shape (batch size, num heads, query length * key length, depth per head) and multiply the result with a constant
+        k = self.attention_heads * torch.matmul(x[1], self.fc2(x[1])) # Apply the linear transformation of fc2 to the model output shape (batch size, sequence length, embedding dim) and multiply the result with a constant
+        q = x[0]
+        scaled_dot_product = torch.matmul(q, k.transpose(-2, -1)) / math.sqrt(k.shape[-1]) # The dimension of fc1 is 768 because the model output shape is (batch size, num heads, query length * key length, depth per head) and multiply the result with a constant
+        attention_weights = torch.softmax(scaled_dot_product, dim=-1) # softmax on scaled dot product
+        output = torch.matmul(attention_weights, x[2]) # Apply the multiplication of attention weights and values to the sequence tensor
+
+        return self.fc8(output)
+```
+

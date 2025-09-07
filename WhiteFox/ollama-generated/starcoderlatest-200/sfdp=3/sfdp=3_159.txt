@@ -1,0 +1,59 @@
+
+class MultiheadAttention(torch.nn.Module):
+    def __init__(self, num_heads, dim_model, dropout_p):
+        super().__init__()
+        self.num_heads = num_heads
+        self.dim_head   = int(dim_model / num_heads)
+        self.scale      = float(dim_model)**-0.5
+    
+        # This class is a modified version of the torch.nn.ModuleList, which supports adding submodules after initialization.
+        self.query_multihead_layers = nn.ModuleList()
+        for _ in range(num_heads):
+            self.query_multihead_layers.append(nn.Linear(dim_model, dim_model))
+
+        # This class is a modified version of the torch.nn.ModuleList, which supports adding submodules after initialization.
+        self.key_multihead_layers = nn.ModuleList()
+        for _ in range(num_heads):
+            self.key_multihead_layers.append(nn.Linear(dim_model, dim_model))
+    
+        # This class is a modified version of the torch.nn.ModuleList, which supports adding submodules after initialization.
+        self.value_multihead_layers = nn.ModuleList()
+        for _ in range(num_heads):
+            self.value_multihead_layers.append(nn.Linear(dim_model, dim_model))
+    
+        # This class is a modified version of the torch.nn.ModuleList, which supports adding submodules after initialization.
+        self.out_multihead_layers = nn.ModuleList()
+        for _ in range(num_heads):
+            self.out_multihead_layers.append(nn.Linear(dim_model, dim_model))
+    
+        # The dropout layer and a layer of linear transformations to project the output back to the model size.
+        self.layer_norm = torch.nn.LayerNorm([dim_model])
+        self.dropout_p  = dropout_p
+        self.linear1    = nn.Linear(3, dim_model)
+        self.linear2    = nn.Linear(dim_model, dim_model)
+  
+    def forward(self, qk):
+        # The first linear transformation.
+        linear1   = self.linear1(qk)
+        linear1   = torch.tanh(linear1)
+        
+        # The output of the multihead attention layer is generated in the following order:
+        query      = [torch.matmul(x, y).unsqueeze(-1) for x,y in zip(self.query_multihead_layers, linear1)]  # Apply a linear transformation to each sub-layer and generate the output tensor with shape (batch_size, seq_len, num_heads, dim_model // num_heads)
+        key        = [torch.matmul(x, y).unsqueeze(-1) for x,y in zip(self.key_multihead_layers, linear1)]    # Apply a linear transformation to each sub-layer and generate the output tensor with shape (batch_size, seq_len, num_heads, dim_model // num_heads)
+        value      = [torch.matmul(x, y).unsqueeze(-1) for x,y in zip(self.value_multihead_layers, linear1)]  # Apply a linear transformation to each sub-layer and generate the output tensor with shape (batch_size, seq_len, num_heads, dim_model // num_heads)
+        out        = [torch.matmul(query[i], key[j]) + query[i].transpose(-2, -1)[:,0] * 0.0 for i, j in zip(range(self.num_heads), range(self.num_heads))] # The attention function
+
+        # The second linear transformation.
+        linear2   = self.linear2(out)
+        out       = torch.tanh(linear2)
+    
+        # After the first and second linear transformations, the output of each of the heads is recombined into one tensor and then the tensor is projected to the original model size through a layer normalization operation.
+        recombine  = [torch.cat((query[i], key[j], value[k]), dim=-1) for i, j, k in zip(range(self.num_heads), range(self.num_heads), range(self.num_heads))]  # Concatenate the outputs of each head into a tensor with shape (batch_size, seq_len, model_dim)
+        recombine  = self.dropout_p * torch.nn.functional.relu_(torch.cat([self.layer_norm(x).unsqueeze(-2) for x in recombine], dim=-3))    # Project the outputs of each head into a single tensor with shape (batch_size, seq_len, model_dim)
+        out        = torch.cat([o.view(-1, self.dim_head*self.num_heads).transpose(0, 1) for o in recombine], dim=1)             # Concatenate the outputs of each head into a single tensor with shape (batch_size, model_dim)
+        out        = torch.cat([self.out_multihead_layers[i](o) for i, o in enumerate(out)], dim=-2)      # Apply linear transformation to the concatenated tensor.
+        out        = self.layer_norm(out + self.dropout_p * x1)                              # Re-project the output back into the model size with layer normalization operation.
+
+        return out
+```
+

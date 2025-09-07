@@ -1,0 +1,25 @@
+
+class ScaledDotProductAttention(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+ 
+    def forward(self, query, key, value): 
+        att = torch.matmul(query / math.sqrt(query.size(-1)), key.transpose(-2, -1)) # Dot-product attention. 
+        mask_value  = float('-inf') * torch.ones(att.shape).to(query)
+        mask_value[:, :, 0] = 0 # Mask out the first row of mask_value to prevent attention to self-attention.
+        att += mask_value # Apply the mask. 
+        att = torch.softmax(att, dim=-1)  # Softmax over the last axis (i.e., dimension -1). 
+        output = torch.matmul(att, value)  # Take dot product of attention weights and value. 
+        return output, att
+```
+# Initializing the model
+sa_attn  = ScaledDotProductAttention()
+
+
+# Inputs to the model
+q  = torch.randn(32, 10, 8)
+k = q  # Using the same query tensor as key. This is for testing.
+v  = torch.randn(32, 10, 4)
+m  = torch.ones(1, k.size(-2), k.size(-1))  # Attention mask to avoid attention to self-attention.
+
+

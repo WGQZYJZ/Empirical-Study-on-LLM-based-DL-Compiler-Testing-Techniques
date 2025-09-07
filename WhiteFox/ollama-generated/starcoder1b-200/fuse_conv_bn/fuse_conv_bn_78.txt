@@ -1,0 +1,19 @@
+
+class ConvNet(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+
+        self.conv1 = torch.nn.ConvXd(3, 4, kernel_size=2)
+        self.bn1   = torch.nn.BatchNormXd(4)
+
+        self.conv2 = torch.nn.ConvXd(4, 8, kernel_size=2)
+        self.bn2   = torch.nn.BatchNormXd(8)
+
+        self.fc1   = torch.nn.Linear(8 * 28 * 28, 600)
+        self.fc2   = torch.nn.Linear(600, 10)
+
+    def forward(self, x):
+        v = self.conv2(self.bn2(self.conv1(x))) # X should match with ConvXd
+        return v
+```
+

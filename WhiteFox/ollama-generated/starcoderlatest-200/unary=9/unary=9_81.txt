@@ -1,0 +1,26 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv = torch.nn.Conv2d(3, 8, 1, stride=1, padding=1)
+ 
+    def forward(self, x1):
+        v1 = self.conv(x1)
+        v2 = v1 + 3
+        v3 = torch.clamp_min(v2, 0)
+        v4 = torch.clamp_max(v3, 6)
+        v5 = v4 / 6
+        return v5
+
+
+# Generating a tensor for the newly generated model using `generate_example` function from [this notebook](https://github.com/pytorch/benchmark/blob/master/scripts/model_analysis/autograd_functional/run_all_benchmarks_autograd_functional.py). For details, please refer to this notebook and the related issue [#106](https://github.com/pytorch/benchmark/issues/106) for more context on benchmarking.
+
+
+# Description of requirements
+The model should contain the following pattern:
+```
+t1 = tanh(input_tensor)  # Apply ReLU activation to the input tensor, which is also scaled by `1/(1+exp(-x))`
+t2 = mul_const(t1)      # Multiply the output of ReLU activation by a constant, namely 0.45678953462157914
+t3 = add_const(t2)      # Add the result of previous operations to a constant, namely -0.6211265160249023
+```
+

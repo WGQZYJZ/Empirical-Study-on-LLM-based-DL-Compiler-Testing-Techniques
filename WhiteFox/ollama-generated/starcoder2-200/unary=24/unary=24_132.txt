@@ -1,0 +1,29 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv  = torch.nn.Conv2d(3, 8, 1)
+ 
+    def forward(self, x1):
+        v1 = self.conv(x1)
+        v2 = (v1 > 0).float() 
+        v3 = v1 * negative_slope # Multiplication by the negative slope
+        return torch.where(v2, v1, v3)
+
+# Initializing the model
+m = Model()
+
+ # Inputs to the model
+x1 = torch.randn(1, 3, 64, 64)
+ 
+ ## Please generate a valid PyTorch model example with public PyTorch APIs meets the specified requirements. Plus, please also generate the input tensor for the newly generated model. The model should be different from the previous one.
+ 
+ # Description of requirements
+The model should contain the following pattern:
+  ```
+ t1 = conv(input_tensor)  # Apply pointwise convolution with kernel size 2 to the input tensor
+ t2 = torch.relu6(t1, inplace=True)  # Compute a ReLU6 function on each element of t1 using an inplace operation, which means that the output replaces the input without creating any new variable.
+ ``` 
+ This pattern characterizes scenarios where the output of a pointwise convolution is used to compute a ReLU6 function on each element and replace the original tensor with the result.
+
+ # Model

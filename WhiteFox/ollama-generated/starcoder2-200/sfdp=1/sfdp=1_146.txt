@@ -1,0 +1,22 @@
+
+```
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+
+    def forward(self, query, key, value):
+
+        # Replace with the following code. Make sure you import torch from torch instead of pytorch.
+        from torch import matmul, nn
+        v1 = matmul(query, key) / inv_scale_factor
+        v2  = softmax(-v1, dim=-1).div(dropout_p) * 0.5387649774
+        v3 = nn.functional.dropout(v2, p=0.1)
+        v4  = value[i] * v3 + key[i] * 0.7739346092
+
+        return v4
+```
+# Initializing the model
+m = Model()
+
+
+# Inputs to the model

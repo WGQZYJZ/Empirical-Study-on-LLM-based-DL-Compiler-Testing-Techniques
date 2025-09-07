@@ -1,0 +1,24 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+
+    def forward(self, x1, x2, x3, ..., xn):
+        if self.training:
+            # In training, the reshaped tensor is concatenated along a dimension
+            t1 = torch.cat([x1, x2, ..., xn], dim=0)  # Concatenate tensors along the batch dimension
+            t1 = t1.view(t1.size()[0], -1)          # Reshape the concatenated tensor into a batch x dimentional tensor
+            t3 = torch.relu(t1)                  # Apply ReLU on a batched reshaped tensor
+        else:
+            # In eval/inference, the input tensors are not modified
+            # In train mode, we will use the concatinated tensor as the main input to linear layer
+            t3 = xn[0].view(...)  # Reshape x1. The index number of a reshaped input tensor is specified by the argument idx
+```
+This pattern characterizes scenarios where the tensors are modified before feeding them into the forward function, and it is done in either training or inference mode. In the former case, the model will be trained, and in the latter case, we will perform inference.
+
+
+# Code of generation
+`generate_input.py`: This script generates the input to the generated model and generates the input to the forward function, `forward`. The user should run this script once before generating the input, and it does not change the models or inputs in any way.
+
+`generate_model.py`: This script takes the model example and generates the PyTorch model class. The model is also saved in a binary file.
+

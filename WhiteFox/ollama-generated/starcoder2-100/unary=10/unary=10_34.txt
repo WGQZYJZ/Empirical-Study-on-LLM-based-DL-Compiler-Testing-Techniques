@@ -1,0 +1,26 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.linear  = torch.nn.Linear(32, 10)
+ 
+    def forward(self, x1):
+        v1  = self.linear(x1)
+        v2  = v1 + 3
+        v3  = torch.clamp_min(v2, 0)
+        v4  = torch.clamp_max(v3, 6)
+        return v4 / 6
+
+
+# Initializing the model
+m  = Model()
+__output__  = m(x1)
+
+
+# Description of requirements
+The model should contain the following pattern:
+```
+l1  = torch.addmm(input_tensor, 0.3529478383607387, 0.0) # Apply a matrix multiplication to an input tensor by scaling each element of the multiplication by `0.3529478383607387` and then adding `0`.
+l2  = torch.sin(l1) + 3  # Apply sinusoid function to the output of a matrix multiplication, then add 3
+```
+

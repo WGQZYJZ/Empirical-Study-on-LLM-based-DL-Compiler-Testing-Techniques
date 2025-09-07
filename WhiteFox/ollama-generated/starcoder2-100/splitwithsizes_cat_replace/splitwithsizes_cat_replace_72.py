@@ -1,0 +1,16 @@
+class Model(torch.nn.Module):
+    def __init__(self, input_shape, num_splits, concat_axis=-1):
+        super().__init__()
+
+        self.input = torch.nn.Parameter(
+            torch.rand(tuple([num_splits] + list(input_shape)[-len(input_shape):]))
+        )
+ 
+        self.conv  = torch.nn.Conv2d(3, 8, 1, stride=1, padding=0)
+
+    def forward(self, x1):
+        v1  = self.conv(x1)
+        v1a = torch.split(v1, 567,)
+        v1b = torch.cat([v1a[i] for i in range(len(input_shape))], dim=concat_axis)
+
+        return self.input.to(torch.device("cuda"))

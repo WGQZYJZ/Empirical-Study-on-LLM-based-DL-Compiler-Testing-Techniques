@@ -1,0 +1,15 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.linear = torch.nn.Linear(8 * 7 * 7, 10)
+
+    def forward(self, x):
+        v1 = self.linear(x).view(-1, 8 * 7 * 7)
+        return torch.relu(v1)
+
+
+# Initializing the model
+m = Model()
+```
+The model should have at least two weights: bias and linear transformation. The bias is a vector of `0`s in the output dimension, while the linear transformation's weights are random variables with standard normal distribution over their output dimension.

@@ -1,0 +1,12 @@
+
+class Model(torch.nn.Module):
+    def __init__(self, random: bool = True):
+        super().__init__()
+        self.dropout  = torch.nn.functional.dropout
+
+    def forward(self, x1, random=True):
+        v1 = self.dropout(x1)
+        v2 = x1 * random
+        return v2
+```
+This model will generate a new one, but it will not run on the original model graph. To be able to execute this test case with the new model, you need to invoke `torch.jit.script_module` function, which is similar to `script_function`.

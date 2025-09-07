@@ -1,0 +1,16 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+
+    @torch.jit._annotate_with(torch.jit.Script)
+    def forward(self, x1, x2):
+        # Here conv and bn should be torch.jit.script API.
+        # But it is allowed because both are functional API equivalents.
+
+        conv = torch.nn.functional.conv2d(...)
+        bn = torch.nn.functional.batch_norm(...)(conv(input_tensor))
+        output = bn(conv(x1))
+```
+This pattern characterizes scenarios where a convolution and batch normalization layers are combined into a single layer by fusion, and the batch normalization layer is removed from the graph. If the output of the convolution is used by other nodes, the optimization will not be performed.
+

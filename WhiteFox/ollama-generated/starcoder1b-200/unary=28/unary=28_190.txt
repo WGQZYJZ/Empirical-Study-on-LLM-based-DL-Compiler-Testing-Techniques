@@ -1,0 +1,17 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.linear = torch.nn.Linear(3, 8)
+ 
+    def forward(self, x1, min_value=0, max_value=1):
+        v1 = self.linear(x1)
+        return torch.clamp_min(v1, min_value), torch.clamp_max(v1, max_value)
+
+
+# Inputs to the model
+x1  = torch.randn(1, 3, 64, 64)
+__output__  = Model()(x1, min_value=0.75, max_value=2.0)
+```
+
+<NAME>, <NAME>, <NAME>, <NAME>., & <NAME>. (2020). A Survey on Domain Adaptive Deep Learning and Meta-Learning, in EMNLP 2020, pages 1–6, https://www.aclweb.org/anthology/2020.emnlp-main.301.pdf

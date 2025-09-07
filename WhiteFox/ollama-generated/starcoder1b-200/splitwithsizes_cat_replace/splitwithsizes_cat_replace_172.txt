@@ -1,0 +1,14 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+
+    def forward(self, x1, x2, x3):  # No return line or this pattern will be triggered
+        split_sizes = torch.tensor([64, 128])
+        concatenated_tensor = torch.cat([x1 for i in range(len(split_sizes))], dim=1)
+
+    def is_valid_splitwithsizes_cat(self):
+        return len(set([torch.shape(x) for x in self._split_tensors])) == 1 and all(torch.shape(t) == torch.shape(concatenated_tensor) for t in self._split_tensors)
+```
+This pattern characterizes scenarios where an input tensor is split into several tensors along a given dimension using `torch.split`, and then these split tensors are concatenated along the same dimension using `torch.cat`.
+

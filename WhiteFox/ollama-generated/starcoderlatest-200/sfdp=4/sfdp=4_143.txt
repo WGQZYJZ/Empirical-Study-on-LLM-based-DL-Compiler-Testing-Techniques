@@ -1,0 +1,63 @@
+
+class MultiHeadAttention(torch.nn.Module):
+    def __init__(self, embed_dim: int = 128, n_head: int = 4) -> None:
+        super().__init__()
+        self.embed_dim = embed_dim
+        self.n_head = n_head
+        assert embed_dim % n_head == 0
+        # Project query, key and value on to multiple heads.
+        # The output of a single head is concatenated at the end.
+        self.query_proj = torch.nn.Linear(embed_dim, embed_dim * 3)
+        self.key_proj   = torch.nn.Linear(embed_dim, embed_dim * 3)
+        self.value_proj = torch.nn.Linear(embed_dim, embed_dim * 3)
+ 
+        # Project all heads to the same output dimension for easier handling
+        self.concat_heads = torch.nn.Linear(embed_dim * n_head, embed_dim)
+ 
+    def forward(self, query: torch.Tensor, key: torch.Tensor, value: torch.Tensor) -> torch.Tensor:
+        batch_size = query.shape[0]
+ 
+        # Concatenate heads and scale the query vector to get multiple queries per token
+        # 4 * 3 * (64*64) = 4 * 128 * (64*64)
+        q = self.query_proj(query).view(batch_size, -1, self.n_head, 3).permute(0, 2, 3, 1) 
+        k = self.key_proj(key).view(batch_size, -1, self.n_head, 3).permute(0, 2, 3, 1)
+        v = self.value_proj(value).view(batch_size, -1, self.n_head, 3).permute(0, 2, 3, 1)
+ 
+        # Attention computation: scaled dot product of q and k for each head
+        # 4 * (64*64) * 4 = 256*(64*64) * 4 = 4096*(64*64)
+        qk_scaled = torch.einsum("bhdc,bhd->bhkd", [q, k]) 
+        # Attention masking: the softmax function makes sure that only valid positions are attended to
+        #   Note the shape of attn_mask is (bsz, n_head, 64*64) * (bsz, n_head, 64*64), while it is broadcasted into (64*64).
+        # https://github.com/pytorch/fairseq/blob/b53c7289dfcc01f4e5447d2c24fffb8ecac28c4c/fairseq/models/transformer.py#L216
+        attn_mask = k.new_zeros(batch_size, self.n_head, query.shape[-2], key.shape[-2]) 
+        # This part is copied from https://github.com/pytorch/fairseq/blob/b53c7289dfcc01f4e5447d2c24fffb8ecac28c4c/fairseq/models/transformer.py#L243
+        if attn_mask is not None:
+            attn_mask = ~torch.eye(attn_mask.shape[-1]).unsqueeze(0) * (1 - attn_mask) 
+            qk_scaled += attn_mask 
+        # Compute softmax
+        attn_weight = torch.softmax(qk_scaled, dim=-1).type_as(q)
+ 
+        # Attention computation: scaled dot product of v and attention weights
+        # 4 * (64*64) * 256 = 4096*(64*64) * 256
+        # Multiply the output by attn_weight to get a new value tensor for each head.
+        # Note that there is one extra axis with shape [bsz, n_head]. This is because we do 
+        #   qkv = q @ k.transpose(-2, -1) * attn_weight + v.unsqueeze(0), so the dimension of attn_weight
+        #   should be (n_head). But when it's passed to self.concat_heads in the next step, the concat axis
+        #   has been removed. So we reshape the extra axis to add a dummy dimension of length 1. 
+        v_scaled = torch.einsum("bhdc,bhd->bhkd", [v, attn_weight])
+        output = self.concat_heads(v_scaled).view(batch_size, -1, query.shape[-2], key.shape[-2]).permute(0, 3, 1, 2)
+ 
+        return output
+```
+
+ # Initializing the model
+model = MultiHeadAttention()
+
+ # Inputs to the model
+q  = torch.randn(4, 3, 64, 64)
+k = torch.randn(4, 8, 64, 64)
+v = torch.randn(4, 128, 64, 64)
+
+ # Attention computation: scaled dot product of v and attention weights
+# Note that there is one extra axis with shape [bsz, n_head]. This is because we do 
+#   qkv = q @ k. (v5+1)/).to(v3 +1)+).).).).to an an an an an an an an an an an an an an an an an an an an an an an an an an an an an an an

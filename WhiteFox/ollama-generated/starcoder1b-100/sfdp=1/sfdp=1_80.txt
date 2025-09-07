@@ -1,0 +1,17 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv = torch.nn.Conv2d(3, 8, 1, stride=1, padding=1)
+ 
+    def forward(self, x1, x2):
+        qk = torch.matmul(x1, x2.transpose(-2, -1))
+        inv_scale_factor = qk.div(torch.norm(qk, dim=-1, keepdim=True).sqrt() + 1e-6) # Compute the inverse scale factor
+        softmax_qk = inv_scale_factor.softmax(dim=-1)  # Apply softmax to the scaled dot product
+        dropout_qk = torch.nn.functional.dropout(softmax_qk, p=dropout_p)  # Apply dropout to the softmax output
+        return dropout_qk.matmul(x3)
+
+
+# Initializing the model
+m = Model()
+```

@@ -1,0 +1,32 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+
+    def forward(self, x1, x2=None):
+        t1  = torch.cat([tensor1, tensor2, ...], dim=...)
+        v1  = torch.relu(t1)
+
+        if x2 is not None:
+            t2 = x2 + x1  # Concatenate the input with previous results and apply a linear transformation
+            v2 = torch.nn.functional.linear(t2, self.linear.weight, self.linear.bias)
+        else:
+            # Generate a new input for each call to forward()
+            t2 = x1 * 2  # Reuse the previous tensor for all the callers of this model
+
+            if self.is_training:
+                self.global_step += 1  # Update global step (used for validation)
+                t3 = torch.nn.functional.relu(t2)  # Use ReLU function on input
+            else:
+                t3 = x2 + x1  # Apply a linear transformation to the previous tensor
+
+            v2 = torch.nn.functional.linear(t3, self.linear.weight, self.linear.bias)
+
+        return [v1, v2]
+
+# Initializing the model
+m = Model()
+```
+
+
+```

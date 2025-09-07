@@ -1,0 +1,10 @@
+class ScaledDotProductAttention(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.softmax = torch.nn.Softmax(dim=-1)
+ 
+    def forward(self, query, key, value, inv_scale=0.5):
+        scaled_dot_product  = torch.matmul(query, key.transpose(-2, -1)) / inv_scale
+        attention_weights = self.softmax(scaled_dot_product)
+        output  = attention_weights.matmul(value)
+        return output

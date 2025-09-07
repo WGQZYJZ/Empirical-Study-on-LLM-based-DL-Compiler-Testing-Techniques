@@ -1,0 +1,17 @@
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv = torch.nn.ConvXd(in_channels=3, out_channels=16, kernel_size=3) # X can be 2, or 3 representing the dimension of the input channels and the output channels (kernel size is the same as in Conv2d, X=3 for conv3d)
+        self.bn = torch.nn.BatchNormXd(num_features=16)
+
+    def forward(self, x):
+         return self.bn(self.conv(x))
+
+ # Initializing model
+ m = Model()
+ 
+ # Inputs to the model
+ x  = torch.randn(20, 3, 48, 48)
+
+ # Output of the model
+ m(x)

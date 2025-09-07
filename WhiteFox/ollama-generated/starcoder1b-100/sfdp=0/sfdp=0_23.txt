@@ -1,0 +1,34 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv = torch.nn.Conv2d(3, 8, 1, stride=1, padding=1)
+ 
+    def forward(self, x1, x2):
+        v1 = self.conv(x1)
+        v2 = v1 * 0.5
+        v3 = v1 * 0.7071067811865476
+        v4 = torch.erf(v3)
+        v5 = v4 + 1
+        v6 = v2 * v5
+        return v6, v6
+
+
+# Initializing the model
+m = Model()
+q1 = torch.randn(1, 3, 64, 64)
+k1 = torch.randn(1, 3, 64, 64)
+v1 = torch.randn(1, 8, 64, 64)
+__output__, __error__ = m(q1, k1, v1)
+
+
+# Description of requirements
+The model should contain the following pattern:
+```
+for i in range(N):
+    alpha[i] = exp(-(query - key) * inv_scale)  # Compute softmax for each input instance
+out = torch.matmul(x1, alpha)                   # Take dot product of each input instance and its attention weights (softmax of the scaled dot product between the query and key tensors)
+attention_weights = out / exp(scaled_dot_product - log_sum_exp(out))  # Compute attention weights for each input instance using softmax function
+output = torch.matmul(attention_weights, value)       # Take weighted sum of values
+```
+This pattern characterizes the Attention mechanism of Transformer models. It can be understood as a combination of Scaled Dot-Product and Softmax mechanisms, where the output of the scaled dot product is used to compute an attention weight `alpha` using the softmax function, which then is used to compute the weighted sum of values between inputs `x1` and `x2`.

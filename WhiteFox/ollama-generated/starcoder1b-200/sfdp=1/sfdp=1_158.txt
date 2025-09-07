@@ -1,0 +1,29 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv1 = torch.nn.Conv2d(3, 8, 1)  # Convolution with kernel size 1
+        self.conv2 = torch.nn.Conv2d(8, 4, 1)  # Convolution with kernel size 1
+
+    def forward(self, x):
+        v1  = self.conv1(x)
+        v2  = v1 * 0.5
+        v3  = v1 * 0.7071067811865476
+        v4  = torch.erf(v3)
+        v5  = v4  + 1
+        v6 = v2  * v5
+
+        v1  = self.conv2(v5)
+        v7  = v1 * 0.5
+        v8  = v1 * 0.7071067811865476
+        v9  = torch.erf(v8)
+        v10 = v9  + 1
+
+        return v9 * v10
+
+
+# Initializing the model
+m = Model()
+
+# Inputs to the model
+x = torch.randn(1, 3, 64, 64)

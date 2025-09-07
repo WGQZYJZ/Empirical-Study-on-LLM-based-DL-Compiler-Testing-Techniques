@@ -1,0 +1,60 @@
+
+
+class TransformerBlock(torch.nn.Module):
+    def __init__(self, emb_dim=256, nhead=8, dim_feedforward=1024, dropout=0.1):
+        super().__init__()
+
+        self.linear = torch.nn.Linear(emb_dim, emb_dim)
+        self.conv1  = torch.nn.Conv2d(3, 8, 1, stride=1, padding=1)
+        self.relu   = torch.nn.ReLU()
+        self.dropout  = dropout
+        self.layernorm  = torch.nn.LayerNorm(emb_dim)
+
+        self.transformer  = torch.nn.TransformerEncoderLayer(d_model=emb_dim, nhead=nhead, dim_feedforward=dim_feedforward, dropout=0.1)
+        self.softmax  = torch.nn.Softmax()
+
+    def forward(self, x):
+        # transformer-encoder
+        enc = self.transformer(x).permute((0, 2, 3, 1))
+        enc = self.linear(enc[:, :, :-1])
+
+        # cross-attention
+        vq  = self.conv1(x) # conv-cross
+        qk_weight = torch.bmm(self.softmax(torch.bmm(vq.permute((0, 2, 3, 1)).view(-1, vq.size(2), vq.size(3)), torch.bmm(vq, vq).view(-1, vq.size(2), vq.size(3)).transpose(-2, -1))), vq)
+        output = qk_weight @ vq
+
+        return self.relu(output + enc)
+
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+
+        self.conv  = torch.nn.Conv2d(3, 8, 1, stride=1, padding=1)
+
+    def forward(self, x1):
+        v1 = self.conv(x1)
+        return v1
+
+class Model_new(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+
+        self.conv  = torch.nn.Conv2d(3, 8, 1, stride=1, padding=1)
+        self.attn = TransformerBlock()
+
+    def forward(self, x):
+        # v1  = conv(x)  # Apply pointwise convolution with kernel size 1 to the input tensor
+        v4  = torch.softmax(torch.bmm(self.conv(x).permute((0, 2, 3, 1)).view(-1, self.conv(x).size(2), self.conv(x).size(3)), 
+        torch.bmm(self.conv(x), self.conv(x)).view(-1, self.conv(x).size(2), self.conv(x).size(3)).transpose(-2, -1))).permute((0, 3, 2, 1)) @ self.conv(x)
+        v5 = torch.softmax(self.attn(v4), dim=-1) * self.attn.conv1(torch.zeros_like(self.attn.conv1(x))) * x
+        return (v5 + x)
+
+
+# Initializing the model
+m = Model()
+
+# Inputs to the model
+x  = torch.randn(1, 3, 64, 64)
+m(x) # call the model using input "x"
+```

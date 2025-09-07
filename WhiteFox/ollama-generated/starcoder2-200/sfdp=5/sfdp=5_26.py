@@ -1,0 +1,6 @@
+self.fc1 = torch.nn.Linear() # Create a fully connected layer
+...
+self.conv2d=torch.nn.Conv2d() # Apply pointwise convolution with kernel size 1 to the input tensor
+self.conv3d=torch.nn.Conv3d() # Apply 3D convolution with kernel size 1 on the input tensor, and then add a learnable bias term
+self.conv=torch.nn.Conv2d() # Apply 2D convolution with kernel size 5 to the input tensor; the model contains a fully connected layer, and a 3D convolution, both of which have learnable bias terms
+...

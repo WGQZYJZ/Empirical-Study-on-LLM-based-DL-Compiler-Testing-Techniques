@@ -1,0 +1,15 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.query = torch.nn.Embedding(10, 5)
+        self.key = torch.nn.Embedding(2, 6)
+        self.value = torch.nn.Linear(5 + 6, 3)
+ 
+    def forward(self, query_tensor, key_tensor):
+        query = self.query(query_tensor)  # Embedding of a query tensor
+        value = self.value(torch.cat((query, key_tensor), dim=1)) # Dot product of the query and the key tensors
+        return torch.nn.functional.softmax(value, dim=-1)  # Softmax for the dot product
+```
+This pattern characterizes scenarios where the dot product of a query and key tensor is scaled by a factor, then softmax is applied, then dropout is applied, and finally the result is multiplied by a value tensor. This is a typical pattern found in the attention mechanism of transformer models.
+

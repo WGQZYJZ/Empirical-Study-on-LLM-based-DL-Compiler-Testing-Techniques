@@ -1,0 +1,20 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+ 
+    def forward(self, x1):
+        split_tensors = torch.split(x1, 2, dim=3) 
+        concatenated_tensor = torch.cat([split_tensors[i] for i in range(len(split_sizes))], dim=3)
+        return concatenated_tensor
+
+
+# Description of requirements
+The model should contain the following pattern:
+```
+t1 = add(t2, t3) # Add two tensors using the "Add" function from ONNX Runtime 
+t4 = mul(t5, t6) # Multiply two tensors using the "Mul" function from ONNX Runtime
+t7 = div(t1, t4) # Divide tensor `t1` by tensor `t4` using the "Div" function from ONNX Runtime
+```
+This pattern characterizes scenarios where an output tensor is created as a result of performing one or more addition and multiplication operations on two input tensors. Then, these operations are executed on a third tensor (resulting in another output tensor).
+

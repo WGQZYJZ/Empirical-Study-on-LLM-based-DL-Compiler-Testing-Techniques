@@ -1,0 +1,45 @@
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+
+        self.query  = torch.nn.Parameter(torch.randn(1024, 64)) 
+        self.key  = torch.nn.Parameter(torch.randn(576, 384))
+        self.value  = torch.nn.Parameter(torch.randn(576, 96))
+
+        self.dropout_p = 0.1
+
+    def forward(self):
+        
+        # Compute the dot product of the query and key, and scale it 
+        # using sqrt(key.size(-1)).
+        qk = torch.einsum("...i, j-> ... i j", [self.query, self.key]) / math.sqrt(self.key.size[-2])
+        print('qk size: {}'.format(qk.shape))
+
+        # Add the attention mask to the scaled dot product.
+        attn_mask  = torch.nn.Parameter(torch.randn(64,384), requires_grad=False) 
+        qk += attn_mask 
+
+        # Compute the softmax of this result.
+        attn_weight = torch.softmax(qk , dim=-1).reshape(-1)
+        print('attn_weight size: {}'.format(attn_weight))
+
+        # Apply dropout to the softmax output. 
+        attn_weight  = torch.dropout(attn_weight, self.dropout_p, True) 
+
+        # Compute the dot product of the value and these attention weights.
+        output = (torch.einsum("... i j , ... k-> ... k", [attn_weight,self.value] )) 
+        print('output size: {}'.format(output))
+
+# Initialize model parameters. 
+m = Model()
+
+ # Initialize the module input as a randomly generated tensor. 
+ # Also pass the input through the forward method of the module to compute the output tensors.
+x1  = torch.randn(256, 8)
+x2  = m(x1)
+
+# Print the shape for each tensor produced by the forward method of this model:
+#   - print('output size: {}'.format(x3))
+#   - print('attn_weight size: {}'.format(x4.shape))
+#   - print('attn_mask size: {}'.format(x5.shape))
+

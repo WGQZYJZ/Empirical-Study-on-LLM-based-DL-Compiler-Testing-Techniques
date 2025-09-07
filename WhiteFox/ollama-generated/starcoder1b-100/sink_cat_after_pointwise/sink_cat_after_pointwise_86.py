@@ -1,0 +1,13 @@
+This pattern characterizes scenarios where a tensor is reshaped after concatenation and then two pointwise unary operations (like ReLU or Tanh) are applied to the concatenated tensors. The two pointwise operations should be independent of each other. The optimization `sink_cat_and_point_after` is triggered when such a pattern is detected in the model.
+
+
+# Model
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.linear = torch.nn.Linear(2, 3)
+
+    def forward(self, x1, x2, x3):
+        v1, v2, v3 = x1.permute(0, 2, 1), x2.permute(0, 2, 1), x3.permute(0, 2, 1)
+        # ...
+This pattern characterizes scenarios where a tensor is reshaped after concatenation and then four pointwise unary operations (like ReLU or Tanh) are applied to the concatenated tensors. The four pointwise operations should be independent of each other and the output tensor must have the same number of dimensions as input tensors, and its final dimension should be `dim` - 2 + 1. For example: if `dim = 3`, then output tensor must have shape `(batch, width, dim)`: `x1.shape = (1, 2, 4)` -> `output_tensor.shape = (1, 2, 5)`. The optimization `sink_cat_and_point_after` is triggered when such a pattern is detected in the model.

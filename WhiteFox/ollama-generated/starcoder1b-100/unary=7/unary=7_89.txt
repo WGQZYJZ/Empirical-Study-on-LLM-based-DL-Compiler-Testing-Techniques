@@ -1,0 +1,19 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.linear = torch.nn.Linear(3, 8)
+ 
+    def forward(self, x1):
+        l1  = self.linear(x1)
+        l2 = l1 * clamp(min=0, max=6, l1 + 3)
+        l3 = l2 / 6
+        return l3
+
+
+# Initializing the model
+m = Model()
+```
+
+Note that, for this example, you will not have to generate the input tensor and make it as input of `forward`. If you can generate a valid PyTorch model example with public PyTorch APIs meets the specified requirements (as described above), then please also generate the input tensor for the newly generated model.
+

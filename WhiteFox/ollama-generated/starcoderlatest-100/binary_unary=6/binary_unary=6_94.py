@@ -1,0 +1,20 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.linear = torch.nn.Linear(10, 20)
+ 
+    def forward(self, x1, other=0):
+        v1 = self.linear(x1)
+        v2 = v1 - other
+        v3 = F.relu(v2)
+        return v3
+
+
+# Initializing the model
+m = Model()
+
+
+# Inputs to the model
+x1 = torch.randn(1, 10, 64) # The dimensions of the input tensor should be (batch_size, number of features, image width, image height).
+other=1 

@@ -1,0 +1,28 @@
+
+class Upsample(nn.Module):
+    def __init__(self, channels):
+        super().__init__()
+        self.conv = torch.nn.Conv2d(channels // 4, channels, 1)
+        self.bn = nn.BatchNorm2d(channels)
+ 
+    def forward(self, x):
+        v = x
+        v = F.interpolate(v, size=int(x.shape[2] * 2), mode='bilinear')
+        v = torch.cat((v, F.adaptive_avg_pool2d(x, (1, 1))[0]), dim=-1)
+        v = self.conv(v)
+        v = self.bn(v)
+        return v
+
+
+class Decoder(nn.Module):
+    def __init__(self, channels):
+        super().__init__()
+        self.upsample = Upsample(channels // 2)
+        self.conv = torch.nn.ConvTranspose2d(channels // 4, channels, (1, 3))
+ 
+    def forward(self, x):
+        v = self.upsample(x)
+        v = F.interpolate(v, size=int(x.shape[2] * 4), mode='bilinear')
+        v = self.conv(v)
+        return v
+```

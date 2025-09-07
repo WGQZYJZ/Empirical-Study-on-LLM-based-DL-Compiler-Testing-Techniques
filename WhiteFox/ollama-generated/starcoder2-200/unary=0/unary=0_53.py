@@ -1,0 +1,13 @@
+import torch 
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv1 = torch.nn.Conv2d(3, 8, 1, stride=1, padding=0)
+        self.conv2 = torch.nn.Conv2d(8, 8, 3, stride=2, padding=1)
+ 
+    def forward(self):
+        v1 = self.conv1(x)
+        v4_256 = v1[:, :, :129, :129] * 0.7071067811865476 + (v1[:, :, :129, :] + torch.abs(v1[:, :, :129])) * -0.3535533905932737
+        v7 = self.conv2(x)
+        v8_14  = v7[0, :, 63:95, :] / torch.erf(v7[:, 0:, :8] + -(-0.3535533905932737))
+        v10  = (self.conv1(x) * v4_256).mean()

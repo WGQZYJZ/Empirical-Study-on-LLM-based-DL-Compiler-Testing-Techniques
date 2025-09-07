@@ -1,0 +1,28 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+ 
+    def forward(self, x1, x2):
+        v0  = torch.randn(35)
+        v0  = torch.cat([v0] * len(x1)) 
+        return (v0, v0), ((torch.mm(x1, x2)), v0, )
+ 
+# Initializing the model
+m  = Model()
+
+ # Inputs to the model
+x1 = [None] + list(map(lambda _: torch.randn((35,47)), range(98)))
+x2 = [None] + list(map(lambda _: torch.randn((47,100)), range(96)))
+__output__  = m(x1[1], x2[-1])
+
+
+# Description of requirements
+The model should contain the following pattern:
+```
+t1 = torch.nn.functional.softmax(input, dim=1) # Apply the softmax function to the input tensor along a certain dimension
+```
+This pattern characterizes scenarios where the output of a softmax operation is obtained by applying the softmax function to the input tensor along a specific dimension.
+
+
+# Model

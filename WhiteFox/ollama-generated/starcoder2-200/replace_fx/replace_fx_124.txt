@@ -1,0 +1,27 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+
+    def forward(self, x1):
+        v2  = torch.rand_like(x1, device=torch._C._default_device())
+
+        v3  = torch.nn.functional.dropout(v2) # Permute the input tensor
+        return None
+
+
+# Initializing the model
+m  = Model()
+
+# Inputs to the model
+x1  = torch.randn(4, 5)
+
+# Output of the model
+__output__  = m(x1)
+
+# Results
+```
+(0, 32, 16) (32,) (32, 8)
+```
+
+Note that there is not a clear pattern to recognize this scenario. The replacements for dropout are implemented in terms of `lowmem_dropout` or `rand_like`.

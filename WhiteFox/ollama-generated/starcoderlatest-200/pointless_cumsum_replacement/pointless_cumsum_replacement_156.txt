@@ -1,0 +1,23 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv = torch.nn.Conv2d(3, 8, 1, stride=1, padding=1)
+ 
+    def forward(self, x1):
+        v1 = torch.full([x1.shape[0], x1.shape[1]], 1, dtype=x1.dtype, layout=x1.layout, device=x1.device, pin_memory=False)
+        v2 = convert_element_type(v1, x1.dtype)
+        v3 = torch.cumsum(v2, 1)
+        return v3
+```
+Then the output of `torch.full` is used in place of the output of `torch.randn`, and then `convert_element_type` is used to convert the elements of the tensor to the specified dtype, and then the cumulative sum of the elements of the tensor is computed along dimension 1.
+
+
+# Description of requirements
+The model should contain at least one pattern that involves two or more of following patterns:
+```
+t1 = (torch.max(a_tensor) - torch.min(a_tensor)) / n + m  # Compute `n` * (m-1) and add the values together
+t2 = min(min(t1), max(t1))                                  # Compute the minimum of the two outputs from step 1
+```
+This pattern characterizes scenarios where the difference in magnitude between the maximum and minimum value of the input tensor is divided by `n` and then an arbitrary number plus a multiple of m.
+

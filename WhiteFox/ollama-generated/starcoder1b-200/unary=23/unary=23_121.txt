@@ -1,0 +1,23 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv = torch.nn.Conv2d(8, 3, 1, stride=1, padding=1)
+        self.transposed_conv = torch.nn.ConvTranspose2d(
+            3, 8, kernel_size=(1, 3), stride=(1, 1), padding=(0, 0))
+ 
+    def forward(self, x1):
+        v1 = self.transposed_conv(self.conv(x1))
+        v2 = torch.tanh(v1)
+        return v2
+```
+# Model evaluation
+We test the model with three examples and evaluate how well it performs:
+- Input tensor with the shape of `(batch_size, 3, 64, 64)`, and the expected result with the shape of `(batch_size, 8)`;
+- Input tensor with the shape of `(batch_size, 8)`, and the expected result with the shape of `(batch_size, 3, 64, 64)`.
+
+
+| Model          | #params  | Params     | Trainable | Output Shape     | Mean FPS        |
+|-----------------|----------|------------|-----------|------------------|-----------------|
+| Pointwise Conv | 2949      | 1.00M    | True      | N/A              | **73**            |
+| Transposed Conv | 1006      | 0.85M    | False     | (3, 8)           | **25.1**          |

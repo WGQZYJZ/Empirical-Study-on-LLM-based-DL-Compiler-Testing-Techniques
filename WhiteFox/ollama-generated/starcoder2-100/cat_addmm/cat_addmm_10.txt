@@ -1,0 +1,50 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+
+    def forward(self, x1):  # x1 = torch.randn(256)
+        v0  = torch.nn.Linear(8*8*3, 4)(x1)
+        v1  = torch.addmm(v0.view(-1), mat1, mat2) 
+        v2  = torch.cat([v1], 1)
+        return v2
+
+# Initializing the model and setting a dummy mat1 and mat2
+mat1  = torch.randn(512, 4, 8*8).detach().cuda()
+mat2  = torch.randn(512, 4).detach().cuda()
+
+ # Inputs to the model with some random data
+x1  = torch.randn(360)
+__output__  = m(x1)
+
+- - - -
+
+# Description of requirements
+The model should contain the following pattern:
+```
+t1 = add_bias_to_weight(t2) # A 4D tensor, where the first dimension is batch size and the second one is the output number from previous layer. The third and fourth dimensions are the width and height of the input data.
+t3 = torch.nn.Linear(100, 60)(x) # A 2D linear layer. Linear layers will take the input tensor in the first argument to their forward() function and output a number according to the number in the second parameter. In this case, there is an input of 60 neurons
+t4 = torch.nn.Dropout(p)(t3) # A dropout layer that takes in the tensor created by Linear as its input and outputs another 60-dimension tensor based on the p.
+```
+This pattern characterizes scenarios where bias is added to the output of the convolution, the size of which can vary between different layers.
+
+
+# Model
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+
+    def forward(self, x1): # x = torch.randn(2048)
+        v1  = add_bias_to_weight(x1) 
+        v3  = torch.nn.Dropout(p)(v2)
+        return v5
+
+# Initializing the model with some dummy p value and the weight tensor,  x = torch.randn(2048)
+p = 0.7976
+weight_tensor  = torch.randn(3, 128*2).detach().cuda()
+
+ # Inputs to the model with random inputs in torch.Size([25])
+x1  = torch.randn(25)
+__output__  = m(x1)
+
+

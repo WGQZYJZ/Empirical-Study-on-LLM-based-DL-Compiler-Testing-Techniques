@@ -1,0 +1,59 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv1 = torch.nn.Conv2d(...)
+        self.bn1   = torch.nn.BatchNorm2d(...)
+        self.conv2 = torch.nn.Conv2d(...)
+
+    def forward(self, x):
+        x = torch.nn.functional.batch_norm(self.bn1(self.conv1(x)), ...)
+        return torch.nn.functional.conv2d(x, self.conv2)
+
+
+# Initializing the model
+m = Model()
+m = m.eval() # Enter evaluation mode
+
+# Inputs to the model
+x = torch.randn(...)
+output_1 = m(x)
+```
+The `fuse_bn_conv` optimization is triggered when the batch normalization layer (or equivalent API function) and convolution layer are in evaluation mode (not in training mode), and the batch normalization layer is tracking running statistics. 
+
+After the optimization, the batch normalization layer or functional API equivalent of it is fused into a single batch normalization layer or functional API equivalent of it, and the convolution layer and batch normalization layer are removed from the graph. If any output tensor is used by other nodes, the optimization will not be performed. 
+
+The optimization also applies to the functional API equivalent of the above pattern, where `torch.nn.functional.batch_norm` and `torch.nn.functional.conv2d` are used instead of the module API. The constraints for the functional API pattern are similar to the module API pattern.
+
+
+# Description of requirements
+The model should contain a series of convolutions and batch normalization layers followed by linear transformation, such as:
+```
+x = conv(input_tensor) # The input tensor is not required. Any tensor can be used for conv1 
+bn = bn(...)         # Batch norm layer 1 
+output = ...           # Linear transformation. Can be identity function or a convolutional network. 
+
+for i in range(2):
+    x = conv(x)   # Convolution layer 2 
+    bn = bn(...)   # Batch norm layer 2
+    output = ...   # Conv2d layer 2
+
+
+# ... other layers, including linear transformation and pooling
+```
+In each iteration of the loop, a convolutional layer is replaced by a batch normalization layer.
+This pattern characterizes scenarios where a convolution is followed by multiple instances of a same batch norm operation. This scenario can be extended to a depthwise convolution for efficiency (depthwise conv has similar computation complexity with conv, but requires less GPU memory). 
+
+In addition to the above pattern, there are also patterns such as:
+```
+conv = torch.nn.ConvXd(...)
+bn = torch.nn.BatchNormXd(2)  # X can be 1, 2 or 3 representing the dimension. BN layer with 2 outputs
+output = bn(conv(...))       # Batch norm followed by linear transformation
+
+linear = torch.nn.Linear(5, 6)
+output = ...   # Linear transformation
+```
+This pattern characterizes scenarios where a batch norm is followed by another batch norm or a single linear function applied on the output of batch normalization layer. 
+
+The `fuse_bn_batchnorm` optimization applies to above scenarios.
+

@@ -1,0 +1,32 @@
+
+class ScaledDotProductAttention(torch.nn.Module):
+    def __init__(self, scale=1e-6):
+        super().__init__()
+        self.scale = scale
+ 
+    def forward(self, query, key, value, mask):
+        batch_size = query.shape[0]
+        head_count  = key.shape[0] // 2
+        self.head_count  = head_count
+ 
+        # Reshape and normalize the attention weights
+        # (This step should only be necessary if using a residual connection)
+        scaled_dot_product  = torch.matmul(query, key.transpose(-2, -1)) / self.scale
+        attention_weights  = scaled_dot_product.softmax(dim=-1)
+
+        # Apply the attention weights to the value (the dot product of the result and the weights tensor), which has shape: [batch_size, head_count * self.head_count]
+        output = attention_weights.matmul(value)
+ 
+        return output, attention_weights
+
+
+# Initializing the model
+m  = ScaledDotProductAttention()
+
+# Inputs to the model
+q1 = torch.randn(1, 2, 64, 64)  # (batch, sequence_length, batch_size)
+k1 = torch.randn(head_count, head_count)   # (head, head)
+v1 = torch.randn(2, 64, 64)       # (batch, head_count * self.head_count, batch_size)
+__output__, __attention_weights__ = m(q1, k1, v1, mask=None)
+```
+This pattern characterizes the Scaled Dot-Product Attention mechanism in a sequence-to-sequence setting. The attention weights are computed as the softmax of the scaled dot product of the query and key tensors. These weights are then used to compute a weighted sum of the value tensor.

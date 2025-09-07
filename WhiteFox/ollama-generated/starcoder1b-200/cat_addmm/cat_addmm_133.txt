@@ -1,0 +1,28 @@
+
+class Model(torch.nn.Module):
+    def __init__(self, width):
+        super().__init__()
+        self.conv1 = torch.nn.Conv2d(width, 8, 1, stride=1, padding=1)
+        self.conv2 = torch.nn.Conv2d(width, 4, 1, stride=1, padding=0)
+
+    def forward(self, x1, x2):
+        v1 = self.conv1(x1)
+        v2 = self.conv2(x2)
+        return v2 + v1
+
+
+# Initializing the model
+m = Model(width=4)
+__output__  = m(input1, input2)
+
+
+# Description of requirements
+The model should contain the following pattern:
+```
+x_shape, x_zero_point = self.conv2.weight.data.size(), self.conv2.weight.data.zero_()  # Initialize the zero point and shape attributes for conv2 weight parameters
+if input1.device.type == "cuda":
+    v1 = self.conv2(input1)  # Use cuda device to compute matmul(input, weight)
+else:
+    v1 = torch.matmul(input1, self.conv2.weight.data)
+```
+This pattern characterizes scenarios where the parameters of a convolutional layer are initialized using the same shape as the input tensor and then zeroed out. If an operation is performed in GPU mode, only data corresponding to conv2 weight will be modified.

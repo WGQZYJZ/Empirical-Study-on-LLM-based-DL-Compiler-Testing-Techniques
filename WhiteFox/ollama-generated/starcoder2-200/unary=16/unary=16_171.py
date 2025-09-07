@@ -1,0 +1,9 @@
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.lin1 = torch.nn.Linear(256, 256)
+ 
+    def forward(self, x1):
+        v1  = self.lin1(x1) 
+        v2  = relu(v1)
+        return v2

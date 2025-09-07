@@ -1,0 +1,21 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.t1 = torch.full([arg1, arg2], 1, dtype=dtype, layout=layout, device=device, pin_memory=False)
+
+    def forward(self, x):
+        v1 = torch.cumsum(self.t1, dim=[arg1, arg2])
+        return v1
+```
+# Description of requirements
+The model should contain the following pattern:
+```
+t1  = input_tensor[:, :, start_row, start_col].contiguous()  # Get the data with strides `stride_row` x `stride_column` along dimension 0 and 1
+t2  = t1  * (torch.abs(t1) > 0).to(dtype=dtype)  # Apply the sign function to the elements of `input_tensor`. If the absolute value of a tensor is greater than zero, set its element to one, otherwise set its element to zero
+t3 = torch.full([arg1, arg2], 1, dtype=dtype, layout=layout, device=device, pin_memory=False)  # Create a tensor filled with the scalar value 1, with the specified dtype, layout, and device
+t4 = convert_element_type(t3, dtype)  # Convert the elements of the tensor to the specified dtype
+t5 = torch.cat([torch.abs(x), t4], dim=dim).to(dtype=dtype)  # Concatenate two tensors with the specified dims in `order` and return them as a result
+t6 = torch.cumsum(t5, dim=[arg1, arg2])  # Compute the cumulative sum of the elements of the tensor along dimension 1
+```
+This pattern characterizes scenarios where two tensors are concatenated along their `dim` dimension in `order`, then the input and output tensors are converted to the specified dtype, then the elements of the resulting tensor are filled with the scalar value one, then the cumulative sum of these elements is computed along `dim` using `torch.cumsum`.

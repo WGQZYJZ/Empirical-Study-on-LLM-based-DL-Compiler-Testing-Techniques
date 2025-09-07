@@ -1,0 +1,20 @@
+import torch
+import torch.nn as nn
+import math
+
+class ScaledDotProductAttention(nn.Module):
+    def __init__(self, dim=None, inv_scale = None):
+        super().__init__()
+
+        self.dim = 32 if dim is None else dim
+
+        self.inv_scale = inv_scale #math.sqrt(self.dim) if inv_scale is None else inv_scale
+
+    def forward(self, query, key, value):
+        scaled_dot_product = torch.matmul(query, key.transpose(-2, -1)) / math.sqrt(self.dim)
+
+        attention_weights  = scaled_dot_product.softmax(dim=-1)
+
+        output  = attention_weights.matmul(value)
+
+        return output

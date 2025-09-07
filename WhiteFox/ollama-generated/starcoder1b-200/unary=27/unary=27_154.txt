@@ -1,0 +1,27 @@
+
+class Model(torch.nn.Module):
+    def __init__(self, min_value=-1e9, max_value=1e9):
+        super().__init__()
+        self.conv = torch.nn.Conv2d(3, 8, 1, stride=1, padding=1)
+ 
+    def forward(self, x1):
+        v1 = self.conv(x1)
+        return torch.clamp_min(v1, min_value), torch.clamp_max(v1, max_value)
+
+
+# Initializing the model
+m = Model()
+
+# Inputs to the model
+x1 = torch.randn(1, 3, 64, 64)
+__output1__, __output2__ = m(x1)
+
+
+# The result of the operation is equivalent to this pattern:
+t1 = x1 * (min_value + max_value / 2)
+```
+In other words, clamping operations can be used to perform arithmetic operations. `clamp_min` and `clamp_max` return their respective minimum and maximum values in addition to their corresponding outputs for the input tensor.
+
+
+# Reference
+* [The Pythonic Guide](https://realpython.com/python-tutorial/)

@@ -1,0 +1,16 @@
+
+class Model(torch.nn.Module):
+    def __init__(self, k):
+        super().__init__()
+        self.k = k
+ 
+    def forward(self, x1):
+        return torch.mm(x1, x1.repeat(self.k))
+ 
+ # Initializing the model
+m = Model(2)
+
+ # Inputs to the model
+x1  = torch.randn(3, 64, 64)
+__output__  = m(x1)
+```

@@ -1,0 +1,18 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.linear = torch.nn.Linear(2, 2)
+
+    def forward(self, x1):
+        v1 = x1.permute(0, 2, 1)
+        return torch.nn.functional.dropout(torch.rand_like(x1), self.linear.weight)
+
+
+# Initializing the model
+m = Model()
+```
+
+# Result
+The expected output of `Model(model)` is a new tensor with shape (32, 48). And after erasing the `dropout` function in its original place, it results in the following:
+```

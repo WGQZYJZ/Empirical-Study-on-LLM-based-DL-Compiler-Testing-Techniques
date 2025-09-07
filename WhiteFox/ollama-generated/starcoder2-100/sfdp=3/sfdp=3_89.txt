@@ -1,0 +1,34 @@
+
+```
+class SelfAttention(torch.nn.Module):
+    def __init__(self, num_heads=48, dropout=0.1):
+        super().__init__()
+        self.num_heads  = num_heads
+ 
+        self.key_value_scale_factor  = math.sqrt(key_dim)
+ 
+        self.query = torch.nn.Linear(in_features=self._hidden_size, out_features=num_heads*query_dim)
+        self.key   = torch.nn.Linear(in_features=self._hidden_size, out_features=num_heads*key_dim)
+        self.value = torch.nn.Linear(in_features=self._hidden_size, out_features=num_heads*value_dim)
+ 
+        self.scale  = key_value_scale_factor  # Use the variable scale that is defined above
+        self.dropout = dropout
+ 
+    def forward(self, x):
+        batch_size = torch.shape(x)[0]
+ 
+        q = self.query(x).view(batch_size, -1, self._num_heads)
+        k = self.key(x).view(batch_size, -1, self._num_heads)*scale  # Apply the scale factor that is defined above to each query and key tensor
+        v = self.value(x).view(batch_size, -1, self._num_heads)
+ 
+        qk = torch.matmul(q, k.transpose(-2, -1))  # Compute the dot product of the query and key tensors
+        scaled_qk = qk/self.scale  # Scale the dot product by a factor that is defined above
+        softmax_qk = scaled_qk.softmax(dim=-1)  # Apply softmax to the scaled dot product
+        dropout_qk = torch.nn.functional.dropout(softmax_qk, p=dropout*self._num_heads)  # Apply dropout to the softmax output
+        output = dropout_qk.matmul(v)  # Compute the dot product of the dropout output and the value tensor
+ 
+        return output
+```
+# Initializing the model
+sa  = SelfAttention()
+

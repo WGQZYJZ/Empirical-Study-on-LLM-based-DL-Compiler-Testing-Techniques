@@ -1,0 +1,14 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv = torch.nn.Conv2d(3, 8, 1, stride=1, padding=1)
+ 
+    def forward(self, x1, x2):
+        # (batch_size * sequence_length, input_channels, height, width)
+        kq = torch.matmul(x1, x2.transpose(-2, -1)) # kq: (batch_size * sequence_length, input_size // 2, input_size // 2, height // 4, width // 4)
+        kq = kq / sqrt(self.scale_factor ** 3 + 1e-6) # kq: (batch_size * sequence_length, input_size // 2, input_size // 2, height // 8, width // 8)
+        sqk = torch.softmax(kq, dim=-1) # sqk: (batch_size * sequence_length, input_size // 2, input_size // 2, height // 4, width // 4)
+        dq = torch.nn.functional.dropout(sqk, p=self.dropout_p) # dq: (batch_size * sequence_length, input_size // 2, input_size // 2, height // 8, width // 8)
+        output = dq.matmul(x2) # output: (batch_size * sequence_length, input_size // 4, input_size // 4, height // 2, width // 2)
+```

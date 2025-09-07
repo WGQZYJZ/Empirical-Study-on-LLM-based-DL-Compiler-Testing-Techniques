@@ -1,0 +1,15 @@
+
+class Model(nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv = nn.ConvTranspose2d(8, 3, 1)
+ 
+    def forward(self, x1):
+        v1 = F.leaky_relu_(torch.zeros_like(x1)) # Create a mask where each element is True if the corresponding element in x1 is greater than 0, False otherwise
+        v2 = self.conv(v1) * -0.5  # Multiply the output of the transposed convolution by the negative slope
+        return torch.where(v1 > 0, v1, v2) # Apply the where function to select elements from x1 or t3 based on the mask
+
+
+# Initializing the model
+m = Model()
+```

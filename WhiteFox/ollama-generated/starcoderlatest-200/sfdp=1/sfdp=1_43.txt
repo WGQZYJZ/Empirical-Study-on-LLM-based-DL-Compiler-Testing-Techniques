@@ -1,0 +1,57 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.attn_layer  = torch.nn.MultiheadAttention(3, 8)
+ 
+    def forward(self, x1, key, value):
+        qk = self.attn_layer(x1, key=key, value=value)[0] # Compute the dot product of the query and key tensors
+        scaled_qk = qk.div(inv_scale_factor)  # Scale the dot product by the inverse scale factor
+        softmax_qk = scaled_qk.softmax(dim=-1)  # Apply softmax to the scaled dot product
+        dropout_qk = torch.nn.functional.dropout(softmax_qk, p=dropout_p)  # Apply dropout to the softmax output
+        output = dropout_qk.matmul(value)  # Compute the dot product of the dropout output and the value tensor
+        return output
+
+
+# Initializing the model
+m = Model()
+
+
+# Inputs to the model
+x1 = torch.randn(1, 3, 64, 64)
+key = torch.randn(256, 3, 64, 64)
+value = torch.randn(256, 8, 64, 64)
+
+
+# Description of requirements
+The model should contain the following pattern:
+```
+v1  = f(x0) # Apply function `f` to input tensor x0
+w1  = v1 * (1. - dropout_p) + x0 * dropout_p # Compute the output `o1` by applying dropout, and multiplying it by the scalar `(1-dropout)` plus multiplying it by the scalar `dropout` times the input `x0`
+w2  = max_pool2d(w1) # Apply max pooling operation to the output of f(x0). The result will be stored in variable w2
+v2  = g(w2)  # Compute the output `o2` by applying function `g` to the input tensor w2. The result will be stored in variable v2
+```
+This pattern characterizes scenarios where the input tensor x0 is passed through a function f, which produces an intermediate value o1, and then the intermediate value o1 is pooled using max pooling, which results in another intermediate value w2, and finally the output of applying g to the intermediate value w2 is stored in variable v2.
+
+
+# Model
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.pool1 = torch.nn.MaxPool2d((2, 2))
+ 
+    def forward(self, x0):
+        w1  = self.pool1(f(x0)) # Apply function `f` to input tensor x0
+        w2  = torch.nn.functional.max_pool2d(w1) # Apply max pooling operation to the output of f(x0). The result will be stored in variable w2
+        v2  = self.act(g(w2)) # Compute the output `o2` by applying function `g` to the input tensor w2. The result will be stored in variable v2
+        return v2
+```
+
+
+# Initializing the model
+m = Model()
+
+
+# Inputs to the model
+x0 = torch.randn(1, 3, 64, 64)
+

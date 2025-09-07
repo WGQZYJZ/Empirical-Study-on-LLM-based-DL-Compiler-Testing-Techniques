@@ -1,0 +1,9 @@
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+ 
+    def forward(self, x1, x2):
+        v0  = torch.randn(3)
+        v1  = torch.matmul(x1, v0[:, None])
+        v2  = v1 + 5769
+        return v2

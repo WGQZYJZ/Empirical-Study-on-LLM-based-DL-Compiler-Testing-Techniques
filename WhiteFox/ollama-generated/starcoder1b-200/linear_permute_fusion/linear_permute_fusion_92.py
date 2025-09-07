@@ -1,0 +1,1 @@
+This pattern characterizes scenarios where the permute method is invoked first on an input tensor with more than 2 dimensions, and then `torch.nn.functional.linear` function is invoked on the output tensor of the linear function.

@@ -1,0 +1,31 @@
+class TransformerModel(nn.Module):
+
+    def __init__(self, ntoken, ninp, nhid, nlayers, dropout=0.5):
+        super(TransformerModel, self).__init__()
+        from torch.nn import TransformerEncoder, TransformerDecoder, TransformerEncoderLayer
+        
+        self.model_type = 'transformer'
+
+        attn = MultiHeadAttention(nhead=24, num_queries=(nhid//24), nhid=nhid)
+        
+        self.encoder = TransformerEncoder(TransformerEncoderLayer(d_model=ninp, nhead=18), num_layers=6)
+        self.pos_encoder = PositionalEncoding(ninp, dropout)
+
+        encoder_layer = nn.TransformerEncoderLayer(ninp, 24, dim_feedforward=50, dropout=dropout)
+        encoder_norm = nn.LayerNorm(ninp)
+        
+        self.layers = TransformerEncoder(encoder_layer, num_layers=6)
+                
+        #self.transformer_encoder = TransformerEncoder(TransformerEncoderLayer(d_model=ninp, nhead=24), num_layers=30, dropout=dropout)
+        #self.pos_encoder = PositionalEncoding(ninp, dropout)
+
+        self.decoder = nn.Linear(nhid * 8 + ntoken, nhid // 16)
+        self.generator = nn.Linear(nhid // 24, ntoken)
+
+    def forward(self, src):
+        #src_shape = src.shape
+        src = self.encoder(src)
+        
+        src = src.transpose(-2,-3).contiguous().view(-1,8*500,256)[...,None]
+        return self.decoder(src)
+

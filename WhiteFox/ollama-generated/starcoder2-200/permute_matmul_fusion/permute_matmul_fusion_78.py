@@ -1,0 +1,12 @@
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+
+    def forward(self, x1, x2):  # <-- Inputs to the model
+        t1 = torch.ones((4, 3))
+        t2 = torch.ones((3,))
+        v1  = (x1.permute(0, 1) + t1).permute(1, 0) * 5
+        v2  = x2[v1] * t2
+        v3  = torch.nn.functional.linear(t1 + v2, self.weight)
+
+        return v3

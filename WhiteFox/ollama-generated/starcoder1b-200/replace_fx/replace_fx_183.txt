@@ -1,0 +1,49 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.linear = torch.nn.Linear(2, 2)
+
+    def forward(self, x1):
+        v1 = x1.permute(0, 2, 1)
+        v2 = torch.nn.functional.dropout(v1, p=0.5)
+        v3 = torch.rand_like(input_tensor, dtype=x1.dtype)
+        return torch.nn.functional.linear(v2, self.linear.weight, self.linear.bias)
+
+
+# Initializing the model
+m = Model()
+```
+
+```
+def test():
+    # Creating a graph of the graph of the generated model
+    gm.create_graph()
+
+    # Creating a node for input tensor 'x1' (tensor with shape: [B, H, W])
+    x1_node = gm.add_input(gm.tensor(torch.randn(2, 1, 1)), "x1")
+
+    # Creating a node for the 'linear' module 'weight' ('torch.nn.Linear', weight tensor of shape: [2, 2] (w2))
+    w2_node = gm.add_input(gm.tensor(torch.randn(2, 2)), "w2")
+
+    # Creating a node for the 'linear' module 'bias' ('torch.nn.Linear', bias tensor of shape: [2] (b2))
+    b2_node = gm.add_input(gm.tensor(torch.randn(2)), "b2")
+
+    # Creating two edges from input 'x1' to output 'v0' via edge name 'weight' (edge with weight 2) and connecting this node to 'w2_node'
+    m1 = gm.add_edge(gm.input("x1"), gm.output("v0"), "weight", [2], "edge_name")
+
+    # Creating two edges from output 'v0' via edge name 'bias' (edge with weight 0) and connecting this node to 'b2_node'
+    m2 = gm.add_edge(gm.output("v0"), gm.output("v1"), "bias", [0], "edge_name")
+
+    # Creating a final output node via edge name 'output' (final output edge with weight 0) and connecting these two edges to the final output node
+    m3 = gm.add_edge(m1, m2, "bias", [0], "final_output_name")
+    gm.connect_outputs()
+
+    # Creating a new graph instance with the initial nodes
+    g1 = gm.create_graph()
+
+    # Connecting the 'g1' instance to the 'x1_node' and invoking the input node for 'input_tensor'
+    gm.add_edge(gm.input("input_tensor"), x1_node, "input")
+
+    # Running the model of 'm3', so that it generates the output 'output'
+    

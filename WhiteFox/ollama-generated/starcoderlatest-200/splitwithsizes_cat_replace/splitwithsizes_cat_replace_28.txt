@@ -1,0 +1,96 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv1 = torch.nn.Conv2d(3, 8, 1, stride=1, padding=1)
+        self.conv2 = torch.nn.Conv2d(8, 8, 1, stride=1, padding=1)
+ 
+    def forward(self, x1):
+        v1 = self.conv1(x1)
+        v2 = v1 * 0.5
+        v3 = v1 * 0.7071067811865476
+        v4 = torch.erf(v3)
+        v5 = v4 + 1
+        v6 = v2 * v5
+        return v6, x1
+
+
+# Input Tensors and Expected Outputs to the model
+x1 = torch.randn(1, 3, 64, 64)
+x2 = torch.cat([torch.unsqueeze(split_tensors[i], dim=0) for i in range(len(split_sizes))], dim)
+
+
+# Description of requirements
+The model should contain the following pattern:
+```
+split_size  = torch.prod(input_tensor.shape[dim])
+split_tensor  = input_tensor[::split_size] # Split the input tensor into several tensors along a given dimension
+concatenated_tensor  = torch.cat([split_tensors[i] for i in range(len(split_sizes))], dim)  # Concatenate the split tensors along the same dimension
+```
+This pattern characterizes scenarios where an input tensor is divided by its element count and then used to replace some elements within the input tensor using `torch.index_select`, and then these replaced elements are concatenated along the same dimension using `torch.cat`.
+
+
+# Input Tensors and Expected Outputs to the model
+x1 = torch.randn(1, 3, 64, 64)
+x2 = torch.cat([torch.unsqueeze(split_tensors[i], dim=0) for i in range(len(split_sizes))], dim)
+
+
+# Description of requirements
+The model should contain the following pattern:
+```
+split_size  = torch.prod(input_tensor.shape[dim])
+indices  = torch.randperm(split_size).reshape((1, split_size))[0] # Reordering a vector of integers into another shape using permute operator.
+split_tensor  = input_tensor[indices] # Split the input tensor into several tensors along a given dimension
+concatenated_tensor  = torch.cat([split_tensors[i] for i in range(len(split_sizes))], dim)  # Concatenate the split tensors along the same dimension
+```
+This pattern characterizes scenarios where an input tensor is divided by its element count and then used to replace some elements within the input tensor using `torch.index_select`, and then these replaced elements are concatenated along the same dimension using `torch.cat`.
+
+
+# Model
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv1 = torch.nn.Conv2d(3, 8, 1, stride=1, padding=1)
+        self.conv2 = torch.nn.Conv2d(8, 8, 1, stride=1, padding=1)
+ 
+    def forward(self, x1):
+        v1 = self.conv1(x1)
+        v2 = v1 * 0.5
+        v3 = v1 * 0.7071067811865476
+        v4 = torch.erf(v3)
+        v5 = v4 + 1
+        v6 = v2 * v5
+        return v6, x1
+
+
+# Input Tensors and Expected Outputs to the model
+x1 = torch.randn(1, 3, 64, 64)
+x2 = torch.cat([torch.unsqueeze(split_tensors[i], dim=0) for i in range(len(split_sizes))], dim)
+
+
+# Description of requirements
+The model should contain the following pattern:
+```
+split_size  = torch.prod(input_tensor.shape[dim])
+indices  = torch.randperm(split_size).reshape((1, split_size))[0] # Reordering a vector of integers into another shape using permute operator.
+split_tensor  = input_tensor[:, indices] # Split the input tensor along dimension d and then extract a sub-block along given dimensions
+concatenated_tensor  = torch.cat([split_tensors[i] for i in range(len(split_sizes))], dim)  # Concatenate the split tensors along the same dimension
+```
+This pattern characterizes scenarios where an input tensor is divided by its element count and then used to replace some elements within the input tensor using `torch.index_select`, and then these replaced elements are concatenated along the same dimension using `torch.cat`.
+
+
+# Model
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv1 = torch.nn.Conv2d(3, 8, 1, stride=1, padding=1)
+        self.conv2 = torch.   
+09-Octoberoberoberoberoberoberoberoberober20_System: You are not connected to a valid AMI with an OS installed [OK] - All checks passed[DEBUG   ] Receiving206775	201893  INFO      ] Completed execution of task TunnelManager.create() for host 'host'. Duration: 1.0 seconds  INFO     ] Done: {'changed': True, 'diff': {'new_hash': '9a5b374e695b4ac3e8b2f7768e1c338b13', '__path__': '/var/lib/ambari-server/stack-artifacts.cache/install/resources/configs/agent_tunnels'}}
+10-Oct 08:45:39 - Finished [  OK  ]
+10-Oct 08:45:42 - Starting  Task [Task id=Task(name='Configure', action_type=<function execute at 0x7fe318206f00>, timeout=None, max_attempts=None, retry_on_result=True, is_final_attempt=False, join=None, args=('ambari-server',), kwargs={}, run_async=False, run_on_all_slaves=False, host='host'), retries={}, ignore_errors={'message': 'AMBARI.ERROR.SERVICE_DOES_NOT_EXIST'}, on_success={})] with the following context: {u'action_parallelism_hint': u'default', u'state': u'started', u'macros': {}, u'execution_type': u'MANUAL'}
+10-Oct 08:45:43 - Started    Task [Task id=Task(name='Configure', action_type=<function execute at 0x7fe318206f00>, timeout=None, max_attempts=None, retry_on_result=True, is_final_attempt=False, join=None, args=('ambari-server',), kwargs={}, run_async=False, run_on_all_slaves=False, host='host'), retries={}, ignore_errors={'message': 'AMBARI.ERROR.SERVICE_DOES_NOT_EXIST'}, on_success={})]
+10-Oct 08:45:43 - Finished   Task [Task id=Task(name='Configure', action_type=<function execute at 0x7fe318206f00>, timeout=None, max_attempts=None, retry_on_result=True, is_final_attempt=False, join=None, args=('ambari-server',), kwargs={}, run_async=False, run_on_all_slaves=False, host='host'), retries={}, ignore_errors={'message': 'AMBARI.ERROR.SERVICE_DOES_NOT_EXIST'}, on_success={})]
+10-Oct 08:45:43 - Starting  Task [Task id=Task(name='Configure', action_type=<function execute at 0x7fe318206f00>, timeout=None, max_attempts=None, retry_on_result=True, is_final_attempt=False, join=None, args=('ambari-server',), kwargs={}, run_async=False, run_on_all_slaves=False, host='host'), retries={}, ignore_errors={'message': 'AMBARI.ERROR.SERVICE_DOES_NOT_EXIST'}, on_success={})] with the following context: {u'action_parallelism_hint': u'default', u'state': u'started', u'macros': {}, u'execution_type': 'MANUAL'}
+10-Oct 08:45:43 - Started    Task [Task id=Task(name='Configure', action_type=<function execute at 0x7fe318206f00>, timeout=None, max_attempts=None, retry_on_result=True, is_final_attempt=False, join=None, args=('ambari-server',), kwargs={}, run_async=False, run_on_all_slaves=False, host='host'), retries={}, ignore_errors={'message': 'AMBARI.ERROR.SERVICE_DOES_NOT_EXIST'}, on_success={})]
+10-Oct 08:45:43 - Finished   Task [Task id=Task(name='\n
+<NAME> Date:  2021/06/11: 09-10-24: # # # # # # # # # # # # # # # # # # # # # # # # # # # # # # #

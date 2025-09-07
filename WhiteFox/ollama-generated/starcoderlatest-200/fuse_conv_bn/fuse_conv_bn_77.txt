@@ -1,0 +1,18 @@
+
+class ConvBnFuse(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+
+    @torch.jit.script_method
+    def forward(x1, x2=None):
+        if x2 is None:
+            conv = torch.nn.ConvXd(...) # X can be 1, 2, or 3 representing the dimension
+            bn   = torch.nn.BatchNormXd(...) # X should match with ConvXd
+        else:
+            conv = torch.nn.functional.convXd(...) # X can be 1, 2, or 3 representing the dimension
+            bn   = torch.nn.functional.batch_norm(...) # X should match with ConvXd
+        output = bn(conv(input_tensor))
+
+        return output
+```
+

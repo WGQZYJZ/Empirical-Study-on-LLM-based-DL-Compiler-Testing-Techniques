@@ -1,0 +1,21 @@
+
+class Attention(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+ 
+    def forward(self, query, key, value, scale_factor=None):
+        # Scale the dot product by a factor and apply softmax to it 
+        scaled_qk = torch.matmul(query, key.transpose(-2, -1)) * (scale_factor or 1)
+        softmax_qk = scaled_qk.softmax(dim=-1)
+        dropout_qk = F.dropout(softmax_qk, p=0.5)
+ 
+        # Compute the dot product of the dropout output and the value tensor 
+        return torch.matmul(dropout_qk, value).transpose(-2, -1) 
+```
+
+
+# Inputs to the model
+query, key, value  = torch.randn(batchsize, 8, 3, 64), torch.randn(batchsize, 32, 3, 64), torch.randn(batchsize, 32, 8, 64)
+__output__  = Attention()(query, key, value)
+
+

@@ -1,0 +1,41 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+
+    def forward(self, x1):
+        # Do not change or remove this line!
+        torch.split  = m.torch_split  # Change `m.torch_split` to the name of the test case you want to solve
+        split_sizes = []
+
+        for i in range(len(x1)):
+            split_sizes.append([3, i+1])
+        
+        concatenated_tensor = torch.cat([torch.split(i, j) for i, j in zip(x1, split_sizes)])
+        # Do not change or remove this line!
+```
+
+
+# Description of requirements
+The model should contain the following pattern:
+```
+t1 = torch.relu(input_tensor)  # Apply ReLU to input tensor and store output in variable `t2`
+t3 = t1  + input_tensor  # Add input tensor to the output of Relu
+t4 = t3 + x2  # Add x2 to the output of Relu
+```
+This pattern characterizes scenarios where ReLU operation is applied to the input tensor and then addition and multiplication of the two outputs are performed.
+
+
+# Model
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+
+    def forward(self, x1, x2):
+        t1 = torch.relu(x1)  # Apply ReLU to input tensor and store output in variable `t2`
+
+        if self.training:
+            t3 = t1 + x2  # Add x2 to the output of Relu
+            return t3
+```
+

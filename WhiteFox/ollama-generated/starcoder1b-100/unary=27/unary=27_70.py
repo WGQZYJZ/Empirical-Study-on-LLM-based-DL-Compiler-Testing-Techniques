@@ -1,0 +1,1 @@
+The keyword argument `min_value` represents the minimum value of the result. The default value is `0`, and the keyword argument `max_value` represents the maximum value of the result. The default value is `255`.

@@ -1,0 +1,23 @@
+
+class Model(torch.nn.Module):
+    def __init__(self, dim=512):
+        super().__init__()
+        self.dim = dim
+        self.query  = torch.nn.Linear(dim, dim)
+        self.key    = torch.nn.Linear(dim, dim)
+        self.value  = torch.nn.Linear(dim, dim)
+        self.scale  = torch.sqrt(torch.FloatTensor([self.dim])).view(-1, 1).expand(-1, self.dim)
+
+    def forward(self, x):
+        # ...
+```
+The model should contain the following pattern:
+```
+    x = x + bias  # Add a constant to the input tensor
+    z = torch.matmul(x, self.weight)  # Compute dot product of input and weights
+    if bias is not None:
+        z += bias  # Add a constant to the output tensor
+    o = F.elu(z)  # Apply ELU to output tensor
+```
+This pattern characterizes scenarios where the dot product of a query and key tensor is computed, then scaled by an inverse scale factor, then softmax is applied, and finally the dot product of the dropout output and a value tensor is computed. This is a typical pattern found in the attention mechanism of Transformer models.
+

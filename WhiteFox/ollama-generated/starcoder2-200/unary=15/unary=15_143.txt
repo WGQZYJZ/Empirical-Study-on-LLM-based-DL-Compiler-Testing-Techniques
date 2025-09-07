@@ -1,0 +1,74 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv  = torch.nn.Conv2d(3, 8, 1, stride=1, padding=1)
+
+    def forward(self, x1): 
+        v1  = self.conv(x1)
+        v2  = torch.relu(v1) # Applying ReLU
+        return v2
+
+# Initializing the model
+m = Model()
+
+
+# Inputs to the model
+x1 = torch.randn(1, 3, 64, 64)
+__output__  = m(x1)
+
+# Description of requirements
+The model should contain the following pattern:
+```
+t1 = conv(input_tensor) # Apply pointwise convolution with kernel size 1 to the input tensor
+t2 = prelu(t1, init=0.75) # Apply the Parametric ReLU activation function to the output of the convolution using an initial value of 0.75
+```
+This pattern characterizes scenarios where a pointwise convolution is applied to an input tensor, and then a parametric ReLU (Parametric Rectified Linear Unit) activation function with an initial value of `0.75` is applied to the output of the convolution. This is a common pattern in convolutional neural networks that replaces the ReLU activation function with a parameterized version that allows for more flexible control over the strength and location of the non-linearity.
+
+
+# Model
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv = torch.nn.Conv2d(3, 8, 1, stride=1, padding=0)
+
+    def forward(self, x1): 
+        v1  = self.conv(x1) # Applying pointwise convolution with kernel size 1 to the input tensor
+        v2  = torch.nn.functional.prelu(v1, init_value=0.75) # Applying PReLU (Parametric Rectified Linear Unit) with initial value of 0.75
+        return v2
+# Initializing the model
+m = Model()
+
+
+# Inputs to the model
+x1 = torch.randn(1, 3, 64, 64) # Creating random input tensor with shape (batch_size, channel, height, width) of size (1, 3, 64, 64)
+__output__  = m(x1)
+
+
+# Description of requirements
+The model should contain the following pattern:
+```
+t0 = tanh(input_tensor1) # Applying a hyperbolic tangent function to an input tensor.
+t2 = conv(input_tensor2) # Apply pointwise convolution with kernel size 3x3 and stride 1 on two input tensors that are 4D tensors of shape (batch_size, channels, height, width).
+t3 = conv(t2) * -0.75 + tanh(conv(input_tensor1)) # Applying two pointwise convolutions with kernel size 3x3 and stride 1 followed by a linear transform and an element-wise ReLU on the output of the first convolution, then applying the hyperbolic tangent function to the output of the second convolution.
+```
+This pattern characterizes scenarios where a set of input tensors are processed sequentially through two pointwise convolutions with kernel size 3x3 followed by one hyperbolic tangent (tanh) function and another linear transform and an element-wise ReLU (max(0, x)) that returns the maximum value of zero or greater. This pattern is common in convolutional neural networks where several successive layers may be stacked to process the input tensors.
+
+
+# Model 
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv1 = torch.nn.Conv2d(in_channels=3, out_channels=8, kernel_size=(3, 3), stride=1)
+
+    def forward(self, x1):
+        t0  = torch.nn.functional.tanh(x1) # Applying a hyperbolic tangent function to an input tensor.
+        t2  = self.conv1(x1) 
+        t3  = self.conv1(t2)* -0.75 + torch.nn.functional.tanh(self.conv1(torch.nn.functional.relu((self.conv1(input_tensor1))))) # Applying two pointwise convolutions with kernel size 3x3 and stride 1 followed by a linear transform and an element-wise ReLU (max(0, x)) on the output of the first convolution
+        return t3
+# Initializing the model
+m = Model()
+
+
+# Inputs to the model
+x1 = torch.randn(24, 3, 68, 50) # Creating a random input tensor with shape (batch_size, channel, height, width) of size (24, 3, 68, 50). The batch_size parameter defines the number of input tensors that are to be processed in parallel.

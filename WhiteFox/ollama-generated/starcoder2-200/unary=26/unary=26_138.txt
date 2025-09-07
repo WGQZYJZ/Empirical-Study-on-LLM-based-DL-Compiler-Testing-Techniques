@@ -1,0 +1,30 @@
+
+class Model(torch.nn.Module):
+    def __init__(self, negative_slope=0.25):
+        super().__init__()
+        self.conv = torch.nn.ConvTranspose2d(8, 3, 1)
+        self.negative_slope = negative_slope
+
+    def forward(self, x1):
+        v1 = self.conv(x1)
+        mask  = v1 > 0
+        v2  = v1 * self.negative_slope
+        v4  = torch.where(mask, v1, v2)
+        return v4
+
+# Initializing the model
+m = Model()
+
+ # Inputs to the model
+x1 = torch.randn(1, 8, 64, 64) 
+
+__output__  = m(x1)
+
+# Description of requirements
+The model should contain the following pattern:
+```
+t1  = conv2d(input_tensor) # Apply 2D convolution to input tensor. 
+t2  = max(t1, 0) * negative_slope + t1  # Apply a Leaky ReLU operation using the negative slope and applying an additive bias term.
+```
+This pattern characterizes scenarios where the output of a 2D convolution is first passed through a max function with a threshold value of zero, then multiplied by `negative_slope`, which acts as a negative slope, before being added to t1.
+

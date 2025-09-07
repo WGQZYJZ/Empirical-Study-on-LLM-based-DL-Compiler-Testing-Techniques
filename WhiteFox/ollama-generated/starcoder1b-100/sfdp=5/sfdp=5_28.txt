@@ -1,0 +1,19 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.attn = torch.nn.Linear(768, 32) # This line needs to be modified because the input is not standard
+        self.dropout = nn.Dropout()
+ 
+    def forward(self, x1):
+        v1  = torch.matmul(x1, x1.transpose(-1, -2)) # Apply the dot product of each row in `x1` with itself, which we also transpose to make it a `torch.bmm` operation
+
+        # Compute attention weights
+        attn_weight  = torch.softmax(v1, dim=-1) # Apply softmax to the result (the last dim of the softmax is equal to -1 here)
+
+        # Apply dropout to attention weights
+        output  = self.dropout(attn_weight @ x1)
+ 
+        return output
+```
+

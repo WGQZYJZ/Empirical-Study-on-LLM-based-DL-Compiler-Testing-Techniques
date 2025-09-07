@@ -1,0 +1,10 @@
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.split = torch.nn.Split(10, dim=2)
+        self.concat = torch.nn.Cat(dim=2)
+ 
+    def forward(self, x1):
+        split_tensors  = self.split(x1)
+        concatenated_tensor  = self.concat([split_tensors[i] for i in range(len(split_tensors))]) # Concatenate the split tensors along dim
+        return concatenated_tensor

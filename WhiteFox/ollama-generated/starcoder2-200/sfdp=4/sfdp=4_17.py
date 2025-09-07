@@ -1,0 +1,6 @@
+model = torch.nn.TransformerEncoderLayer(d_model=4096, dim_feedforward=256)
+__output__  = model()
+model = torch.nn.TransformerEncoderLayer(d_model=4096, dim_feedforward=256)
+
+__output__  = model()
+

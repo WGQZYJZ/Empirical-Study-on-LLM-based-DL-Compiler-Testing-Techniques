@@ -1,0 +1,16 @@
+class Model(torch.nn.Module):
+    def __init__(self, channels=32):
+        super().__init__()
+ 
+        self.conv1 = torch.nn.ConvTranspose2d(channels * 4 + channels // 2,
+                                              channels,
+                                              3,
+                                              stride=(1, 1),
+                                              padding=(1, 1))
+ 
+    def forward(self, x):
+        v1 = self.conv1(x)
+ 
+        return v1
+ 
+model = Model()

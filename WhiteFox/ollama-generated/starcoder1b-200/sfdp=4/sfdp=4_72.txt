@@ -1,0 +1,26 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.query = torch.nn.Linear(3, 64)
+        self.key = torch.nn.Linear(64, 64)
+        self.value = torch.nn.Linear(64, 8)
+        self.attn_mask = None
+        self.dropout = torch.nn.Dropout()
+ 
+    def forward(self, x):
+        # Compute the dot product of `x` and the key tensor
+        kq = self.query(x).transpose(-2, -1) / math.sqrt(self.key(x).size(-1))
+        
+        # Apply softmax to compute the attention weights
+        attn_weight = torch.softmax(kq, dim=-1) 
+        
+        # Compute the dot product of the weights and the value tensor
+        v = self.value(attn_weight)
+        
+        # Add the mask for padding tokens
+        if not self.attn_mask is None:
+            self.attn_mask = self.attn_mask + torch.ones_like(v, device=self.device).triu_(1).to(self.device)
+    
+        return v 
+```

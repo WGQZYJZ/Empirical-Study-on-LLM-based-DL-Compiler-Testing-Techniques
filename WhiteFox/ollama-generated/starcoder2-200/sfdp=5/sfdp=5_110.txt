@@ -1,0 +1,97 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+ 
+    def forward(self, q1, k1, v1, attnmask=None):
+        a1 = q1 @ k1.transpose(-2, -1) / math.sqrt(q1.size(-1)) # Compute the dot product of the query and key, and scale it
+        if attnmask is not None:
+            a1 += attnmask
+        a2  = torch.softmax(a1, dim=-1) 
+        a3  = torch.dropout(a2, p=0.75, training=self._mode_training) # Apply dropout to the softmax output with probability of .75
+        r   = a3 @ v1 # Compute the dot product of the dropout output and the value
+        return r
+
+
+# Initializing the model
+m  = Model()
+
+# Inputs to the model
+q1  = torch.randn(2, 4800)
+k1  = torch.randn(512, 4800)
+v1  = torch.randn(512, 768)
+__output__   = m(q1, k1, v1)
+
+
+# Description of requirements
+The model should contain the following pattern:
+```
+qk  = query @ key.transpose(-2,-1)/math.sqrt(query.size[-1]) # Apply a dot product to compute the similarity between query and key. Then, apply a sqrt normalization operation.
+qk  = qk + attn_mask # Add the attention mask
+attn_weight  = torch.softmax(qk, dim=-1)  # Compute the softmax of the similarity map. The attention weights are obtained as the softmax of the scaled dot product.
+attn_weight  = torch.dropout(attn_weight, dropout_p=0.5, training=self._mode_training)  # Apply dropout to the attention weight with probability .5 (applied with probability .25 in each iteration for a total of three steps. If dropout is applied during inference, then .75 will be used.)
+output       = attn_weight @ value  # Compute the dot product between attention weights and value vectors.
+```
+This pattern characterizes a variant of transformer attention layers where, instead of applying softmax directly after computing the dot product, we first compute the dot product followed by an attention mask. Then using the resulting dot products as input to the softmax function, we compute the attention weights that are used for downstream computations (attention output and layer norm).
+
+
+# Model
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+ 
+    def forward(self, query_tensor1, key_tensor1, value_tensor1, attnmask=None):
+        v1 = torch.zeros([800, 768], dtype=torch.float32) 
+        k1 = torch.randn([512, 4800]) 
+        q1 = torch.randn([2, 4800]) 
+        return v1, k1, q1
+
+
+# Initializing the model
+m  = Model()
+
+# Inputs to the model
+query_tensor1  = torch.randn(3)
+key_tensor1   = torch.randn(512, 4800)  # The size of the key tensor should be at least [B, S].
+value_tensor1    = torch.randn(512, 768) # The size of the value tensor is not required to meet the requirement (only the 3rd dimension matters.)
+attnmask      = torch.ones([2,4], dtype=torch.float32)
+
+ __output__   = m(query_tensor1, key_tensor1, value_tensor1, attnmask=attnmask)
+
+
+
+# Description of requirements
+The model should contain the following pattern:
+```
+qk  = query @ key.transpose(-2,-1)/math.sqrt(query.size[-1]) # Apply a dot product to compute the similarity between query and key. Then, apply a sqrt normalization operation.
+qk  = qk + attn_mask # Add the attention mask
+attn_weight  = torch.softmax(qk, dim=-1)  # Compute the softmax of the similarity map. The attention weights are obtained as the softmax of the scaled dot product.
+attn_weight  = torch.dropout(attn_weight, dropout_p=0.5, training=self._mode_training)  # Apply dropout to the attention weight with probability .5 (applied with probability .25 in each iteration for a total of three steps. If dropout is applied during inference, then .75 will be used.)
+output       = attn_weight @ value  # Compute the dot product between attention weights and value vectors.
+```
+This pattern characterizes a variant of transformer attention layers where, instead of applying softmax directly after computing the dot product, we first compute the dot product followed by an attention mask. Then using the resulting dot products as input to the softmax function, we compute the attention weights that are used for downstream computations (attention output and layer norm).
+
+
+# Model
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+ 
+    def forward(self, query_tensor1, key_tensor1, value_tensor1, attnmask=None):
+ 
+        k1 = torch.zeros([512, 4800], dtype=torch.float32)
+        q1 = torch.randn([2, 4800]) # The size of the query tensor should be at least [B, S].
+        return v1, key_tensor1, value_tensor1
+
+
+# Initializing the model
+m   = Model()
+
+# Inputs to the model
+query_tensor1    = torch.randn(3)
+key_tensor1     = torch.randn([512, 4800]) # The size of the key tensor is not required to meet the requirement (only the 3rd dimension matters.)
+value_tensor1       = torch.randn(512,768)
+
+ __output__   = m(query_tensor1, key_tensor1, value_tensor1)
+
+

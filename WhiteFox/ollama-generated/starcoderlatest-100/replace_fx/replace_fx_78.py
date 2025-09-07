@@ -1,0 +1,1 @@
+The `lowmem_dropout` and `rand_like` functions are available only when the PyTorch binary supports them via extensions, i.e., if your build of PyTorch was compiled with extensions. To run these functions on a CPU device, set the `fallback_random: "false"` configuration in the model configuration file.

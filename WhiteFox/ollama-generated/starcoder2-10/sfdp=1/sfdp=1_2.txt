@@ -1,0 +1,45 @@
+
+class Attention(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.qk = torch.nn.Linear(784, 256)
+        self.softmax = torch.nn.Softmax(-1)
+ 
+    def forward(self, query, key, value):
+        scale_factor  = 0.3  # Scaling factor
+        inv_scale_factor  = scale_factor**-1
+        vq  = self.qk(query).mul_(inv_scale_factor).transpose(-2, -1) 
+        vqsoftmax  = self.softmax(vq) 
+        dropout_vqsoftmax  = torch.nn.functional.dropout(vqsoftmax, p=0.5) 
+        vs  = value
+        vo  = dropout_vqsoftmax @ vs 
+        return vo
+```
+
+# Initializing the model
+m1 = Attention()
+
+
+Inputs to the model:
+query_tensor  = torch.randn(64, 784)
+key_tensor  = torch.randn(256, 784)
+value_tensor  = torch.randn(256, 32, 10)
+
+
+outputs from the model:
+__output1__= m1(query_tensor, key_tensor, value_tensor)
+
+
+# Description of requirements
+The model should contain the following pattern:
+```
+self.conv  = torch.nn.Conv1d(in_channels=640, out_channels=320, kernel_size=(7), stride=1, padding=0, bias=False)
+self.prelu = torch.nn.PReLU()
+self.conv2 = torch.nn.Conv1d(in_channels=320, out_channels=64, kernel_size=(7), stride=1, padding=0, bias=False)
+ 
+for i in range(num):
+    out = self.conv(x)  # Apply pointwise 1D convolution on the input tensor
+    out = self.prelu(out + res)  # Add residual to the output of the 1D convolution
+    out = self.conv2(out)  # Apply another pointwise 1D convolution on the input tensor
+```
+

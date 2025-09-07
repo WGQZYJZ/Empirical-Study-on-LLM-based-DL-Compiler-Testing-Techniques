@@ -1,0 +1,17 @@
+
+class Model(torch.nn.Module):
+    def __init__(self, other=None):
+        super().__init__()
+        self.conv = torch.nn.Conv2d(3, 8, 1, stride=1, padding=1)
+        if other is None:
+            other = torch.tensor(0).cuda()
+ 
+    def forward(self, x1, other):
+        v1 = self.conv(x1) + other  # Add another tensor to the output of the convolution
+        return v1
+
+
+# Initializing the model
+m = Model()
+
+

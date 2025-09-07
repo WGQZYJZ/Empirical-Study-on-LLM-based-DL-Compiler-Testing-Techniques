@@ -1,0 +1,36 @@
+
+class Model(torch.nn.Module):
+    def __init__(self, dim=0):
+        super().__init__()
+ 
+    def forward(self, x1):
+        v1 = torch.addmm(x1, self.w1, self.b1) # Matrix multiplication followed by an addition (with a bias) of the input tensor with a matrix and a bias
+        v2 = torch.cat([v1], dim=dim) # Concatenate the result along a specified dimension
+        return v2
+ 
+    def extra_repr(self):
+        return 'dim: {}'.format(self.dim)
+ 
+
+class ModelWithoutExtraRepr(torch.nn.Module):
+    def __init__(self, dim=0):
+        super().__init__()
+ 
+    def forward(self, x1):
+        v1 = torch.addmm(x1, self.w1, self.b1) # Matrix multiplication followed by an addition (with a bias) of the input tensor with a matrix and a bias
+        v2 = torch.cat([v1], dim=dim) # Concatenate the result along a specified dimension
+        return v2
+
+# Initializing the model
+m = ModelWithoutExtraRepr(dim=0)
+m2 = ModelWithoutExtraRepr(dim=1)
+
+
+# Inputs to the model
+x1 = torch.randn(1, 3, 64, 64)
+__output_without_extrarepr__ = m(x1) # Output of this operation should be different from that of one with extra_repr defined.
+__output_with_extrarepr__ = m2(x1)
+
+
+# Please generate a valid PyTorch model example with public PyTorch APIs meets the specified requirements. Plus, please also generate the input tensor for the newly generated model. The model should be different from the previous one.
+```

@@ -1,0 +1,13 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+
+    def forward(self, x1):
+        t2 = torch.cat([x1, x1], dim=-1)  # Concatenate tensors along a dimension with one extra dimension at the end
+        return torch.relu(t2.view(x1.size()[0] * x1.size()[1]))  # Apply a pointwise unary operation (e.g., ReLU or Tanh) to the reshaped tensor
+```
+# Implementation of user-defined rules
+# Rule name | Matching pattern
+# ---|---|---|---
+`sink_cat_after_pointwise` | ```t2 = torch.cat([t1, t1], dim=-1)```

@@ -1,0 +1,31 @@
+
+class EncoderBlock(torch.nn.Module):
+    def __init__(self, dim=512):
+        super().__init__()
+ 
+        self.norm  = torch.nn.LayerNorm(dim) 
+        self.att  = torch.nn.MultiheadAttention(3 * dim // 4 , 8) # The size of the query, key and value must be divisible by four in Multihead Attention
+        self.ffn1 = torch.nn.Linear(dim, 2048) 
+        self.ffn2 = torch.nn.Linear(2048, dim)
+ 
+    def forward(self, x):
+        x_att = self.norm(x + self.att(x)[0]) 
+        x  = self.norm(x + self.ffn2(torch.relu_(self.ffn1(x_att)))) # Apply pointwise convolution with kernel size 1 to the output of the MultiheadAttention operation, and then multiply it by another constant 0.5
+        return x
+
+
+# Initializing the model
+m = EncoderBlock()
+
+
+# Inputs to the model
+x = torch.randn(2, 32, 8)
+
+
+# Model output
+output1 = m(x)
+
+
+# Model parameters:
+```
+self.att.

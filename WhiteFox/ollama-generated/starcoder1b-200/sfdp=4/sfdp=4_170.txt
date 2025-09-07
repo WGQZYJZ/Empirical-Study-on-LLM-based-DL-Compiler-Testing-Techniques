@@ -1,0 +1,30 @@
+
+class Model(torch.nn.Module):
+    def __init__(self, input_dim=None):
+        super().__init__()
+        self.query = torch.nn.Linear(input_dim, input_dim)
+        self.key   = torch.nn.Linear(input_dim, input_dim)
+        self.value = torch.nn.Linear(input_dim, input_dim)
+        self.attn  = None
+
+    def forward(self, x1):
+        query  = self.query(x1)
+        key    = self.key(x1)
+        value  = self.value(x1)
+        attn   = self.attn if self.attn is not None else self._attention(query, key)
+        output = torch.matmul(attn, value).squeeze(-2)
+        return output
+
+    def _attention(self, q, k):
+        # q  : query tensor
+        # k  : key tensor
+        size = q.size()[:-1] + (k.size(-1),)  # Compute the size of a tensor
+        if self.attn is not None:
+            self.attn.weight = self.attn.weight * attn_mask  # Add the attention mask to the scaled dot product
+            return self.attn.unsqueeze(0).matmul(q.unsqueeze(0)).squeeze(-2)  # Compute the weighted sum of the value tensor
+        else:
+            # Set up linear transformation from query and key tensors, followed by a softmax over the resulting values
+            matmul = torch.bmm(q.transpose(1, 2), k.transpose(1, 2))  # Compute the dot product of the query and key
+            attn_weight = torch.softmax(matmul / math.sqrt(size[-2]), dim=-1)  # Apply softmax to the result
+            return attn_weight @ value  # Compute the weighted sum of the value tensor
+```

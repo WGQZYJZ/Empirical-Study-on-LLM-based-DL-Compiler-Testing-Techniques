@@ -1,0 +1,19 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.linear = torch.nn.Linear(2, 2)
+
+    def forward(self, x1):
+        # Dropout and linear are replaced with their replacements (lowmem_dropout and rand_like respectively). The original nodes invoking dropout or rand_like will be erased from the graph when these functions are invoked in the forward function.
+
+        v1 = x1.permute(0, 2, 1)
+        v2 = torch.nn.functional.linear(v1, self.linear.weight, self.linear.bias)
+        return v2
+
+
+# Initializing the model
+m = Model()
+```
+
+---

@@ -1,0 +1,19 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.linear = torch.nn.Linear(...)
+
+    def forward(self, x1):
+        v1 = x1.view(x1.shape[0], 2, -1)
+        v2 = self.linear(v1)
+        return v2
+```
+This model contains the following patterns:
+```
+tensor1.view(-1).unsqueeze(0)  # Reshape and permute the first dimension to make it as a view.
+tensor1.permute(...).view(1, -1) # Concatenate the second dimension of tensor1 into one dimension.
+tensor1.cat([tensor2, ...], dim=...) # Concatenate tensors along a dimension.
+torch.relu(...)  # Apply a pointwise unary operation (e.g., ReLU or Tanh).
+```
+

@@ -1,0 +1,23 @@
+
+class Model(torch.nn.Module):
+    def __init__(self, num_keys=8):
+        super().__init__()
+        self.conv1  = torch.nn.Conv2d(3, 8, 1, stride=1, padding=1) # Input channels: 3 (red) -> Output channels: 8 (green)
+        self.fc    = torch.nn.Linear(num_keys, num_keys) # Hidden layer size is 4
+    def forward(self, x):
+        k   = x @ x.transpose(-2, -1)  # Compute dot product of input and input itself to obtain a square matrix q (output shape: (B,B))
+        attn_mask  = torch.zeros(x.shape[0], x.shape[0]).cuda() # Initialize an attention mask tensor with zeros for batch size B
+        attn_mask.requires_grad_(True) # Gradient to the attention weights will be calculated by default
+        qk   = k @ attn_mask / math.sqrt(k.size(-1))  # Compute the dot product of q and input, and scale it (output shape: (B, B))
+        attn_weight = torch.softmax(qk, dim=-1)  # Apply softmax to the result
+        qk   = qk * attn_mask / math.sqrt(k.size(-1))  # Compute the dot product of q and input scaled by a factor sqrt(B) (output shape: (B, B))
+        attn_weight @ x  # Apply value output and attention weights to query input to obtain v (output shape: (B, B))
+```
+# Input tensor for the model generated in this script
+
+# Input example for the model generated in this script
+# Input tensor for the model generated in this script
+# Attention mask. It should be a 2D float32 array with shape `[batch_size, batch_size]`. It must contain a `1` at every index position.
+
+
+```

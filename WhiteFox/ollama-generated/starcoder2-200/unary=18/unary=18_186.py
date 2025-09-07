@@ -1,0 +1,22 @@
+import torch
+from collections import OrderedDict
+
+class Layer(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+
+    def forward(self, input):
+        return [0.5 * x1 + 0.7071067811865476 * x2 for (x1, x2) in zip(input)]
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+
+        self.conv = torch.nn.Conv2d(3, 8, 1, stride=1, padding=0)
+        self.act = Layer()
+
+    def forward(self, input_tensor):
+        t1 = self.conv(input_tensor)
+        t2 = [v for v in self.act([t1])] # Apply the error function to the output of the convolution
+
+        return t2

@@ -1,0 +1,22 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.linear = torch.nn.Linear(320, 16)
+ 
+    def forward(self, x1, other=None):
+        v1 = self.linear(x1)
+        if other is not None:
+            v2 = v1 + other
+        else:
+            v2 = v1
+        return v2
+
+
+# Initializing the model
+m = Model()
+# Inputs to the model
+x1 = torch.randn(3, 320)
+v1 = m(x1, x2=torch.randn(4, 6))
+```
+This example shows how users can add keyword arguments with default values and specify keyword argument names that don't conflict with other parameters in their own model function signature (e.g., "input_tensor" is a keyword argument and does not interfere with the input of the model).

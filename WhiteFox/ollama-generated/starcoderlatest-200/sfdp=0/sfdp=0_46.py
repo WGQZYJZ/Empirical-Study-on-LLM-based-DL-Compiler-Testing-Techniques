@@ -1,0 +1,22 @@
+query  = (Q1 * W1^T + Q2 * W2^T + ... Qn * Wn^T).unsqueeze(dim=0)
+key    = (K1 * W1^T + K2 * W2^T + ... Kn * Wn^T).unsqueeze(dim=0)
+inv_scale = sqrt(kdim) / 16.
+scaled_dot_product = torch.matmul(query, key.transpose(-2, -1)) / inv_scale
+attention_weights = scaled_dot_product.softmax(dim=-1)
+output = attention_weights.matmul(value)
+Q1    = torch.unsqueeze(Q1, dim=0) * (kdim/Vdim)^-0.5
+Q2    = torch.unsqueeze(Q2, dim=0) * (kdim/Vdim)^-0.5
+...
+Qn+2  = torch.unsqueeze(Qn+2, dim=0) * (kdim/Vdim)^-0.5
+Q(n+3) = torch.unsqueeze(Q1, dim=0) + Q2 + ... + Qn+2
+
+K1    = torch.unsqueeze(K1, dim=0) * (kdim/Vdim)^-0.5
+K2    = torch.unsqueeze(K2, dim=0) * (kdim/Vdim)^-0.5
+...
+Kn+2  = torch.unsqueeze(Kn+2, dim=0) * (kdim/Vdim)^-0.5
+K(n+3) = torch.unsqueeze(K1, dim=0) + K2 + ... + Kn+2
+
+1.   Qi and Ki are the query tensor for ith layer with shape (batch_size x qdim).
+2.   Pi is the input tensor for ith layer with shape (batch_size x pdim).
+3.   Qi and Ki are also the queries of subsequent layers, which should be equal to the queries of the last layer. Therefore, we can infer that qdim = pdim for all layers except the last one. The output dimension is given by kdim for all layers except the last one.
+4.   We assume 0 <= Vi <= Vdim^2 and that there are at most 256 layers.

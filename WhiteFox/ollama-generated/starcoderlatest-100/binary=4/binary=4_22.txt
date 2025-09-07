@@ -1,0 +1,17 @@
+
+class Model(torch.nn.Module):
+    def __init__(self, other):
+        super().__init__()
+        self.lin = torch.nn.Linear(3, 8)
+ 
+    def forward(self, x1):
+        v1 = self.lin(x1)
+        v2 = v1 + other
+        return v2
+
+
+# Initializing the model
+m = Model(x1)
+
+# Inputs to the model
+x1_new = torch.randn(1, 3, 64, 64)

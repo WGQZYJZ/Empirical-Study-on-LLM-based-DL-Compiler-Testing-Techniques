@@ -1,0 +1,48 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.fc  = torch.nn.Linear(784, 20)
+ 
+    def forward(self, x1):
+         v1  = self.fc(x1)
+         v3  = F.relu(v1) # Applies the ReLU function to the output of the linear transformation
+        return v3
+
+
+# Initializing the model
+m  = Model()
+
+# Inputs to the model
+x1 = torch.randn(64, 784).to(device)
+
+__output__= m(x1)
+
+<end_of_text>
+
+# Description of requirements
+The model should contain the following pattern:
+```
+t2 = relu(t1) # Applying the ReLU function to the output of the linear transformation 
+t3 = maxpool(t2, kernel_size=kernel_size) # Applying the 2D max pooling operation to the output of the ReLU activation function with a specified window size.
+```
+This pattern characterizes scenarios where an input tensor is first passed through a ReLU (Rectified Linear Unit) layer, and then a 2D max pooling layer is applied on the output of that ReLU layer. The kernel size parameter in this example refers to the window size used for the maxpooling operation. This is commonly used to reduce the spatial dimensionality of an input tensor by applying a pooling operation, which can help in improving model accuracy and reducing computational resources.
+
+
+# Model
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.maxpool  = nn.MaxPool2d(kernel_size=4)
+ 
+    def forward(self, x1):
+         v1   = F.relu(x1)
+         v3  = maxpool(v1, kernel_size=4) # Applies the ReLU function to the input tensor
+        return v3
+
+# Initializing the model
+m  = Model()
+
+
+# Inputs to the model
+x1 = torch.randn(64, 784).to(device)

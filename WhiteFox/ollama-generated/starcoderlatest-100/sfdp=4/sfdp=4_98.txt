@@ -1,0 +1,31 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.attn_mask = torch.zeros(1, 32, 64, 64).float().cuda()
+ 
+    def forward(self, xq, xk, xv):
+        qk = query @ key.transpose(-2, -1) / math.sqrt(query.size(-1)) # Compute the dot product of the query and key, and scale it
+        qk = qk + attn_mask # Add the attention mask to the scaled dot product
+        attn_weight = torch.softmax(qk, dim=-1) # Apply softmax to the result
+        output = attn_weight @ value # Compute the dot product of the attention weights and the value
+        return output
+
+
+# Test code for verifying the model
+x_query = x1.cuda()  # 1, 3, 64, 64
+x_key   = x2.cuda()  # 1, 8, 64, 64
+x_value = x3.cuda()  # 1, 8, 64, 64
+output  = model(x_query, x_key, x_value)  # 1, 8, 64, 64
+print('Output: ', output.size())
+
+
+# Generate new input for the model and verify its correctness.
+__input__ = torch.randn(1, 3, 64, 64).cuda()  # The input should be different from that generated above.
+output_new = m(__input__)  # Apply the newly generated model on a new input. You can use any framework to generate this new tensor. Please note that all of your previous steps in this workflow must work correctly with the newly generated input as well, i.e., you cannot reuse the generated input for future runs or try to predict the output using the model trained on the original input dataset and the newly generated one (i.e., you cannot use a previously trained model).
+print('Output: ', output_new.size())
+
+
+# Verify that no matter how many times we rerun the code above, if the new input is used to run the newly generated model, it always produces the same result.
+assert torch.allclose(__output__, output_new) # True
+```

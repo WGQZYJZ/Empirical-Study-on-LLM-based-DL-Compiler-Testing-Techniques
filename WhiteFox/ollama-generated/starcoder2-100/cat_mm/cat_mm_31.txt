@@ -1,0 +1,20 @@
+
+
+```
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+ 
+    def forward(self, x1, x2):
+        v1 = torch.mm(x1, x2)
+        v2 = torch.cat([v1] * 5, dim=0)
+        return v2
+```
+# Initializing the model
+m  = Model()
+__input_1__  = torch.randn(3, 4, dtype=torch.double, device='cuda')
+__input_2__  = torch.randn(4, 5, dtype=torch.double, device='cuda')
+
+ # Inputs to the model
+x1  = torch.randn(640, 8)
+x2  = torch.randn(3, 7, 9, 11, 13, 15, 17, 19, 21, 23, 25, 27, 29, 31, 33)

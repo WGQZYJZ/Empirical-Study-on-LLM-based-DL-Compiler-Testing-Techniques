@@ -1,0 +1,16 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.attn = torch.nn.Linear(d_k, d_v)
+
+    def forward(self, x1, x2):
+        key = self.attn(x2).unsqueeze(-1)  # Compute the dot product of each row of query and each column of key
+        scaled_key = key.div(math.sqrt(d_k))  # Scale the dot product by sqrt(d_k)
+        attention_weights = scaled_key.softmax(dim=-1)  # Apply softmax to the scaled dot product
+        dropout_attention = torch.nn.functional.dropout(attention_weights, p=dropout_p)  # Apply dropout to the attention weights output
+        value = self.attn(x1).unsqueeze(0)  # Compute the dot product of each row of query and each column of value
+        return dropout_attention.matmul(value)  # Compute the dot product of the attention weights output and the value
+```
+This pattern characterizes scenarios where the attention weights are computed, then softmax is applied to them, then the result is then multiplied by an identity matrix `1` for the same reason as above.
+

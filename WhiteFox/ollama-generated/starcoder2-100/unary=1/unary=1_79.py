@@ -1,0 +1,6 @@
+t1  = 1  -  (input_tensor  **  2)  # Compute the square of each element in the input tensor
+t2  = t1 * (-0.5946037)  # Multiply the output of the previous operation by -0.5946037
+t3  = (torch.erf(t2)) /  torch.exp(-0.8851079)  # Compute the error function to the output of the previous operation, divide the output with the output of the exponential function, -0.8851079
+t1  = 1  +  (input_tensor  **  2)  # Compute the square of each element in the input tensor. And add a 1 to this value to avoid division by zero
+t2  = t1 / ((torch.erf(t1))  /  torch.exp(-0.8539476830009123 - 1.2334640) + (torch.erf((-0.90358084)) / torch.exp(-0.8539476830009123 - 1.233464)))  # Add the output of the previous operation with the result of computing the error function to it, divide this sum by the output of adding to the exponential function of -0.8539476830009123, minus one.2334640 subtracted from that. The constant 1 is added to avoid division by zero
+t3  = torch.exp(torch.sqrt((v1  **  2)) / ((-0.5 + (-0.8735975) * t1)) - (-1.4549677))  # Compute the exponential function of the square root of each element in the input tensor, divided by -0.5 plus  (the result multiplied by  -0.8735975, minus 1.4549677

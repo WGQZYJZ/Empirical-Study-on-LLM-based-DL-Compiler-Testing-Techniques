@@ -1,0 +1,11 @@
+t1 = conv(input_tensor) # Apply pointwise convolution with kernel size 1 to the input tensor
+t2 = t1 / (t1 + t3) # Divide the output of the convolution by (output of the convolution + square of a constant)
+t3 = 0.5 # Assign the value 0.5 to the constant
+t4 = conv(input_tensor) # Apply pointwise convolution with kernel size 1 to the input tensor
+t5 = t4 * t4  # Square the output of the second convolution
+t6 = t2 + t5 # Add the result of the first operation and the second operation to each other
+t7 = conv(input_tensor) # Apply pointwise convolution with kernel size 1 to the input tensor
+t8 = t3 * t7  # Multiply the output of the third convolution by the constant
+t9 = (0.5 + t6 * t8) / (0.7071067811865476 + t6 * t8) # Divide the result of the previous operation and a combination of constants to each other
+t10 = conv(input_tensor) # Apply pointwise convolution with kernel size 1 to the input tensor
+t11 = t9 * t10 # Multiply the output of the fourth operation by the output of the third operation

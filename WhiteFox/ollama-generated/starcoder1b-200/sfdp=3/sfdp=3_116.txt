@@ -1,0 +1,34 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv = torch.nn.Conv2d(3, 8, 1, stride=1, padding=1)
+ 
+    def forward(self, x1):
+        v1 = self.conv(x1)
+        qk = torch.matmul(v1, v1.transpose(-2, -1))
+        v2 = qk.mul(0.5).mul(q2)
+        v3 = torch.nn.functional.dropout(q2, p=dropout_p)
+        v4 = torch.matmul(x1.transpose(-2, -1), v3)
+        return v4
+
+
+# Inputs to the model
+m = Model()
+
+# Inputs to scale the input
+k  = torch.randn(8, 3, 64, 64) # k: a 8-dimension tensor with shape (batch_size, 3, width, height)
+q1 = torch.randn(8, 1024)        # q1: a 8-dimension tensor with shape (batch_size, number of key features per sequence)
+scale_factor = 0.7
+
+# Outputs to scale the input
+v2  = k.matmul(k.transpose(-2, -1)) * scale_factor  # q2: a 8-dimension tensor with shape (batch_size, 3*3*8)
+v2i = v2.tril()                                  # q2i: an identity matrix with shape (3*3, 3*3)
+v3i = torch.eye(3).unsqueeze(-1).expand(*v2.shape[:-1], -1, v2.shape[-1])   # q3i: a 3-dimension tensor with shape (batch_size, width, height)
+q2 = v3i @ k + torch.matmul(k, v2i)               # q2: a 8-dimension tensor with shape (batch_size, number of key features per sequence)
+
+
+# Output
+v4 = m(x1)
+```
+This pattern characterizes scenarios where the output from a convolution is multiplied by `0.5` and then the input to that convolution is multiplied by `0.7071067811865476`, so the error function `torch.erf()` is applied, and then the result of the error function is added to the output, resulting in a new value from the model.

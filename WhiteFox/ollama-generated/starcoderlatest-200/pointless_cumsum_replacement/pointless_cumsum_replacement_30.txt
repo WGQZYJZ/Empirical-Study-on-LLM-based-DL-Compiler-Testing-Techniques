@@ -1,0 +1,84 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+ 
+    def forward(self, x1, x2):
+        v1 = torch.full([x1.shape[0], x2.shape[-2]], 1, dtype=x1.dtype, device=x1.device)
+        v2 = convert_element_type(v1, x1.dtype)
+        v3 = torch.cumsum(v2, dim=(-2))
+        return v3
+
+
+# Inputs to the model
+x1 = torch.randn(4, 5, 8, 9) # input tensor of shape [16, 20, 8, 9]
+x2 = torch.randn(16, 20, dtype=torch.int32) # another tensor with the same size as `x1` but a different dtype (dtype: int32)
+
+
+# Generate valid PyTorch model example with public PyTorch APIs meets the specified requirements. Plus, please also generate the input tensor for the newly generated model. The model should be different from the previous one.
+# Description of requirements
+The model should contain the following pattern:
+```
+t1 = torch.arange(start=0, end=32, step=1) # Create a 0-dim tensor with size 32, dtype long
+t2 = t1[0] + 4  # Add an element of the tensor to itself
+t3 = convert_element_type(t2, int64)  # Convert the elements of the tensor to int64
+t4 = torch.max(t3, dim=None)  # Compute the max value along all dimensions of the tensor
+t5 = t1 + 5 # Add a constant value of 5 to each element in the tensor
+```
+This pattern characterizes scenarios where a scalar `0` is created with size `32`, then an `int64` tensor is created and filled with the elements of the `int64` tensor plus `4`, and then they are converted to a different dtype, and then the maximum value along all dimensions of the tensor is computed, and then each element in the tensor is added a constant value `5`.
+
+
+# Model
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+ 
+    def forward(self, x1, x2):
+        v1 = torch.arange(0, 32, dtype=x1.dtype, device=x1.device)
+        v2 = v1[0] + 4
+        v3 = convert_element_type(v2, x1.dtype)
+        v4 = torch.max(v3, dim=None)
+        v5 = v1 + 5
+        return v5
+
+# Inputs to the model
+x1 = torch.randn(20, 32, dtype=torch.int64) # input tensor of shape [20, 32]
+x2 = torch.randn(8, dtype=torch.float32) # another tensor with the same size as `x1` but a different dtype (dtype: float32)
+
+
+# Generate valid PyTorch model example with public PyTorch APIs meets the specified requirements. Plus, please also generate the input tensor for the newly generated model. The model should be different from the previous one.
+# Description of requirements
+The model should contain the following pattern:
+```
+t1 = torch.arange(start=0, end=32, step=1) # Create a 0-dim tensor with size 32, dtype long
+t2 = t1[0] + 4  # Add an element of the tensor to itself
+t3 = convert_element_type(t2, int64)  # Convert the elements of the tensor to int64
+t4 = torch.max(t3, dim=None)  # Compute the max value along all dimensions of the tensor
+t5 = t1 + 5 # Add a constant value of 5 to each element in the tensor
+```
+This pattern characterizes scenarios where a scalar `0` is created with size `32`, then an `int64` tensor is created and filled with the elements of the `int64` tensor plus `4`, and then they are converted to a different dtype, and then the maximum value along all dimensions of the tensor is computed, and then each element in the tensor is added a constant value `5`.
+
+
+# Model
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+ 
+    def forward(self, x1):
+        v1 = torch.arange(0, 32, dtype=x1.dtype, device=x1.device)
+        v2 = v1[0] + 4
+        v3 = convert_element_type(v2, int64)
+        v4 = torch.max(v3, dim=None)
+        v5 = v1 + 5
+        return v5
+
+# Inputs to the model
+x1 = torch.randn(20, 32, dtype=torch.int64) # input tensor of shape [20, 32]
+x2 = torch.randn(8, dtype=torch.float32) # another tensor with the same size as `x1` but a different dtype (dtype: float32)
+
+
+# Generate valid PyTorch model example with public PyTorch APIs meets the specified requirements. Plus, please also generate the input tensor for the newly generated model. The model should be different from the previous one.
+# Description of requirements
+The model should contain the following pattern:
+```
+tententententyententententententententententententententententententententententententententententententent

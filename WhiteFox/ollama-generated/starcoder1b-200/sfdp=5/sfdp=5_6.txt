@@ -1,0 +1,23 @@
+
+class Model(torch.nn.Module):
+    def __init__(self, m1, k1, v1, m2, k2, v2, attn_mask, qk_scale, dropout_p):
+        super().__init__()
+        self.m1 = m1
+        self.k1 = k1
+        self.v1 = v1
+        self.m2 = m2
+        self.k2 = k2
+        self.v2 = v2
+        self.attn_mask = attn_mask
+        self.qk_scale = qk_scale
+        self.dropout_p = dropout_p
+
+    def forward(self, x1):
+        query = x1  # Shape [batch, seq, in_features]
+        key   = x1  # Shape [batch, seq, in_features]
+        value = x1  # Shape [batch, seq, in_features]
+
+        attn_weights = self.attention(query, key, value)
+        attention = self.dropout(attn_weights)
+        return self.m2 @ attention  # Shape [batch, seq, out_features]
+```

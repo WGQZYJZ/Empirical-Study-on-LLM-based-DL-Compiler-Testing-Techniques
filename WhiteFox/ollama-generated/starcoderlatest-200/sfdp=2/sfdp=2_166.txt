@@ -1,0 +1,129 @@
+
+class Attention(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+ 
+    def forward(self, query, key, value):
+        v = self.matmul(query, key)  # Compute the dot product of the query and the key
+        scaled_v = v.div(inv_scale_factor)  # Scale the dot product by the inverse scale factor
+        softmax_v = scaled_v.softmax(-1)  # Apply softmax to the scaled dot product
+        dropout_v = torch.nn.functional.dropout(softmax_v, p=dropout_p)  # Apply dropout to the softmax output
+        return dropout_v.matmul(value)
+ 
+    def matmul(self, query, key):
+        return torch.matmul(query, key.transpose(-2, -1))
+ 
+ 
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.attention = Attention()
+ 
+    def forward(self, query, key, value):
+        output = self.attention(query, key, value)
+        return output
+
+
+# Initializing the model
+m = Model()
+
+ # Inputs to the model
+q1  = torch.randn(1, 8, 64, 64)
+k1  = torch.randn(1, 8, 64, 64)
+v1  = torch.randn(1, 8, 64, 64)
+
+ # _______________________________________________________________ 
+ # Please generate a valid PyTorch model example with public PyTorch APIs meets the specified requirements. Plus, please also generate the input tensors for the newly generated model. The model should be different from the previous one.
+# Description of requirements
+The model should contain the following pattern:
+```
+out1 = out1 + self_attn(x)  # Add a linear convolution to the output of the attention layer
+out2 = torch.nn.functional.avg_pool2d(out1, kernel_size=3, stride=2, padding=1)  # Apply an average pooling layer with kernel size 3 and stride 2 to the input of out1
+```
+This pattern characterizes scenarios where a linear convolution is added to the output of the attention layer, then an average pooling layer with kernel size `3` and stride `2` is applied.
+
+ # Model
+class Attention(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+ 
+    def forward(self, query, key, value):
+        v = self.matmul(query, key)  # Compute the dot product of the query and the key
+        scaled_v = v.div(inv_scale_factor)  # Scale the dot product by the inverse scale factor
+        softmax_v = scaled_v.softmax(-1)  # Apply softmax to the scaled dot product
+        dropout_v = torch.nn.functional.dropout(softmax_v, p=dropout_p)  # Apply dropout to the softmax output
+        return dropout_v.matmul(value)
+ 
+    def matmul(self, query, key):
+        return torch.matmul(query, key.transpose(-2, -1))
+ 
+ 
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.attention = Attention()
+ 
+        self.fc  = torch.nn.Conv2d(3072, 8, 1)
+        self.maxpool = torch.nn.AdaptiveAvgPool2d((64, 64))
+ 
+    def forward(self, x):
+        # _______________________________________________________________ 
+        # Please generate a valid PyTorch model example with public PyTorch APIs meets the specified requirements. Plus, please also generate the input tensors for the newly generated model. The model should be different from the previous one.
+# Description of requirements
+The model should contain the following pattern:
+```
+out1 = out1 + self_attn(x)  # Add a linear convolution to the output of the attention layer
+out2 = torch.nn.functional.avg_pool2d(out1, kernel_size=3, stride=2, padding=1)  # Apply an average pooling layer with kernel size 3 and stride 2 to the input of out1
+```
+This pattern characterizes scenarios where a linear convolution is added to the output of the attention layer, then an average pooling layer with kernel size `3` and stride `2` is applied.
+
+ # Model
+class Attention(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+ 
+    def forward(self, query, key, value):
+        v = self.matmul(query, key)  # Compute the dot product of the query and the key
+        scaled_v = v.div(inv_scale_factor)  # Scale the dot product by the inverse scale factor
+        softmax_v = scaled_v.softmax(-1)  # Apply softmax to the scaled dot product
+        dropout_v = torch.nn.functional.dropout(softmax_v, p=dropout_p)  # Apply dropout to the softmax output
+        return dropout_v.matmul(value)
+ 
+    def matmul(self, query, key):
+        return torch.matmul(query, key.transpose(-2, -1))
+ 
+ 
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.attention = Attention()
+ 
+        self.fc  = torch.nn.Conv2d(3072, 8, 1)
+ 
+    def forward(self, x):
+        return 𝐸ₘI116:5566:544444:3333:22:11:0
+-v: Verbose
+```
+
+
+# Test with V2
+
+<b>docker logs -f a8d9943a17b2</b><br />
+
+```
+I have created this file in order to make sure that the port mapping is working for my server.
+In case of problems, please consult the documentation at https://github.com/AstraZeneca-DataScience/OpenNMT-py#usage-of-docker
+If you can't connect to your host machine on the default ports 8081 (main process), use the parameter --host <ip> to specify an alternative one, eg: --host 0.0.0.0 or --host :8081 for a non-root user. 
+
+(node:7) [DEP0022] DeprecationWarning: Passing the `--inspect` option will not start your Node.js process with inspector enabled.
+(node:7) [DEP0022] DeprecationWarning: Passing the `--debug-brk` option will not start your Node.js process with source maps enabled.
+141139690275512: Using /tmp/opennmt as a temporary directory.
+141139690275512: Preparing the data ... 
+141139691304824: Building vocabulary from train + valid data ... 
+141139691444276: Loading dataset from cache (which takes a few minutes, up to 3 times faster than in-memory).
+141139691444276: Found pre-trained model at models/baseline_attention.pt. Please consider specifying --pretrained-model if you want to use this instead of training from scratch.
+141139703584580: [W] Cuda library not available, GPU acceleration disabled ( set the KEEP_GPU_MEMORY env variable or pass 'no_cuda' flag for a CPU only version). To enable CUDA support please check http://docs.nvidia.com/cuda/.
+141139721076156: Loading the word-embedding model from models/baseline_attention.pt ... 
+141139724820564: Sampling 3 batches of size 4096 for validating with beam search decoding (which can take a while the first time it's run) ...
+```
+

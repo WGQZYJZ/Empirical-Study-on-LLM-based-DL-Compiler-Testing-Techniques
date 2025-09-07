@@ -1,0 +1,41 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+ 
+    def forward(self, x1):
+        v0 = torch.randn(256, 4) # Random 3-d tensor
+        v1 = torch.ones(v0.shape[1]) # Full of ones in shape [1]
+        
+        # Apply pointwise multiplication with the first input from a batch to each row 
+        v2 = torch.mul(x1[:, None], v0).sum(-2) 
+        
+        # Add another tensor
+        v3 = v2 + other
+
+        # Apply the ReLU activation function to the result
+        v4 = torch.relu(v3) 
+        return v4, x1
+
+
+# Initializing the model
+m  = Model() 
+
+# Input tensor
+x1 = torch.randn(8096, 57, 24) # 8096 tensors in shape [batch_size]
+
+# Inputs to the model
+x1 = x1[:3] # 3 input tensors from a batch of size 8096
+
+# Other tensor (added to the result of the first convolutional layer, 4th line)
+other = torch.randn(57 * 24) 
+
+
+# Description of requirements
+The model should contain the following pattern:
+```
+t1 = input_tensor  # Select a portion from the input tensor
+t2 = t1[:, None] + other  # Concatenate another tensor onto each row in the result and add it to the output of the first convolutional layer 4th line. Please note that the first dimension here is [batch_size].
+t3 = torch.relu(t2) # Apply the ReLU activation function to the result.
+```
+

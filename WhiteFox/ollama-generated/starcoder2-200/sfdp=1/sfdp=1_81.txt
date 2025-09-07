@@ -1,0 +1,32 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.att = torch.nn.MultiheadAttention(embed_dim=8, num_heads=2)
+
+    def forward(self, query, key, value): 
+        v1  = self.att(query, key, value)[0]
+        return v1
+
+
+# Initializing the model
+m  = Model()
+
+
+# Inputs to the model
+__input__  = torch.randn(432967,8) # 2D tensor of shape (N, embed_dim)
+__key__  = torch.randn(432967, 8) # 2D tensor of shape (N', embed_dim)
+__value__  = torch.randn(432967, 16) # 2D tensor of shape (N, num_heads * embed_dim // num_heads)
+
+ __output__  = m(__input__, __key__, __value__)
+
+
+# Description of the problem
+I found the following pattern:
+```
+v1 = torch.nn.functional.pad(conv(x2), pad=((0, 3), (0, 3), (0, 3), (0, 3)), value=1)(x1) * 50 / 49672
+```
+This pattern characterizes scenarios where the input tensor is padded with a constant `1`, then the output of the convolution is multiplied by an inverse scale factor `50 / 49672` and the result is cast to a type that will be used for subsequent computations. This is most likely one of the common operations performed in preprocessing steps.
+
+
+I want to know why this pattern occurs, without being able to directly manipulate the graph representation. If you can provide more information about the reasoning process or a link where this kind of pattern occurs would be very helpful!

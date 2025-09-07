@@ -1,0 +1,40 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+
+    def forward(self, x1):
+        v1 = torch.addmm(x1, mat1, mat2)  # Perform a matrix multiplication of mat1 and mat2 and add it to the input
+        v2 = torch.cat([v1], dim)      # Concatenate the result along a specified dimension
+        return v2
+
+
+# Initializing the model
+m = Model()
+```
+This pattern characterizes scenarios where an elementwise matrix multiplication is performed between two tensors, followed by concatenation and then addition of a third tensor to the result. The resulting tensor has the same dimensions as the second tensor. This is similar to what happens when performing elementwise convolution operations with weights from different channels on separate layers in a fully connected layer.
+
+
+```
+t1 = conv(input_tensor)  # Apply pointwise convolution with kernel size 3 and stride 2 to the input tensor
+t2 = t1 * 0.5      # Multiply the output of the convolution by 0.5
+t3 = t1 * 0.7071067811865476   # Multiply the output of the convolution by 0.7071067811865476
+t4 = torch.erf(t3)   # Apply the error function to the output of the convolution
+t5 = t4 + 1          # Add 1 to the output of the error function
+t6 = t2 * t5      # Multiply the output of the convolution by the output of the error function
+```
+This pattern characterizes scenarios where the output of a pointwise convolution is multiplied by a constant `0.5` and then it is multiplied by another constant `0.7071067811865476`, and then the error function is applied to the output of the convolution, and then `1` is added to the output of the error function, and then the output of the convolution is multiplied by the output of the error function.
+
+
+```
+t1 = conv(input_tensor)  # Apply pointwise convolution with kernel size 3 and stride 2 to the input tensor
+t2 = t1 * 0.5      # Multiply the output of the convolution by 0.5
+t3 = t1 * 0.7071067811865476   # Multiply the output of the convolution by 0.7071067811865476
+t4 = torch.erf(t3)   # Apply the error function to the output of the convolution
+t5 = t4 + 1          # Add 1 to the output of the error function
+t6 = t2 * t5      # Multiply the output of the convolution by the output of the error function
+t7 = torch.add(t6, v2)  # Concatenate the output of the pointwise convolution with its input tensor and then add it to the first tensor in the concatenation
+```
+This pattern characterizes scenarios where an elementwise matrix multiplication is performed between two tensors `mat1` and `mat2`, followed by concatenation and then addition of a third tensor to the result. The resulting tensor has the same dimensions as the second tensor. This is similar to what happens when performing elementwise convolution operations with weights from different channels on separate layers in a fully connected layer.
+This pattern also includes an add operation between two tensors `t7` and `v2`.
+

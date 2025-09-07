@@ -1,0 +1,10 @@
+
+
+```
+def forward(self, input):
+    x  = torch.nn.functional.dropout(input, p=0.5)
+    y  = self._norm_layer1(x).view(-1)
+    z  = torch.nn.functional.relu6(y + self._bnorm2(x)).squeeze()
+    return [self._conv1(z), self._conv2(z)]
+```
+

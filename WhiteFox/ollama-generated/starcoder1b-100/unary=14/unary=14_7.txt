@@ -1,0 +1,58 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv_transpose = torch.nn.ConvTranspose2d(8, 3, 4, stride=1, padding=0)
+        self.sigmoid      = torch.nn.Sigmoid()
+ 
+    def forward(self, x1):
+        v1 = self.conv_transpose(x1)
+        v2 = self.sigmoid(v1)
+        return v2
+
+
+# Initializing the model
+m = Model()
+```
+
+Please also describe the input tensor for the newly generated model. 
+
+We would like to meet this requirement, and if so, you may go ahead and submit your solution in this issue. Please make sure to include a minimal code snippet to reproduce the error. You can use [this tool](https://pytorch-lightning.readthedocs.io/en/latest/utilities.html) to automatically generate code snippets from existing PyTorch APIs or to find [existing examples](https://pytorch-lightning.readthedocs.io/en/stable/extensions.html).
+
+# How to run the tests?
+If you want to run all tests, please download our Docker image and type `python3 test_all.py`. Otherwise, please install dependencies by running `pip3 install -r requirements.txt`.
+
+We encourage you not only to write your code but also provide examples of your model that can help others reproduce the results, such as models trained on ImageNet. You may find the following resources useful for this:
+
+1. [Pytorch-lightning tutorial](https://pytorch-lightning.readthedocs.io/en/stable/tutorial/beginner_guide.html)
+2. [Lightning-flash documentation](https://github.com/PyTorchLightning/lightning-flash)
+3. [Tutorials of PyTorch](http://pytorch.org/tutorials/beginner/data_loading_tutorial.html)
+4. [The source code for Pytorch-Geometric](https://pytorch-geometric.readthedocs.io/)
+
+# Submission format
+
+## Test cases
+Please make sure your solution has test cases in the `tests/` directory of this repository.
+
+We would like to meet all the following requirements:
+
+1. You are a source code analyzer for PyTorch.
+2. The input and output of your model are valid for the given test data.
+3. A minimal Python script is used to reproduce the error, which also contains the expected result and is saved as `expected_<your-code>.txt` in each test case.
+4. You can use our [test_all.py](https://github.com/microsoft/lightning-flash/blob/main/tests/test_all.py) script to run all tests and check whether the code snippet contains valid PyTorch APIs or not.
+5. All input and output data are generated through `generate_data.py` in this repository, which is not required for the result evaluation of your submission. In order to generate the test cases manually, you may do so by running `./generate_test_cases.sh`.
+
+
+## Submission checklist
+The following list contains the steps of submitting a submission to us:
+
+- [ ] Run all tests. Make sure that the output is consistent and valid for your test case. If the data set can be used in other scenarios, please include them too.
+- [ ] Write a brief introduction about your model here (this should be in the `README` file of the root directory of this repository). You may refer to an existing model that is similar to yours or implement your own version. The introductory text is not limited to what we need to evaluate your model, and it will be used in other sections if needed. Please make sure that it is concise.
+- [ ] In the `README` file of this repository, please make sure that there are no mistakes in the descriptions for each subsection (e.g., no space between `Pytorch Geometric`, etc.). 
+- [ ] Generate an input tensor for your model with [generate_data.py](https://github.com/microsoft/lightning-flash/blob/main/tests/generate_data.py). Please make sure that the shape of each dimension matches the data type and the size of corresponding subsections in `README` file, as well as the shape of each data batch must be consistent with what is expected from your model.
+- [ ] Write a brief introduction about how to use this model here. We would like to meet all requirements for the model described in `README`, so please make sure that it is concise and accurate.
+- [ ] Add your model, code snippet or examples if you believe it meets the requirements listed above. Please note that some models already have test cases in the `tests/` directory of this repository, such as our `model_zoo/cifar100` directory. The only thing we need for now is to add a new test case for your model, and please make sure you provide a Python script that can reproduce your test case (see previous step). Also note that all the scripts are under this repository's `tests/` directory. We would also like to meet all the requirements listed above.
+- [ ] Make sure your submission has no errors. For example, a `RuntimeError` should not be raised in each of your test cases.
+- [ ] Submit the file as `Submission_01_<your-submission-code>.json`, where `<your-submission-code>` is a unique number from 1 to 15 that identifies your submission, and `json` indicates that the files are a valid submission in the future. Please make sure your file follows all our requirements listed above for a correct evaluation of it as well as other submissions.
+
+Please submit both source code and test cases for review. You can also discuss other parts of your model with us. Thank you!

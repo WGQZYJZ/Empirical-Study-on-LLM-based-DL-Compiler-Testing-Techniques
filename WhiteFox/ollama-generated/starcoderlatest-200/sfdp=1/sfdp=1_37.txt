@@ -1,0 +1,50 @@
+
+class Model(torch.nn.Module):
+    def __init__(self, query_dim: int, key_dim: int, dim_feedforward: int, nhead: int, num_layers: int = 2, dropout: float = 0):
+        super().__init__()
+        self.attn = torch.nn.MultiheadAttention(query_dim=query_dim, key_dim=key_dim, num_heads=nhead)
+        self.layernorm1 = torch.nn.LayerNorm(query_dim)
+        self.linear1 = torch.nn.Linear(query_dim, dim_feedforward)
+        self.dropout1 = torch.nn.Dropout(p=dropout)
+        self.layernorm2 = torch.nn.LayerNorm(dim_feedforward)
+        self.linear2 = torch.nn.Linear(dim_feedforward, query_dim)
+ 
+    def forward(self, x: Tensor) -> Tensor:
+        batch_size, seq_length, hidden_dim = x.shape
+        q = self.layernorm1(x)
+        k = self.layernorm1(x)
+        v = self.layernorm1(x)
+ 
+        attn_output  = self.attn(q=q, k=k, value=v)[0]
+        attn_output = torch.nn.functional.dropout(attn_output, p=self.dropout1)
+        out = attn_output + x
+        out = self.layernorm2(out)
+ 
+        v  = self.linear1(out)
+        v  = F.relu(v)
+        v  = self.dropout1(v)
+        v  = self.linear2(v)
+        v  = torch.nn.functional.softmax(v, dim=-1) # Apply softmax to the output of the feedforward network
+ 
+        out = (v * attn_output).sum(-1) + x
+ 
+        return out
+ 
+
+# Initializing the model
+m = Model()
+
+
+def generate_input():
+    hidden_size = 8
+    q, k, v = torch.randn(3, hidden_size, 64, 64), torch.randn(3, hidden_size, 64, 64), torch.randn(3, hidden_size, 64, 64)
+    return (q, k, v)
+```
+# Description of requirements
+The model should contain the following pattern:
+```
+v = linear1((x + x1)) # Apply a single-layer feedforward network with ReLU activation to an input tensor and store the output in variable v
+output  = softmax2(v + (x + x1)) # Apply softmax to the output of the first feedforward network, and then add it to the input tensor as well
+```
+This pattern characterizes scenarios where a single-layer feedforward neural network with ReLU activation is applied to an input tensor `x` and stored in variable `v`, followed by applying softmax to this output.
+

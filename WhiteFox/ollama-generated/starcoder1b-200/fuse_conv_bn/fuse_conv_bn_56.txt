@@ -1,0 +1,18 @@
+
+class Module(torch._C.Module):
+    def __init__(self):
+        super().__init__()
+
+    @staticmethod
+    def fuse_conv_bn(x):
+        # ...
+        v1 = x.permute(...)  # Permute a tensor according to conv and bn constraints
+        v2 = torch.nn.functional.convXd(...)  # Apply conv operation to the permuted tensor (v1)
+        bn2 = ...  # Replace BatchNorm with fused batch_norm operation
+        output = torch._C.batch_norm(v2, bn2, running_mean, running_var, ...)  # Batch norm operation
+        return output
+
+    def forward(self, x):
+        # ...
+```
+The optimization also applies to the functional API equivalent of the above pattern, where `torch.nn.functional.conv` and `torch.nn.functional.batch_norm` are used instead of the module API. The constraints for the functional API pattern are similar to the module API pattern.

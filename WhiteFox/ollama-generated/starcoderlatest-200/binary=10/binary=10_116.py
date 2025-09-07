@@ -1,0 +1,1 @@
+This example shows how users can add keyword arguments with default values and specify keyword argument names that don't conflict with other parameters in their own model function signature (e.g., "input_tensor" is a keyword argument and does not interfere with the input of the model).

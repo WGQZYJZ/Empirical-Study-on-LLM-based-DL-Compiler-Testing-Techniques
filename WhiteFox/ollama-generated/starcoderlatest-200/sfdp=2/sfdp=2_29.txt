@@ -1,0 +1,24 @@
+
+class Model(torch.nn.Module):
+    def __init__(self, query_dimension, key_dimension, embed_dimension, num_heads):
+        super().__init__()
+        self.linear_query = torch.nn.Linear(
+            query_dimension,
+            embed_dimension * (num_heads + 2),
+        )
+        self.attention_head = torch.nn.ModuleList()
+        for _ in range(num_heads):
+            self.attention_head.append(torch.nn.Linear(embed_dimension, embed_dimension))
+ 
+    def forward(self, query, key, value, attn_mask=None):
+        # Compute the dot product of a query and key, then scale the dot product by an inverse scale factor, then softmax is applied, then dropout is applied, and finally the dot product of the dropout output and a value is computed.
+        qk = self.linear_query(query)
+        scaled_qk = qk.div(inv_scale_factor)
+        softmax_qk = scaled_qk.softmax(dim=-1)
+        # Apply dropout to the softmax output.
+        dropout_qk = torch.nn.functional.dropout(softmax_qk, p=dropout_p)
+        # Compute the dot product of a dropout output and a value.
+        output = dropout_qk.matmul(value)
+        return output
+```
+

@@ -1,0 +1,52 @@
+
+class Model(torch.nn.Module):
+    def __init__(self, num_heads=8, dim_head=64, depth=12, dropout_p=0.1):
+        super().__init__()
+        self.dim_key = dim_head  # The dimension of the key
+        self.num_heads = num_heads  # Number of attention heads
+        self.scale = (dim_head ** -0.5)  # The square root of the hidden size
+
+        self.qkv_bias = False
+        self.dense = torch.nn.Linear(self.dim_key, self.dim_key * 3, bias=False)  # Linear layer with two input tensors, `dim_key` and `2 x dim_key` and two bias tensors are applied to obtain the third one.
+
+        self.qkv = torch.nn.Linear(self.dim_key * 2, self.dim_key * 3, bias=False)
+        self.layer_norm1 = torch.nn.LayerNorm(self.dim_key * 2)
+        self.dropout = torch.nn.Dropout(p=dropout_p)
+
+        self.k_conv = torch.nn.Conv2d(
+            in_channels=num_heads, out_channels=self.dim_head, kernel_size=(1, 1), stride=1, padding=0
+        )
+        self.v_conv = torch.nn.Conv2d(
+            in_channels=num_heads, out_channels=self.dim_head, kernel_size=(1, 1), stride=1, padding=0
+        )
+
+        self.layer_norm2 = torch.nn.LayerNorm(self.dim_head)
+
+    def forward(self, query, key):
+        batch_size, seq_len, feat_dim = query.shape
+
+        # Scale the dot product by the inverse scale factor and then compute the softmax of it to obtain the softmax attention weights for each feature.
+        scaled_query = self.qkv.weight[:, :2 * self.dim_key] * self.scale  # The first half of the input tensor is used as a query, while the second half of the input tensor is used as a key.
+        scaled_value = self.qkv.weight[:, 2 * self.dim_key :] * self.scale
+
+        # Use a two step approach to compute the attention weights. Step 1: Compute a dropout on the softmax output and then scale it by `0.1` and then apply `softmax_qk`.
+        dropout_query = self.dropout(F.softmax(self.dense(scaled_query), dim=-1))  # Dropout is applied to the attention weights before computing their dot product with the value tensor, which reduces the dimensionality of the input for feature selection. Step 2: Compute a dot product between the two query and key tensors.
+        scaled_value = F.softmax(self.dense(scaled_value), dim=-1) * dropout_query
+
+        # Perform a two step approach to compute the attention weights. Step 1: Use the linear layer to combine `v` and the value tensor, which reduces dimensionality of the input for feature selection.
+        scaled_key = self.k_conv(scaled_value).chunk(2, dim=-1)
+
+        # Use a two step approach to compute the attention weights. Step 1: Use the linear layer to combine `query` and the key tensor in reverse order, which reduces dimensionality of the input for feature selection.
+        scaled_key = F.softmax(self.v_conv(scaled_key), dim=-1) * dropout_query
+
+        # Scale the dot product by 0.5 and then apply softmax to obtain the output of each attention layer. Step 1: Compute a dropout on the dot product and then scale it by `0.25`.
+        output = F.softmax(self.layer_norm1(self.dense(F.dropout(scaled_key, p=self.dropout.p) * self.scale)), dim=-1)
+
+        # Dropout is applied to each step of the multi-head attention module before combining them together to obtain the output of the attention mechanism.
+        return F.dropout(output, p=self.dropout.p), batch_size
+
+
+# Inputs to the model
+x = torch.randn((20, 3072))  # Input shape is `batch size x sequence length x feature dimension`.
+__output__, __size__ = m(x)
+```

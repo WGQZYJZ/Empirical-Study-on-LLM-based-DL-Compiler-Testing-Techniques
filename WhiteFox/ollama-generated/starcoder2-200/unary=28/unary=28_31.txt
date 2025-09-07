@@ -1,0 +1,34 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.linear = torch.nn.Linear(2, 1)
+
+    def forward(self, x):
+        v1 = self.linear(x)
+        v2 = torch.clamp_min(v1, min=0)
+        v3 = torch.clamp_max(v2, max=1.)
+
+        return v3
+
+
+# Initializing the model
+m  = Model()
+
+
+# Inputs to the model
+x  = torch.randn(64, 2) # Randomly generate input tensor of shape (batch size, number of features)
+__output__  = m(x)
+
+
+The next step in creating this script should be to add the `torch.clamp_min` and `torch.clamp_max` functions to the model. The two functions should be added at the beginning of the file after the initial declaration of `Model`, and should be imported from the `torch` module.
+
+
+# Description of requirements
+The model should contain the following pattern:
+```
+t1 = torch.sigmoid(input_tensor)  # Apply the sigmoid function to the input tensor
+t2 = 0.5 * t1 + 0.3  # Add a constant 0.3 to each element in the output of the previous operation multiplied by another constant 0.5.
+```
+This pattern characterizes scenarios where the sigmoid function is applied to an input tensor, and then each element in the output is multiplied by `0.5`, and then added a constant value of `0.3`.
+

@@ -1,0 +1,25 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv  = torch.nn.Conv2d(...) # X can be 1, 2, or 3 representing the dimension
+        self.bn   = torch.nn.BatchNorm2d(...)
+
+    def forward(self, x1):
+        x1 = self.conv(x1)
+        x1 = self.bn(x1)
+        return x1
+```
+# Example of generated models
+The model is not necessarily valid, but the input tensor has been swapped to match with the pattern of original requirements. The model and input tensors are below:
+```python
+input_tensor  = torch.randn(1, 2, 2)
+conv   = torch.nn.ConvXd(...) # X can be 1, 2, or 3 representing the dimension
+bn     = torch.nn.BatchNormXd(...) # X should match with ConvXd
+conv   = ... # X can be 1, 2, or 3 representing the dimension
+bn     = torch.nn.BatchNormXd(...) # X should match with ConvXd
+output = bn(conv(input_tensor))
+```
+
+# Requirements
+

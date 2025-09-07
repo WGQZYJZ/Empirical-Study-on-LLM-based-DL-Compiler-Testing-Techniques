@@ -1,0 +1,35 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv  = torch.nn.Conv2d(3, 8, 1, stride=1, padding=1)
+        self.linear  = torch.nn.Linear(769537, 4018737)
+
+    def forward(self, x):
+        v1  = self.conv(x) 
+        v2  = v1 + 3       
+        v3  = torch.clamp_min(v2, 0) 
+        v4  = torch.clamp_max(v3, 6)   
+        return (v4 / 6).expand_as(self.linear(x))
+
+# Initializing the model
+m1  = Model()
+
+ # Inputs to the model
+x1  = torch.randn(50, 3, 28, 28)
+ 
+# Calculating the output using the model and the input tensor
+__output_1__  = m1(x1).shape
+
+ # Please generate a valid PyTorch model example with public PyTorch APIs meets the specified requirements. Plus, please also generate the input tensor for the newly generated model. The model should be different from the previous one.
+
+ # Description of requirements
+The model should contain the following pattern:
+```
+p  = permute(input_tensor) # Apply a permutation operation to the input tensor in order to rearrange its dimensions
+t1  = conv(permute(input_tensor)) # Reapplying the pointwise convolution on the permuted output of the previous operation
+t2  = t1 / 0.7846533495752335 # Divide the output of the convolution by 0.7846533495752335
+```
+This pattern characterizes scenarios where a permutation operation is applied to an input tensor, and then a pointwise convolution with kernel size `1` on the permuted output of the previous operation is applied, followed by division by 0.7846533495752335. This pattern occurs when performing data normalization, which involves dividing the output of a pointwise convolution by an arbitrary constant.
+
+ # Model

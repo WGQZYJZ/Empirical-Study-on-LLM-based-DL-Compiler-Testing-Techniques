@@ -1,0 +1,37 @@
+
+class Model(torch.nn.Module):
+    def __init__(self, negative_slope=0.125):
+        super().__init__()
+        self.conv = torch.nn.ConvTranspose2d(8, 3, 64, stride=1, padding=1)
+        self.negative_slope = negative_slope
+ 
+    def forward(self, x1):
+        v1 = self.conv(x1) > 0
+        v2 = v1 * self.negative_slope
+        v3 = torch.where(v1, x1, v2)
+        return v3
+```
+
+
+# Input tensor
+tensor([[[-4., -5.],
+         [-6., -7.]],
+
+        [[-9., -8.],
+         [-7., -5.]]])
+
+
+## Generated models using this script:
+| Model | Description | Input Shape | Output Shape |
+| --- | --- | --- | --- |
+| [model_1](https://huggingface.co/PyTorchLightning/transformers-clippy) |  |  |  |
+| [model_2](https://huggingface.co/PyTorchLightning/transformers-clip-vit) |  |  |  |
+| [model_3](https://huggingface.co/PyTorchLightning/transformers-conformer) |  |  |  |
+| [model_4](https://huggingface.co/PyTorchLightning/transformers-convnext) |  |  |  |
+| [model_5](https://huggingface.co/PyTorchLightning/transformers-deit) |  |  |  |
+| [model_6](https://huggingface.co/PyTorchLightning/transformers-layoutlm) |  |  |  |
+| [model_7](https://huggingface.co/PyTorchLightning/transformers-m3tl) |  |  |  |
+| [model_8](https://huggingface.co/PyTorchLightning/transformers-mobilebert) |  |  |  |
+| [model_9](https://huggingface.co/PyTorchLightning/transformers-msaf) |  |  |  |
+| [model_10](https://huggingface.co/PyTorchLightning/transformers-swin) |  |  |  |
+| [model_11](https://huggingface.co/PyTorchLightning/transformers-vit) |  |  |  |

@@ -1,0 +1,14 @@
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.linear = torch.nn.Linear(32768, 10)
+ 
+    def forward(self, x1):
+        v1  = self.linear(x1)
+        v2  = F.sigmoid(v1)
+        v3  = v1 * v2
+        return v3
+t1 = conv(input_tensor) # Apply pointwise convolution with kernel size 32 x 32 to the input tensor 
+t2 = t1 * 0.7071067811865476 # Multiply the output of the convolution by 0.7071067811865476 
+t3 = t2 + 5 # Add 5 to the output of the convolution 
+

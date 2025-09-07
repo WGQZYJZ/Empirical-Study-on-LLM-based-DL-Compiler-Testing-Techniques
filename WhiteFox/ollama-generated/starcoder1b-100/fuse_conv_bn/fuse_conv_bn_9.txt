@@ -1,0 +1,16 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv = torch.nn.Conv1d(...)  # X can be 1, 2 or 3 representing the number of input channels (including batch size).
+        self.bn   = torch.nn.BatchNorm1d(...)  # X should match with ConvXd
+
+    def forward(self, x):
+        return self.conv(x), self.bn(self.conv(x))
+
+
+# Inputs to the model
+input_tensor = torch.randn(1, 4, 50)
+output_1 = m(input_tensor)
+__output_2 = m.forward(input_tensor)
+```

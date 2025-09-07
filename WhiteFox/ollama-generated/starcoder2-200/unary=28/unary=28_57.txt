@@ -1,0 +1,32 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.linear = torch.nn.Linear()
+    
+    def forward(self, x1) 
+        v1  = self.linear(x1)
+        v2 = torch.clamp_min(v1, min=min_value)
+        v3 = torch.clamp_max(v2, max=max_value)
+        
+m = Model()
+
+
+x1 = torch.randn(1000000000, 1)
+__output__  = m(x1)
+
+import torch
+
+# Description of requirements
+The model should contain the following pattern:
+```
+t1  = linear(input_tensor) # Apply a linear transformation to the input tensor.
+t2  = t1.reshape(10, -1, 64).permute(-1, 1, 0)  # Reshape and transpose the output of the linear transformation. 
+t3  = torch.nn.functional.linear(t2, weight=weight_tensor)  # Apply a linear transformation to the transposed and reshaped output. The weights must be provided as an argument.
+```
+This pattern characterizes scenarios where a linear transformation is applied to an input tensor, then it's reshaped and transposed with permutation to reshape in the opposite direction, and finally it's linearly transformed using the original `weight` tensor provided by the user
+
+1. The weights must be provided as an argument while applying `torch.nn.functional.linear`.
+2. The size of the reshaped input should match that of the transposed output shape. Therefore 64 should divide 100,000,000.
+3. The size of the weights should be the product of the number of output features and the number of input features
+

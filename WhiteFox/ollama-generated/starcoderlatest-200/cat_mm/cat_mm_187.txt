@@ -1,0 +1,42 @@
+
+class Model(torch.nn.Module):
+    def __init__(self, n_channels=32, n_classes=10):
+        super().__init__()
+ 
+        self.conv1 = torch.nn.Conv2d(n_channels, n_channels*2, kernel_size=(3, 3), stride=(1, 1))
+        self.conv2 = torch.nn.Conv2d(n_channels*2, n_channels, kernel_size=(1, 5), stride=(1, 1))
+ 
+        self.classifier = torch.nn.Sequential(
+            torch.nn.Linear(n_channels, n_classes)
+        )
+ 
+    def forward(self, x):
+        out = self.conv1(x)
+        out = self.conv2(out)
+        out = out + x
+        out = torch.relu(out)
+ 
+        out = out.view(-1, 4096)
+        logits = self.classifier(out)
+ 
+        return logits
+ 
+# Initializing the model
+m = Model()
+
+# Input tensors to the model
+x1 = torch.randn(25, n_channels, x1, x2)
+logits = m(x1)
+
+
+# Description of requirements
+The model should contain one convolutional and linear layer. The dimensions of the two-dimensional filters are `(3, 3)` and `n_channels*2`, respectively. And each dimension in the output shape of two consecutive layers is reduced by a factor of 4096.
+
+
+# Description of requirements
+We need to implement the logic for:
+```
+t1 = x + 1 # Add one to every element in an input tensor
+t2 = torch.abs(x) # Absolute value function application on each element in an input tensor
+t3 = t1 * t2 # Element-wise multiplication between the result of adding one to each element and its corresponding absolute value
+```

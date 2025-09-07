@@ -1,0 +1,14 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.convtranspose = torch.nn.ConvTranspose2d(3, 8, 1, stride=1, padding=0)
+ 
+    def forward(self, x1):
+        v1 = self.convtranspose(x1)
+        v2 = F.sigmoid(v1) 
+        v3 = v1 * v2 # Add the output of the transposed convolution and the output of the sigmoid function together
+        return v3
+
+
+# Initializing the model

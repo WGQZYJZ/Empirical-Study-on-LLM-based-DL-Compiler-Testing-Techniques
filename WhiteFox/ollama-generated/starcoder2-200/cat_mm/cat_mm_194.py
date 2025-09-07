@@ -1,0 +1,17 @@
+class Model(torch.nn.Module):
+    def __init__(self, input1):
+        super().__init__()
+ 
+        self.conv  = torch.nn.Conv2d(3, 8, 1)
+        self.linear = torch.nn.Linear(8 * (input1 ** 4), 5)
+
+    def forward(self, x1):
+        v1  = self.conv(x1)
+ 
+        # The length of input2 is dynamic and it depends on the input size 
+        v2  = [v1] 
+        v3 = torch.cat(v2, dim=0)
+
+        v4 = torch.mm(self.linear(torch.transpose(v3, -2, -1)), v3)
+ 
+        return v4

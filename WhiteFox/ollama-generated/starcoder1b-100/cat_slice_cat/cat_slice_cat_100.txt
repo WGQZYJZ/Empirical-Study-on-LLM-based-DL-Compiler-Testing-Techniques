@@ -1,0 +1,17 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv = torch.nn.Conv2d(3, 8, 1, stride=1, padding=1)
+ 
+    def forward(self, x1, x2):
+        v1 = self.conv(x1)
+        v2 = torch.cat([x1, x2], dim=1)
+        v3 = torch.index_select(v2, 1, x1[:, None])
+        v4 = torch.mm(v1, v3).reshape(-1)
+        return v4
+
+
+# Inputs to the model
+x1 = torch.randn(1, 3, 64, 64)
+x2 = torch.randn(10000, 8, 64, 64)

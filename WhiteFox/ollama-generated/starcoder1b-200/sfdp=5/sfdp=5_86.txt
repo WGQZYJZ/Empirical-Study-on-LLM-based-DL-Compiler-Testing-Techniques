@@ -1,0 +1,22 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.query = torch.nn.Linear(3, 8)
+        self.key   = torch.nn.Linear(8, 16)
+        self.value = torch.nn.Linear(16, 4)
+ 
+    def forward(self, x1, x2):
+        query  = self.query(x1)
+        key    = self.key(x2).transpose(-2, -1) / math.sqrt(8)
+        value  = self.value(x2)
+        attn_mask = (torch.arange(0, key.size(0)).float() / (self.num_attention_heads * query.size(-1))).unsqueeze(1) # Add a dimension to the input tensors of the scaled dot product, and reshape into N rows by 8 columns (one per row).
+        attn_mask = attn_mask.expand(attn_mask.size()[0], -1, -1)
+        attn_weight = torch.softmax(query @ key.transpose(-2, -1), dim=-1) # Apply softmax to the result of the scaled dot product
+        attn_weight = torch.dropout(attn_weight, dropout_p, True)  # Apply dropout to the softmax output
+        return attn_weight @ value
+
+
+# Initializing the model
+m = Model()
+```

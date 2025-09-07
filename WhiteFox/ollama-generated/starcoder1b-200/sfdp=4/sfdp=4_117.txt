@@ -1,0 +1,25 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.attn = Attention()
+ 
+    def forward(self, x1, x2, y):
+        query = x1 @ x2  # Compute the dot product of the two input tensors `x1` and `x2`. Scale it by dividing the square root of each dimension.
+        query_norm = torch.sqrt(torch.pow(query, 2) + 1e-9)  # Add small values to avoid division by zero
+        query = query / query_norm  # Scale the dot product results.
+
+        key = x2 @ y.transpose(-1, -2)  # Compute the dot product of the two input tensors `x2` and `y`.
+        key_norm = torch.sqrt(torch.pow(key, 2) + 1e-9)  # Add small values to avoid division by zero
+        key = key / key_norm  # Scale the dot product results.
+
+        attn_mask = self.attn(query, key, y)  # Use the attention function and compute the attention weights.
+
+        value = x2 @ y  # Compute the dot product of the two input tensors `x2` and `y`.
+        output = torch.softmax(value, dim=-1)  # Apply softmax to the result.
+        return attn_weight * output
+
+
+# Initializing the model
+m = Model()
+```

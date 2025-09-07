@@ -1,0 +1,1 @@
+This model will generate a new one, but it will not run on the original model graph. To be able to execute this test case with the new model, you need to invoke `torch.jit.script_module` function, which is similar to `script_function`.

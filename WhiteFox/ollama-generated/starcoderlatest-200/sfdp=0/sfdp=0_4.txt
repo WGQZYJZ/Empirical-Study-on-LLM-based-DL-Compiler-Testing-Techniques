@@ -1,0 +1,29 @@
+
+class ScaledDotProductAttention(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+ 
+    def forward(self, q, k, v):
+        d_k = torch.tensor(1.0).to(q) / torch.tensor(key.shape[-2]).to(q)  # scale of dimension for a query and key vector
+        scaled_dot_product = torch.matmul(q, k.transpose(-2, -1)) * d_k
+        attention_weights = F.softmax(scaled_dot_product, dim=-1)
+        output = attention_weights.matmul(v)
+        return output, attention_weights
+
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv = torch.nn.Conv2d(3, 8, 1, stride=1, padding=1)
+ 
+    def forward(self, x1):
+        v1 = self.conv(x1)
+ 
+        d_k = torch.tensor(1.0).to(v1) / torch.tensor(k.shape[-2]).to(v1)  # scale of dimension for a query and key vector
+        scaled_dot_product = torch.matmul(q, k.transpose(-2, -1)) * d_k
+ 
+        attention_weights = F.softmax(scaled_dot_product, dim=-1)
+        output = attention_weights.matmul(v)
+        return output
+```
+

@@ -1,0 +1,22 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+
+    def forward(self, x1):
+        return torch.nn.functional.linear(x1, self.weight, self.bias)
+
+    def extra_stateful_variable(self):
+        # Extra stateful variables to be kept during the execution of a model with a single output or multi-output tensor method (i.e., a tuple).
+        return x1
+
+
+# Initializing the model
+m = Model()
+
+# Inputs to the model
+x1 = torch.randn(1, 2, 2)
+__output_1__ = m()
+__output_2__ = m.extra_stateful_variable()  # The first output of the model should be 'x1'.
+```
+

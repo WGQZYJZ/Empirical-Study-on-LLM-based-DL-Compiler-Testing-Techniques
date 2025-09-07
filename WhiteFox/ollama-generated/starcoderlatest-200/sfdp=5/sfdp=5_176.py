@@ -1,0 +1,1 @@
+The `Model` class has three sub-layers: two linear projections and one convolutional layer. The output of the convolutional layer is concatenated with query/key/value tensors before being linearized and splitted into 32 query, key, and value tensor for all heads. Then each sub-layer's input consists of these intermediate outputs from each other.

@@ -1,0 +1,15 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv = torch.nn.Conv2d(3, 8, 1, stride=1, padding=1)
+ 
+    def forward(self, x1):
+        v1 = self.conv(x1)
+ 
+        # If there are only one split and one concatenated tensor in the model, then we know that they are both valid.
+        if len(torch.split(v1, [64], dim=0)) == 1 and torch.cat([torch.split(v1, [8], dim=0)]) == v1:
+            return True
+ 
+        return False
+```

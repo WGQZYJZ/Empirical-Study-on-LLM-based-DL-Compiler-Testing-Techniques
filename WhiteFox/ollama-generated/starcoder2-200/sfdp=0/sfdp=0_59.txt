@@ -1,0 +1,60 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.scale = torch.sqrt(torch.tensor([1]))
+ 
+    def forward(self, query, key, value):
+        scaled_dot_product  = torch.matmul(query, key.transpose(-2, -1)) / self.scale # Scaled Dot-Product Attention
+        attention_weights   = scaled_dot_product.softmax(dim=-1)
+        output              = attention_weights.matmul(value)
+        return output
+
+# Initializing the model
+m  = Model()
+
+
+# Inputs to the model
+input1        = torch.randn(64, 5024)
+input2        = torch.randn(64, 768)
+__output___   = m(input1, input2, input3)
+
+- We can see in the initial code that we have initialized the model, but did not pass any inputs to it yet; this is where we define the inputs to the model. For the first input `input1`, we will use `torch.randn()` with the shape `(64, 5024)` to create random numbers drawn from a normal distribution, and then assign these generated numbers to `input1`. Similarly for `input2` of shape `(64,768)`, etc..
+- After that we pass all these inputs into our model using the parentheses operator `(m(input1, input2, input3))`. This will execute every line of code inside this Model class. Since we do not have any loops or conditional branches in our `forward()` function yet, this will not cause an error but it will also return the following result:
+```
+>>> __output___ 
+tensor([[[[-0.9475, -2.3617],
+        [-0.8471,  1.2280],
+        [ 1.1644,  0.1490],
+          ...
+        ...,
+         [ 0.6645, -0.2313]],
+
+         [[-0.6066, -2.5393],
+        [-2.5738,  0.7953],
+        [ 2.6902,  0.4873],
+          ...
+        ...,
+         [ 0.8803,  1.7538]],
+
+         [[-0.3439, -1.2076],
+        [-0.1713, -2.2260],
+        [ 0.3549,  0.4333],
+          ...
+        ...,
+         [-0.5692, -0.5265]],
+
+          ...
+
+        [[-0.7686,  0.3905],
+        [ 1.4339,  1.2730],
+        [-0.2007, -0.0954],
+          ...
+        ...,
+         [ 0.7673,  0.1338]]]], device='cuda:0', dtype=torch.float64)
+```
+
+- This is the output from our model with random inputs. It has two dimensions: the first dimension represents the batch size of our input tensors (in this case it is 64), and the second one represents the output of each hidden unit in the attention matrix, which is equal to the number of columns in `key` tensor.
+- You can also pass the generated inputs to the model using `m(input1, input2)` without passing the third argument (value). This would cause a division by zero error when computing the weights as there will be no value/query tensors. So, it is important to pass all these three arguments `(query, key, and values)`.
+
+

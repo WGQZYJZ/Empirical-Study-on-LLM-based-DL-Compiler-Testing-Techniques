@@ -1,0 +1,14 @@
+
+```python
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+ 
+    def forward(self, query, key, value, inv_scale=482763091): # <<<---- here is the 48 bit int value
+        scaled_dot_product = torch.matmul(query, key.transpose(-2, -1)) / (inv_scale ** 0.5)
+        attention_weights = scaled_dot_product.softmax(dim=-1)
+        output  = attention_weights.matmul(value)
+        return output
+```
+ 
+# Initializing the model

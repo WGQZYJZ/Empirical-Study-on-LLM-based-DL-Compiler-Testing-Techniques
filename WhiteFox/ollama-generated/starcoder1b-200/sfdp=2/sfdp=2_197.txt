@@ -1,0 +1,35 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.layer_norm1 = torch.nn.LayerNorm(64, eps=1e-5)
+        self.scale_factor = 10  # 10 was used for the dataset's original data size
+        self.inv_scale_factor = torch.tensor([self.scale_factor], requires_grad=False)  # Scale is independent of input length, therefore it's calculated here once when initializing scale and then shared by all layers
+        self.conv1 = torch.nn.Conv2d(64, 384, 1, stride=1, padding=0)
+ 
+    def forward(self, x):
+        # Apply layer normalization to the input x (torch.nn.LayerNorm)
+        x = self.layer_norm1(x)
+ 
+        # Scale the dot product of the query and key by a fixed value (10 was used for the dataset's original data size)
+        # Use `requires_grad=True` because we need to keep track of it after every batch update, but don't want to compute gradient for this part
+        scaled_qk = torch.matmul(x, x.transpose(-2, -1))  # qk = dot product q with itself
+ 
+        # Scale the result using the inverse scale factor (10 was used for the dataset's original data size)
+        inv_scaled_qk = scaled_qk / self.scale_factor  # scaled_qk *= scale_factor
+ 
+        # Apply softmax to compute the final attention weights
+        softmax_qk = inv_scaled_qk.softmax(dim=-1)
+        dropout_qk = torch.nn.functional.dropout(softmax_qk, p=dropout_p)
+ 
+        # Compute the dot product of the query and the value using the same strategy as in the previous section
+        output = dropout_qk.matmul(value)
+```
+# Description of requirements
+The model should contain the following pattern:
+```
+attention = torch.nn.functional.softmax((q@k).div(scale), dim=-1)  # Compute softmax over the attention values (scaled_qk). Note that we divide by scale in order to compute the value-level attention weights
+out = torch.matmul(input, attention.unsqueeze(-1))  # Compute the dot product of the input with the attention weights
+```
+This pattern characterizes scenarios where the softmax is computed over the scaled_qk values (value-level attention weights), then the result of this computation is passed through a linear layer and finally the input is multiplied by this linear layer's output. This is a typical pattern found in the Transformer model architectures and in the self-attention mechanism of the attention mechanism of the Transformer models.
+

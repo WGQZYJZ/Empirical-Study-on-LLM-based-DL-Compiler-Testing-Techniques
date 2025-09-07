@@ -1,0 +1,55 @@
+
+class ScaledDotProductAttention(nn.Module):
+    def __init__(self, qkv):
+        super().__init__()
+        self.qkv = nn.ParameterTuple(qkv)
+        self.scale = qkv[0].shape[1] ** -0.5  # sqrt(num_attention_heads)
+
+    @staticmethod
+    def softmax(x, dim=-1):
+        return torch.exp(x) / x.reshape(-1).pow(2).reshape((1, -1))
+
+    def forward(self, query, key, value, mask=None,
+                alpha: Optional[torch.Tensor] = None, beta: Optional[torch.Tensor] = None):
+        assert self.qkv[0].shape == self.qkv[1].shape  # assert both tensors have the same shape!
+
+        batch_size, seq_len = query.shape[:2]
+
+        dim_query = query.shape[-1]  # dimension of query (batch_size * seq_len, dim_model)
+        dim_key = key.shape[-1]  # dimension of key (batch_size * seq_len, dim_model)
+        dim_value = value.shape[-1]  # dimension of value (batch_size * seq_len, dim_model)
+
+        # mask = None -> don't compute mask
+        if alpha is None and beta is not None:
+            alpha = self.softmax(beta, dim=dim_value).reshape(seq_len, batch_size, dim_query).permute(1, 0, 2)
+        elif alpha is not None and beta is None:
+            alpha = self.softmax(alpha, dim=dim_value).reshape(batch_size, seq_len, dim_query)
+
+        # mask = None -> don't compute mask
+        if mask is None:
+            mask = torch.ones((seq_len, batch_size), device=query.device)  # all elements are positive, non-negative (one-hot).
+        # mask[seq_len - 1] = 0 -> remove the last element to fit the sequence length to the model
+
+        # compute the attention score
+        scaled_dot_product = torch.matmul(query, key.transpose(-2, -1)) / self.scale
+        attn_weights = self.softmax(scaled_dot_product, dim=-1)
+
+        # get the weighted sum of value from both heads (batch_size * seq_len, dim_model)
+        attn_weights = attn_weights.reshape((batch_size, seq_len, dim_query)).permute(0, 2, 1)
+        weighted_sum = torch.matmul(attn_weights, value)
+
+        # get the final score from both heads (batch_size * seq_len, dim_model)
+        attn_weights = self.softmax(weighted_sum, dim=-1).reshape((batch_size, seq_len))
+
+        # recalculate the mask to avoid future computation of masked values
+        if not alpha.is_cuda and beta is not None:
+            mask = mask.permute(0, 2, 1) * (beta.unsqueeze(-2).expand_as(alpha)).softmax(dim=-1)
+
+        output = torch.matmul(attn_weights, value) * mask
+        return output, attn_weights
+```
+# Test
+```
+torch.autograd.backward([0.0, 1.0, 0.5])
+torch.autograd.gradcheck([0.0, 1.0, 0.5], model=m)
+```

@@ -1,0 +1,12 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+
+    def forward(self, x1):
+        # The node invoking torch.rand_like may or may not be replaced here.
+        if hasattr(self, 'fallback_random'):
+            return x1
+
+        # The rest of the nodes in this module will not be replaced.
+```

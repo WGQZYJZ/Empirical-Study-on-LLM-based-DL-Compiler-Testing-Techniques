@@ -1,0 +1,14 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.linear = torch.nn.Linear(2, 2)
+
+    def forward(self, x1):
+        v1 = x1.permute(0, 2, 1) # this line should be added here and also other lines which use `x1`
+
+        # the original implementation (which doesn't have the above fix)
+        # t1 = input_tensor.permute(...)  # Permute the input tensor
+        # t2 = torch.nn.functional.linear(t1, ...)  # Apply linear transformation to the permuted tensor.
+```
+

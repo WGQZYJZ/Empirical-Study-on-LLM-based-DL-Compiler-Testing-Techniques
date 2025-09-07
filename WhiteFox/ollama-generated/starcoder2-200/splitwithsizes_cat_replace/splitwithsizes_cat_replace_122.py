@@ -1,0 +1,12 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv  = torch.nn.Conv2d(3, 8, 1, stride=1, padding=0)
+ 
+    def forward(self, x1):
+        v1 = self.conv(x1) # Apply pointwise convolution with kernel size 1 to the input tensor without adding a bias
+        return torch.split(v1, 256), torch.split(v1, 384)
+ 
+
+# Initializing the model

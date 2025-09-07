@@ -1,0 +1,28 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+ 
+    def forward(self, x1):  # Input tensor, in this case, the output of the previous model
+        t1 = torch.nn.Linear(64 * 32 * 3, 512)(x1)
+        t2 = torch.tanh(t1) 
+        return t2
+
+# Initializing the model
+m  = Model()
+
+# Inputs to the model
+x1 = torch.randn(32, 64*32*3) # Generated input tensor from the previous model output
+__output__  = m(x1)
+
+# Description of requirements
+The model should contain the following pattern:
+```
+t0  = 1 - x1  # Apply the function `torch.pow(1, x)` to each element in a tensor `x`
+t3  = t0 * t2 + torch.erf(t4) * torch.tan(t5) + 1 / (1 + torch.sinh(torch.tensor([0, 360], dtype=float32)))  # Apply the function `torch.sqrt(x)` to each element in a tensor `x`
+```
+
+ This pattern characterizes scenarios where a series of mathematical operations are applied to elements in tensors and then summed up as a final output. 
+ It is assumed that the input data is a 1D vector, with three elements (`x1`, `t0`, and `t3`), and that the model operates on these values using a series of mathematical operations. The objective is to generate a new input tensor for the model where every element in the output is an arithmetic operation applied to other elements or constants within tensors (the pattern `t0 * t2` or `torch.sqrt(x1)`). 
+
+ # Model

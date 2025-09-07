@@ -1,0 +1,22 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+
+    def forward(self, query1, key1, value2):  # Only use query and key for this task.
+        vq = torch.matmul(query1, key1.transpose(-2, -1))  # Compute the dot product of two tensors with shapes [b_q]x[b_k] and [b_k]x[b_v]. Here b is batch size.
+        vsq = vq.mul(scale)
+        vsqk = vsq.softmax(dim=-1)
+        vsdqk = torch.nn.functional.dropout(vsqk, p=drop_p)  # We apply dropout with probability `drop_p`. The scale factor will be adjusted during training.
+        output = vsdqk.matmul(value2)
+
+        return vsqk
+```
+# Initializing the model
+m = Model()
+
+
+# Inputs to the model
+query1, key1, value2 = torch.randn(50, 768), torch.randn(50, 32*32, 768), torch.randn(32*32, 49)
+
+

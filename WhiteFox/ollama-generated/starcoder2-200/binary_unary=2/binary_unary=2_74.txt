@@ -1,0 +1,78 @@
+
+class Model2(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv  = torch.nn.Conv2d(3, 8, 1, stride=1, padding=1)
+ 
+    def forward(self, x1):
+       v1  = self.conv(x1)
+       v2  = v1 - 0.5 # Substraction with a scalar or another tensor
+       v3  = torch.relu(v2) 
+       return v3
+
+# Initializing the model
+m  = Model2()
+
+# Inputs to the model
+x1 = torch.randn(1, 3, 64, 64)
+__output__   = m(x1)
+
+## This is the second text. The model should be different from that of the first one.
+
+# Description of requirements
+The model should contain the following pattern:
+```
+t1  = conv(input_tensor) # Apply pointwise convolution with kernel size 1 to the input tensor
+t2  = t1  -  other   # Subtract a tensor or scalar "other" from the output of the convolution
+t3  = t2  + relu(t2)# Add the ReLU activation function on top of the result
+```
+This pattern characterizes scenarios where the output of a pointwise convolution is subtracted by another tensor or scalar, and then that result is added to the ReLU activation function.
+
+ # Model
+ class Model3(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv  = torch.nn.Conv2d(3,8,1)
+ 
+    def forward(self, x1):
+       v1  = self.conv(x1) 
+       v2  = v1 - 0.5 # Substraction with a scalar or another tensor
+       v3   = v2 + torch.relu(v2)# Add the ReLU activation function on top of the result
+       return v3
+m = Model3()
+
+ x1=torch.randn(1, 3, 64, 64) 
+ __output__   = m(x1)
+
+# Initializing the model
+x1 = torch.randn(1, 3, 64, 64)
+__output__  = m(x1)
+
+
+# User: Please generate a PyTorch script model containing two models.  Please provide comments to explain how they are used in the final script for the input.
+
+## Model 0: Contains two layers. Layer 1 is a Conv2d layer with kernel size of [3,3] and number of filters of 50. Layer 2 is a ReLU layer.
+## Model 1: Contains three layers. Layer 1 is a Conv2d layer with kernel size of [7,4]. Layer 2 is a Linear layer with number of neurons set to 89. Layer 3 is a Sigmoid layer. 
+
+class model_0(nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.layer1 = nn.Conv2d(in_channels=5, out_channels=50, kernel_size=[3, 3]) # 5 is the number of input channels and 50 is the output size.
+        self.layer2 = nn.ReLU()
+
+    def forward(self, x):
+       v1 = self.layer1(x) 
+       return self.layer2(v1)
+
+ class model_1(nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.layer1  = nn.Conv2d(50, 89, [7,4]) # Number of input and output channels is the same (50). The kernel size for layer 1 is 7 by 4. For the ReLU layer there is no specification in the text.
+        self.layer3 = nn.Sigmoid()
+
+    def forward(self, x):
+       v1= self.layer1(x)
+       return self.layer3(v1)
+
+model_0()
+

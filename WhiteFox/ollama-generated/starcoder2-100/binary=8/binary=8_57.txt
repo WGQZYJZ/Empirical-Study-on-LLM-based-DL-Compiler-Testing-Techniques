@@ -1,0 +1,28 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+ 
+    def forward(self, x1):
+        v2 = torch.nn.functional.relu(x1)
+        return self.conv(v2), v2
+
+ # Initializing the model
+m  = Model()
+ 
+# Inputs to the model
+x1  = torch.randn(4096) * 32768
+__output__,  = m(x1, other=torch.ones(4096))
+```
+
+# Initializing the model
+m = Model()
+
+ # Inputs to the model
+x1  = torch.randn(512*2*7*7) / (1 << 30) * 8192
+ 
+# Running the generated model on these inputs
+__output__, v2  = m(x1, other=torch.ones_like(v2))
+
+ # Check that this is a valid example
+__output__.shape

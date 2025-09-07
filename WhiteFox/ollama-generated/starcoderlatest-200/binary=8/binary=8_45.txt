@@ -1,0 +1,45 @@
+
+class Model(torch.nn.Module):
+    def __init__(self, other=None):
+        super().__init__()
+        if other == None:
+            self.conv = torch.nn.Conv2d(3, 8, 1, stride=1, padding=1)
+        else: 
+            self.conv = torch.nn.Conv2d(3, 8, 1, stride=1, padding=1)
+            self.other_tensor = other
+    def forward(self, x1):
+        v1 = self.conv(x1)
+        if 'other_tensor' in dir(self):
+            return v1 + self.other_tensor
+        else: 
+            return v1
+ 
+ # Initializing the model
+m = Model()
+
+ # Inputs to the model
+x1 = torch.randn(1, 3, 64, 64)
+v2 = m(x1) ## Input the tensor you want to be added as a keyword argument: v2 = m(x1, other=other_tensor)
+ 
+# Generating examples for inputs with different values of "other"
+input_list = [0.5, 0.6438, torch.randn(3), [torch.rand(4).tolist()], {torch.randint(5, (2,)) : 'hi' }]
+for idx in range(len(input_list)):
+    # Set "other" to an arbitrary value
+    m = Model(input_list[idx])
+    
+    # Generate example input for the model
+    x1 = torch.randn(1, 3, 64, 64)
+
+    # Check the outputs
+    v2 = m(x1)
+    print("Example {}: {}".format(idx+1, str(v2.tolist())))
+```
+The following example prints the output of each model for input values `input_list` when `"other"` is set to either a constant, an arbitrary tensor, or an arbitrary list/dictionary of key-value pairs. We demonstrate that setting "other" to any arbitrary value generates different outputs than if "other" was not specified:
+```
+    Example 1: [-0.5934286800384521, -0.7362921867370605, -0.2682058853149414, -0.411069390962677]
+    Example 2: [-0.23732179677963264, -0.16886477546224594, -0.7058078233734131, -0.09340038397455215]
+    Example 3: [-0.5789857462883911, 0.02345251579661396, -0.18961853022575378, 0.18988149069309235]
+    Example 4: [-0.5934286800384521, -0.7362921867370605, -0.2682058853149414, -0.411069390962677]
+    Example 5: [-0.23732179677963264, -0.16886477546224594, -0.7058078233734131, 0.01010219837983744]
+```
+

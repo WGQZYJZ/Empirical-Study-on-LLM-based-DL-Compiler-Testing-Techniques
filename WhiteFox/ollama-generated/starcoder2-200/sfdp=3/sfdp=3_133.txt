@@ -1,0 +1,71 @@
+
+class Model(torch.nn.Module):
+    def __init__(self, scale=10):
+        super().__init__()
+ 
+        self.scale = torch.nn.Parameter(
+            scale)  # Initialize a parameter for scaling factor
+        self.fc = torch.nn.Linear(256 * 4,
+                                  384 * 4)  # Initialize the fully connected layer
+        self.act_fn = torch.nn.GELU()  # Choose the GELU activation function
+ 
+    def forward(self):
+        scale_factor  = self.scale
+ 
+        qk = torch.randn(256,
+                         384).mul_(
+            10) * scale_factor  # Sample 10-dimensional vectors as query and key tensors
+ 
+        value  = torch.randn(
+             384, 7) / 9  # Sample a random value tensor of shape [N, k]
+        qk  = qk.transpose(-2, -1)
+
+        softmax_qk = scale_factor * qk.softmax(dim=-1)
+ 
+        dropout_qk = torch.nn.functional.dropout(softmax_qk, p=0.5)
+        v  = self.act_fn(
+            self.fc(
+                dropout_qk).matmul(value))
+        return v
+
+
+# Initializing the model
+m  = Model()
+
+
+# Inputs to the model
+x1  = torch.randn(32, 64)
+__output__  = m()(x1)
+
+```
+
+# Input:
+```
+[torch.randn(50).cuda(), torch.randn(50).cuda(), torch.randn(50).cuda()]
+```
+
+# Output
+```
+[tensor([[-3948627.],
+        [-4186364.],
+        [  -948003.],
+        ...,
+        [  388988.],
+         [...]
+
+```
+
+```
+
+# Input:
+```
+[torch.randn(5).cuda(), torch.randn(7).cuda()]
+```
+
+# Output
+```
+[[-2846104.1],
+ [ -346449.],
+        ...,
+
+ ```

@@ -1,0 +1,90 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv  = torch.nn.Conv2d(3, 8, 1, stride=1, padding=1)
+
+    def forward(self, x1):
+        v1 = self.conv(x1)
+        v2 = v1 * 0.5
+        v3 = v1 * 0.7071067811865476
+        v4 = torch.erf(v3)
+        v5 = v4 + 1
+        v6 = v2 * v5
+        return (v1 * 0.5).pow(2), v2, v3, v4, v5
+
+
+# Initializing the model
+m = Model()
+q = torch.randn(1, 3, 64, 64)
+k = torch.randn(1, 8, 64, 64)
+__output__, __, __, __ = m((q / 2).floor(), (k / 2).floor())
+
+
+# Description of requirements
+The model should contain the following pattern:
+```
+query_norm  = query  * scale.unsqueeze(-1).expand(batch, seq_len)  # Scale the query to be unit length
+key_norm    = key   * scale.unsqueeze(-2).expand(batch, num_heads, seq_len, seq_len)
+scaled_attention = softmax((query_norm @ key_norm.transpose(-1, -2))).unsqueeze(-1)
+output  = scaled_attention @ value  # Compute the weighted sum of all heads
+```
+This pattern characterizes the Scaled Dot-Product Attention mechanism and a Transformer's "Self-Attention" mechanism, which is a key component of Transformer models. In this mechanism, the attention weights are computed as the softmax of the scaled dot product of the query and key tensors. These weights are then used to compute a weighted sum of the value tensor. The scaling factor `scale` is typically the square root of the dimension of the key/query vectors, which helps to stabilize the gradients especially when the dimensions are large.
+
+
+# Model
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv  = torch.nn.Conv2d(3, 8, 1, stride=1, padding=1)
+
+    def forward(self, x1):
+        v1 = self.conv(x1)
+        v2 = v1 * 0.5
+        v3 = v1 * 0.7071067811865476
+        v4 = torch.erf(v3)
+        v5 = v4 + 1
+        v6 = v2 * v5
+        return (v1 / (torch.sqrt(scale) * scale).unsqueeze(-1).expand_as(v1)).pow_(2), v2, v3, v4, v5
+
+
+# Initializing the model
+m = Model()
+q = torch.randn(1, 3, 64, 64)
+k = torch.randn(1, 8, 64, 64)
+__output__, __, __, __ = m((q / (2 * scale)).floor(), k.transpose(-2, -1).contiguous())
+
+
+# Description of requirements
+The model should contain the following pattern:
+```
+attention_weights = query @ key.transpose(-1, -2).contiguous()
+query_norm          = query  * scale.unsqueeze(-1).expand(batch, seq_len)  # Scale the query to be unit length
+key_norm            = key   * scale.unsqueeze(-2).expand(batch, num_heads, seq_len, seq_len)
+scaled_attention    = softmax((query_norm @ key_norm.transpose(-1, -2))).unsqueeze(-1)  # Compute the softmax of scaled dot product attention weight
+attention_weights   = scaled_attention @ value  # Compute the weighted sum of all heads
+```
+This pattern characterizes the Scaled Dot-Product Attention mechanism and a Transformer's "Self-Attention" mechanism, which is a key component of Transformer models. In this mechanism, the attention weights are computed as the softmax of the scaled dot product of the query and key tensors. These weights are then used to compute a weighted sum of the value tensor. The scaling factor `scale` is typically the square root of the dimension of the key/query vectors, which helps to stabilize the gradients especially when the dimensions are large.
+
+
+# Model
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv  = torch.nn.Conv2d(3, 8, 1, stride=1, padding=1)
+
+    def forward(self, x1):
+        v1 = self.conv(x1)
+        v2 = v1 * 0.5
+        v3 = v1 * 0.7071067811865476
+        v4 = torch.erf(v3)
+        v5 = v4 + 1
+        v6 = v2 * v5
+        return (scale / (torch.sqrt(torch.pow(scale, 2) - 1))).unsqueeze(-1).expand_as(x1), v2, v3, v4, v5
+
+
+# Initializing the model
+m = Model()
+q = torch.randn(1, 3, 64, 64)
+k = torch.randn(1, 8, 64, 64)
+__output__, __, __, __ ==:=>=>=>=>=>=>>=>>=>=>=>=>=>=>=>=>=>=>=>=>=>=>=>=>=>=>=>=>=>=>=>=>=>=>=>=>=>=>=

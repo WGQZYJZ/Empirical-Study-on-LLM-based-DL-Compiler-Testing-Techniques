@@ -1,0 +1,32 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+ 
+    def forward(self, x1, x2, x3, x4):
+        v1  = torch.mm(x1, x2) 
+        v2  = torch.mm(x3, x4)   
+        v3  = v1 + v2 
+        return v3
+
+
+# Initializing the model
+m = Model() 
+
+# Inputs to the model
+x1  = torch.randn(50, 50)
+x2  = torch.randn(50, 100) # Not the same shape as the previous input tensor x1
+x3  = torch.randn(100, 80)
+x4  = torch.randn(80, 67) 
+ __output__  = m(x1, x2, x3, x4)
+
+
+# Description of requirements
+The model should contain the following pattern:
+```
+t1 = torch.mm(input_tensor_1, input_tensor_2) # Matrix multiplication between the first input tensor and second input tensor.
+t2  = torch.tanh(input_tensor_3) # Apply hyperbolic tangent to each element in the first input tensor
+t4 = t1 * t2 # Multiplying the first input tensor by the second output of the hyperbolic tangent function
+```
+This pattern characterizes scenarios where two separate matrix multiplications are performed, and then both results are added together. The addition happens after applying a tanh function to each element in the first input tensor.
+

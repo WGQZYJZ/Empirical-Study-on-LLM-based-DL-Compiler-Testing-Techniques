@@ -1,0 +1,34 @@
+
+class ScaledDotProductAttention(torch.nn.Module):
+    def __init__(self, model: Model, scale_factor=None):
+        super().__init__()
+
+        # The scale factor is used for weight normalization of the scaled dot product attention.
+        self._scale_factor = scale_factor if scale_factor else torch.sqrt(model.conv[0].weight.size(-1))
+        
+        # Use the model to compute query, key, and value.
+        self.query  = model.conv[0].weight.view(1, -1, *model.conv[0].weight.size()) 
+        self.key    = model.conv[0].weight.view(-1, 1, *model.conv[0].weight.size()) 
+
+        # Initialize scale factors of the values.
+        self._create_value()
+
+    def forward(self, x, mask):
+
+        x2, _  = torch.chunk(x, chunks=2, dim=-1)
+        qk    = torch.matmul(x2, self.query) / self._scale_factor
+
+        # Mask the values of `qk` that are not in `mask`.
+        attention_weights = (qk * mask).softmax(-1)
+        value           = torch.matmul(attention_weights, x)
+        return value
+
+    def _create_value(self):
+        inv_scale = 1 / self._scale_factor
+        with torch.no_grad():
+            # The values are initialized to zero.
+            # `torch.eye` is a convenience function for the identity tensor.
+            value = torch.zeros(self.query.size(0), self.key.size(-1))
+            for i in range(value.shape[0]):
+                value[i, :, :] = inv_scale * torch.matmul(self.key[i, :, :], torch.transpose(self.query[i, :, :], -2, -1))
+```

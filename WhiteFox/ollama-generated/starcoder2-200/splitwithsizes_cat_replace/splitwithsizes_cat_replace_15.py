@@ -1,0 +1,10 @@
+class Model(torch.nn.Module):
+    def __init__(self, n_channels=3):
+        super().__init__()
+        self.split  = torch.nn.Conv2d(n_channels, 80, 1)
+        self.concat  = torch.nn.Conv2d(49*80//6*7, 8, 1)
+ 
+    def forward(self, x): 
+        splitted_tensors  = torch.split(x, [3] * (80*8//3), dim=1)
+        concatenated_tensor = torch.cat([splitted_tensors[i] for i in range(len(splitted_tensors))], dim=1) 
+        return self.concat(self.split(concatenated_tensor))

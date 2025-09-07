@@ -1,0 +1,40 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.attn_q = torch.nn.Linear(768, 128)
+        self.attn_v = torch.nn.Linear(1024, 128)
+        self.output_layer = torch.nn.Linear(128, 512)
+ 
+    def forward(self, query, key):
+        v_q = torch.relu(self.attn_q(query))
+        v_k = torch.relu(self.attn_v(key))
+ 
+        attn_qk = self._masked_multi_head_attention_weights(v_q, v_k) # Compute the dot product of the query and key, and scale it with multi-head attention weights
+        attn_qk += 1  # Add 1 to the scaled dot product with the attention mask
+        attn_weight = torch.softmax(attn_qk.transpose(-2, -1), dim=-1) # Apply softmax to the result
+        output = attn_weight @ value # Compute the dot product of the dropout output and the value
+
+        return self._linear_projector(output).transpose(0, 1) # Transpose from [batch_size, num_heads, seq_len, head_dim] -> [seq_len, batch_size * num_heads, head_dim]
+ 
+    @staticmethod
+    def _masked_multi_head_attention_weights(q, k):
+        w = torch.matmul(q.transpose(-2, -1), k) # Compute the dot product of the query and key, and scale it with multi-head attention weights
+        attn_mask = (attn_mask >= 0).view(attn_mask.size(0), attn_mask.size(1), 1, attn_mask.size(2)).expand(w.shape) # Add the attention mask to the scaled dot product with the attention mask
+        return w * attn_mask
+ 
+    def _linear_projector(self, x):
+        h = self._dropout(x, dropout_p)
+        h = torch.relu(self._linear1(h))
+        h = self._linear2(h)
+        return h
+ 
+    @staticmethod
+    def _dropout(x, p):
+        with torch.no_grad():
+            mask = x.new_empty(x.shape).bernoulli_(1 - p) # Generate a binary tensor for the drop rate to generate a new Tensor from this one
+            mask = (mask.float() / mask.sum()).pow(p)
+            return x * mask
+```
+This pattern characterizes multi-head attention mechanism in transformer models, where the scaled dot product of the query and key (plus an attention mask) is then applied to the value. The result is then applied linearly to a dense layer to produce the output embeddings.
+

@@ -1,0 +1,35 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+ 
+    def forward(self, input_tensors):
+        v1 = torch.cat(input_tensors, dim=1)
+        v2  = v1[:, 0:9223372036854775807]
+        size  = v2[:,:,v2[:, :, :].max() == -1].shape[1]
+        v3 = v2[:, :size]
+        v4  = torch.cat([v1, v3], dim=1)
+
+
+# Initializing the model
+m  = Model()
+ 
+ # Inputs to the model
+i1 = torch.randn(50, 784, dtype=torch.float64)
+i2 = torch.randn(120, 50, 30, 30, dtype=torch.float64)
+ 
+i3 = [
+    i1[idx, :]
+    for idx in range(90) if i1[idx, :].sum() > -0.7089]
+
+ # A valid model should contain the following patterns:
+__output__  = m(torch.randn(50, 32), [i1[:size], i2])
+
+```
+# Description of requirements
+The model should contain the following pattern:
+```
+t1 = torch.cat([input_tensors[idx], torch.zeros(*input_tensors[idx].shape).to(input_tensors[idx].device)])  # Concatenate the input tensor and zero tensor along dimension 0 for all elements in `input_tensors` and place it into a new variable `t1`.
+t2 = t1[:, 5:7]  # Slice `t1` along dimensions 1. The resulting output of the slicing operation will be the first 3 elements of each row of the concatenated input tensors.
+```
+

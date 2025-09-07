@@ -1,0 +1,19 @@
+
+class Model(torch.nn.Module):
+    def __init__(self, d_k=64, nhead=8, dim=32):
+        super().__init__()
+        self.d_k = d_k
+        self.nhead = nhead
+        self.dim = dim
+        self.qkv  = torch.nn.Linear(dim, d_k * 3, bias=False)
+        self.attn  = torch.nn.Linear(d_k * 3, nhead * dim, bias=False)
+
+    def forward(self, x1, x2):
+        query, key = x1, x2
+        qkv = self.qkv(query).chunk(3, dim=-1)
+        k, v = torch.chunk(key, 2, dim=-1), torch.chunk(value, 2, dim=-1)
+        dots = (qkv[0] @ k.transpose(-2, -1)) / math.sqrt((k.size(-1)))
+        attn = self.attn(dots).softmax(dim=-1)
+        output = attn @ v
+        return output
+```

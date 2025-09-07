@@ -1,0 +1,23 @@
+
+class Model(torch.nn.Module):
+    def __init__(self, emb_dim=64, nhead=8, num_layers=1, attn_p=0.1):
+        super().__init__()
+        self.query = torch.nn.Linear(emb_dim, emb_dim)  # Input to the attention mechanism
+        self.key = torch.nn.Linear(emb_dim, emb_dim)
+        self.value = torch.nn.Linear(emb_dim, emb_dim)
+        self.dropout = torch.nn.Dropout(attn_p)
+        self.proj = torch.nn.Linear(emb_dim * 2, emb_dim)
+        self.pos_emb = torch.zeros(num_layers + 1, emb_dim)  # Position embedding
+
+    def forward(self, x1):
+        batch_size, seq_len, input_dim = x1.shape
+        num_heads = math.sqrt(input_dim // self.query.weight.shape[-1])
+        query = self.dropout(self.query(x1))  # Compute the attention mechanism
+        key = self.dropout(self.key(x1))
+        value = self.dropout(self.value(x1))
+        pos_emb = torch.arange(0, num_layers + 1) * input_dim  # The position embedding used by a single transformer layer
+
+        return torch.tanh((query @ key.transpose(-2, -1)) * math.sqrt(self.proj(self.key(x1).reshape(seq_len, num_heads, emb_dim)))) + self.pos_emb
+```
+The input of the model is a set of vectors, one for each row and column of `attn_mask`, where rows are from the sequence and columns are from the embedding matrix (the input for each transformer layer). In this case, `num_layers` corresponds to the number of layers in the transformer, since the `attention_p` argument passed to `Transformer` specifies the dropout probability.
+

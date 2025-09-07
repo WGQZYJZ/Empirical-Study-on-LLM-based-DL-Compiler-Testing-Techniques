@@ -1,0 +1,124 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.attn_layer = torch.nn.MultiheadAttention(embed_dim=64, num_heads=2)
+ 
+    def forward(self, x1, x2, x3):
+        qk = self.attn_layer(x1, x2, x3)[0] # Query is in the 0th dimension of the result tensor returned by self.attn_layer()
+        return qk
+
+
+# Initializing the model
+m = Model()
+query = torch.randn(8, 3, 64, 64)
+key   = torch.randn(8, 8, 64, 64)
+value = torch.randn(8, 10, 64, 64)
+
+
+# Please generate a valid PyTorch model example with public PyTorch APIs meets the specified requirements. Plus, please also generate the input tensor for the newly generated model. The model should be different from the previous one.
+
+
+# Description of requirements
+The model should contain the following pattern:
+```
+t1 = x1 + x2 + x3  # Concatenate x1, x2 and x3 along the channel axis
+t2 = t1 * 0.25   # Scale the summation result by 0.25
+t3 = torch.sigmoid(t2)   # Apply sigmoid to the scaled summation result
+output = x4 * t3   # Multiply each element of t3 with x4 and then add it to x4
+```
+This pattern characterizes a sequence to sequence attention mechanism, which is also a key component of Transformer models. In this model, three tensors are added and the resulting tensor is then scaled by `0.25`, and finally these two results are multiplied and summed together before being passed through a sigmoid function.
+
+
+# Model
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.attn_layer = torch.nn.MultiheadAttention(embed_dim=64, num_heads=2)
+ 
+    def forward(self, x1, x2, x3):
+        qk = self.attn_layer(x1, x2, x3)[0] # Query is in the 0th dimension of the result tensor returned by self.attn_layer()
+        return qk
+
+
+# Initializing the model
+m = Model()
+query = torch.randn(8, 3, 64, 64)
+key   = torch.randn(8, 8, 64, 64)
+value = torch.randn(8, 10, 64, 64)
+
+
+# Please generate a valid PyTorch model example with public PyTorch APIs meets the specified requirements. Plus, please also generate the input tensor for the newly generated model. The model should be different from the previous one.
+
+# Description of requirements
+The model should contain the following pattern:
+```
+t1 = torch.mean(attn_weight, dim=-1) # Reduce the dimension along the last axis by summing up all elements in that axis
+t2  = x4 * t3   # Multiply each element of t3 with x4 and then add it to x4
+output = t1 + t2   # Add the results of multiplication and summation above, and then scale them down
+```
+
+
+# Model
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+ 
+    def forward(self, x):
+        v1 = torch.tanh(x)  # Apply tanh to the input tensor
+        return v1
+
+
+# Initializing the model
+m = Model()
+
+
+# Please generate a valid PyTorch model example with public PyTorch APIs meets the specified requirements. Plus, please also generate the input tensor for the newly generated model. The model should be different from the previous one.
+
+# Description of requirements
+The model should contain the following pattern:
+```
+t1 = torch.mean(attn_weight, dim=-1) # Reduce the dimension along the last axis by summing up all elements in that axis
+output = x4 * t3   # Multiply each element of t3 with x4 and then add it to x4
+```
+
+
+# Model
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+ 
+    def forward(self, x):
+        v1 = torch.tanh(x)  # Apply tanh to the input tensor
+        return v1
+
+
+# Initializing the model
+m = Model()
+
+
+# Please generate a valid PyTorch model example with public PyTorch APIs meets the specified requirements. Plus, please also generate the input tensor for the newly generated model. The model should be different from the previous one.
+
+# Description of requirements
+The model should contain the following pattern:
+```
+t1 = torch.mean(attn_weight, dim=-1) # Reduce the dimension along the last axis by summing up all elements in that axis
+output = t1 + t2   # Add the results of multiplication and summation above, and then scale them down
+```
+
+
+# Model
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+ 
+    def forward(self, x):
+        v1 = torch.tanh(x)  # Apply tanh to the input tensor
+        return v1
+
+
+# Initializing the model
+m = Model()
+
+
+# Please generate a valid PyTorch model example with public PyTorch APIs meets the specified requirements. Plus, please also generate the first_is_s:043599287 

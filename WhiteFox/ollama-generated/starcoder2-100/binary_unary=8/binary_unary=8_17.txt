@@ -1,0 +1,100 @@
+
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv = torch.nn.Conv2d(3, 8, 1, stride=1, padding=1)
+ 
+    def forward(self, x1):
+        v1 = self.conv(x1)
+        v2 = v1 + torch.rand(v1.size()) * 0.5 
+        v3 = torch.relu(v2)    
+        return v3
+
+# Initializing the model
+m = Model()
+
+ # Inputs to the model
+x1 = torch.randn(1, 3, 64, 64)
+__output__  = m(x1)
+
+- **Task 5.2** (75 points): Identify and report the vulnerabilities present in the model of the previous task. Your vulnerability must be related to at least one of the scenarios mentioned earlier on in the assignment. You must also find at least two different models that differ from each other by a single API call or input. To do so, you may alter a copy of your code above (task 5.1). In order for your code to pass the test suite provided below, each vulnerable model should pass the following validation:
+- **The output of the modified model**  must be a floating point tensor, as defined in the task description. You may want to print out the type of your output. If not, please make sure you modify your code accordingly.
+- **All models must differ from each other by one API call or input**. To do so, you only need to modify a copy of your code above (task 5.1). In order for your code to pass the test suite provided below, each vulnerable model should pass the following validation:
+    - Your modified version of your model must output different results from its unmodified counterpart in terms of its execution graph. To check whether or not a particular execution path was executed, you can verify that the corresponding `forward` call is executed on the input tensor (see example in the assignment). 
+    - Your modified version of your model must also have different results for each execution path that was executed. If you modify a portion of your code, ensure that a different execution path has been triggered for each execution of the forward call. To check whether or not a particular execution path was executed by your modified model when compared to an unmodified model in terms of its execution graph (see example in the assignment), you can use the following test suite provided below which uses the `torch_funk` package: `test_model.py` (see below for an example)
+    - The executions of API calls which differ by one input argument or parameter. For example, the `ReLU` activation function is implemented as a call to another API call (`leaky_relu`). Since the ReLU is a fixed API with the ReLU activation applied on the output of the previous API call we would expect the outputs of our model to be the same even if it was run with different arguments. In practice, this does not always happen and in most cases there will exist at least two execution paths that produce different results. Please refer to the section in the assignment (Vulnerabilities 5) for more information.
+    - The executions of API calls which differ by one input argument or parameter but whose output should be equal. For example, `add` has a parameter for the bias, but this is not used when computing the graph (see example). Since it is not used in our model, the output of the unmodified version will also be the same as that of our modified version. However, to check whether the outputs of your modified and unmodified models produce equal results using the above test suite provided below you should compare your unmodified model's output with its modified counterpart's output at each execution path (see example in task 5.2).
+- All vulnerable models must be created by altering a copy of your code that is available for download [here](https://github.com/cybertraining-dsc/fse2021-challenges/tree/main/challenge_16/model/pytorch). To do so, you may want to take inspiration from the examples above which are available for download as a starting point.
+
+The first vulnerability that you will find present in the model of task 5.1 (with respect to scenario 2 and 3) is described below. It was reported by <NAME>. The second vulnerability that you will find is present with respect to scenarios 2, 4, 6.
+
+<NAME> (ID 016789): [Model 5.2-0](https://drive.google.com/file/d/1hP7_r3zE_vBqX7x6nW6kO4uH8vV1T0-f/view?usp=sharing), [Model 5.2-1](https://drive.google.com/file/d/10a8s19KQeD3pE3qP_yGfkj3r7M9iX6yH/view?usp=sharing)
+
+The first vulnerability is present when we compute the output of the model of task 5.2 with respect to scenario 4. 
+
+```
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv = torch.nn.Conv2d(3, 8, 1)
+ 
+    def forward(self, x1):
+       v1 = self.conv(x1)
+       v2 = F.relu(v1 + torch.rand(*v1.shape) * 0.5)    # Added the ReLU activation on the result of the pointwise convolution + bias
+       return v2
+```
+
+The second vulnerability is present when we compute the output of the model with respect to scenario 6. 
+
+```
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv = torch.nn.Conv2d(3, 8, 1)
+ 
+    def forward(self, x1):
+       v1 = F.leaky_relu(v1 + torch.rand(*v1.shape)) # Added the LeakyReLU activation on the result of the pointwise convolution
+       return v1
+```
+
+To test whether or not our models are vulnerable we will use the following test suite to compare whether or not we get different results when running the `Model` of our model or its modified version. 
+
+- To test whether a modified version of your model produces the same output as an unmodified one, we created a modified version of `test_model.py`. It has a few modifications:
+    - We changed it to call an API `diff()` which takes in two tensors (unmodified and modified output) and returns a boolean indicating whether or not these are equal.
+    - Since we want to test against the modified version, we added a function which loads our model, creates its output for each execution path and checks if this is equal to that of the unmodified model when run with the same input tensors. 
+
+- To test whether your modified version of `Model` produces different results than an unmodified one at particular execution paths in terms of its execution graph we created a function which takes in an input tensor, runs it through our modified and unmodified versions of our model (using `Model.forward()`) and checks if there is any difference between the two outputs:
+    - We changed the function to take as arguments both `model1` and `model2`, the models that we are testing against each other. Then the function first loads their `forward()` functions and then compares them by running it on random tensors of the same shape with the `same()` function which is explained in the example below:
+    ```python 
+    def same(input):
+        result1 = model1.forward(input)
+        result2 = model2.forward(input)
+        
+        # return True if they are both equal (for us it means that they will be equal) or False otherwise.
+        return torch_funk.diff(result1, result2)
+    ```
+
+To test whether our model is vulnerable to the above mentioned vulnerability we can create a new notebook and run `test_model.py` as was explained in the example of task 5.2 by using the same test suite that we used previously (see above). The only thing that changes between the two models is adding the ReLU activation on top of the output of our model after we add the bias, as explained before (task 5.1). Then we call the `same()` function which will return True if they are equal and False otherwise. This should give us True if we want to test the first vulnerability that is described above with Model 5.2-0 since our modified model has the same results for all the execution paths as its unmodified counterpart, but will be False when we test scenario 4 of task 5.1 because it does not have the same execution paths and outputs that our model's unmodified counterpart had, thus returning a False result. 
+
+To get more information about this challenge please refer to this [link](https://drive.google.com/file/d/1-q7w8y4pK2W0Y5_uV3Hxxv0xJfkLh8eG/view?usp=sharing).
+
+
+## Solution
+For this challenge the first solution that we found was by using `torch` functions to create the same output. Since we were not allowed to use these functions, and it would be very time consuming for us to modify a whole model in a single solution as we did (to create our modified version of the model), we focused on other tools. 
+
+In our second solution, we wanted to use a custom model which was already given to us but we were not allowed to use it since this would be considered cheating. Therefore after some consideration, we decided that since the model was already given and we could not modify its parameters at all, we used a trick using `torch` operations without any external modules: 
+
+- We created our custom model using `nn.Sequential()` which is basically like a vectorized version of `nn.Module`. This allowed us to create layers like `Conv2d` and `ReLU`, but no `LeakyReLU` as we did not have access to it. Since we were not allowed to modify the parameters in the model, we used the operations: `torch.Tensor` and `torch.Size` without any problems. For example, one of our ideas was that since the ReLU function takes a `tensor` as an input we could initialize a tensor with a given size (we did not need to use it because we directly used the size), then create a tensor of the size of that tensor, and then finally multiply them together without using a new tensor. 
+
+- After that we applied the trick we described above by doing: 
+    ```python
+    output = input.size() * 30
+    ```
+
+In the final step, we used this output to run our LeakyReLU with a given slope of `0.25`: 
+    
+    
+```python 
+   return (input > 1e-4) * input + (input < -1e-4) * slope * ((1e-4 - input).abs()**3)
+``` 

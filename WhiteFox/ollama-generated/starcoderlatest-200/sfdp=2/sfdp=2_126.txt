@@ -1,0 +1,126 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.matmul = torch.nn.Linear(2048, 256)
+
+    def forward(self, q1, k1, v1):
+        vq = self.matmul(v1.view(-1, 2048)) # Query view projection (batch * n_head * d_k)
+
+        # Keys and queries with shape (batch * n_head, sequence length, head size), softmax-ed, dropout-ed
+        qkv = torch.cat([q1.view(v1.size(0), v1.size(1), -1), k1.view(v1.size(0), v1.size(1), -1)], dim=2) # Concat the query and keys
+        v, attention_weights = self.attention(qkv)
+
+        # Shape (batch * n_head, sequence length, head size) -> (batch, sequence length, n_head * d_v)
+        attention_output = torch.cat([v1.view(-1, 2048), v], dim=0).view(*v1.shape[:3], -1) # Concat the value with projected keys
+
+        return attention_weights, output
+
+
+# Initializing the model
+m = Model()
+
+
+# Inputs to the model
+q1 = torch.randn(4, 2048, 768).cuda() # Query: (batch, n_head * d_k)
+k1 = torch.randn(256, 2048, 768).cuda() # Keys: (batch, sequence length, n_head * d_k)
+v1 = torch.randn(4, 256, 1024).cuda() # Values: (batch, sequence length, head size)
+
+
+# Calculating attention weights and output using the model
+m.eval()
+attention_weights, output = m(q1, k1, v1)
+print("Attention Weights: " + str(attention_weights))
+print("Output: " + str(output))
+
+
+# Generating new input tensor for testing with public PyTorch APIs
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+
+    def forward(self, q1, k1, v1):
+        vq = self.matmul(v1) # Query view projection (batch * n_head * d_k)
+
+        # Keys and queries with shape (batch * n_head, sequence length, head size), softmax-ed, dropout-ed
+        qkv = torch.cat([q1, k1], dim=2) # Concat the query and keys
+        v, attention_weights = self.attention(qkv)
+
+        # Shape (batch * n_head, sequence length, head size) -> (batch, sequence length, n_head * d_v)
+        attention_output = torch.cat([v1, v], dim=0).view(*v1.shape[:3], -1) # Concat the value with projected keys
+
+        return attention_weights, output
+
+
+# Inputs to the model (with new tensor input):
+q2 = torch.randn(4, 256, 768).cuda()
+k2 = torch.randn(2048, 256, 768).cuda()
+v2 = torch.randn(4, 2048, 1024).cuda()
+
+
+# Calculating attention weights and output using the model (with new tensor input)
+m.eval()
+attention_weights, output = m(q2, k2, v2)
+print("Attention Weights: " + str(attention_weights))
+print("Output: " + str(output))
+
+
+# Description of requirements
+The model should contain the following pattern:
+```
+output = x1.mm(weight).addmm(bias, x2)  # mm-multiply and add matrix multiplication
+```
+This pattern characterizes scenarios where the output is computed by a matrix multiplication operation between two matrices.
+
+
+# Model
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.matmul = torch.nn.Linear(1024, 512)
+
+    def forward(self, x1, x2):
+        x3 = x1.mm(x2) + x2.mm(x1) # mm-multiply and add matrix multiplication
+        output = x3.add(self.matmul(x3))
+        return output
+
+# Inputs to the model:
+x1 = torch.randn(4, 2048).cuda()
+x2 = torch.randn(4, 512).cuda()
+
+
+# Calculating the output using the model
+m.eval()
+output = m(x1, x2)
+print("Output: " + str(output))
+
+
+# Generating new input tensor for testing with public PyTorch APIs
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+
+    def forward(self, x1, x2):
+        y = self.matmul(x2) # Matrix multiplication
+        return y + x1  # Addition
+
+
+# Inputs to the model (with new tensor input):
+x3 = torch.randn(4, 512).cuda()
+y = m(x3, x2) # Calculating_1279287 6091:21, and 1902_3076324092352781_2516589_2236901153_2011374861)
+def test_valid_ipv4_string(validator):
+    result = validator.validate("https://www.google.com")
+
+    assert not result.has_error()
+
+
+def test_invalid_ipv6_address(validator):
+    result = validator.validate("https://[::1]:8080/")
+
+    assert result.is_error()
+
+
+def test_invalid_ipv4_address(validator):
+    result = validator.validate("https://www.google.com")
+
+    assert not result.has_error()

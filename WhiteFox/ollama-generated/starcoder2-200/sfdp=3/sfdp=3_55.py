@@ -1,0 +1,14 @@
+class TransformerModel(torch.nn.Module):
+    def __init__(self, embedder, encoder, decoder):
+        super().__init__()
+        self._embedder = embedder
+        self._encoder  = encoder
+        self._decoder  = decoder
+ 
+    def forward(self, x1):
+        x2 = self._embedder(x1)
+        x3 = self._encoder(x2)
+        x4 = self._decoder(x3)
+        return x4
+# Model example 2
+model = TransformerModel()

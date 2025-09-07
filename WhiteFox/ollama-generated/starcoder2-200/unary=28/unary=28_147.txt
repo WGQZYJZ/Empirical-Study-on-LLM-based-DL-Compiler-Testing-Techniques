@@ -1,0 +1,21 @@
+
+class Model(torch.nn.Module):
+    def __init__(self, max_value=0, min_value=-1):
+        super().__init__()
+        self.linear  = torch.nn.Linear(32*64**2, 8)
+ 
+    def forward(self, x1):
+        v1  = self.linear(x1) # linear
+        v2 = v1 + max_value
+        v3  = -v2
+        return v3
+
+
+# Initializing the model
+max_value=0
+min_value=-1
+m  = Model(max_value, min_value)
+__output__  = m()
+```
+
+# Input

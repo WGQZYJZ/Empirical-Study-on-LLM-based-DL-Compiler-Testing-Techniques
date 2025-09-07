@@ -1,0 +1,27 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.query = torch.nn.Linear(3, 16)
+        self.key = torch.nn.Linear(3, 4)
+        self.value = torch.nn.Linear(3, 8)
+        self.attn_mask = torch.eye(8, device=device).unsqueeze(0)
+        self.dropout = torch.nn.Dropout2d()
+ 
+    def forward(self, x1):
+        v1 = self.query(x1)
+        v2 = self.key(x1)
+        v3 = self.value(x1)
+        w1  = self.attn_mask @ torch.softmax(v1, dim=-1).unsqueeze(0)  # Compute the dot product of the query and key, and scale it
+        w1  = w1 + self.attn_mask  # Add an attention mask to the scaled dot product
+        w2 = self.dropout(w1).transpose(-2, -1).contiguous().view(-1, v1.size(-2), v1.size(-1))  # View it as a matrix of shape (B, H * W * D) and transpose to match the format of the model
+        w3 = self.attn_mask @ torch.softmax(w2, dim=-1).unsqueeze(0)  # Compute the dot product of the dropout output and the value
+        v4 = v3 @ w3  # Multiply the dot products
+        v5 = torch.sigmoid(v4)  # Apply the sigmoid function to the computed output
+        v6 = self.attn_mask @ (x1 * x1)  # Compute the dot product of the input tensor and the input tensor, which is also scaled with an attention mask
+        v7 = self.dropout(w3).transpose(-2, -1).contiguous().view(-1, v3.size(-2), v3.size(-1))  # View it as a matrix of shape (B, H * W * D) and transpose to match the format of the model
+        output = w3 @ (v6 + v5)  # Multiply the two matrices together, add an attention mask to each element, and scale them with the softmax function
+        return output
+```
+This pattern characterizes scenarios where a dropout operation is applied on the input tensor, followed by a transpose and a view, then the input tensor is multiplied and scaled using an attention mask.
+

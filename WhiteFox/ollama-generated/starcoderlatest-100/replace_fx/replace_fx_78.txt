@@ -1,0 +1,26 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.linear = torch.nn.Linear(2, 10)
+
+    def forward(self, x):
+        out = torch.nn.functional.dropout(x, p=0.5)
+        return torch.nn.functional.linear(out, self.linear.weight, self.linear.bias)
+
+# Initializing the model
+m = Model()
+
+
+def gen_graph():
+    # The original function call of dropout in the graph
+    m(torch.rand(1, 3, 2))
+
+    # A replacement for torch.nn.functional.dropout with a `lowmem_dropout` op and an optional replacement
+    m(gm.node(torch.nn.functional.Dropout2d))
+
+
+# Running gen_graph on a CPU device triggers the low mem replacements of dropout/rand_like nodes:
+gen_graph()  # The node for torch.nn.functional.dropout is erased from the graph
+```
+The `lowmem_dropout` and `rand_like` functions are available only when the PyTorch binary supports them via extensions, i.e., if your build of PyTorch was compiled with extensions. To run these functions on a CPU device, set the `fallback_random: "false"` configuration in the model configuration file.

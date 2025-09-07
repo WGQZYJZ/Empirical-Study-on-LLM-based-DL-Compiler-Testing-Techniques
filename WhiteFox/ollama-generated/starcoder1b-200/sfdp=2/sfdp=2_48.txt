@@ -1,0 +1,19 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.query  = torch.nn.Linear(768, 128)
+        self.key    = torch.nn.Linear(768, 128)
+        self.value  = torch.nn.Linear(128, 3)
+ 
+    def forward(self, x):
+        k  = F.relu(self.query(x))
+        v  = F.relu(self.key(x))
+        w  = torch.matmul(k, v).div_(F.softplus(-self.key(x)).exp())  # Compute the dot product of the query and the key
+        out = self.value(out) * F.softmax(w, dim=-1)  # Apply softmax to the scaled dot product
+        return out
+```
+# Initializing the model
+m = Model()
+
+

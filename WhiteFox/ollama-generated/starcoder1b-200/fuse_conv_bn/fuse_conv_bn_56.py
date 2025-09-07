@@ -1,0 +1,1 @@
+The optimization also applies to the functional API equivalent of the above pattern, where `torch.nn.functional.conv` and `torch.nn.functional.batch_norm` are used instead of the module API. The constraints for the functional API pattern are similar to the module API pattern.

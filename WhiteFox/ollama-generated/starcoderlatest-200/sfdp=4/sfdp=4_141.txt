@@ -1,0 +1,22 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv1 = torch.nn.Conv2d(3, 4, 1, stride=1, padding=0)
+        self.conv2 = torch.nn.Conv2d(4, 8, 1, stride=1, padding=0)
+ 
+    def forward(self, qk):
+        v6 = torch.matmul(qk[:, :, :, :-1], self.conv1(qk)) # Compute the dot product of the query and key using a convolution with kernel size 3 (convolutional layer), and scale it by `math.sqrt(query_depth)`, then add the attention mask to the scaled dot product
+        v7 = torch.tanh(v6) # Apply tanh function on the output tensor
+        attn_weight = self.conv2(v7) # Compute an attention matrix from the outputs of the previous layer and key, and use it for computing an attention vector by linearly scaling the query, and then adding it to the scaled dot-product attention vector
+        return torch.matmul(attn_weight[:, :, :, :1], v7), attn_weight
+```
+
+ # Initializing the model
+m = Model()
+
+ # Inputs to the model
+qk  = torch.randn(2, 4, 64, 64)
+v6 ,atten_weight = m(qk)
+
+ 

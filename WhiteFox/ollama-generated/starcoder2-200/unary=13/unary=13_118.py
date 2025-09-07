@@ -1,0 +1,4 @@
+
+# Initializing model
+m  = Model()
+

@@ -1,0 +1,30 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.attn = torch.nn.MultiheadAttention(dim_q=64, dim_kv=64)
+ 
+    def forward(self, qk, x1, x2):
+        v1  = self.attn(x1, x2, qk)[0] * self.attn._float_scale
+        return v1
+
+
+# Initializing the model
+m = Model()
+
+# Inputs to the model
+qk  = torch.randn(1, 8, 64) # (batch size, number of heads, query length, key length)
+x1  = torch.randn(1, 32, 64)
+x2  = torch.randn(1, 32, 64)
+__output__  = m(qk, x1, x2)
+
+
+# Description of requirements
+The model should contain the following pattern:
+```
+t_linear = torch.nn.Linear(in_features=dimension, out_features=hidden_size) # Linear layer for input tensor and dimension output_dimensions are different.
+t_activation = torch.nn.ReLU()  # Activation function of ReLU type
+t_fc = torch.nn.Linear(in_features=hidden_size, out_features=output_dimensions) # Final linear layer to obtain the result.
+```
+This pattern characterizes scenarios where a Linear layer is constructed, then applied as an activation function and finally a final Linear layer is applied for calculating output.
+

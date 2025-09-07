@@ -1,0 +1,26 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv  = torch.nn.Conv2d(3, 8, 1)
+ 
+    def forward(self, x1):
+        v1  = self.conv(x1)
+        v2  = v1 + other  # Add another tensor to the output of the convolution
+        return torch.relu(v2), v2
+
+
+# Initializing the model
+m = Model()
+__output__, __output_v2__ = m(torch.randn(1, 3, 64, 64))
+
+The outputs should be two tensors.
+
+# Description of requirements
+The model should contain the following pattern:
+```
+t1 = conv(input_tensor)  # Apply pointwise convolution with kernel size 1 to the input tensor
+t2 = t1 * 0.5             # Multiply the output of the convolution by 0.5
+t3 = torch.relu(other)    # Apply ReLU activation function on another input to the model, and then multiply its result by 0.7071067811865476 to find a new value
+```
+This pattern characterizes scenarios where a pointwise convolution is applied to an input tensor; `0.5` is multiplied on the output of the convolution; another tensor is passed as an argument to ReLU activation function and then the result is multiplied by `0.7071067811865476`.

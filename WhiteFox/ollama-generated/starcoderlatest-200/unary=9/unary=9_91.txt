@@ -1,0 +1,79 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv = torch.nn.Conv2d(3, 8, 1, stride=1, padding=1)
+ 
+    def forward(self, x1):
+        v1 = self.conv(x1) + 3
+        v2 = torch.clamp_min(v1, 0)
+        v3 = torch.clamp_max(v2, 6)
+        v4 = v3 / 6
+        return v4
+
+
+# Description of requirements
+The model should contain the following pattern:
+```
+t1 = input_tensor * x1 + y1 # Multiply the input tensor by 0.5 and add it to a constant value 3
+t2 = t1 ^ 2  # Exponentiate the output of the previous operation to the power of 2
+t3 = torch.clamp(t2, -3) # Clamp the output of the exponentiation operation to a minimum of -3 and maximum of 3
+t4 = 0.7 * t1 + x1   # Multiply the input tensor by 0.7, then add it to the constant value 3
+t5 = t4 + torch.exp(y)   # Add the output of the previous operation to an exponential function applied to the constant value 3
+```
+This pattern characterizes scenarios where two operations are performed on a pointwise convolution with kernel size `1`: Multiply the input tensor by a constant `0.5` and then add it to a constant `3`; Exponentiate the result of the previous operation (multiplied by `0.7`) to the power of `2`, clamp the result, and then divide the result of the clamped multiplication by `6`; Multiply the input tensor by a constant `0.7` and then add the result to an exponential function applied to a constant `3`. The result is the output of the model.
+
+
+# Model
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv1 = torch.nn.Conv2d(3, 8, kernel_size=1)
+        self.conv2 = torch.nn.Conv2d(8, 8, kernel_size=1)
+ 
+    def forward(self, x1):
+        v1 = self.conv1(x1) + 3
+        v2 = torch.clamp_min(v1, -3)
+        v3 = torch.clamp_max(v2, 6)
+        v4 = v3 / 6
+        v5 = self.conv2(v4) * 0.7
+        return v5
+
+
+# Description of requirements
+The model should contain the following pattern:
+```
+t1 = tanh(input_tensor + y1) # Compute the hyperbolic tangent function and then add it to a constant value 3
+t2 = torch.clamp_max(t1, 6)  # Clamp the output of the previous operation to a maximum of 6
+t3 = torch.log(t2)    # Compute the natural logarithm
+t4 = tanh(t3)       # Compute the hyperbolic tangent function and then multiply it by -1
+t5 = tanh(x * t4)   # Compute the hyperbolic tangent function of the product of the input tensor and the output of the previous operation
+```
+This pattern characterizes scenarios where: The input tensor is multiplied by a constant `0.7` and then clamped to a maximum of `6`, and then the natural logarithm is taken, which results in a tensor containing the natural logarithms of 3 values; Apply the hyperbolic tangent function element-wise to all elements of the output of the previous operation, then multiply each element by `-1`; Compute the hyperbolic tangent function element-wise of the product of the input tensor and the output of the previous operation. The result is the output of the model.
+
+
+# Model
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv1 = torch.nn.Conv2d(3, 8, kernel_size=1)
+        self.conv2 = torch.nn.Conv2d(8, 8, kernel_size=1)
+ 
+    def forward(self, x1):
+        v1 = self.conv1(x1) + 3
+        v2 = torch.clamp_min(v1, -3)
+        v3 = torch.clamp_max(v2, 6)
+        v4 = v3 / 6
+        v5 = self.conv2(v4) * 0.7
+        return v5
+
+
+# Description of requirements
+The model should contain the following pattern:
+```
+t1 = input_tensor + y1 # Add it to a constant value 3
+t2 = tanh(t1)   # Compute the hyperbolic tangent function element-wise and then divide it by 4
+t3 = tanh(x * t2)   # Compute the hyperbolic tangent function of the product of the input tensor and the output of the previous operation
+```
+This pattern characterizes scenarios where: The input tensor is added to a constant `3`, and then apply an element-wise operation on each element. This results in a tensor with 4 values; Apply the hyperbolic tangent function element-wise to all elements of the output of the previous operation, and then divide each element by `4`; Compute the hyperbolic tangent tangent tangent (1)
+In this example I am using the data set on page 132 of this book with two two two four four two two two two two two two two two two two two two two two two two two two two two two two two two two two two two two two

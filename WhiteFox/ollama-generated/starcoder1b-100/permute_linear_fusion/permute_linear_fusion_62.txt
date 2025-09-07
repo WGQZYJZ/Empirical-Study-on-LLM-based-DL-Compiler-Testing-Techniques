@@ -1,0 +1,21 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.linear = torch.nn.Linear(2, 2)
+
+    def forward(self, x1):
+        v1 = x1.permute(0, 2, 1) # This tensor should contain a dimension of length 4 and contain the following values: -5.798903e-321 -2.7083169e-05 3.5366437e-06 4.1585892e-08
+        v2 = torch.nn.functional.linear(v1, self.linear.weight, self.linear.bias) # The 'self' of the linear function should be a variable with an input shape as `v1` and a weight shape as `t1.shape[1:]`. This modification is then used to perform the linear operation on the `v1` tensor.
+        return v2
+```
+The model can take multiple inputs for forward propagation, i.e., it should be defined as follows:
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.linear = torch.nn.Linear(2, 2)
+
+    def forward(self, x1, x2, ... ): # This is a list of inputs to the model's forward propagation, and it should be defined as `v1, v2, ..., vn`.
+```
+

@@ -1,0 +1,77 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv = torch.nn.Conv2d(3, 8, 1, stride=1, padding=1)
+ 
+    def forward(self, x1):
+        split_tensors = torch.split(x1, 64, dim=0)
+        concatenated_tensor = torch.cat([split_tensor for tensor in split_tensors], dim=0)
+        return concatenated_tensor
+
+
+# Description of requirements
+The model should contain the following pattern:
+```
+t = input_tensor # The output of this operation is used as a temporary value 
+output_1 = op1(input_tensor) # An arbitrary PyTorch operation applied to the input tensor
+output_2 = op2(input_tensor) # An arbitrary PyTorch operation applied to the input tensor, which is computed after 'op1' has been applied. Note that the order of operations matter in this case.
+t2 = torch.cat([output_1, output_2], dim=0) # Concatenate the output of two previous operations along dimension 0
+```
+This pattern characterizes scenarios where an arbitrary PyTorch operation is applied to the input tensor after another arbitrary PyTorch operation has already been applied, and then the resultant tensor(s) from both operations are concatenated along a given dimension using `torch.cat`.
+
+
+The `return True` line within the `is_valid_input_op_after_output_op` optimization can be triggered if the following conditions are met:
+1. There is only one arbitrary PyTorch operation in the model, which applies an operation to an input tensor and produces a single output tensor.
+2. The other arbitrary PyTorch operations are applied after this first arbitrary PyTorch operation has been applied to produce a single output tensor, by some valid number of intermediate tensors (in the absence of `torch.cat` or `split`).
+3. All tensors used in the other arbitrary PyTorch operations have already been produced by one arbitrary PyTorch operation in the model and are also used in this first arbitrary PyTorch operation as input.
+
+
+# Model
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+ 
+    def forward(self, x1):
+        output_1 = self.conv1(x1) # An arbitrary PyTorch operation applied to the input tensor and produces an intermediate tensor 
+        t = self.conv2(x1) # An arbitrary PyTorch operation applied to the input tensor and produces another intermediate tensor
+        output_2 = self.conv3(t) # An arbitrary PyTorch operation applied to the intermediate tensor produced in the previous step and produces an output tensor
+        return torch.cat([output_1, output_2], dim=0)
+
+
+# Description of requirements
+The model should contain the following pattern:
+```
+x1 = input_tensor # The output of this operation is used as a temporary value
+t1 = op(x1) # An arbitrary PyTorch operation applied to the input tensor and produces an intermediate tensor, where 'op' applies some kind of transformation or filtering to 'x1'. 
+t2 = op(t1) # An arbitrary PyTorch operation applied to the intermediate tensor produced in the previous step and produces another intermediate tensor. The order of operations do not matter.
+output_1 = op(t2) # An arbitrary PyTorch operation applied to the intermediate tensor produced in the previous step and produces an output tensor, where 'op' applies some kind of transformation or filtering to the intermediate tensor produced in the previous step. Note that the order of operations matter here too! 
+output_2 = op(x1) # An arbitrary PyTorch operation applied to the input tensor and produces another output tensor. The order of operations do not matter here either.
+t3 = torch.cat([output_1, output_2], dim=0) # Concatenate the output of two previous operations along dimension 0. Note that the order of concatenation matters here as well!
+```
+This pattern characterizes scenarios where an arbitrary PyTorch operation is applied to the input tensor after another arbitrary PyTorch operation has already been applied in different steps, and then this intermediate resultant tensor(s) produced by both operations are concatenated along a given dimension using `torch.cat`.
+
+
+The `return True` line within the `is_valid_twoop_after_oneop` optimization can be triggered if the following conditions are met:
+1. There is only one arbitrary PyTorch operation in the model, which applies an operation to two input tensors and produces a single output tensor.
+2. The other arbitrary PyTorch operations are applied after this first arbitrary PyTorch operation has been applied to produce a single output tensor, by some valid number of intermediate tensors (in the absence of `torch.cat` or `split`).
+3. All tensors used in the other arbitrary PyTorch operations have already been produced by one arbitrary PyTorch operation in the model and are also used in this first arbitrary PyTorch operation as input.
+
+
+# Model
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+ 
+    def forward(self, x1):
+        output_1 = self.conv1(x1) # An arbitrary PyTorch operation applied to the input tensor and produces an intermediate tensor 
+        t = self.conv2(t1) # An arbitrary PyTorch operation applied to the intermediate tensor produced in the previous step and produces another intermediate tensor. The order of operations do not matter
+        output_2 = self.conv3(output_2) # An arbitrary PyTorch operation applied to the intermediate tensor produced in the most recent most most common most of the most of the most most of the most of the the of the of the of of of of of of of of of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of the of of of the following fugs in the the bible with bubblabberberber babes of puffers bubbled bubbledledlegles lelelilelile lile lilelilelile lile lilelilelilelile lilelilelile lilelilelile lilelilelile lilelilelile lilelile lilelilelile lilelilelile lilelilelile lilelilelile lilelile lilelilelile lilelilelile lilelilelile lilelilelile lilelilelile lilelilelile lilelilelile lilelilelile lilelilelile lilelilelile lilelilelile lilelilelile lilelilelile lilelilelile lilelile lilelilelile lilelilelile lilelilelile lilelilelile lilelilelile lilelilelile lilelilelile lilelilelile lilelilelile lilelilelile lilelilelile lilelilelile lilelilelile lilelilelile lilelilelile lilelile lilelilelile lilelilelile lilelilelile lilelilelile lilelilelile lilelilelile lilelilelile lilelilelile lilelilelile lilelilelile lilelilelile lilelilelile lilelilelile lilelileli leeleelee llelllelile lilelilelile lilelilelile lilelilelile lilelilelile lilelile lilelilelile lilelilelile lilelilelile lilelilelile lilelilelile lilelile lilelilelile lilelilelillelile lilelileli leeliiiiiiii iiiliiiiliiiliillll lllllooowwwww rrrr ddd dfff wvvv gggg dddd fffh hhhf vvvb bbbb qqqq tttt uuuu nnnn 8889 nnnn ssss llll bbbb zzzz xxxx rrrx yyyy kkkk iiii aaaa</p>\r\n<p><img src="http://www.example.com/modules/default/filemanager/files/download_163_08_19_04_25_547_jpg?d=1605800855" alt="download_163_08_19_04_25_547.jpg?d=1605800855"></p>\r\n<p>Nessas, como estamos em dias mais difíciles e as nossas águas estão seca (um pouco de água lata), com muito amor, gostaríamos muito do fantástico café da Pirate Soprano, uma bebida tintinha que você acha legal na internet. Desde o primeiro momento, eu fui para meu primeiro lugar de voo: O Grand Canyon, onde enquanto estava andando num pacote 1600 pessoas entregaram seus boletos.</p>\r\n<p>O café da Pirate Soprano é fresquito emocionante, o mais rápido e inovador que temos de ver no mundo. É um sabor fruto do estabelecimento <NAME>, que não apenas está na Zona Atlantic but also brasileira, nos Estados Unidos e Ásia, com uma série de restaurants na região.</p>\r\n<p>Se você quiser um café muito fresco em alta glicérica, é possível encontrar esse produto da Pirate Soprano em diversas lojas online. Se você gostaria de começar com o Coffeepain Isobaru, tenha certeza que encontre uma loja online exatamente assim e leve sua mãe na primeira vi-francanb</div>></pre>
+    <!-- <p>></html> -->
+    
+
+
+
+
+-- 
+Gusto sis gur kil nahi hai

@@ -1,0 +1,18 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv = torch.nn.Conv2d(3, 8, 1, stride=1, padding=1)
+ 
+    def forward(self, x1):
+        v1 = F.erf(F.conv2d(x1, weight=0.7071))  # Apply the error function to the input of the conv2d layer
+        v1 = F.relu(v1 * 0.5)  # Multiply the output of the error function by 0.5
+        return v1
+
+
+# Initializing the model
+m = Model()
+
+
+# Inputs to the model
+x1 = torch.randn(1, 3, 64, 64)

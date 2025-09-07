@@ -1,0 +1,32 @@
+
+class Model(torch.nn.Module):
+    def __init__(self, num_layers):
+        super().__init__()
+
+        self._is_valid_splitwithsizes = False
+
+    def forward(self, input):
+        if not hasattr(self, '_forward_cache'):
+            # If no cached values are found, generate the cache
+            cache = {}
+
+            for i in range(num_layers):
+                layer  = getattr(self, f'layer{i}', None)
+                input  = layer.conv(input)
+
+                split_sizes = [input.shape[i] // (2 ** i), input.shape[i] // (2 ** i - 1)]  # Store the number of elements in each split tensor and store them as a list, which is compatible with torch.split
+
+                for dim in range(input.ndim):
+                    if split_sizes[dim] > 0:
+                        cache[f'split{i}{dim}'] = input[:, :, : split_sizes[dim]]
+
+            self._forward_cache = cache
+
+        return self._forward_cache['output']
+
+
+# Inputs to the model
+inputs = torch.randn(3, 128, 256)
+model = Model()
+__output = model(inputs)
+```

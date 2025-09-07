@@ -1,0 +1,16 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+
+    def forward(self, x1):
+        x2 = x1 + 1 # Adding the value of `x1` will change the shape of `t1`. The optimizer would infer a sink_cat_after_pointwise on this pattern if it cannot find the correct target tensor for the model.
+```
+# Description of requirements
+The model should contain the following pattern:
+```
+if not any([dim[i].is_leaf for dim in t3.shape]): # If t2 is not a leaf tensor
+    t4 = t3 + 1 # Reshape t3 to a new shape and then do a pointwise addition (e.g., ReLU or Tanh)
+```
+This pattern characterizes scenarios where a model returns a non-leaf tensor. The optimizer would infer sink_cat_after_pointwise on such a pattern if it cannot find the correct target tensor for the model.
+

@@ -1,0 +1,50 @@
+
+```
+class Attention(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.query = torch.nn.Linear(64, 128) # Initialize the query linear layer with weight matrix of size 64x128 and bias vector of size 128, using Xavier uniform initialization
+        self.key_value = torch.nn.Linear(3 * 1024, 512)
+ 
+    def forward(self, qkv):
+        q = self.query(qkv) # Apply the query linear layer to the input tensor qkv
+        k, v = torch.chunk(self.key_value(qkv), chunks=[64], dim=0) # Divide the result of the key value linear layer into two parts: k and v
+        k = k * math.sqrt(query.size(-1))  # Scale the dot product of q and k by a sqrt constant to prevent their explosion or disappearance during softmax operation
+        qk  = torch.bmm(q, k.transpose(0, 1).contiguous())  # Compute the dot product between the query tensor and key transpose tensor
+        mask_value = -1e9  # Set the value for masked elements in the attention weight calculation to -1e9
+        attn_mask = torch.ones((qkv.size(-2), qkv.size(-2)), device=qk.device, dtype=qk.dtype) + mask_value * (1-attn_mask).float()  # Create an attention mask that sets the diagonal elements to -1e9 and other elements are set as 0
+        attn_weight = torch.softmax(q, dim=-1) @ mask_value # Compute the softmax of the dot product of q and the result of matrix multiplication
+        output = torch.bmm(attn_weight, v)  # Compute the dot product between the weight tensor obtained from the softmax operation on the query tensor and value tensor
+        return output
+```
+
+
+The model is a customized implementation of scaled dot-product attention mechanism that takes input tensors of size (batchsize x sequence length x 3 * embedding dimension). It contains three main components: `query`, which is an affine transformation to transform the input data from size (batchsize x sequence length x 3 * embedding dimension) into size(batchsize x sequence length x query_dimension), `key_value` which consists of a key and value, with 64 dimensions.
+
+The model's forward pass performs three steps:
+
+1. First, the query tensor is transformed by applying the query linear layer to it using an affine transformation that has weight matrix of size 3 * embedding dimension x 128 and bias vector of length 128.
+
+2. Next, the key_value tensor is divided into two tensors k and v based on the `torch.chunk` method. The k tensor is of size 64x512 while the v is of size 3*embedding dimension x 512.
+
+3. After this step, the model performs three steps:
+- It multiplies q by 0.5 using the following formula: `q = q * math.sqrt(query.size(-1))` 
+- Then it computes the dot product of the query tensor and the key transpose tensors using the `torch.bmm` method, resulting in a matrix of size 64x64 that is then scaled by another constant sqrt(query_dimension) to prevent explosion or disappearance during softmax operation.
+- Then it adds an attention mask value -1e9 (masked value) for masked elements using the `torch.nn.SoftMax` method, and other elements are set as 0 using the `torch.ones` method that creates a tensor of size (sequence length x sequence length), with diagonal elements being 1 and the rest being zeros on the input device.
+
+4. Then it computes the softmax of the dot product of q and the result of matrix multiplication by using the torch.softmax method, and then computes the dot product between the output weight tensor obtained from the softmax operation on the query tensor and value tensors.
+
+
+
+model: __Model__
+
+inputs:
+```
+torch.nn.Linear: 64, 128
+```
+
+outputs:
+```
+qk: (1, 64) torch.Size([batchsize x sequence length x embedding_dimension * 3])
+```
+

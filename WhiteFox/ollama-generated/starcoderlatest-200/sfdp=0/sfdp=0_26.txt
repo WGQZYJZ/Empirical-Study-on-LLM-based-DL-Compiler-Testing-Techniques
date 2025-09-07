@@ -1,0 +1,96 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.attention = ScaledDotProductAttention()
+ 
+    def forward(self, query, value, key):
+        scaled_dot_product  = torch.matmul(query, key.transpose(-2, -1)) / scale
+        attention_weights  = scaled_dot_product.softmax(dim=-1)
+        output = attention_weights.matmul(value)
+        return output
+
+class ScaledDotProductAttention(torch.nn.Module):
+    def __init__(self, temperature=None):
+        super().__init__()
+        if not temperature:
+            self.temperature = 1.0
+ 
+    def forward(self, q, k, v):
+        attn_logits = torch.matmul(q, k.transpose(-2, -1)) / math.sqrt(v.size(-1)) * self.temperature
+ 
+        attention_weights = softmax(attn_logits, dim=-1)
+ 
+        return attention_weights.matmul(v), attention_weights
+```
+In this example, the `ScaledDotProductAttention` module implements the Scaled Dot-Product Attention mechanism. We can see that in `forward`, the scaled dot product between query and key tensors is computed, which is multiplied by the temperature constant 1/temperature (if temperature is not None), followed by applying a softmax over the dimensions specified by dim. The attention weights are then used to compute a weighted sum of the value tensor as output.
+
+
+# Description of requirements
+The model should contain the following pattern:
+```
+a_softmax = torch.nn.Softmax(dim=1) # 32-bit softmax operation
+s = 0.95 * (q + k + v).unsqueeze(0) 
+b = a_softmax(s) # Applying softmax to the product of query, key and value tensors with scale 0.95 for each dimension
+r1 = q.unsqueeze(-2) @ torch.transpose(b, -1, -2)  # (32, 64, 8, 1) x ((32, 8, 1, 64), dim=1) ==> (32, 64, 64)
+r2 = torch.transpose(k.unsqueeze(-3), -2, -3) @ b # (32, 64, 8, 64) x ((32, 8, 1, 64), dim=1) ==> (32, 8, 64, 64)
+output = r1 + r2  # (32, 8, 64, 64) + (32, 8, 64, 64) ==> (32, 64, 64, 64)
+```
+This pattern characterizes the Self-Attention mechanism. In this mechanism, a softmax layer is applied to the product of query, key and value tensors with scale 0.95 for each dimension, then used to compute the attention weights between query and key tensors. This results in a weighted sum of the value tensor as output.
+
+
+# Model
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.attention = SelfAttention()
+ 
+    def forward(self, query, value, key):
+        attention_weights  = torch.matmul(q, k.transpose(-2, -1)) / scale
+        output = attention_weights.matmul(v)
+        return output
+
+class SelfAttention(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+ 
+    def forward(self, q, k, v):
+        attention_weights  = torch.matmul(q, k.transpose(-2, -1)) / scale
+        output = attention_weights.matmul(v)
+        return output
+```
+
+
+# Description of requirements
+The model should contain the following pattern:
+```
+output = self_attn((x,))  # x.shape = (32, 8, 64, 64)
+```
+This pattern characterizes Self-Attention in one dimension. In this case, Self-Attention consists of an input tensor `x` and two attention weights for the spatial dimensions (`self_attn_1`, `self_attn_2`). The attention weight for a single spatial dimension `i` should be:
+```python
+attention_weight = 0.5 * (torch.matmul(query, key[i]) + torch.matmul(key[i], query) \
+                        - torch.matmul(query, key[i].transpose(-2, -1)))
+```
+
+
+# Model
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+ 
+    def forward(self, x):
+        self_attn_1 = torch.matmul(q, k)
+        self_attn_2 = torch.matmul(q, v)
+ 
+        output = 0.5 * (self_attn_1 + self_attn_2) - (torch.matmul(q, k.transpose(-2, -1)))
+        return output
+```
+
+
+# Description of requirements
+The model should contain the following pattern:
+```
+output = x + attention_weight  # Output tensor `x` + Attention Weight for spatial dimension `i`. `x.shape = (32, 8, 64, 64)`
+```
+
+

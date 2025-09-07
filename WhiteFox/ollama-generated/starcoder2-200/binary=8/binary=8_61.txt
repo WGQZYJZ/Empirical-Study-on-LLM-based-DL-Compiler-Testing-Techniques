@@ -1,0 +1,31 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv = torch.nn.Conv2d(3, 8, 1, stride=1, padding=1)
+ 
+    def forward(self, x1):
+        v1  = self.conv(x1)
+        return v1 + v1
+ 
+ 
+# Initializing the model
+m = Model()
+
+
+# Inputs to the model
+x1 = torch.randn(1, 3, 64, 64)
+
+__output__  = m(x1)
+
+# Description of requirements
+The model should contain the following pattern:
+```
+t1 = conv(input_tensor) # Apply pointwise convolution with kernel size 1 to the input tensor
+t2 = t1 * other        # Multiply another tensor to the output of the convolution
+other = torch.randn(*t1.shape)   # Use the shape of an existing tensor as the shape for a new tensor and then create this new tensor using a random initializer function
+```
+This pattern characterizes scenarios where the output of a pointwise convolution is multiplied by another input tensor, and then that input tensor is defined using a random initializer.
+
+
+# Model

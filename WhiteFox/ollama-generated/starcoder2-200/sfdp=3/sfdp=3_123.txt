@@ -1,0 +1,68 @@
+
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+
+    def forward(self, query, key, value):
+            v1  = torch.matmul(query, key.transpose(-2, -1))
+            v3  = v1 * scale_factor
+            v4  = v3.softmax(dim=-1)
+            v5  = torch.nn.functional.dropout(v4, p=dropout_p)
+            v6  = value
+            __output__  = v5.matmul(value)
+
+            return __output__
+
+
+# Initializing the model
+m = Model()
+scale_factor = 0.2
+key = torch.randn(1,3,7,7)
+query = torch.randn(1,4,3,3)
+value = torch.randn(1,5,3,3)
+
+ # Inputs to the model
+    q = query
+    k = key
+    v = value
+ 
+ __output__  = m(q,k,v)
+
+
+# Description of requirements
+The model should contain the following pattern:
+```
+v1 = torch.matmul(query, key.transpose(-2,-1)) # Compute dot product between query and key tensors
+v2 = torch.add(v1, value)  # Add the result to the value tensor with broadcasting 
+v3 = torch.sqrt(torch.var(v2, dim=0).sum()) + eps  # Compute root of variance over the input dimensions. In this case it's for image segmentation, so we compute variance along batch and channels dimension, then summing them up to get the overall mean. Add epsilon at the end which is used to avoid division by zero
+v4 = v2 / v3  # Divide the result of the previous operation by the square root of the previous output
+v5 = torch.nn.functional.layer_norm(v4, normalized_shape)  # Apply layer normalization
+v6 = torch.nn.functional.dropout(v5, p=0.1) + 0.938  # Add bias to first dropout and apply the second dropout with probability 0.1
+```
+This pattern characterizes scenarios where we add an image segmentation value tensor, compute its root mean square (RMS), divide each input by that RMS, and then use layer normalization and dropout as a common method for model initialization.
+
+
+# Model
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+
+    def forward(self, query, key, value):
+        v1 = torch.matmul(query, key.transpose(-2,-1)) # Compute dot product between query and key tensors
+        v3  = v1 + value 
+        v4  = torch.sqrt(torch.var(v3, dim=0).sum()) 
+        v5  = v3 / v4
+        v6  = torch.nn.functional.layer_norm(v5, normalized_shape) # Normalize the resulting tensor, using the shape from the first parameter
+        v7  = torch.nn.functional.dropout(v6, p=0.1) + 0.938
+        return __output__
+
+# Initializing the model
+m = Model()
+
+ q = query
+ k = key
+ v = value
+ 
+ 
+ 

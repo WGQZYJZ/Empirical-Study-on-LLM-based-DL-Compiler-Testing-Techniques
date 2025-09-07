@@ -1,0 +1,23 @@
+
+class Model(torch.nn.Module):
+    def __init__(self, config=None):
+        super().__init__()
+
+    def forward(self, input_tensor: torch.Tensor):
+        if self.training and self._config.fallback_random:
+            # Call dropout with training set set to True to trigger replacement
+            # for the 'torch.nn.functional.dropout' function.
+            return input_tensor.data.new_full((input_tensor.size(0),), 1., dtype=input_tensor.dtype)
+        elif self.training and not self._config.fallback_random:
+            # Call rand_like with training set set to True to trigger replacement
+            # for the 'torch.rand_like' function.
+            return input_tensor.data.new_full((input_tensor.size(0),), 1., dtype=input_tensor.dtype)
+        else:
+            pass
+
+    @staticmethod
+    def _fallback_dropout_training():
+        return torch.nn.functional.dropout(torch.randn(3, 5, 784), 0.)
+```
+Note that the `Model` class can be extended by any other object which provides the required functionality and inherits from `Model`. This includes but is not limited to, `DataParallel`, `DistributedDataParallel`, `DDP` (with `sync_batches=True`) and a number of other objects.
+

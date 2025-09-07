@@ -1,0 +1,94 @@
+
+class ScaledDotProductAttention(torch.nn.Module):
+    def __init__(self, attention_dim: int = 128, scale: float = 1.0):
+        super().__init__()
+        self.linear1 = torch.nn.Linear(attention_dim, attention_dim)
+        self.softmax = torch.nn.Softmax(dim=-1)
+        self.linear2 = torch.nn.Linear(attention_dim, attention_dim)
+
+    def forward(self, q: torch.Tensor, k: torch.Tensor, v: torch.Tensor):
+        score = torch.matmul(q, k.transpose(-2, -1)) / scale  # (..., Q, K)
+        attention_weights = self.softmax(score)  # (..., Q, V)
+        output = torch.matmul(attention_weights, v)  # (..., Q, V)
+        return output
+
+class MultiHeadSelfAttention(torch.nn.Module):
+    def __init__(self, attention_dim: int = 128, n_head: int = 8):
+        super().__init__()
+        self.n_head = n_head
+        self.attention = ScaledDotProductAttention(attention_dim=attention_dim)
+
+    def forward(self, q: torch.Tensor, k: torch.Tensor, v: torch.Tensor):
+        head_dim = q.shape[-1] // self.n_head
+
+        # Split heads and concatenate to produce `n_head` attention weights
+        x = torch.cat([
+            q[:, :, :, i * head_dim:(i + 1) * head_dim]
+            for i in range(self.n_head)
+        ], dim=-2)
+
+        return self.attention(x, k, v)
+
+class EncoderLayer(torch.nn.Module):
+    def __init__(self, attention_dim: int = 128, n_head: int = 8):
+        super().__init__()
+        self.multihead = MultiHeadSelfAttention(attention_dim=attention_dim, n_head=n_head)
+
+    def forward(self, x: torch.Tensor, **kwargs):
+        attention = self.multihead(q=x, k=x, v=x)  # (B, N, L, D)
+
+        return attention + x
+
+class Encoder(torch.nn.Module):
+    def __init__(self, layer_dim: int = 256, n_layer: int = 4, dropout: float = 0.1):
+        super().__init__()
+        self.encoder_layers = torch.nn.Sequential()
+        for _ in range(n_layer):
+            self.encoder_layers.add_module(f'EncoderLayer{_}', EncoderLayer(attention_dim=layer_dim))
+
+        self.norm = torch.nn.LayerNorm(layer_dim)
+        self.dropout = torch.nn.Dropout(p=dropout, inplace=False)
+
+    def forward(self, x: torch.Tensor):
+        attention_output = self.encoder_layers(x)  # (B, T, N, D)
+
+        return self.norm(attention_output) * tf.sqrt(1 / (self.n_head * head_dim))
+```
+This pattern characterizes the Transformer model introduced by Vaswani et al., in which the Encoder is constructed as a series of layers, which consists of Multi-Head Self-Attention modules and a Layer Normalization module between them. The attention heads are constructed to have dimension `n_head = 8` while the value vector is usually set to `v = x`.
+
+
+# Description of requirements
+The model should contain the following pattern:
+```
+x1 = self_attention(x)
+x2 = cross_attention(q=x1, k=encoder_output)
+x3 = feed_forward(x2, attention_weights=x1)
+x4 = layer_norm(x3) * tf.sqrt(1 / (self.n_head * head_dim))
+x5 = activation(x4)
+```
+This pattern characterizes the EncoderBlock introduced by Vaswani et al., which consists of a series of Transformer modules, and it is used to compute output values from an input `x`. The Transformer module contains two Multi-Head Self-Attention layers with dimension `n_head = 8`, and the cross attention is performed between the first layer's self-attention output (`x1`) and the second layer's encoder output (`encoder_output`).
+
+
+# Model
+class FeedForward(torch.nn.Module):
+    def __init__(self, hidden_dim: int = 512, ffn_dim: int = 2048):
+        super().__init__()
+        self.linear1 = torch.nn.Linear(ffn_dim, hidden_dim)
+        self.activation = torch.nn.Tanh()
+
+    def forward(self, x: torch.Tensor, attention_weights: torch.Tensor):
+        ff_output = self.activation(self.linear1(attention_weights + self.dropout(x)))
+
+        return ff_output
+```
+This pattern characterizes the feed forward layer introduced by Vaswani et al., in which it is performed after an encoder block module and before layer normalization to generate a `ff_output` that is passed to another decoder block module. The size of the attention vector and intermediate states are generally set to be equal, which makes it possible for the feed forward function to share some parameters between two layers.
+
+
+# Description of requirements
+The model should contain the following pattern:
+```
+decoder_layer_input = tf.nn.LayerNormalization(x1 + self_attention_output) * tf.sqrt(1 / (self.n_head * head_dim))`
+
+* 修 改
+
+

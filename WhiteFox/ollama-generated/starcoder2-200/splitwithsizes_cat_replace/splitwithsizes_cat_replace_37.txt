@@ -1,0 +1,75 @@
+
+class Model(torch.nn.Module):
+    def __init__(self, dim=20):
+        super().__init__()
+ 
+    def forward(self, x1):
+        # Split into two tensors along dimension 3 of size [8, 4] and [7, 5], concatenate along the same axis
+        v = torch.split(x1, split_sizes=[[8, 4], [7, 5]], dim=2)
+        c = torch.cat([v[0].clone(), v[1][:-3].clone()], dim=3)
+        return c
+
+
+# Initializing the model
+m = Model()
+x1 = torch.randn(8, 64, 9, 75)
+ 
+# Inputs to the model
+__output__  = m(x1)
+
+
+# Description of requirements
+The model should contain the following pattern:
+```
+split_tensors  = torch.split(input_tensor, split_sizes, dim) # Split input tensor into several tensors along given dimension using torch.split
+concatenated_tensor  = torch.cat([splitted_tensors[i] for i in range(len(splitted_tensors))], dim=dim) # Concatenate the split tensors along same axis using torch.cat
+```
+This pattern characterizes scenarios where an input tensor is split into several tensors along a given dimension using `torch.split`, and then these split tensors are concatenated along the same axis using `torch.cat`.
+ 
+The optimization can be triggered if there are `torch.split` operations in the model, all of which are done by splitting tensors of the same size with the same number of elements along a given dimension; that is, for every call to torch.split we will have the same input tensor as the output tensor. Also note that when the concatenation takes place on different axes from where the splitting took place (for example `torch.split(x1, 4, axis=2)` followed by `torch.cat(x1, 3)`) there should be no problems.
+
+
+# Model
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+ 
+    def forward(self, x1):
+        v = torch.split(x1, [4] * 620 + [5], dim=3)
+        c = torch.cat([v[i].clone() for i in range(len(v))], dim=3) # Concatenate the split tensors along same axis using torch.cat
+        return c
+
+
+# Initializing the model
+m = Model()
+__input1  = torch.randn(8, 64, 900, 750)
+__output__  = m(__input1)
+
+
+# Description of requirements
+The model should contain the following pattern:
+```
+split_tensors  =  [torch.split(input_tensor, split_sizes, dim) for i in range(repeat)] # Split input tensor into several tensors along given dimension using torch.split repeatedly and concat them together afterwards
+```
+ 
+This pattern characterizes scenarios where an input tensor is passed through a series of multiple `torch.split` operations each time with a different size along the same dimension, and these split tensors are concatenated along that same axis after repeating the splitting operation for several times using `torch.cat`. This optimization can be triggered when `torch.split` is repeated in the model for several times while performing the concatenation afterwards on the same axis. Note that in case the repeat parameter is larger than 1, it will be concatenated with one more dimension before concatenation.
+ 
+Also note that when there are different sizes of tensors being split and concatenated along a given dimension from `torch.split` (for example `torch.split(x2, 64) followed by torch.cat(x3, 0)`), the optimization should be triggered regardless of whether the concatenation is performed on one more or the same axis as where the split took place (`torch.split(x1, [8] * 6 + [7], dim=2)` followed by `torch.cat(x4, 3)`).
+
+
+# Model
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+ 
+    def forward(self, x1):
+        v = torch.split(x1, [8] * 6 + [7], dim=2)
+        c = torch.cat([v[i].clone() for i in range(len(v))], dim=3) # Concatenate the split tensors along same axis using torch.cat
+        return c
+
+
+# Initializing the model
+m = Model()
+ 
+__input1  = torch.randn(8, 64, 900, 750)
+__output__  = m(__input1)

@@ -1,0 +1,12 @@
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.query  = torch.nn.Linear(3, 4)
+        self.key  = torch.nn.Linear(7, 5)
+        self.value = torch.nn.Linear(6, 10)
+ 
+    def forward(self, x2):
+        v1  = self.query(x2)
+        v2  = self.key(v1)
+        v3  = self.value(v1)
+        return v2

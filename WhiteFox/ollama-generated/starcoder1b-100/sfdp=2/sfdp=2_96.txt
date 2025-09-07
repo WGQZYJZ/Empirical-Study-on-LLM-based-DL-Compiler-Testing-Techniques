@@ -1,0 +1,95 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv = torch.nn.Conv2d(3, 8, 1, stride=1, padding=1)
+ 
+    def forward(self, x1, x2):
+        vq   = torch.matmul(x1, x2.transpose(-2, -1))
+        scale_factor = math.sqrt(math.pow(vq.size(2), 2) * math.pow(vq.size(3), 2))
+        vq = qk = scaled_qk = torch.nn.functional.softmax(vq / scale_factor, dim=-1)  # Apply softmax to the scaled dot product
+        vq = torch.nn.functional.dropout(vq, p=dropout_p)
+        return output
+
+
+# Initializing the model
+m = Model()
+
+
+# Inputs to the model
+x1, x2 = torch.randn(1, 3, 64, 64), torch.randn(2, 8, 32, 32)
+__output__, __grads__ = m(x1, x2)
+
+
+# # Description of requirements
+The model should contain the following pattern:
+```
+q_dot_k  = torch.matmul(query, key.transpose(-2, -1))  # Compute the dot product of the query and the key
+k_dot_v  = torch.matmul(key, value.transpose(-2, -1))  # Compute the dot product of the key and the value
+q_dot_k_scaled = q_dot_k.div(scale)  # Scale the dot product by the scale factor
+k_dot_v_scaled = k_dot_v.div(scale)  # Scale the dot product by the scale factor
+product = torch.matmul(qk, k_dot_v_scaled) + vq - k_dot_v_scaled * math.exp(-q_dot_k_scaled / scale))  # Compute the value of the scaled dot product
+output = (scale * product) + bias  # Add the offset to the scaled dot product
+```
+This pattern characterizes scenarios where a query, key, and value are computed, then scaled by a scale factor, and finally the value of the scaled dot product is computed.
+
+
+# Model
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv = torch.nn.Conv2d(3, 8, 1, stride=1, padding=1)
+ 
+    def forward(self, x1, x2):
+        vq   = torch.matmul(x1, x2.transpose(-2, -1))
+        scale_factor = math.sqrt(math.pow(vq.size(2), 2) * math.pow(vq.size(3), 2))
+        return output
+
+
+# Initializing the model
+m = Model()
+
+
+# Inputs to the model
+x1, x2 = torch.randn(1, 3, 64, 64), torch.randn(2, 8, 32, 32)
+__output__, __grads__ = m(x1, x2)
+
+
+# # Description of requirements
+The model should contain the following pattern:
+```
+q_dot_k  = torch.matmul(query, key.transpose(-2, -1))  # Compute the dot product of the query and the key
+scaled_qk  = q_dot_k / scale  # Scale the dot product by the scale factor
+k_dot_v  = torch.matmul(key, value.transpose(-2, -1))  # Compute the dot product of the key and the value
+q_dot_k_scaled = scaled_qk * k_dot_v  # Scale the dot product by the scaled dot product
+output = (scale * q_dot_k_scaled) + bias  # Add the offset to the scaled dot product
+```
+This pattern characterizes scenarios where a query, key, and value are computed, then scaled by a scale factor, and finally the scaled dot product is multiplied by `k_dot_v`, which adds the offset to the scaled dot product.
+
+
+# Model
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv = torch.nn.Conv2d(3, 8, 1, stride=1, padding=1)
+ 
+    def forward(self, x1, x2):
+        vq   = torch.matmul(x1, x2.transpose(-2, -1))
+        scale_factor = math.sqrt(math.pow(vq.size(2), 2) * math.pow(vq.size(3), 2))
+        return output
+
+
+# Initializing the model
+m = Model()
+
+
+# Inputs to the model
+x1, x2 = torch.randn(1, 3, 64, 64), torch.randn(2, 8, 32, 32)
+__output__, __grads__ = m(x1, x2)
+
+
+# # Description of requirements
+The model should contain the following pattern:
+```
+q_dot_k  = torch.matmul(query, key.transpose(-2, -1))  # Compute the dot product of the query and the key
+scaled_qk  = q_dot_k /home)

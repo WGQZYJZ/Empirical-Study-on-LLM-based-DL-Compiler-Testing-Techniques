@@ -1,0 +1,31 @@
+
+
+# Model
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.linear = torch.nn.Linear(...)  # Y should match with LinearXd
+
+    def forward(self, x1, x2):
+        return self.linear(x1) + self.linear(x2)
+
+
+# Model
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.linear = torch.nn.Linear(...)  # Y should match with LinearXd
+
+    def forward(self, x1):
+        return self.linear(x1) + x2
+
+
+# Model
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv = torch.nn.ConvXd(...)  # X can be 1, 2, or 3 representing the dimension
+        self.bn = torch.nn.BatchNormXd(...)  # X should match with ConvXd
+
+    def forward(self, x1, x2):
+        return self.conv(x1) + self.bn(x2)

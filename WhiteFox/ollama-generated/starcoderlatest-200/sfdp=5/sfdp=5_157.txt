@@ -1,0 +1,25 @@
+
+class Model(torch.nn.Module):
+    def __init__(self, n_heads=2, d_key=32, d_value=64):
+        super().__init__()
+        self.attn = torch.nn.MultiheadAttention(embed_dim=d_key, num_heads=n_heads)
+ 
+    def forward(self, query, key, value):
+        attn_output  = self.attn(query, key, value)[0]
+        attn_weight   = torch.softmax(attn_output, dim=-1)
+        attn_weight   = torch.dropout(attn_weight, dropout_p, True)
+        attn_output  = attn_weight @ value
+        return attn_output
+
+# Initializing the model
+m = Model()
+
+# Inputs to the model
+query    = torch.randn(128, 32, 64, 64)
+key      = torch.randn(128, 16, 32, 64)
+value    = torch.randn(128, 16, 64, 64)
+__output__  = m(query, key, value)
+
+
+# You can also use the same pattern for convolutional layer applications.
+```

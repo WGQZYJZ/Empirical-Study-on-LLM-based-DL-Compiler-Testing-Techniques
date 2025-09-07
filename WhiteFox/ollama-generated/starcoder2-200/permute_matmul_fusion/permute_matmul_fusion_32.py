@@ -1,0 +1,8 @@
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+
+    def forward(self, x1):
+        t1 = x1.permute(0, 2) # Permute the input tensor with shape (3, 4).
+        t2 = torch.bmm(t1, t1.new_ones((3, 3))) # Create a 3x3 identity matrix on CPU and apply bmm to it.
+        return x1

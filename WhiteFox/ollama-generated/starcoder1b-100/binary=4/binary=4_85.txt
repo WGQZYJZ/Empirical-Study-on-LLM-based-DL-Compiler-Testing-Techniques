@@ -1,0 +1,18 @@
+
+class LinearModel(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.linear = torch.nn.Linear(32, 4)
+ 
+    def forward(self, x1):
+        v1 = self.linear(x1) + 1
+        return v1
+
+
+# Initializing the model
+m = LinearModel()
+
+
+# Inputs to the model
+input_tensor = torch.randn(1, 32)
+other  = torch.rand(4, requires_grad=True) # Random values

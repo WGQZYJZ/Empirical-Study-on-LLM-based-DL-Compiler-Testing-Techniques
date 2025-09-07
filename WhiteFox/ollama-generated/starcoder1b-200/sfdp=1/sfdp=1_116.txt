@@ -1,0 +1,23 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.linear1 = torch.nn.Linear(d_model, d_hidden)
+ 
+    def forward(self, x, y=None):
+        if y is None:
+            # The only way to get y will be by passing an input tensor of zeros
+            pass
+        else:
+            assert x.size() == y.size(), \
+                'x and y must have the same shape but are {} and {}'.format(
+                    list(x.shape), list(y.shape))
+ 
+        hidden = self.linear1(x)  # Forward propagation through the linear layer
+        output = F.relu(hidden, inplace=True)  # Relu activation
+        return output
+
+
+# Initializing the model
+m = Model()
+```

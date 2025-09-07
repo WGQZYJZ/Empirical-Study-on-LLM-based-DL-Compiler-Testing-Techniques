@@ -1,0 +1,28 @@
+
+class Attention(torch.nn.Module):
+    def __init__(self, dim1, dim2=None):
+        super().__init__()
+        if dim2 is None:
+            self.dim1 = dim1
+        else:
+            self.dim1, self.dim2 = dim1, dim2
+
+    def forward(self, q_v):
+        q, v = q_v[0], q_v[1]
+
+        attention_scores  = torch.matmul(q, v.transpose(-2, -1)) / math.sqrt(self.dim2)
+        attention_weights = nn.functional.softmax(attention_scores, dim=-1)
+        attention_output  = torch.matmul(attention_weights, v)
+
+        return attention_weights * attention_output
+```
+
+ # Inputs to the model
+ 
+ q and k must be vectors of shape (dim1, num_heads)
+ 
+ ```q,k = q_k``` must be vectors of shape (num_heads, dim2, seq_len)
+ ```v``` must be a vectors of shape (dim1, num_heads)
+ 
+ The output must be a matrix of shape (num_heads, dim2, seq_len)
+ 

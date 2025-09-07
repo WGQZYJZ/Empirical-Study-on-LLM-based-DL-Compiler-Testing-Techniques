@@ -1,0 +1,4 @@
+t1 = maxpool(input_tensor) # Apply a maximum pooling operation to the input tensor with kernel size and stride 3 on the first channel dimension only. The resulting feature map has a shape of [batch, outC, H, W] after the pool operation.
+t2 = t1[0][1] * t1[0][4960:4985] # Apply another index operation to the output tensor from the previous line  to select the second channel of a batch. Since the resulting feature map is a vector, the multiplication will return a scalar value.
+t3 = torch.cos(t2) * t1[0][607:984] # Apply the cosine function to the output tensor from the previous line  and a 1-by-1 convolution with kernel size 1 and stride 1 to select a part of a batch. Since the resulting feature map is a vector, the multiplication will return a scalar value.
+t4 = t3 * 0.894 # Apply a multiplication operation by another constant. Since the multiplication operation returns a scalar value after the previous operations, the resulting tensor will also be a scalar value.

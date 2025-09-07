@@ -1,0 +1,16 @@
+
+class Model(torch.nn.Module):
+    def __init__(self, negative_slope=0.5):
+        super().__init__()
+        self.conv = torch.nn.ConvTranspose2d(3, 8, 1, stride=1, padding=0)
+ 
+    def forward(self, x1):
+        v1  = self.conv(x1)
+        v2  = (v1 > 0).to(torch.float32)
+        v3  = negative_slope * v2
+        v4  = torch.where(v2, v1, v3)
+ 
+        return v4
+
+
+# Initializing the model and its input tensor

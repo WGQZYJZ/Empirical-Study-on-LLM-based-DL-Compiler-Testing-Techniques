@@ -1,0 +1,1 @@
+This model should produce an output of size (1, 3, 64, 64), where each element in the `1`th column represents the magnitude of the difference between two outputs from a pair of pointwise convolutions.

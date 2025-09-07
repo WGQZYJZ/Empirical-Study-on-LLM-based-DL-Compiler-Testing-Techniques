@@ -1,0 +1,16 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+
+    def forward(self, x1):
+        v1  = torch.nn.functional.dropout(x1) # dropout is used on the input tensor
+        v2  = torch.rand_like(v1)             # rand_like is used with the same size as v1, and will be filled with random numbers
+        return v2
+
+
+# Initializing the model
+m = Model()
+
+# Inputs to the model
+x1  = torch.randn(2)

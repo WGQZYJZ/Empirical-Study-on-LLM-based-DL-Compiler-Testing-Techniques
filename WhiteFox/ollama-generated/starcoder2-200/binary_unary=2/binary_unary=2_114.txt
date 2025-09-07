@@ -1,0 +1,80 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv  = torch.nn.Conv2d(3, 8, 1, stride=1, padding=1)
+ 
+    def forward(self, x1): 
+        v1 = self.conv(x1)
+        v2 = v1 - other # Subtract a tensor or scalar "other" from the output of the convolution
+        v4 = torch.relu(v2) # Apply the ReLU (Rectified Linear Unit) activation function to the result
+        return v3
+ 
+# Initializing the model
+m  = Model()
+
+ # Inputs to the model
+x1   = torch.randn(1, 3, 64, 64)
+__output__  = m(x1)
+
+
+# Description of requirements
+The model should contain the following pattern:
+```
+t1 = conv(input_tensor) # Apply pointwise convolution with kernel size 1 to the input tensor
+t2 = t1 * other  # Multiply a tensor or scalar "other" by the output of the convolution. This must be different from the previous value. 
+t3 = torch.erf(t2) + other  # Add another tensor "other" to the output of the error function, and then apply the error function to that result
+```
+This pattern characterizes scenarios where a constant is multiplied by the output of a pointwise convolution with a constant, applied an error function to it, and added a constant.
+
+ # Model
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv  = torch.nn.Conv2d(3, 8, 1, stride=1, padding=1)
+ 
+    def forward(self, x1): 
+        v1   = self.conv(x1) # Apply pointwise convolution with kernel size 1 to the input tensor
+        v3   = v1 * other + t10  # Multiply a tensor or scalar "other" by the output of the convolution and add another tensor “other”
+        v4   = torch.erf(v3) 
+        v5 = v7 # Add another tensor "other" to the output of the error function, and then apply the error function to that result
+    return v8 
+ 
+# Initializing the model 
+m   = Model()
+ 
+# Inputs to the model
+x1    = torch.randn(1, 3, 64, 64)  # Generate input tensor with shape [N x C x H x W]
+other = torch.randn([5])           # A vector of arbitrary shape. 5 is an example size for a 5D tensor.
+__output__   = m(x1)
+ 
+# Description of requirements
+The model should contain the following pattern: 
+```
+t1 = conv(input_tensor) # Apply pointwise convolution with kernel size 1 to the input tensor 
+t2 = t1 - 0.5 * 3  # Subtract another constant "other" from a pointwise output by applying it to each output point and then multiplying it by a constant scalar 
+t3 = torch.erf(t2) + other / other  # Add two constants, a scalar divided by itself ("other"), as well as a tensor or another scalar “other” that is the result of another multiplication operation. Then apply an error function to each output point and multiply it by its output.
+```
+This pattern characterizes scenarios where a constant is subtracted from the output of a pointwise convolution, then applied the error function on this value, then two constants are added together as scalar divided by itself ("other"), and another constant divided by another constant “other”.
+
+# Model
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+ 
+    def forward(self, x1): 
+        v1   = self.conv(x1) # Apply pointwise convolution with kernel size 1 to the input tensor
+        v3   = t7 + other / v20  
+        v4   = torch.erf(v3)
+        v5 = v8 / other # Add two constants, a scalar divided by itself ("other"), and another constant divided by another constant “other”
+        return v9 
+ 
+# Initializing the model 
+m    = Model()
+ 
+# Inputs to the model
+x1   = torch.randn(1, 3, 64, 64) # Generate input tensor with shape [N x C x H x W]
+other= torch.randn([5])           # A vector of arbitrary shape. 5 is an example size for a 5D tensor.
+ 
+__output__   = m(x1)
+

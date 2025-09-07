@@ -1,0 +1,33 @@
+
+class Model(torch.nn.Module):
+    def __init__(self, d_model, heads=8):
+        super().__init__()
+        self.d_model = d_model
+        self.heads  = heads
+ 
+        # Create a parameter to hold the output of the multihead attention layers
+        self.multihead_attention = torch.nn.MultiheadAttention(d_model=self.d_model,
+                                                           heads=self.heads)
+        
+        # Create two layers: one for the value, and another for the keys
+        self.linear1 = torch.nn.Linear(self.heads * self.d_model, d_model)
+        self.linear2 = torch.nn.Linear(self.heads * self.d_model, d_model)
+    
+    def forward(self, q, k):
+        # Calculate the dot product of the keys and values (i.e., matrix multiplication)
+        attn  = self.multihead_attention(q, k, value=k)[0]
+        
+        # Scale the attention weights with respect to the query and the key using a softmax over all the heads
+        scaled_attention = torch.softmax(attn, dim=-1)
+
+        # Perform the linear projection on the output of the multihead attention layer to get the representation of the value (e.g., x)
+        v  = self.linear1(torch.bmm(scaled_attention, self.linear2(q)))
+        
+        return v
+
+# Initializing the model
+m = Model(d_model=4, heads=8)
+```
+# References:
+1. [Attention is All You Need](https://openreview.net/pdf?id=B1x0tP-S9)
+2. [What's Inside Transformer?](https://arxiv.org/abs/1706.03762)

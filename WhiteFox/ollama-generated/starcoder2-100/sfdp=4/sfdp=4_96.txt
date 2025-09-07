@@ -1,0 +1,47 @@
+
+import torch
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        
+    def forward(self, query, key, value, attn_mask=None):
+        
+        qk = (query @ key.transpose(-2, -1)) / 4
+        if not attn_mask:
+            attn_mask = torch.zeros_like(qk)
+        else:
+            attn_mask = attn_mask.float()
+        attn_mask += -torch.inf
+        qk += attn_mask
+
+        attn_weight = torch.softmax(qk, dim=-1)
+        output = (attn_weight @ value).transpose(-2,-1)
+        return output
+
+
+# Initializing the model
+m  = Model()
+
+
+# Inputs to the model
+query  = torch.randn(4096 , 83 )
+key  = torch.randn(4096, 7975) 
+value  = torch.randn(128, 7975) 
+
+attn_mask  = None
+
+ __output__  = m(query, key, value, attn_mask=None)
+ 
+ 
+
+# Description of requirements
+The model should contain the following pattern:
+```
+qk = query * key.T # Compute the dot product of the query and key tensors by transposing the key tensor
+attn_weight  = torch.softmax(qk / math.sqrt(key.size(-1)), dim=-1)  # Apply softmax to the scaled dot-product, where the scaling factor is the square root of the number of columns in the key tensor (-1)
+output  = attn_weight @ value.T  # Compute a weighted sum of the value tensors by taking the dot product of the attention weights with the transposed version of the value tensor, which reshapes them to match the dimensions of the query and value tensors.
+```
+This pattern characterizes the multi-headed self-attention mechanism used in transformer models. In this mechanism, each head applies an independent scaled dot product attention. The output is computed as a weighted sum of the heads’ outputs, where each head is assigned a unique weighting according to its performance on the task at hand.
+
+# Model

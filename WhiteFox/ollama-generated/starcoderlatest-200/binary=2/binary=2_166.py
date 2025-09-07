@@ -1,0 +1,19 @@
+
+class Model(torch.nn.Module):
+    def __init__(self, other=0.5):
+        super().__init__()
+        self.conv = torch.nn.Conv2d(3, 8, 1, stride=1, padding=1)
+ 
+    def forward(self, x1):
+        v1 = self.conv(x1)
+        v2 = v1 - other
+        return v2
+
+
+# Initializing the model
+m = Model()
+m2 = Model(other=0.7071067811865476) # other is a scalar, so you can set other to 0.7071067811865476
+
+
+# Inputs to the model
+x1 = torch.randn(1, 3, 64, 64)

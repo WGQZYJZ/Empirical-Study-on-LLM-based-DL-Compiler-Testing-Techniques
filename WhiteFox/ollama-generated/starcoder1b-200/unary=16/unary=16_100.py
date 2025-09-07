@@ -1,0 +1,1 @@
+The model should have at least two weights: bias and linear transformation. The bias is a vector of `0`s in the output dimension, while the linear transformation's weights are random variables with standard normal distribution over their output dimension.

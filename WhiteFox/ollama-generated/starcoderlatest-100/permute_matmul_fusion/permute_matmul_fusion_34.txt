@@ -1,0 +1,17 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.bmm = torch.nn.Bilinear(2, 2, 2)
+
+    def forward(self, x1, x2):
+        v1 = x1.permute(0, 2, 1).contiguous() # Permute the input tensor A and set contiguous for a zero copy of Tensor
+        v2 = x2.permute(0, 2, 1) # Permute the input tensor B
+        return self.bmm(v1, v2)
+# Initializing the model
+m = Model()
+
+
+# Inputs to the model
+x1 = torch.randn(1, 2, 2)
+x2 = torch.randn(1, 2, 2)

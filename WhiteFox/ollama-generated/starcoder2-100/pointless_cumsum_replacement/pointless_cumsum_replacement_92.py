@@ -1,0 +1,13 @@
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+ 
+    def forward(self, x):
+        return torch.full([50, 3], dtype=x[0].dtype)
+ 
+ # Initializing the model
+m = Model()
+
+ # Inputs to the model 
+ x1 = torch.randn(20, 64)
+ 

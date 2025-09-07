@@ -1,0 +1,12 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+ 
+    def forward(self, x1):
+        s0  = torch.split(x1, [32], dim=0)
+        s1  = torch.split(s0[0], [48], dim=0)
+        s2  = torch.split(s1[0], [96], dim=0)
+        s3  = torch.split(s2[0], [128], dim=0)
+        s4  = torch.cat([s3[i] for i in range(len(s3))], dim=0) # Return True if this line is triggered
+```

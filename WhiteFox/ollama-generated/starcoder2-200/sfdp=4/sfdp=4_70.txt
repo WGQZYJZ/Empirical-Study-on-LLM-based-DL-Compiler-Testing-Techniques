@@ -1,0 +1,53 @@
+
+class MyModel(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+ 
+    def forward(self, query1, key1, value1):
+        qk = torch.matmul(query1,  key1.transpose(-2, -1)) / math.sqrt(query1.size(-1))
+        attn_mask = torch.zeros_like(qk) + float("-inf") 
+        qk[attn_mask == True] = float("nan") # Replace masked positions with NaN values to avoid potential division by 0 errors during backward pass
+        qk = qk + attn_mask
+
+        attn_weight  = torch.softmax(qk, dim=-1) 
+        output   = attn_weight @ value1
+        return output
+
+
+# Initializing the model
+model = MyModel()
+
+ # Inputs to the model
+q1 = torch.randn([2, 500])
+k1 = torch.randn([3, 500])
+v1 = torch.randn([4, 500])
+
+output = model(q1, k1, v1)
+
+ # Description of requirements
+The model should contain the following pattern:
+```
+for i in range(len):
+   t1  = 0
+   for j in range(len_j):
+      t2 +=  a[i][j] * b[i][j] +  c[i][j] * d[i][j]
+      t3  +=  e[i][j] * f[i][j]
+   t4   =  t1 * g[i] 
+   t5  -=  t2 * h[i]
+   t6  *=  i[j]
+```
+This pattern characterizes a two-layer neural network, where the output of one layer is used as input to the other. In this neural network structure, multiple loops are present, and each of these loops contains nested for loops.
+
+ # Model
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+ 
+    def forward(self,x1 , x2 ,x3 ):
+        t1 = 0
+        for j in range(len(x1)):
+            t1 += a[j] * b[i][j] + c[j]*d[i][j]+ e[j] * f[i][j]
+        t4   =  t1 * g[i] 
+        t5  -=  t2 * h[i]
+        t6  *=  i[j]
+        return t3

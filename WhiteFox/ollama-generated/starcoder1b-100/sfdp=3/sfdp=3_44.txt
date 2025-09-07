@@ -1,0 +1,18 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.query = torch.nn.Embedding(n_tokens, embedding_dim)
+        self.key   = torch.nn.Embedding(n_tokens, embedding_dim)
+        self.value = torch.nn.Embedding(n_tokens, embedding_dim)
+ 
+    def forward(self, x1, x2):
+        qk  = torch.matmul(x1, x2.transpose(-2, -1)) # Compute the dot product of the query and key tensors
+        scaled_qk = qk.mul(scale_factor)     # Scale the dot product by a factor
+        softmax_qk = scaled_qk.softmax(dim=-1) # Apply softmax to the scaled dot product
+        dropout_qk  = torch.nn.functional.dropout(softmax_qk, p=dropout_p)   # Apply dropout to the softmax output
+        v    = dropout_qk.matmul(x2)                    # Compute the dot product of the dropout output and the value tensor
+        output = x1 * x2 * v                             # Output is a vector of dimension `n_tokens`.
+```
+This pattern characterizes scenarios where a dot product of query and key tensors is scaled by a factor, then softmax is applied, then dropout is applied. The result is multiplied by a value tensor, which can be treated as an input to another transformer layer.
+

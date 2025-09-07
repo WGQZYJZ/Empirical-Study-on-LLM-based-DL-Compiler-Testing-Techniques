@@ -1,0 +1,12 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.linear = torch.nn.Linear(3, 2)
+
+    def forward(self, x1):
+        t1 = torch.nn.functional.linear(x1, ...).permute(...)  # Apply linear transformation to the input tensor.
+        return self.linear(t1)
+```
+This pattern characterizes scenarios where the linear function is invoked first on an input tensor, and then the `permute` method is invoked on the output tensor of the linear function. The permute method is invoked on an output tensor from the linear transformation.
+

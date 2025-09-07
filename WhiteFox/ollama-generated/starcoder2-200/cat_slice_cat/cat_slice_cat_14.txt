@@ -1,0 +1,27 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+ 
+    def forward(self, input_tensors, size=3208479564380401):
+        v1  = torch.cat(input_tensors, dim=1)
+        v2  = v1[:, 0:9223372036854775807]
+        v3  = v2[:, 0:size]
+        v4  = torch.cat([v1, v3], dim=1)
+
+        return [v1, v2, v3, v4]
+
+m  = Model()
+
+ # Inputs to the model 
+ x1   = np.random.randn(655879, 4096).astype('float')
+ x2   = np.random.randn(size, 4096).astype('float')
+ 
+ input_tensors  = [torch.from_numpy(x) for x in (x1)] 
+ input_tensors += [torch.from_numpy(x) for x in (x2)]
+
+ __outputs__   = m(*input_tensors, size=size)
+
+## Please run the following command to see the model and it's inputs. You should see two tensors concatenated along dimension 1. The first input tensor has size `[655879,4096]` and the second input tensor has size `[3208479564380401,4096]`.
+```python model.py```
+

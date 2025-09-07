@@ -1,0 +1,20 @@
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+
+        self.linear  = torch.nn.Linear(2, 2)
+        self.conv1   = torch.nn.Conv2d(256, 30, kernel_size=7, padding=3, bias=False)
+        self.bn1     = torch.nn.BatchNormNd(30, eps=0., momentum=0.99, affine=True, track_running_stats=True, _no_weight_decay=True)
+        self.conv2   = torch.nn.Conv2d(30 , 45, kernel_size=1, bias=False)
+
+    def forward(self, x):
+
+        v1         = x.permute(0, 2, 1).contiguous() # contiguous is used to ensure that the memory layout is not altered after the permute
+        v2         = torch.nn.functional.linear(v1, self.linear.weight) 
+        conv       = self.conv1(x)                    # Permute is invoked before this, and the method 'permute' is used to change the memory layout of the tensor
+        conv_bn    = self.bn1(conv)                   # The output from the ConvXd is fused with the batch norm.
+
+        v3         = torch.nn.functional.linear(v2, 
+                                               self.conv2.weight, 
+                                               bias=None if self.conv2.bias is None else self.conv2.bias.expand_as(x))
+        return conv_bn + v3

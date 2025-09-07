@@ -1,0 +1,8 @@
+# Results and Conclusion
+If the `fuse_conv_bn` optimization is triggered when the convolution and batch normalization layers are in evaluation mode (not in training mode), and the batch normalization layer is tracking running statistics, the results are as follows:
+
+1) No fusion occurs. The input tensor remains unchanged.
+
+2) If a linear layer (`torch.nn.Linear`) is fused with a `conv` layer (`torch.nn.ConvNd`), then the result of the linear function becomes the input to the batch normalization layer, and the two nodes have no further usages (if the output from the convolution layer is used by other nodes).
+
+3) If a linear layer (`torch.nn.Linear`) is fused with a `batch_norm` layer (`torch.nn.BatchNormNd`), then the output of the linear function becomes the input to the batch normalization layer, and the two nodes have no further usages (if the output from the batch normalization layer is used by other nodes).

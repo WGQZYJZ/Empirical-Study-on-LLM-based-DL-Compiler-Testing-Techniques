@@ -1,0 +1,10 @@
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.deconv = torch.nn.ConvTranspose2d(3, 8, 1, stride=1)
+ 
+    def forward(self, x1):
+        v1 = self.deconv(x1) # Apply pointwise transposed convolution to the input tensor
+        v2 = torch.sigmoid(v1) # Apply the sigmoid function to the output of the transposed convolution
+        return v2
+x1 = torch.randn(1, 3, 64, 64) # The input tensor with shape (batch size x channel dimensionality x height x width) that is used for the evaluation of the model m

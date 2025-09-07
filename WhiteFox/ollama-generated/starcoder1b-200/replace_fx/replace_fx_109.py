@@ -1,0 +1,3 @@
+This pattern characterizes scenarios where the `torch.nn.functional.dropout` or `torch.rand_like` functions are invoked and their corresponding fallback versions (`lowmem_dropout` and `rand_like`) are replaced with a new node (a call to `__call__`). The fallback implementation is a simple version of the original function that always returns zeroes (or random ones) when called with the same input. In addition, it may have its own input or output shapes for which the fallback version expects different inputs and outputs.
+
+Note that if the `fallback_random` configuration is set, or if the model is running on a CPU device, the nodes invoking these functions will not be replaced and thus will not trigger the `gm.graph.erase_node(node)

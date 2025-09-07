@@ -1,0 +1,34 @@
+
+class Model(torch.nn.Module):
+    def __init__(self, other):
+        super().__init__()
+        self.conv = torch.nn.Conv2d(3, 8, 1, stride=1, padding=1)
+        self.other = other
+
+    def forward(self, x1):
+        v1 = self.conv(x1)
+        v2 = v1 + self.other
+        return v2
+```
+# Additional information
+1. Please specify the version of your environment including **Python version** and **CUDA/cuDNN version**.
+
+2. A list of commands to reproduce the issue is also helpful. e.g.,
+
+   ```
+   export PYTHONPATH=$PYTHONPATH:path/to/paddle
+   cd path/to/paddle/fluid/tests/python3.7_dynamic_graph/test_models && nosetests --with-xunit -s --verbosity=2 --tb=native -v  test_conv2d_1D.py
+   
+   ```
+
+3. Please fill in the following information:
+
+   1. Which version of `paddle` you use? E.g., PaddlePaddle 1.7.0, and specify the configuration (e.g., GPU type/memory), e.g.:
+      ```shell
+      pip install paddlepaddle-gpu==1.7.0
+      ```
+
+   2. If you are using a GPU model, please attach the runtime environment, including `nvidia-smi`.
+
+4. Other information from `nvidia-smi` and other related environments.
+

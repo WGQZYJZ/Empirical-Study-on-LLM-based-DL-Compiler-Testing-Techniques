@@ -1,0 +1,90 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+ 
+    def forward(self, input1, input2):
+        attention  = torch.matmul(input1, input2.transpose(-2,-1))/50**3.4
+        
+        return attention
+
+# Initializing the model
+m  = Model()
+
+ # Inputs to the model
+    input1  = torch.randn(16*384 ,768)
+    input2  = torch.randn(16*384, 768 )
+
+    __output__  = m(input1,input2)
+
+
+# Description of requirements
+The model should contain the following pattern:
+```
+v2=conv1(v0) # Apply a pointwise convolution with kernel size 5 to the input tensor v0.
+v3 = v0.softmax() # Apply softmax function to each row of the input tensor v0 and return the result as output.
+```
+This pattern characterizes scenarios where the output of a pointwise convolution is transformed by applying a softmax function to its output, resulting in an output with values that sum to 1 across rows. This type of scenario can occur when applying dropout to the output of a model that involves a convolution operation as part of its forward pass.
+
+
+# Model
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+ 
+    def forward(self, v0):
+        conv1  = torch.nn.Conv2d(3,8,5)
+        
+        v2=conv1(v0)# Apply a pointwise convolution with kernel size 5 to the input tensor v0.
+        v3 = v0.softmax()# Apply softmax function to each row of the input tensor v0 and return the result as output.
+    
+        return [v2,v3]
+# Initializing the model
+    m  = Model()
+
+    __input__  = torch.randn(16*768, 54) # The input to the model will be a 5-dimensional input tensor
+
+# Description of requirements
+The model should contain the following pattern:
+```
+t0 = self._get_conv_kernel() * self.padding[1] / 2  # Divide the output by two, which is required for the implementation of the Gaussian filter used in KL divergence regularization.
+t3 = 0.5  + t0  - torch.sum(self.__weight, dim=(-2,-1)) # Subtract 1 from each row of the input tensor and add it to itself.
+t4 = self._get_conv_kernel() * (-0.5)  / (t3) ** 0.9 + t0# Divide by the square root of the summed weights of the input tensor.
+t6 = torch.exp(torch.mean(self.__weight, dim=(-2,-1))) # Take the exponential of each row in the input tensor and return it as output. This is used to normalize the kernel values.
+```
+This pattern characterizes scenarios where a variable that contains the weights of a model is multiplied by 0.5 and then added to itself. The resulting variable will then be divided by the square root of the summed weights, resulting in normalized values. It can also involve negative numbers being subtracted from each row in the input tensor, which is performed by using a Gaussian filter that adds 1 to each row during training.
+
+
+# Model
+    class Model(torch.nn.Module):
+        def __init__(self):
+            super().__init__()
+            self.__weight = torch.randn(2048)
+
+        def forward(self):
+            t0 = self._get_conv_kernel() * 3 / 2 # Divide the output by two, which is required for the implementation of the Gaussian filter used in KL divergence regularization.
+            t1 = self.__weight * (-0.5)/t0+t0  # Subtract 1 from each row of the input tensor and add it to itself.
+            t2=torch.sum(self._get_conv_kernel(), dim=(3,4))/(-0.7)
+            t3 = torch.mean(self.__weight,dim=-1)# Divide by the square root of the summed weights of the input tensor.
+            t5  = self.__weight/t2+t3
+            t6=torch.sqrt(self._get_conv_kernel()  /(-0.7)**2)# Take the square root of each row in the input tensor and return it as output. This is used to normalize the kernel values.
+
+            return [t1, t5]
+
+        def _get_conv_kernel(self):
+            return torch.randn(3*96)
+
+
+# Initializing the model
+    m = Model()
+
+# Inputs to the model
+    __output__  =m()
+
+# Description of requirements
+The model should contain the following pattern:
+```
+t0= 2+t1+t7
+t5=t3-t4
+```
+This pattern characterizes scenarios where the output of a variable is multiplied by `self.beta` and then subtracted from another input, resulting in a new input that is scaled down proportionally to its value. In this scenario, there are multiple variables involved in scaling down their values, each one with a different coefficient. These coefficients can be fixed at initialization or determined through hyperparameter tuning based on the loss and performance of the model.

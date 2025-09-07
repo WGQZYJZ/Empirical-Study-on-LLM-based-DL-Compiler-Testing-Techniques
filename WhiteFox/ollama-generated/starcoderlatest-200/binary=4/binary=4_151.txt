@@ -1,0 +1,56 @@
+
+class Model(torch.nn.Module):
+    def __init__(self, other=None):
+        super().__init__()
+        self.linear = torch.nn.Linear(32, 8)
+ 
+    def forward(self, x1):
+        v1 = self.linear(x1)
+        v2 = v1 + other
+        return v2
+
+
+# Initializing the model
+m = Model()
+
+ # Inputs to the model
+x1 = torch.randn(1, 32, 64, 64)
+v1_value, _ = m(x1)
+v1_expected = ...
+assert v1_expected == approx(__output__)
+ 
+ # Reuse a linear transformation for multiple layers in the network
+m = Model()
+
+ # Inputs to the model
+v2_value, __ = m(x1)  # Should reuse the value of `self.linear` instead of applying another linear transformation
+m = Model(__input__ v2)
+ 
+ # Update an existing linear transformation with a new input tensor
+m.linear.weight.data[...]  # Should update the value of the weights to make this model equivalent to the previous one
+
+ # Inputs to the model (the old values for the weight tensors should still be in effect since they were not modified)
+x1 = torch.randn(1, 32, 64, 64)
+v3_value, __ = m(x1)
+ 
+ # Update the value of an existing linear transformation with a new input tensor and update the weights from that input tensor
+m.linear.weight.data[...]  # Should make this model equivalent to the previous one
+__input__ v3  # Should replace the old inputs for `self.linear` by the new inputs (and so its weight values should be updated)
+ 
+ ```
+# Summary of use cases and examples
+```py
+class Model(torch.nn.Module):
+    def __init__(self, other=None):
+        super().__init__()
+        self.conv = torch.nn.Conv2d(32, 8, 1, stride=1, padding=1)
+ 
+    def forward(self, x1):
+        v1 = self.conv(x1)
+        # ...
+ 
+        return v6
+ 
+ m = Model()
+ x1 = torch.randn(1, 32, 64, 64)
+ 

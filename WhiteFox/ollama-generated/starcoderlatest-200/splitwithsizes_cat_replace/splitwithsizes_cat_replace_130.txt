@@ -1,0 +1,55 @@
+
+class Model(torch.nn.Module):
+    def __init__(self, dim):
+        super().__init__()
+        self.split = torch.nn.Split(1, dim)
+ 
+    def forward(self, x):
+        v1  = self.split(x)
+        v2  = v1 + 0.5
+        v3  = v1 + 0.7071067811865476
+        v4  = torch.erf(v3)
+        return v4
+
+
+# Description of requirements
+The model should contain the following pattern:
+```
+split_tensors = torch.split(input_tensor, split_sizes, dim) # Split the input tensor into several tensors along a given dimension
+concatenated_tensor = torch.cat([split_tensors[i] for i in range(len(split_sizes))], dim)  # Concatenate the split tensors along the same dimension
+```
+This pattern characterizes scenarios where an input tensor is split into several tensors along a given dimension using `torch.split` and then they are concatenated by their index.
+
+ The model should contain the following pattern:
+    ```
+    torch.split(t, dim = 0) 
+    x1 = cat(torch.split(x, num_splits = (len(dims)-1))) 
+    split_sizes = torch.cat([v[i] for i in range(len(dims))]) # In the case when there is only one 'dim', we simply use `len(dims)`
+    return x1 
+    ```
+This pattern characterizes scenarios where an input tensor is split along all but one dimension and concatenated to its previous dimensions. If the model contains only a single operation, it should match this pattern exactly (e.g., `torch.cat`). The difference here is that if there is more than one operation in the model, then the size of the split axis will need to be appended to every split tensor in the output.
+
+
+# Model
+class Model(torch.nn.Module):
+    def __init__(self, dim):
+        super().__init__()
+ 
+        self.split_1 = torch.nn.Split(1, 2) 
+        self.cat     = torch.nn.Cat((0, 0))
+
+    def forward(self, x):
+        v1 = self.split_1(x) # [B, T1, N, C]
+        v2 = self.cat(v1)     # [B, C*T1, N]
+
+        return v2
+
+# Description of requirements 
+The model should contain the following pattern:
+    ```
+    torch.split(t, dim = 0) 
+    x1 = cat(torch.split(x, num_splits = (len(dims)-1))) # [B, C * T1, N]
+
+    return x1  
+    ```
+This pattern characterizes scenarios where an input tensor is split along all but one dimension and concatenated to its previous dimensions. If the model contains only a single operation, it should match this pattern exactly (e.g., `torch.cat`). The difference here is that if there is more than one operation in the model, then the size of the split axis will need to be appended to every split tensor in the output.

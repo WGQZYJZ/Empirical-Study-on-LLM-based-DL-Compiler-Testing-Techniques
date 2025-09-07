@@ -1,0 +1,20 @@
+
+class Model(torch.nn.Module):
+    def __init__(self, linear):
+        super().__init__()
+        self.linear = linear
+
+    def forward(self, x1, x2):
+        v  = torch.cat([x1, x2], dim=1) # Reshape the tensors to make it as a single 3D tensor
+        v  = v.view(-1, 1, 2)        # Reshape the reshaped tensor back into the original size
+        v  = self.linear(v)         # Apply the linear transformation for reshaped tensor v
+```
+# Description of requirements
+The model should contain the following pattern:
+```
+t1 = input_tensor1.permute(...)  # Permute the input tensor
+t2 = torch.nn.functional.linear(t1, ...)  # Apply linear transformation to the permuted tensor.
+t3 = t2.permute(0, 2, 1)  # Re-permute the linear output back.
+```
+This pattern characterizes scenarios where the permute method is invoked on a tensor with more than 2 dimensions, and it swaps the last two dimensions of this tensor. This modified tensor is then used as input for the linear function.
+

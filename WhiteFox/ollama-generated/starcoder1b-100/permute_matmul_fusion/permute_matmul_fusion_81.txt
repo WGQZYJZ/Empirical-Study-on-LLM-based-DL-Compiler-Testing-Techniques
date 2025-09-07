@@ -1,0 +1,51 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.linear = torch.nn.Linear(2, 2)
+
+    def forward(self, x1, x2):
+        v1 = x1.permute(0, 2, 1)
+        v2 = self.linear(v1)
+        return v2
+
+
+# Initializing the model
+m = Model()
+
+
+# Inputs to the model
+x1  = torch.randn(3, 4, 2)
+__output__  = m(x1, x2)
+
+
+# Description of requirements
+The model should contain the following pattern:
+```
+t1  = input_tensor_A.permute(...) # Permute the input tensor A
+t2 = input_tensor_B.permute(...) # Permute the input tensor B
+t3 = torch.cat((t1, t2), dim=2)  # or concat(t1, t2)
+```
+This pattern characterizes scenarios where the tensor method 'permute' is invoked on both input tensors and then the `torch.cat` function is invoked on the permuted tensors. The permute method is invoked on an input tensor with more than 2 dimensions, and it swaps the last two dimensions of these tensors. This modified tensor is then used as the main input for the concat function.
+
+
+# Model
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+
+    def forward(self, x1, x2):
+        v1 = x1.permute(0, 2, 1)
+        v2 = self.linear(v1)
+        return v2
+
+
+# Initializing the model
+m = Model()
+
+
+# Inputs to the model
+x1  = torch.randn(3, 4, 2)
+__output__  = m(x1, x2)
+
+

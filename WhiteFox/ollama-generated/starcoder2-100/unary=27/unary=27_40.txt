@@ -1,0 +1,28 @@
+
+
+class Model(torch.nn.Module):
+    def __init__(self, **kwargs):
+        super().__init__()
+        self.conv  = torch.nn.Conv2d(3, 8, 1, stride=1, padding=1)
+        self.kwargs = kwargs
+ 
+    def forward(self, x1): 
+        v0   = x1
+        v1   = self.conv(v0)  
+        v2_0 = v1.clone()
+        v3_0 = self._clamp_min(v1, **self.kwargs['max'])
+        v4_0 = torch.abs(v3_0 - 5.) 
+        v5_0 = self._clamp_max(v4_0, **self.kwargs['min'])  
+        v6   = v2_0 + v5_0 # 1 2 5 9 8 7 4 3 1
+        return v6
+
+    @staticmethod
+    def _clamp_max(*args): 
+        return torch.clamp(arg, max=5)
+ 
+    @staticmethod
+    def _clamp_min(*args): 
+        return torch.clamp(arg, min=0.)
+```
+
+# Initializing the model and inputs

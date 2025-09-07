@@ -1,0 +1,29 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv  = torch.nn.Conv2d(3, 8, 1)
+        self.sigmoid  = torch.nn.Sigmoid()
+ 
+    def forward(self, x1):
+        v1  = self.conv(x1)
+        v2  = self.sigmoid(v1)
+        v3  = v1 * v2
+        return v3
+
+# Initializing the model
+m  = Model()
+
+ # Inputs to the model
+x1  = torch.randn(1, 3, 64, 64)
+__output__  = m(x1) 
+
+# Description of requirements
+The model should contain the following pattern:
+```
+t1 = conv(input_tensor) # Apply pointwise convolution with kernel size 1 to the input tensor
+t2 = tanh(t1) * 0.5 + 0.498039216 # Apply hyperbolic tangent function to the output of the convolution, then add `0.498039216` to obtain the value of 50% of the hyperbolic tangent, and finally multiply by `0.5`.
+```
+This pattern characterizes scenarios where the output of a pointwise convolution is passed through hyperbolic tangent activation function with the argument `-0.498039216`, and then the value of 50% of the hyperbolic tangent, and finally multiplied by `0.5`. This is a typical pattern for normalization of activation functions in deep neural networks.
+
+ # Model

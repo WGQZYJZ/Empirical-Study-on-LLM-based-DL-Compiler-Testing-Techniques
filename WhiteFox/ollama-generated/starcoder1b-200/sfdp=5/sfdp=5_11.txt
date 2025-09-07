@@ -1,0 +1,76 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv = torch.nn.Conv2d(3, 8, 1, stride=1, padding=1)
+ 
+    def forward(self, x1, x2):
+        v1 = self.conv(x1)
+        v2 = v1 * 0.5
+        v3 = v1 * 0.7071067811865476
+        v4 = torch.erf(v3)
+        v5 = v4 + 1
+        v6 = v2 * v5
+        attn_mask = (x1 == x2).unsqueeze(dim=-2).expand_as(v1) # Add the attention mask to both queries and keys
+        qk = (x1 @ x2.transpose(-2, -1)) / math.sqrt((x1 ** 2 + x2 ** 2).sum(-1, keepdim=True)).unsqueeze(-1)
+        attn_weight = torch.softmax(qk, dim=-1) # Apply softmax to the result
+        attn_weight = torch.dropout(attn_weight, dropout_p, True) # Apply dropout to the softmax output
+        output = (attn_weight @ v6).unsqueeze(-1)  # Compute the dot product of the dropout output and the value
+        return output
+```
+The model should contain the following pattern:
+```
+output = (attn_weight @ x).transpose(-2, -1) * self.dropout(self.attn(x), p=p)  # Scale down by using the attention weights and apply dropout
+output = output + self.output_bias  # Add bias to the scaled dot product
+return output
+
+
+# Description of requirements
+The model should contain the following pattern:
+```
+return torch.matmul(attn, value)  # Compute the weighted sum between query and key
+```
+This pattern characterizes scenarios where the attention weights are computed as the softmax of the scaled dot product of the query and key. The output is then scaled down by using the attention weights and then a dropout operation to reduce the dimensionality of the scaled dot product (e.g. if `query = [1, 2]` and `key = [[0, 0], [1, 1]]`, then the scaled dot product is `[[0, 0], [0, 0], [1, 1]]`. The weighted sum of these two components is then added to the output.
+
+# Model
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv = torch.nn.Conv2d(3, 8, 1, stride=1, padding=1)
+        self.dropout = nn.Dropout(p=0.1)
+ 
+    def forward(self, x1, x2):
+        v1 = self.conv(x1)
+        v2 = v1 * 0.5
+        v3 = v1 * 0.7071067811865476
+        v4 = torch.erf(v3)
+        v5 = v4 + 1
+        v6 = v2 * v5
+        attn_mask = (x1 == x2).unsqueeze(dim=-2).expand_as(v1) # Add the attention mask to both queries and keys
+        qk = (x1 @ x2.transpose(-2, -1)) / math.sqrt((x1 ** 2 + x2 ** 2).sum(-1, keepdim=True)).unsqueeze(-1)
+        attn_weight = torch.softmax(qk, dim=-1) # Apply softmax to the result
+        attn_weight = self.dropout(torch.nn.functional.softmax(attn_weight), p=0.1) # Apply dropout to the softmax output
+        output = (attn_weight @ v6).unsqueeze(-1)  # Compute the dot product of the dropout output and the value
+        return output
+
+
+# Description of requirements
+The model should contain the following pattern:
+```
+return (input @ attention).sum(dim=-1)  # Calculate the weighted sum between input and the projected attention values
+```
+This pattern characterizes scenarios where `attention` is a matrix representing the softmax weights of the query and key. The output is then scaled down by using the weighted sum, and then the projection of `input` on these components. The same can be done for the value. This method of calculation is used by GPT to do "self-attention".
+
+
+# Model
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv = torch.nn.Conv2d(3, 8, 1, stride=1, padding=1)
+        self.dropout = nn.Dropout(p=0.1)
+        self.attn_linear = nn.Linear(input_dim=768, output_dim=256) # Apply a fully connected layer to project the projected attention values on top of `self.conv` input
+        self.value_linear = nn.Linear(input_dim=1024, output_dim=1024)  # Apply another fully connected layer to project the projected value
+        self.output_bias = nn.Linear(input_dim=768, output_dim=1024)  # Add bias to the sum of the two components
+    
+    def forward(self, x1, x2):
+        v1 =:=:=:=>=>=>=>=>=>=>>=>=>=>=>=>=>=>=>=>=>=>=>=>=>=>=>=>=>=>=>=>=>=>=>=>=>=>=>=>=>=

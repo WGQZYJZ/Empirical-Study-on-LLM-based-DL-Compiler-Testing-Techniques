@@ -1,0 +1,24 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv = torch.nn.Conv2d(3, 8, 1, stride=1, padding=1)
+ 
+    def forward(self, x1, x2):
+        xq  = x1 @ x2.transpose(-2, -1)  # Compute the dot product of the input features of both inputs, and scale it to get the value tensors
+        qk  = xq / math.sqrt(xq.size(-1))  # Compute the dot product of the query and key tensors, and scale it
+        attn_mask = torch.zeros(x1.size()).fill_(1).triu_(diagonal=1 - (qk ** 2)).unsqueeze(1) # Add the attention mask to the scaled dot product
+        attn_weight = torch.softmax(qk, dim=-1) * attn_mask  # Apply softmax to the result and then multiply by the attention mask
+        value = self.conv(x1).view(-1, x1.size(-1)) # Compute the dot product of the attention weights and the input features
+        return value * attn_weight
+```
+
+
+# Description of requirements
+The model should contain the following pattern:
+```
+q = q  @ kt  # Compute the dot product of the query and key, and scale it to get the vector vectors
+q = q / math.sqrt(q.size(-1))  # Compute the dot product of the query and key vectors, and scale it
+```
+This pattern characterizes a scaled dot-product attention mechanism, which is a key component of Transformer models. In this mechanism, the attention weights are computed as the softmax of the scaled dot product of the query and key tensors, and these weights are then used to compute a weighted sum of the value tensor. The attention mask is used to prevent attention to certain positions.
+

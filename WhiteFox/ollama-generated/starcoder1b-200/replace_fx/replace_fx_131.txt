@@ -1,0 +1,36 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+
+    @torch.jit.script
+    def forward(input_tensor: torch.Tensor):
+        output = self.dropout(input_tensor, 0.5)
+        return self.relu(output)
+```
+This pattern characterizes scenarios where the functions' call stacks are modified, and thus will trigger the `gm.graph.erase_node` method in our implementation of TorchScript.
+
+
+# Model
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+
+    @torch.jit.script_method  # Mark function as a method using `torch.jit.script_method` decorator
+    def dropout(input_tensor, p=0.5):
+        ...
+```
+This pattern characterizes scenarios where the functions' call stacks are modified, and thus will trigger the `gm.graph.erase_node` method in our implementation of TorchScript.
+
+# Model
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+
+    @torch.jit.script_method  # Mark function as a method using `torch.jit.script_method` decorator
+    def dropout(input_tensor, p=0.5):
+        if self.training:
+            return torch.nn.functional.dropout(input_tensor, p)  # Use 'p' argument to invoke `lowmem_dropout` function in the `gm.graph.erase_node` line.
+            ...
+```
+This pattern characterizes scenarios where the functions' call stacks are modified, and thus will trigger the `gm.graph.erase_node` method in our implementation of TorchScript.

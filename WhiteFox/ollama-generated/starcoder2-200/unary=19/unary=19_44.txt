@@ -1,0 +1,55 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.linear = torch.nn.Linear(256, 4)
+ 
+    def forward(self, x1):
+        v1  = self.linear(x1) 
+        v2  = torch.sigmoid(v1)
+        return v2
+
+# Initializing the model
+m = Model()
+
+ # Inputs to the model
+x1 = torch.randn(8, 256)
+__output__  = m(x1)
+
+# Description of requirements
+The model should contain the following pattern:
+```
+t1 = nn.Linear(in_features=4096, out_features=3783, bias=True) # Apply a linear transformation to an input tensor with dimensionality 4096x3783
+v2 = t1(input_tensor) * 5.0 + torch.zeros(dim1, dim2) / -0.00001  # multiply the output of applying the previous linear transformation by a constant factor (5), and add zeros to create another input tensor with dimensions dim1xdim2
+v3 = t1(input_tensor)  * 4 + torch.zeros((size_dim, size_dim)) / -0.9 # multiply the output of applying the previous linear transformation by a constant factor (4), and add zeros to create another input tensor with dimensions size_dimxsize_dim
+v3 = t1(input_tensor) * 5 + torch.zeros((size_dim, size_dim)) / -0.9 # multiply the output of applying the previous linear transformation by a constant factor (5), and add zeros to create another input tensor with dimensions size_dimxsize_dim
+v4 = t1(input_tensor)  * 3 + torch.zeros((size_dim, size_dim)) / -0.9 # multiply the output of applying the previous linear transformation by a constant factor (3), and add zeros to create another input tensor with dimensions size_dimxsize_dim
+v5 = t1(input_tensor)  * 2 + torch.zeros((size_dim, size_dim)) / -0.9 # multiply the output of applying the previous linear transformation by a constant factor (3), and add zeros to create another input tensor with dimensions size_dimxsize_dim
+v6 = t1(input_tensor) * 4 + torch.zeros((size_dim, size_dim)) / -0.9 # multiply the output of applying the previous linear transformation by a constant factor (3), and add zeros to create another input tensor with dimensions size_dimxsize_dim
+```
+This pattern characterizes scenarios where a linear transformation is applied to an input tensor with a 3783-dimensional input, and then this transformed input is multiplied by a constant factor of 5. Then a zero tensor is added (with a dimensionality matching the original input) to create another input tensor. The same pattern is repeated twice more to get two additional input tensors that are then multiplied by constants factors of 4, 3 and 2 respectively. Finally these three transformed inputs are passed through the linear transformation again in reverse order to produce the output of the model. This is an example of a common pattern in neural networks with multiple layers of linear transformations applied sequentially followed by sigmoid functions or other activations, which can be used for classification tasks.
+
+
+# Model
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.linear = torch.nn.Linear(256, 3783)
+ 
+    def forward(self, x1): 
+        v1  = self.linear(x1) 
+        v2  = v1 * 5 + torch.zeros(4096, 3783)/-0.00001
+        v3  = v1 * 4+torch.zeros((size_dim, size_dim))/-0.9 # multiply the output of applying the previous linear transformation by a constant factor (5), and add zeros to create another input tensor with dimensions dim1xdim2
+        v4  = v1 * 3 + torch.zeros(shape=(size_dim, size_dim))/ -0.9# multiply the output of applying the previous linear transformation by a constant factor (3), and add zeros to create another input tensor with dimensions size_dimxsize_dim
+        v5  = v1 * 2 + torch.zeros((size_dim, size_dim)) / -0.7 # multiply the output of applying the previous linear transformation by a constant factor (2), and add zeros to create another input tensor with dimensions size_dimxsize_dim
+        v6  = self.linear(v5) * 4 + torch.zeros((size_dim, size_dim)) / -0.7 # multiply the output of applying the previous linear transformation by a constant factor (3), and add zeros to create another input tensor with dimensions size_dimxsize_dim
+        return v6
+
+# Initializing the model 
+m = Model()
+
+ # Inputs to the model 
+x1 = torch.randn(4096)
+__output__  = m(x1)
+
+

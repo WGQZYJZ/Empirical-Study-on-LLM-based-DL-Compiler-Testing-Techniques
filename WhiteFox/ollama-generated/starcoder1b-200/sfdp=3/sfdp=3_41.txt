@@ -1,0 +1,29 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.fc1 = torch.nn.Linear(3, 8)
+        self.drop_layer = torch.nn.Dropout2d(p=0.5)
+
+    def forward(self, x1):
+        qk = torch.matmul(x1, x2)
+        q_scale  = math.sqrt(float(math.log((float)(x1.size()[1])), (float)(x1.size()[0])))
+        scaled_qk = qk.mul(q_scale).to(device=x2.device)
+
+        # Apply softmax to the scaled dot product, and then dropout over the softmax output
+        drop_layer = self.drop_layer(scaled_qk.softmax(dim=-1))
+        output = drop_layer.matmul(value)
+        return output
+```
+# Model
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv  = torch.nn.Conv2d(3, 8, 1, stride=1, padding=1)
+
+    def forward(self, x1, x2):
+        v1 = self.conv(x1)
+        v2 = torch.matmul(v1, x2).squeeze()
+        v4 = torch.erf(v2) + 1
+        return v4
+```

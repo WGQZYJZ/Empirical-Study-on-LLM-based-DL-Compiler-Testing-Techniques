@@ -1,0 +1,63 @@
+
+class Model(torch.nn.Module):
+    def __init__(self, embed_dim, hidden_dim, num_heads, qk_scale, attn_dropout, hidden_dropout=None):
+        super().__init__()
+ 
+        self.embedding = torch.nn.Embedding(embed_dim, hidden_dim)
+        self.layernorm1 = LayerNorm(hidden_dim)
+        self.layernorm2 = LayerNorm(hidden_dim)
+        self.linear = Linear(hidden_dim, hidden_dim * 4)
+        self.layer_norm_out = LayerNorm(hidden_dim * 4)
+        self.layer_attn1 = MultiHeadAttention(
+            hidden_dim=hidden_dim,
+            num_heads=num_heads,
+            dropout=attn_dropout,
+            qk_scale=qk_scale)
+        self.layer_attn2 = MultiHeadAttention(
+            hidden_dim=hidden_dim * 4,
+            num_heads=num_heads,
+            dropout=attn_dropout,
+            qk_scale=qk_scale)
+        if hidden_dropout:
+            self.layernorm_out = LayerNorm(hidden_dim * 4 + hidden_dropout)
+ 
+    def forward(self, x1):
+        # Embedding layer
+        z1 = self.embedding(x1)
+ 
+        # Layer normalization over the input to the embedding
+        z1 = self.layernorm1(z1)
+ 
+        # Linear projection over the hidden space to obtain the output features
+        v1 = torch.tanh(self.linear(z1))
+ 
+        # Two separate layer norms on the output of the linear projection to prevent the effect of gradient vanishing (LayerNorm(v1 + z1) + LayerNorm(x))
+        v2 = self.layernorm2(v1 + z1)
+ 
+        # Run two separate attention layers, each with one set of heads and each layer in between
+        output, (memory, attn_mask) = self.layer_attn1(z1, z1, z1, None, None)  # Pass the hidden states through attention and get the memory (the output) from it. 
+        output2, (memory2, attn_mask2) = self.layer_attn2(output, v2, v2, None, None)  # Again, pass through the attention to get the memory from this
+
+        # Layer normalization over the memory
+        output2 = self.layernorm2(output2)
+ 
+        # Sum the two memory outputs (the sum of the hidden states and the outputs of each layer)
+        z2 = output + output2
+ 
+        # Linear projection over the hidden space to obtain a more compact representation
+        output3 = torch.tanh(self.linear(z2))
+
+        # Add a final linear layer on top to convert from a compact representation into the original input features
+        output4 = self.layer_norm_out((output + v1) * (input + memory) + output3)  # Note: the last multiplication is in a different form for better readability
+        
+        return output4
+```
+# Input requirements
+The model should accept as input `n` number of inputs in the shape `[B, C_in, H_in, W_in]`. The input channels are not necessarily contiguous.
+
+# Output requirements
+The output tensor will have as many dimensions as the number of input channels: 
+```
+Output Shape = (n,) + (H_out, W_out)
+where n = batch size, H_out = hidden dimension, W_out = width
+```

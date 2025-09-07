@@ -1,0 +1,3 @@
+t1 = f(input_tensor) # Apply a custom non-linear function to the input tensor. The custom non-linearity may or may not be based on the elementwise multiplication of the input with some constant, which may or may not include another non-linear function such as ReLU
+t2 = torch.sqrt(1 + t1) # Apply a square root function to the output of the first non-linear layer. This is an intermediate layer in many models that may require squaring of values after multiplication by a constant and then applying another non-linear activation function like ReLU or sigmoid
+t3 = 2 * t2 + t1  # Apply addition, elementwise multiplication, and then apply another non-linearity on the output. This can be interpreted as the same operation as multiplication followed by an additive layer of `2`

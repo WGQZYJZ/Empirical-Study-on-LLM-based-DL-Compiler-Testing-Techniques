@@ -1,0 +1,48 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+    
+    def forward(self, x1=None, inp=None):
+        v1 = torch.mm(x1, x2) # Input tensor 'inp' is not required for matrix multiplication
+        v2  = v1 + inp # Add the result of the matrix multiplication to another tensor 'inp' 
+        return v2
+
+# Initializing the model and passing in keyword arguments to the model constructor method.
+x1= torch.randn(4, 4)
+x2 = torch.randn(4, 5)
+inp_tensor = torch.randn(4, 5)
+m = Model()
+
+ __output__  = m(input1= x1, input2= x2, inp=inp_tensor)
+ 
+
+# Description of requirements: 
+
+The model should contain the following pattern:
+```
+t1 = input1 + 0.9 # Add 0.9 to an input tensor. 'input1' is a keyword argument that accepts an input tensor as its value. The 'input1' parameter does not have a default value.
+t2 = input1 - 3  # Subtract 3 from the result of the previous operation.
+```
+
+ This pattern characterizes scenarios where you need to perform mathematical operations on one tensor and then another mathematical operation is performed on that first tensor. 
+ The first mathematical operation adds '0.9' to an input tensor, and the second mathematical operation subtracts 3 from this value.
+
+# Model
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        
+    def forward(self, x1=None): # The method takes one keyword argument named 'input1'. This argument is an input tensor.
+        v2 = 0.9 + x1  # Add 0.9 to the value of this tensor in the forward pass (this is an example operation that is actually required by the model).
+        v3=v2-x1 # Subtract a fixed constant (in this case -3) from the value of 'input1'.
+        return v4
+
+# Initializing and running the model 
+# Note: The input tensor must be passed as keyword argument to the Model constructor.
+
+
+m = Model()
+input_tensor= torch.randn(2,2)
+__output__= m(x1=input_tensor)
+

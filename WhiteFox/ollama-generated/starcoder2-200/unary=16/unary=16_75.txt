@@ -1,0 +1,28 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.linear = torch.nn.Linear(8192, 4096)
+        self.relu   = torch.nn.ReLU()
+ 
+    def forward(self, x1):
+        v1  = self.linear(x1)
+        v2  = self.relu(v1)
+
+# Initializing the model
+m = Model()
+
+ # Inputs to the model
+x1 = torch.randn(4096)
+__output__  = m(x1)
+
+# Description of requirements
+The model should contain the following pattern:
+```
+t1 = conv(input_tensor, kernel=[3] * 5 + [2]) # Apply a convolutional layer with kernel size 3 followed by five additional kernel sizes and then another one. The resulting output is passed to an average pooling function.
+t2 = linear(t1) # Apply the fully connected (or dense) layer that takes as input the flattened output of the previous convolutional layer. This dense layer has a width of 4096.
+```
+This pattern characterizes scenarios where a convolutional layer is applied to an input tensor, and then it's followed by a 5-layer kernel size 3. Then another one. The resulting output is passed through an average pooling function. Finally, the output of the previous convolutional layer is flattened into a vector with width 4096 using linear transformations.
+
+
+# Model

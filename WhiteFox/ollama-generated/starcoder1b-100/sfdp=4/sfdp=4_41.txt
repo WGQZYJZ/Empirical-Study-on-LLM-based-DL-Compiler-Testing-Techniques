@@ -1,0 +1,16 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.query = torch.nn.Linear(3, 4)
+        self.key   = torch.nn.Linear(3, 6)
+ 
+    def forward(self, x1, x2):
+        wq  = self.query(x1).transpose(-1, -2) # Query and key vectors are transposed to form the dot product. The results are then divided by sqrt(number of features in a vector) because we only need these elements of the vector for a weighted sum.
+        k   = self.key(x2)                 # Then we apply softmax on this new vector to compute attention weights
+        qk  = torch.bmm(wq, k.transpose(-2, -1)) # The output from the query and key vectors are then batched for multiplication by the attention weights. This produces a 3-d tensor where each element in the 3-d matrix represents a single score over all possible pairs of items.
+        wk  = qk / math.sqrt(x2.size(-1)) # Then we divide by sqrt(number of features) to normalize the attention weights and get an unnormalized score distribution, because that is what we need for the weighted sum later on.
+        attn_weight  = torch.softmax(wq, dim=-1) # Now use softmax to compute the dot product of the attention weights with the value tensor
+        output   = wk @ x2                      # The result is then multiplied by the value (which was normalized above). This produces an unnormalized probability distribution that is used in the weighted sum later on.
+```
+# Conclusion

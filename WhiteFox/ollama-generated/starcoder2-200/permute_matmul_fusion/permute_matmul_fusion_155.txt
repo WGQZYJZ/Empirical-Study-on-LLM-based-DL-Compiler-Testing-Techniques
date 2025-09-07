@@ -1,0 +1,53 @@
+
+class Model(torch.nn.Module):
+    def __init__(self, name):
+        super().__init__()
+        self.name = name
+
+    def forward(self, x1):
+        v1  = torch.randn(32, 16) # Permute the input tensor A
+        v2  = torch.randn(32, 48) # Permute the input tensor B
+
+        if self.name == 'A':
+            t1 = v1.permute(0, 2, 1)
+            t2 = torch.bmm(v2, t1)
+        elif self.name == 'B':
+            t3 = v1.permute(0, 1, 2) # Permute the input tensor A again
+
+            if 64 in v2:
+                t4 = v2[...].clone() # ... means 64 is selected
+                t5 = torch.bmm(v3, t4)
+            else:
+                t5 = torch.bmm(t1, v2)
+        elif self.name == 'C':
+            t1 = v1.permute(-1, ...) # Permute the input tensor A again
+
+            t2  = ... # Please fill in your guess on how to permute the second input
+            t3  = torch.bmm(v1, t1)
+        return None
+
+
+# Initializing the model with different parameters
+m0_1  = Model('A')
+m0_2  = Model('B')
+m0_3  = Model('C')
+
+
+# Inputs to the model
+x1  = torch.randn(8, 4) # Permute the input tensor A
+x2  = torch.randn(64, 4) # Permute the input tensor B 
+
+__output0_A__  = m0_1(x1)
+
+
+# Inputs to the model
+x3  = torch.randn(8, 48) # Permute the input tensor A again
+x4  = torch.randn(64, 256) # ... means 64 is selected and 256 is not
+__output0_B__  = m0_1(x3)
+
+
+# Inputs to the model
+x5  = torch.randn(8, 97) # Permute the input tensor A again
+__output0_C__  = m0_1(x4)
+
+```

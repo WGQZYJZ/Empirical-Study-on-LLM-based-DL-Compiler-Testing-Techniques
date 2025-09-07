@@ -1,0 +1,46 @@
+
+class TransformerEncoder(torch.nn.Module):
+    def __init__(self, d_model: int = 512, d_ff: int = 4096, nhead: int = 8,
+                 num_encoder_layers: int = 3, dropout: float = 0.0) -> None:
+        super().__init__()
+        self.attn_pooler = torch.nn.Linear(d_model * 2, d_model)
+        if num_encoder_layers > 1:
+            self.layerdrop = torch.nn.Dropout(p=dropout)
+
+        encoder_layer = TransformerEncoderLayer(d_model=d_model, nhead=nhead, dim_feedforward=d_ff)
+        # Build the model by stacking the layers
+        self.encoder = torch.nn.TransformerEncoder(encoder_layer, num_layers=num_encoder_layers)
+
+    def forward(self, src: torch.Tensor) -> torch.Tensor:
+        if hasattr(self, "layerdrop"):
+            src = self.layerdrop(src)
+
+        # Multi-head attention with a scaled dot product (i.e. 'ScaledDotProductAttention') and dropout
+        q = k = v = self.attn_pooler(torch.cat((src, src), dim=1))  # shape: [N x heads x dim]
+        q = torch.nn.Linear(q.size(-1), src.size(-1))(q)  # Shape: [N x heads x dim]
+        k = torch.nn.Linear(k.size(-1), src.size(-1))(k)  # shape: [N x heads x dim]
+        v = torch.nn.Linear(v.size(-1), src.size(-1))(v)  # Shape: [N x heads x dim]
+
+        # Multi-head attention with a scaled dot product and dropout
+        if self.training or not self.attn_pooler.requires_grad:
+            attn_output = torch.nn.MultiheadAttention(d_model, nhead)(q, k, v)[0]
+            attn_output = torch.nn.Dropout(dropout_p)(attn_output)
+
+        if hasattr(self, "layerdrop"):
+            attn_output = self.layerdrop(attn_output)
+        # Add the output of multi-head attention with a scaled dot product and dropout to the input
+        x = src + attn_output  # Shape: [N x heads x dim]
+
+        # Transformer block (self-attention with layer normalization)
+        for layer in self.encoder:
+            x = layer(x, src)
+
+        return x
+```
+
+
+# Initializing the model
+m = TransformerEncoder()
+
+# Inputs to the model
+src = torch.randn(20, 3, 64, 64)

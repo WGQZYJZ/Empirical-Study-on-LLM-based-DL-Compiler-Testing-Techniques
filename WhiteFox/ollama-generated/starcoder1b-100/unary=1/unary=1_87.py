@@ -1,0 +1,20 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.linear = torch.nn.Linear(10, 3)
+ 
+    def forward(self, x1):
+        v1 = self.linear(x1).unsqueeze(-1) # Input shape: [batch_size, num_classes]
+        v2 = v1 * 0.5
+        v3 = v2 + (v2 * v2 * v2) * 0.044715
+        v4 = v3 * 0.7978845608028654
+        v5 = torch.tanh(v4).unsqueeze(-1)
+        v6 = v5 + 1
+        return v6
+
+
+# Initializing the model
+m = Model()
+
+

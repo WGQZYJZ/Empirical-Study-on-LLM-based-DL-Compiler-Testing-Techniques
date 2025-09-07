@@ -1,0 +1,6 @@
+class MyModel(torch.nn.Module):
+    def __init__(self, in1: int = 5, in2: int = 3) -> None:
+        super().__init__()
+
+    def forward(self, input_: torch.Tensor): 
+        return torch.relu(input_.sum()) + self.fc(input_)

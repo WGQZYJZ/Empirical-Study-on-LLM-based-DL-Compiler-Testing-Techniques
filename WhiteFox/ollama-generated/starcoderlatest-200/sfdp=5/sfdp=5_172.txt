@@ -1,0 +1,48 @@
+
+class Model(torch.nn.Module):
+    def __init__(self, d_model=512):
+        super().__init__()
+        self.query = torch.nn.Linear(3072, d_model)
+        self.key = torch.nn.Linear(3072, d_model)
+        self.value = torch.nn.Linear(3072, d_model)
+        self.dropout = torch.nn.Dropout(p=0.1)
+
+    def forward(self, query, key, value, attn_mask):
+        qk = query @ key.transpose(-2, -1) / math.sqrt(query.size(-1))  # Compute the dot product of the query and key, and scale it
+        qk = qk + attn_mask  # Add the attention mask to the scaled dot product
+        attn_weight = torch.softmax(qk, dim=-1)  # Apply softmax to the result
+        attn_weight = self.dropout(attn_weight)  # Apply dropout to the softmax output
+        output = attn_weight @ value  # Compute the dot product of the dropout output and the value
+        return output
+
+
+# Description of requirements
+The model should contain the following pattern:
+```
+t1 = v2 + v6 - v7
+t2 = t1 * v5
+```
+This pattern characterizes the scenario where we apply a `tanh` function to the summation of three tensors, which is different from the previous scenario.
+
+
+# Model
+class Model(torch.nn.Module):
+    def __init__(self, d_model=512):
+        super().__init__()
+        self.t1 = torch.nn.Linear(3072, 4)
+        self.t2 = torch.nn.Linear(4, 8)
+
+    def forward(self, v2, v6, v7):
+        t1 = v2 + v6 - v7
+        t2 = t1 * v5
+        return t2
+
+
+# Initialization of the model and generating input tensors
+m = Model()
+v1 = torch.randn(1, 3072)
+v2 = torch.randn(1, 3072)
+v6 = torch.randn(1, 4)
+v5 = torch.randn(1, 8)
+v7 = torch.randn(1, 8)
+x1 = torch.randn(1, 3072)

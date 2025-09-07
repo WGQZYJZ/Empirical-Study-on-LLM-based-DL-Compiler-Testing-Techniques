@@ -1,0 +1,6 @@
+t1  = torch.cat([input_tensor] * num_layers + [input_tensor], dim=0) # Concatenate the input tensor along dimension 0 multiple times by a factor of 'num_layers' and then concatenate the result with itself once more on its axis 0
+t2  = torch.stack(input_tensors, -1)  # Convert each input tensor into a batch, stacking them together as the second dimension is 0, and the first dimension is -1
+t1 = torch.full(size=(n,), fill_value=0.5)  # Create a tensor full of 0.5s with size n. This is used as an input to the linear function, which will be described later in the pattern
+t2 = torch.linspace(-8., 8., steps, device="cuda")  # Create a linear sequence of values from -8 to 8 using 'steps' number of values. This is used for the 'input_value' argument to the torch.nn.Linear function which will be described later in this pattern
+t1 = torch.full(size=(n,), fill_value=0.5)  # Create a tensor full of 0.5s with size n. This is used as an input to the linear function, which will be described later in this pattern
+t2 = torch.linspace(-8., 8., steps, device="cuda")  # Create a linear sequence of values from -8 to 8 using 'steps' number of values. This is used for the 'input_value' argument to the torch.nn.Linear function which will be described later in this pattern

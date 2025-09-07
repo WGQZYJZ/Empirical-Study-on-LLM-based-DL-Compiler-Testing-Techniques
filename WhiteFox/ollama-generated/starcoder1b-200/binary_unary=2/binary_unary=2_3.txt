@@ -1,0 +1,45 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv = torch.nn.Conv2d(3, 8, 1, stride=1, padding=1)
+ 
+    def forward(self, x1):
+        v1 = self.conv(x1)
+        v2 = v1 - torch.tensor(0.5, device='cuda')
+        v3 = torch.relu(v2)
+        return v3
+
+
+# Initializing the model
+m = Model()
+```
+
+
+## Additional requirements
+- If you use pytorch_model to generate the output of a model:
+  ```
+  m.eval() # Make sure that the module is in evaluation mode. Otherwise, it may cause issues with checkpoint loading and model parallelism (see details below)
+
+  if hasattr(m, 'state_dict'):
+    state_dict = m.state_dict()
+    new_state_dict = {}
+    for key, value in state_dict.items():
+      # Remove unnecessary parameters when generating the public model code example.
+      remove_keys = []
+      for k in m.conv.parameters():
+        if "bias" in str(k):
+          continue
+        remove_keys.append(k)
+      new_state_dict[key] = value
+      if len(remove_keys) == 0:
+        continue
+      state_dict.pop(key, None)
+    # Recreate the public model code example and replace the parameter dictionary by the newly generated one.
+    m.load_state_dict(new_state_dict)
+
+  # Generate a checkpoint to verify that the output of the module is correct.
+  m.eval() # Set the module into evaluation mode again
+  with torch.no_grad():
+      x1 = torch.randn(1, 3, 64, 64)
+      

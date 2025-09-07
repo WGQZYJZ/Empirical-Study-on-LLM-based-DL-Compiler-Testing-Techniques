@@ -1,0 +1,1 @@
+This pattern characterizes scenarios where the attention mechanism is applied to different types of data tensors with different shapes. This is a typical pattern found in the attention mechanism of transformer models, where a query, key and value tensor are passed separately as input.

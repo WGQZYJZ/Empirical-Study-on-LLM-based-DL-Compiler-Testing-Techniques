@@ -1,0 +1,1 @@
+## Note on the model above: The two `conv` and `linear` layers are not included in the provided model but can be generated using the [generate_test_data.py](generate_test_data.py) script in `tests`. Please refer to the readme file under the folder named `tests/examples/test_cases/` for more details about how the input tensor is generated.

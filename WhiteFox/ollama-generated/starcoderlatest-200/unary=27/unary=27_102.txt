@@ -1,0 +1,53 @@
+
+class Model(torch.nn.Module):
+    def __init__(self, min_value=1, max_value=256):
+        super().__init__()
+        self.conv = torch.nn.Conv2d(3, 8, 1, stride=1, padding=1)
+ 
+    def forward(self, x1):
+        v1 = self.conv(x1)
+        v2 = torch.clamp_min(v1, min_value)
+        v3 = torch.clamp_max(v2, max_value)
+        return v3
+
+
+# Initializing the model with a minimum value and maximum value for clamping
+m = Model(min_value=0, max_value=256)
+
+
+# Inputs to the model with an incorrect minimum or maximum value that results in exception
+with pytest.raises(ValueError):
+    x1 = torch.randn(1, 3, 64, 64)
+    m(x1)
+
+
+# Inputs to the model for which the input tensor is of size different from (n_batch, n_channels, height, width).
+with pytest.raises(ValueError):
+    x1 = torch.randn(2, 3, 64, 64)
+    m(x1)
+
+
+# Inputs to the model for which the minimum and maximum values are not provided when defining the function. The value is set to the default value (minimum value is 0, maximum value is 100).
+m = Model()
+
+
+def test_model():
+    x1 = torch.randn(2, 3, 64, 64)
+    m(x1)
+
+
+# Invalid input shape for this model.
+with pytest.raises(ValueError):
+    x1 = torch.randn(2, 3, 65, 64)
+    m(x1)
+
+
+# The minimum value is greater than the maximum value and results in exception.
+m = Model()
+
+
+def test_model():
+    with pytest.raises(ValueError):
+        x1 = torch.randn(2, 3, 64, 64)
+        m(x1)
+```

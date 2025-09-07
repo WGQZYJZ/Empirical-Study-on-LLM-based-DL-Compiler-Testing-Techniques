@@ -1,0 +1,14 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+
+    def forward(self, x1):
+        v1  = x1.permute(0, 2, 1) # swaps the last two dimensions of this tensor (in this case, dim_x1 = 3, dim_last_two = 1)
+        v2  = torch.nn.functional.linear(v1, self.linear.weight, self.linear.bias)
+        return v2
+
+ # Initializing the model
+m = Model()
+
+# Inputs to the model

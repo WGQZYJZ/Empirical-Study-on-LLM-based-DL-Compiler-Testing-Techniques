@@ -1,0 +1,16 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.linear = torch.nn.Linear(16, 8)
+ 
+    def forward(self, x1, other):
+        v1 = self.linear(x1) + other  # Add the output of the linear transformation to the input tensor and add another tensor `other` to it
+```
+# Description of requirements
+The model should contain the following pattern:
+```
+t1 = conv_with_bias(input_tensor, weight, bias) # Apply a pointwise convolution to the input tensor with a kernel size 1 and a specified bias tensor
+```
+This pattern characterizes scenarios where the output of a pointwise convolution is added with a specified bias tensor (specified by the keyword argument "bias"), followed by a convolution.
+

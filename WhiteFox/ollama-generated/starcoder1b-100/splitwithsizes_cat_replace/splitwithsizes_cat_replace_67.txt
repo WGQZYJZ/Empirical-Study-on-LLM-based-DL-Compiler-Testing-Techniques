@@ -1,0 +1,18 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+ 
+    @torch.jit._overload_method
+    def _forward_(self, x1: torch.Tensor) -> bool:
+        pass
+ 
+    def forward(self, x1: torch.Tensor) -> bool:
+        v1 = self.is_valid_splitwithsizes_cat(x1)  # Call the optimized function
+        return v1
+
+
+# Input to model (the input tensor must be an input tensor for this optimization)
+input_tensor = ...
+output = m._forward_(input_tensor)  # In order to trigger the optimization, the input_tensor must be a valid input tensor.
+```

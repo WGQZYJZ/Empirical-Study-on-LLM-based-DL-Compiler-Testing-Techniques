@@ -1,0 +1,13 @@
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+
+    def forward(self, x1, x2):
+
+        v1  = torch.stack([x1] * 3).permute(0, -1) # stack multiple input tensors into one
+        v2  = torch.stack([x2] + [None])            # append a new batch dim to the 1st dim of another tensor
+        t1  = x1.permute(-1, 0).contiguous()       # move the 2nd and 3rd dimensions to the 1st dimension with contiguous
+        t2  = v2[...].contiguous()                 # or copy the batch dim from one tensor into another one
+
+        t3  = torch.bmm(t1, t2)                     # permute tensor 2 in order for it matches tensor 1 and then perform matrix multiplication
+        return t3

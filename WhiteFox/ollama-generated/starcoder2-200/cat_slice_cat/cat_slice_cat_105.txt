@@ -1,0 +1,22 @@
+
+class Model(torch.nn.Module):
+    def __init__(self, size):
+        super().__init__()
+    
+    def forward(self, *input_tensors):
+        v = torch.cat(input_tensors, dim=0)
+        v2 = v[:, 0:9223372036854775807]
+        v3 = v2[:, 0:size]
+        v4 = torch.cat([v, v3], dim=1)
+        return v4
+
+
+# Initializing the model
+m = Model(size=800)
+
+
+# Inputs to the model
+x1 = torch.randn(1, size+250)  # 875
+__output__  = m(*input_tensors)
+
+```

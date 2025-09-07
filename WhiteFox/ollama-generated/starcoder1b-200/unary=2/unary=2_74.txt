@@ -1,0 +1,19 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv = torch.nn.Conv2d(3, 8, 1, stride=1, padding=1)
+ 
+    def forward(self, x1):
+        v1 = self.conv(x1).contiguous()  # Move input tensor to GPU memory
+        v2 = torch.cat((v1[None, :, :],  # Create a single row vector
+                       v1[:, None, :]), dim=1)  # Stack the two rows back together into a single matrix
+        v3 = torch.cat((torch.ones(1, 1, 4, 64),
+                       torch.zeros(1, 2, 64, 64)), dim=0)  # Concatenate a column vector for both input tensors
+        v4 = v2 * v3
+        return v4
+
+
+# Initializing the model
+m = Model()
+```

@@ -1,0 +1,27 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+
+    def forward(self, x1):
+        v1 = torch.nn.functional.dropout(x1, 0.25)
+        v2 = torch.rand_like(v1) # v1 was replaced by a random tensor of the same size
+        return v2
+
+
+# Initializing and executing the model:
+
+m  = Model()
+x1  = torch.randn(2, 3)
+__output__  = m(x1)
+
+# Test Case Analysis: How is PyTorch execution translated into ours?
+
+- Firstly we load a text file `test_input.py` which contains code that calls the model, and generates input tensors for the model to operate on. It also imports all of the PyTorch modules that we need in the testing script. These modules are used to generate random numbers with `torch.rand_like` function call (to be replaced). The `eval_output` variable holds the final output value of the model.
+- In `analyze()` we load a text file `test_output.py`. This text file is in the form of:
+```python3
+    torch_out  = torch.tensor(eval(test_output), dtype=torch.__float__.type)
+
+    assert torch._eq(torch_out, test_output).all()
+```
+The first line creates a tensor `torch_out` using `eval()` function on the input file content (`test_output`) and converts it to a floating type. The second line asserts that the output tensor (`torch_out`) and test output are equal. In the test_output case, the value of `test_output` is `tensor([-43950., 16287., -58434.], dtype=torch.__float__.type)`. Thus, both `torch._eq(torch_out, test_output).all()` and `assert torch.allclose(torch_out, test_output)` are True because the floating point numbers are almost equal.

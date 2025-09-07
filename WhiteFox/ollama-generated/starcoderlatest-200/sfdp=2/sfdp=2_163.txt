@@ -1,0 +1,61 @@
+
+class MultiheadAttention(torch.nn.Module):
+    def __init__(self, dim):
+        super().__init__()
+        self.query_conv = torch.nn.Conv2d(dim, dim * 3, 1, stride=1, padding=0)
+        self.key_conv = torch.nn.Conv2d(dim, dim * 3, 1, stride=1, padding=0)
+ 
+    def forward(self, query, key):
+        q  = self.query_conv(query) # Apply convolution on the query to produce query tensor with dimensions of (batch_size, hidden_dimension, length, width)
+        k = self.key_conv(key) # Apply convolution on the key to produce key tensor with dimensions of (batch_size, hidden_dimension, length, width)
+        qk = torch.einsum("...hw,...wh->...hh", q, k) # Compute query * key using einsum
+        scaled_qk  = qk.div(10000.)
+        softmax_qk = scaled_qk.softmax(dim=-2)
+        dropout_qk = torch.nn.functional.dropout(softmax_qk, p=dropout_p)
+        output = (dropout_qk.matmul(torch.cat([key, query], dim=1))) # Compute attention output using dot product
+        return output
+
+class EncoderLayer(torch.nn.Module):
+    def __init__(self, dim):
+        super().__init__()
+        self.norm  = torch.nn.BatchNorm2d(dim) # Batch normalization layer before convolutional block
+        self.conv1 = MultiheadAttention(dim=dim) # Convolutional block that applies the multi-headed attention mechanism
+        self.relu1 = torch.nn.ReLU()
+        self.conv2 = torch.nn.Conv2d(dim, dim, 1, stride=1, padding=0) # Final convolutional layer
+
+    def forward(self, x):
+        out_norm = self.norm(x)
+        out_conv1 = self.relu1(self.conv1(out_norm, out_norm))
+        out_conv2 = self.conv2(out_conv1)
+        return torch.cat([out_norm, out_conv2], dim=1)
+
+class EncoderBlock(torch.nn.Module):
+    def __init__(self, dim):
+        super().__init__()
+        self.encoderlayer = EncoderLayer(dim=dim) # Create a single encoder layer
+ 
+    def forward(self, x):
+        return self.encoderlayer(x)
+
+class Encoder(torch.nn.Module):
+    def __init__(self, num_layers, dim):
+        super().__init__()
+        self.convs = torch.nn.Sequential()
+        for i in range(num_layers):
+            layer = EncoderBlock(dim=dim) # Create encoder block layer
+            self.add_module("encoderblock", layer) # Add encoder block to module collection
+ 
+    def forward(self, x):
+        return self.convs(x)
+
+class Model(torch.nn.Module):
+    def __init__(self, num_layers, dim):
+        super().__init__()
+        self.encoder = Encoder(num_layers=num_layers, dim=dim)
+ 
+    def forward(self, x1):
+        v = self.encoder(x1)
+        return v
+```
+The model is a Transformer model with 2 encoders and each encoder has two blocks (self-attention and feedforward). Each block consists of batch normalization and convolutional layers and the input and output dimension is `dim` as specified in the requirements above.
+

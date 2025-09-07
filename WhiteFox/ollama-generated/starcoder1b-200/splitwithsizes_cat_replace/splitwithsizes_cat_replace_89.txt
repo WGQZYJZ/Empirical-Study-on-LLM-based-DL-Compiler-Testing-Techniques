@@ -1,0 +1,11 @@
+
+class Model(torch.nn.Module):
+    def __init__(self, num_features):
+        super().__init__()
+        self.num_features = num_features
+
+    def forward(self, x1):
+        y1 = torch.split(x1, [2 * self.num_features], dim=1)[0] # [input feature number][output feature number]
+        y1 = torch.cat([y1[1:], y1[:1]], dim=1)    # The input tensor is split into the output features from [1]:[num_features + 1] and then it's concatenated with [0] to create the final tensor.
+```
+

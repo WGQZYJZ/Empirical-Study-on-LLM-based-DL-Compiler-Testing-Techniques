@@ -1,0 +1,4 @@
+class SinkCatAfterPointWise(torch.nn.Module):
+    def forward(self, t1, t2):
+        v  = torch.relu(t1 + 3 * t2) # An example pointwise unary operation to sink the cat tensor after.
+        return v

@@ -1,0 +1,10 @@
+5
+14
+torch.nn.functional.adaptive_avg_pool2d
+torch.ops.aten::add
+torch.ops.aten::clamp_max
+torch.ops.aten::clamp_min
+torch.ops.aten::div
+torch.ops.aten::empty
+torch.ops.aten::ge
+torch.ops.aten::sub

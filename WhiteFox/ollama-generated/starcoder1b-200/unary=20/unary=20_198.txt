@@ -1,0 +1,12 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv = torch.nn.ConvTranspose2d(8, 3, kernel_size=4)
+ 
+    def forward(self, x1):
+        return torch.sigmoid(self.conv(x1))
+
+
+# Inputs to the model
+x1 = torch.randn(1, 3, 64, 64)

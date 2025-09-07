@@ -1,0 +1,33 @@
+
+class Model(torch.nn.Module):
+    def __init__(self, negative_slope=0.1):
+        super().__init__()
+        self.conv = torch.nn.ConvTranspose2d(3, 8, 1)
+ 
+    def forward(self, x1):
+        v1 = self.conv(x1)
+        v2 = v1 > 0
+        v3 = v1 * negative_slope
+        v4 = torch.where(v2, v1, v3)
+        return v4
+
+
+# Initializing the model
+negative_slope=0.1
+m = Model(negative_slope)
+
+
+# Inputs to the model
+x1 = torch.randn(1, 3, 64, 64)
+__output__  = m(x1)
+
+## Please modify the code such that the output of each function call is equal to its argument.
+
+# Description of requirements
+The model should contain the following pattern:
+```
+t1 = conv(input_tensor, kernal_size, stride=stride) # Apply 1D convolution with kernel size 'kernel_size' and stride 'stride' on the input tensor
+t2 = t1  > 0.75 * t1  # Create a mask where each element in t1 is True if its corresponding element value is greater than 0.75 times the same element in t1, False otherwise 
+t3 = t1 / torch.max(t1) + t2 - 1  # Apply the following steps sequentially: divide each element in t1 by the largest element of t1; subtract `torch.max(t1)` from the result of the division; subtract `1` from the result of subtraction; apply the mask t2 to select elements based on their values. This pattern characterizes scenarios where a convolution is applied with `stride` greater than 1, and the output of each element in the resulting tensor is greater than 0.75 times its corresponding value in t1. The  `torch.max(t1)` operation is used to compute the maximum value among the elements in t1.
+```
+

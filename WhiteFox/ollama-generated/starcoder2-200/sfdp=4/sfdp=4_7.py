@@ -1,0 +1,17 @@
+import torch
+import torch.nn as nn
+ 
+class Attention(nn.Module):
+    def __init__(self, qk_dim):
+        super().__init__()
+        self.linear = nn.Linear(qk_dim * 2 + 1, 3)
+ 
+    def forward(self, query: torch.Tensor, key: torch.Tensor, attn_mask: torch.Tensor, value: torch.Tensor):
+        qk  = (query @ key.transpose(-2, -1)) / nn.math.sqrt(query.size(-1)) # Compute the dot product of the query and key, and scale it
+ 
+        qk += attn_mask # Add the attention mask to the scaled dot product
+ 
+        attn_weight = nn.softmax(qk, dim=-1) # Apply softmax to the result
+        output  = (attn_weight @ value) # Compute the dot product of the attention weights and the value
+        
+        return self.linear(output).view(-1)

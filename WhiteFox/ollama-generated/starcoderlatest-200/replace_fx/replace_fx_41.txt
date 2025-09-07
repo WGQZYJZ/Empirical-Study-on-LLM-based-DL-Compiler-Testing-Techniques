@@ -1,0 +1,41 @@
+
+class Model2(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+
+    def forward(self, x1):
+        v1 = torch.rand_like(x1, ())  # Generate a tensor with the same size as input_tensor filled with random numbers
+        return torch.nn.functional.dropout(v1, p=0.5)
+
+# Initializing the model
+m2 = Model2()
+
+
+# Inputs to the model
+x2 = torch.randn(1, 2, 2)
+__output_m2__ = m2(x2) # Should raise an error: RuntimeError("The tensor size of 'torch.nn.functional.dropout' op should be same as input op.")
+
+
+# Use the `fallback_random` configuration to suppress the replacement and thus trigger erase_node() function.
+config = {"model": {
+    "fallback_random" : True,
+    ...
+}
+
+
+import torch_mlir_e2e_test.torchscript.trace as trace
+from torch_mlir_e2e_test import add_torchscript_passes # Add support for TorchScript
+traced_script = torch.jit.trace(m, (x1))
+module_ref = trace._get_model_reference(traced_script)
+# Inputs to the model
+x1 = torch.randn(1, 2, 2)
+__output_fallback_random__ = m(x1)
+
+
+import torch_mlir_e2e_test.torchscript.graph as gm
+gm.erase_node(module_ref) # Erase all the nodes in the model graph.
+module_ref = trace._get_model_reference(traced_script, module=None)
+# Inputs to the model
+x1 = torch.randn(1, 2, 2)
+__output_after_erase_all_nodes__ = m(x1)
+```

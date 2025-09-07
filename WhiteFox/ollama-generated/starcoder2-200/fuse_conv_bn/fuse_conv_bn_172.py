@@ -1,0 +1,15 @@
+class Model(torch.nn.Module):
+    def __init__(self, input_dim=256):
+        super().__init__()
+
+        self.conv = torch.nn.Conv2d(input_dim + 1, 32, kernel_size=7) 
+        self.bn = torch.nn.BatchNorm2d(32)
+
+    def forward(self, x0):
+        v1 = x0[:, :2] # Selecting the first 2 features in the input tensor for the convolution layer.
+        t1 = v1.permute(0, 2, 1).contiguous()
+
+        conv_out = self.conv(t1)
+        bn_out = self.bn(conv_out)
+
+        return bn_out

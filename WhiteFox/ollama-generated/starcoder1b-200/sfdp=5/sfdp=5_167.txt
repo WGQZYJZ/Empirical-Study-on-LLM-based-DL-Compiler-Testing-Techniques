@@ -1,0 +1,15 @@
+
+class Model(torch.nn.Module):
+    def __init__(self, key_dim=64, feedforward_hidden_dim=128):
+        super().__init__()
+        self.conv = torch.nn.Conv2d(3, 8, 1, stride=1, padding=1)
+        self.fc   = torch.nn.Linear(key_dim, feedforward_hidden_dim)
+
+    def forward(self, x1, x2):
+        qk = (x1 @ x2).transpose(-2, -1) / math.sqrt(x1.size(-1)) # Compute the dot product of the query and key, and scale it
+        qk = qk + x1[:, None, :, :]  # Add the query to each element of key, add a batch dimension for the last dim of value
+        attn_weight = torch.softmax(qk, dim=-1)  # Apply softmax to the result
+        attn_weight = torch.dropout(attn_weight, dropout_p, True)  # Apply dropout to the softmax output
+        value = self.fc(attn_weight @ x2[:, :, None]) # Compute the dot product of the attention weight and the value
+        return value
+```

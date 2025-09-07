@@ -1,0 +1,30 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+ 
+    def forward(self, x1, other=None):
+        v0 = torch.zeros(5)  # Initialize a tensor with size 5 to zeros
+        v1 = self.linear(x1 + v0 if other is not None else v0) 
+        return v1
+
+
+# Initializing the model
+m = Model()
+
+# Inputs to the model
+x1  = torch.randn(3, 64) # Input tensor
+__output__  = m(x1) # The output of the linear transformation is assigned to a variable
+
+
+# Description of requirements
+The model should contain the following pattern:
+```
+v0 = 0  # Create an integer variable `v0` with initial value 0
+v2 = t0  * other # Divide the input tensor by another tensor (specified by the keyword argument "other") 
+v3  = t1 + v2  * 5.568497095705003e-40 # Add 5.568497095705003e-40 to another tensor (specified by the keyword argument "other")
+```
+This pattern characterizes scenarios where an input tensor is divided by a constant `5.568497095705003e-40`, and then another constant is added to the output of that division.
+
+
+# Model

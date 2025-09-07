@@ -1,0 +1,45 @@
+
+class Model(torch.nn.Module):
+    def __init__(self, negative_slope=0.5):
+        super().__init__()
+        self.conv = torch.nn.ConvTranspose2d(3, 8, 1, stride=1)
+ 
+    def forward(self, x1):
+        v1 = self.conv(x1)
+        mask  = (v1 > 0).float() 
+        v2  = negative_slope * v1
+        v3  = torch.where(mask, v1, v2 )
+        return v3
+# Initializing the model
+m = Model(negative_slope=0.5)
+
+ # Inputs to the model
+ x1 = torch.randn(1, 3, 64, 64)
+ __output__  = m(x1)
+
+# Description of requirements
+The model should contain the following pattern:
+```
+t1 = conv2d_transpose(input_tensor) # Apply a 2D transposed convolution to the input tensor
+t2 = t1  + bias  # Add the bias to the output of the transposed convolution
+t3  = torch.relu(t2, inplace=True)  # Apply ReLU to the output of the transposed convolution, set `inplace` attribute to True to reduce memory usage and increase speed.
+```
+This pattern characterizes scenarios where a 2D transposed convolution is applied to an input tensor, then bias is added to the output of the convolution, followed by ReLU activation function with the parameter `inplace=True`. This is a typical pattern for applying transposed convolution to images, and can be used as an alternative to max-pooling or strided convolution.
+
+ # Model
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv = torch.nn.ConvTranspose2d(3, 8, 1)
+ 
+    def forward(self, x1):
+        v1 = self.conv(x1) + self.bias 
+        v2  = F.relu(v1 ,inplace=True )# Apply ReLU to the output of the transposed convolution with `inplace` attribute set to True to reduce memory usage and increase speed
+        return v2
+ # Initializing the model
+ m = Model()
+ 
+ x1 = torch.randn(1, 3, 64, 64)
+ __output__   = m(x1)
+ 
+

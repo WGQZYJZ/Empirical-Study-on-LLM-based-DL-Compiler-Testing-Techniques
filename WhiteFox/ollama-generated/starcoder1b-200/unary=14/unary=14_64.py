@@ -1,0 +1,16 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv_transpose = torch.nn.ConvTranspose2d(8, 3, 1, stride=1, padding=1)
+
+    def forward(self, x):
+        v = self.conv_transpose(x)
+        v = sigmoid(v)
+        return v
+
+
+# Initializing the model
+m = Model()
+
+

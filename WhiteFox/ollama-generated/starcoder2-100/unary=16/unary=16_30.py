@@ -1,0 +1,20 @@
+
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+ 
+        self.linear  = torch.nn.Linear(1024, 5)
+ 
+    def forward(self, x1):
+        v1  = self.linear(x1)
+        v2  = torch.relu(v1)
+        return v2
+
+
+m  = Model()
+
+__output__  = m(torch.randn(32, 1024))
+
+
+

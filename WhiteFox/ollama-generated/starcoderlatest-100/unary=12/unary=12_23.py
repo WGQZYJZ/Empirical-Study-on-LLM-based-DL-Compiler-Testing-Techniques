@@ -1,0 +1,2 @@
+t1 = torch.relu(input_tensor)  # Apply the relu function to the input tensor
+t2 = torch.softmax(t1, dim=1)  # Apply the softmax function over a particular dimension of the output of the rele layer. The dimension is 1 in this case, meaning that we are applying the softmax across all classes and pixels of each sample. This pattern characterizes scenarios where a softmax activation function is applied to an input tensor to make it a probability distribution for multiclass classification.

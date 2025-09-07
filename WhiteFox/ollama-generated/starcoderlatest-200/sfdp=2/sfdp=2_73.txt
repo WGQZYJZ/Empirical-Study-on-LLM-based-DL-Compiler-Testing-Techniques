@@ -1,0 +1,41 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.fc_query = torch.nn.Linear(2048, 16)
+        self.fc_key   = torch.nn.Linear(2048, 16)
+        self.fc_value = torch.nn.Linear(2048, 16)
+ 
+    def forward(self, x):
+        qk = self._attention(x) # Compute attention scores and output 
+        return qk
+
+    def _attention(self, x):
+        b, t, c, w = x.shape # Get batch size, sequence length of a time step (time dimension), channel number of a feature map (spatial dimensions)
+        query = self._reshape_x(self.fc_query(x))  # Project the queries to get the queries' hidden state for each heads.
+        key   = self._reshape_x(self.fc_key(x))    # Project the keys to get the keys' hidden states for each heads.
+        value = self._reshape_x(self.fc_value(x))  # Project the values to get the values' hidden states for each heads.
+        qk = torch.matmul(query, key.transpose(-2, -1)) # Compute dot product between queries and keys
+        scaled_qk = qk.div(inv_scale_factor)  # Scale the dot product by inverse scale factor. 
+        softmax_qk = scaled_qk.softmax(dim=-1)  # Apply softmax to the scaled dot product of queries and keys.
+        dropout_qk = torch.nn.functional.dropout(softmax_qk, p=dropout_p) # Apply dropout on the softmax output for each heads
+        return self._combine_head(dropout_qk, value)
+
+    def _reshape_x(self, x):
+        b, t, c, w = x.shape # Get batch size, sequence length of a time step (time dimension), channel number of a feature map (spatial dimensions)
+        reshaped_x = x.view([b*t,c,w])  # Reshape the input tensor into a (batch_size * num_time_steps) X (num_features * feature_dim) matrix for each heads.
+        return reshaped_x
+
+    def _combine_head(self, qk, value):
+        b, t = qk.shape[:2] # Get batch size and sequence length of a time step (time dimension)
+        return torch.cat([qk]*b, dim=0).view(b*t, -1)  # Combine all heads' outputs for each queries to get the final output.
+
+
+# Initializing the model
+m = Model()
+```
+This is a typical pattern found in Transformer models.
+
+
+## Input generation algorithm
+The input tensor generated should contain at least one example that meets all requirements and satisfy any other requirement(s).

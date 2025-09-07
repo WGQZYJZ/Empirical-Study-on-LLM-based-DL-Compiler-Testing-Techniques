@@ -1,0 +1,35 @@
+
+```
+import torch
+class Model(torch.nn.Module):
+    def __init__(self, channels):
+        super().__init__()
+
+        self.conv1 = torch.nn.Conv2d(in_channels=3, out_channels=5, kernel_size=(2, 4), stride=(1,), padding="valid")
+        self.conv2 = torch.nn.Conv2d(in_channels=7, out_channels=9, kernel_size=(6, 8), stride=(2,))
+
+        self.bn1 = torch.nn.BatchNorm2d(num_features=5)
+        self.bn2 = torch.nn.BatchNorm2d(num_features=9)
+
+    def forward(self, input):
+
+        t0 = torch.nn.functional.conv2d(input, self.conv1.weight, bias=None, stride=(1,), padding="valid")  # type: ignore[attr-defined]
+        t1 = torch.nn.functional.batch_norm(t0)  # type: ignore[union-attr]
+
+        t3 = torch.nn.functional.conv2d(input, self.conv2.weight, bias=None, stride=(2,), padding="valid")  # type: ignore
+        t4 = torch.nn.functional.batch_norm(t0)  # type: ignore
+
+        t5 = torch.cat([t1 + 3., t3 + 9.], dim=2)  # type: ignore
+        t6 = torch.nn.functional.relu(torch.nn.functional.conv2d(input, self.conv2.weight, bias=None, stride=(2,), padding="valid") / t5 - t0)
+
+        t7 = self.bn1(t4 + 3.)
+        t8 = torch.nn.functional.relu(self.bn2(t6 - 9))
+
+        return input
+
+
+```
+
+# Initializing the model
+m = Model()
+

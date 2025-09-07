@@ -1,0 +1,25 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv1 = torch.nn.Conv2d(3, 8, 1, stride=1, padding=1)
+        self.conv2 = torch.nn.Conv2d(8, 16, 1, stride=1, padding=1)
+
+    def forward(self, x1):
+        v1 = self.conv1(x1)
+        v2 = v1 * 0.5
+        v3 = v1 * 0.7071067811865476
+        v4 = torch.erf(v3)
+        v5 = v4 + 1
+        v6 = self.conv2(x1)
+        output = v6 @ attn_weight
+
+    def _init_weights(self):
+        for m in self.modules():
+            if isinstance(m, nn.Conv2d):
+                nn.init.kaiming_normal_(m.weight)
+
+
+# Initializing the model
+model = Model()
+

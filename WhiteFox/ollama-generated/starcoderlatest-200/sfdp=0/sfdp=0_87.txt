@@ -1,0 +1,29 @@
+
+class AttentionModule(torch.nn.Module):
+    def __init__(self, dim1: int, dim2: int, dropout: float = 0.5):
+        super().__init__()
+        self.dropout = nn.Dropout2d(p=dropout)
+ 
+        self.query_conv = nn.Conv2d(dim1, dim1 // 8, 3, padding=1, stride=1, groups=dim1)
+        self.key_conv   = nn.Conv2d(dim2, dim2 // 8, 3, padding=1, stride=1, groups=dim2)
+ 
+    def forward(self, q, k):
+        # The dimensions of q, k, v are: batch x n_heads x Lq x Dk / Dv. 
+        B = q.size()[0]
+        D = q.size()[3]
+ 
+        q = self.query_conv(q).view(B, -1, 64, 64) # Convert the query tensor from a linear feature map to a conv2d tensor (batch x channels x h/8 x w/8)
+        k = self.key_conv(k).view(B, -1, 64, 64)   # Convert the key tensor from a linear feature map to a conv2d tensor (batch x channels x h/8 x w/8)
+        v = self.key_conv(v).view(B, -1, 64, 64)   # Convert the value tensor from a linear feature map to a conv2d tensor (batch x channels x h/8 x w/8)
+ 
+        q = torch.transpose(q, 2, 3)  # Transpose query and key dimensions
+        attn_weights = torch.matmul(q, k) / math.sqrt(k.size(-1))    # Compute the scaled dot product of the query and key tensor
+        attn_weights = nn.Softmax(dim=-1)(attn_weights)             # Apply a softmax function to compute attention weights
+        attn_weights = self.dropout(attn_weights)                     # Dropout to prevent overfitting
+ 
+        output = torch.matmul(attn_weights, v).view(B, -1, 64, 64)    # Compute the weighted sum of the value tensor
+        output = torch.transpose(output, 2, 3).contiguous()      # Transpose to bring batch dimension back to it's original form (batch x n_heads x h/8 x w/8)
+ 
+        return output
+```
+

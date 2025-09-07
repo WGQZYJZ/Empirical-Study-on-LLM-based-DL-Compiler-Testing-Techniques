@@ -1,0 +1,29 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv  = torch.nn.Linear(256*1370 + 9, 4)
+ 
+    def forward(self, x1):
+        v1  = self.conv(x1)
+        return v1
+
+# Initializing the model
+m  = Model()
+
+ # Inputs to the model
+x1  = torch.randn(256*370+9, 81148)
+
+## Please also generate a valid PyTorch model example with public PyTorch APIs meets the specified requirements and without using random operations such as dropout/random sampling.
+
+# Description of requirements
+The model should contain the following pattern:
+```
+v5 = conv1(v3, 64, 7, stride=2)
+t9 = max_pooling(v5, 2)  # Apply a 2x2 pooling operation to the output from the previous convolution layer with kernel size 1.
+...
+```
+This pattern characterizes scenarios where a convolutional neural network is applied to an input tensor, then a 2D max-pooling operation is applied to the output of the convolutional layer with kernel size 1, followed by another 3D max-pooling operation, and so on.
+
+
+# Model

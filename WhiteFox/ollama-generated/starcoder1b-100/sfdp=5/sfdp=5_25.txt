@@ -1,0 +1,12 @@
+
+class Model(torch.nn.Module):
+    def __init__(self, d_k, d_v, nhead=8, num_layers=4):
+        super().__init__()
+        self.attn = torch.nn.MultiHeadAttention(d_k, d_v, nhead)
+
+    def forward(self, x1, x2, mask=None):
+        _, output = self.attn(x1, x2, x1, mask)  # Compute the dot product of the two input tensors and return their max-values along with their corresponding weights, respectively
+        return output
+```
+This pattern characterizes the attention mechanism in transformer models, where the attention weights are computed as the softmax of the scaled dot product of the query and key (plus an attention mask), followed by a dropout operation. The output is then computed as the dot product of these attention weights and the value.
+

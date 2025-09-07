@@ -1,0 +1,626 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.linear1 = torch.nn.Linear(320, 512)
+        self.linear2 = torch.nn.Linear(512, 320)
+ 
+    def forward(self, x):
+        # ...
+```
+In this pattern, the output of a layer is usually added to another tensor (like in the residual connections). In this case, the keyword argument "other" is an input tensor, and not a model's parameter.
+
+# Model
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.linear1 = torch.nn.Linear(320, 512)
+        self.linear2 = torch.nn.Linear(512, 320)
+ 
+    def forward(self, x):
+        return x + self.linear2(self.linear1(x))
+
+
+# Description of requirements
+The model should contain the following pattern:
+```
+t1 = linear(input_tensor1)  # Apply a linear transformation to input tensor 1
+t2 = t1 * constant  # Apply another constant to the output of the linear transformation
+t3 = t1 * (constant * other)  # Multiply a linear transformation with another constant to the output of the linear transformation
+```
+This pattern characterizes scenarios where two tensors are multiplied, and then the output of the linear transformation is multiplied by that of another tensor. In this case, the keyword argument "other" is an input tensor, and not a model's parameter.
+
+# Model
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.linear1 = torch.nn.Linear(320, 512)
+        self.linear2 = torch.nn.Linear(512, 320)
+ 
+    def forward(self, x1, x2=None):
+        if x2 is not None:
+            v1 = x1 * x2  # Multiply the input tensors 1 with their respective inputs of 2
+        else:
+            v1 = x1 * self.linear1.weight
+        v2 = v1 * self.linear1.bias
+        return v2
+
+
+# Description of requirements
+The model should contain the following pattern:
+```
+t1  = linear(input_tensor)  # Apply a linear transformation to input tensor
+t2 = t1 + (constant * input_tensor)  # Add another constant to the output of the linear transformation
+t3 = (t1 + other) / input_tensor # Multiply the output of the linear transformation with an output of the addition or division operation in the following formula:
+output = constant / input_tensor
+```
+This pattern characterizes scenarios where a linear transformation is applied to an input tensor, and then another tensor (specified by the keyword argument "other") is added to the output of the linear transformation. In this case, the keyword argument "other" is an input tensor, not a model's parameter.
+
+
+# Model
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.linear1 = torch.nn.Linear(320, 512)
+        self.linear2 = torch.nn.Linear(512, 320)
+ 
+    def forward(self, x):
+        return (x + 2 * self.linear2(self.linear1(x))) / 3
+
+
+# Description of requirements
+The model should contain the following pattern:
+```
+t1 = linear(input_tensor1)  # Apply a linear transformation to input tensor 1
+t2 = t1 * constant  # Apply another constant to the output of the linear transformation
+t3 = (linear(input_tensor2)) / input_tensor2 # Multiply the output of the linear transformation with an output of the multiplication operation in the following formula:
+output = output * constant
+```
+This pattern characterizes scenarios where two tensors are multiplied, and then the output of the linear transformation is multiplied by that of another tensor. In this case, the keyword argument "other" is an input tensor, not a model's parameter.
+
+
+# Model
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.linear1 = torch.nn.Linear(320, 512)
+        self.linear2 = torch.nn.Linear(512, 320)
+ 
+    def forward(self, x1, x2=None):
+        if x2 is not None:
+            v1 = x1 * (x2 + 1)  # Multiply the input tensors 1 with their respective inputs of 2
+        else:
+            v1 = (x1 + 1) * self.linear1.weight
+        v2 = v1 * self.linear1.bias
+        return v2
+
+
+# Description of requirements
+The model should contain the following pattern:
+```
+t1 = linear(input_tensor1)  # Apply a linear transformation to input tensor 1
+t2 = t1 + other # Add another tensor to the output of the linear transformation
+t3 = t1 * other # Multiply the output of the linear transformation with another tensor
+```
+This pattern characterizes scenarios where two tensors are added together. In this case, the keyword argument "other" is an input tensor, not a model's parameter.
+
+
+# Model
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.linear1 = torch.nn.Linear(320, 512)
+        self.linear2 = torch.nn.Linear(512, 320)
+ 
+    def forward(self, x):
+        v1 = x * (x + 1)  # Multiply the input tensor with its respective inputs of 2 and add another input tensor
+        v2 = v   ... . .
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--
+--------------------------------------------------------------

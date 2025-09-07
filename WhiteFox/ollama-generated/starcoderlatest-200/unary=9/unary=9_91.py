@@ -1,0 +1,13 @@
+t1 = input_tensor * x1 + y1 # Multiply the input tensor by 0.5 and add it to a constant value 3
+t2 = t1 ^ 2  # Exponentiate the output of the previous operation to the power of 2
+t3 = torch.clamp(t2, -3) # Clamp the output of the exponentiation operation to a minimum of -3 and maximum of 3
+t4 = 0.7 * t1 + x1   # Multiply the input tensor by 0.7, then add it to the constant value 3
+t5 = t4 + torch.exp(y)   # Add the output of the previous operation to an exponential function applied to the constant value 3
+t1 = tanh(input_tensor + y1) # Compute the hyperbolic tangent function and then add it to a constant value 3
+t2 = torch.clamp_max(t1, 6)  # Clamp the output of the previous operation to a maximum of 6
+t3 = torch.log(t2)    # Compute the natural logarithm
+t4 = tanh(t3)       # Compute the hyperbolic tangent function and then multiply it by -1
+t5 = tanh(x * t4)   # Compute the hyperbolic tangent function of the product of the input tensor and the output of the previous operation
+t1 = input_tensor + y1 # Add it to a constant value 3
+t2 = tanh(t1)   # Compute the hyperbolic tangent function element-wise and then divide it by 4
+t3 = tanh(x * t2)   # Compute the hyperbolic tangent function of the product of the input tensor and the output of the previous operation

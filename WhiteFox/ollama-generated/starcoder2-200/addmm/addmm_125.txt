@@ -1,0 +1,48 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv1 = torch.nn.Conv2d(3, 8, 1)
+ 
+    def forward(self, x1):
+        v1 = self.conv1(x1) 
+        return v1
+
+# Initializing the model
+m = Model()
+
+ # Inputs to the model
+x1 = torch.randn(1, 3, 64, 64)
+inp = torch.randn(8, 2560)
+ 
+ __output__  = m(x1, input2=inp)
+
+
+# Description of requirements
+The model should contain the following pattern:
+```
+t1 = input_tensor  * 0.7 # Multiply a tensor with an arbitrary constant '0.7' to the input tensor
+```
+This pattern characterizes scenarios where a tensor is multiplied by a constant in addition to the multiplication operation applied on another tensor
+
+
+# Model
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+ 
+    def forward(self, x1, input2=None): # 'input2' is not mandatory keyword argument
+        v1 = 0.7 * x1 + input2  # The multiplication operation multiplies the constant '0.7' with an input tensor and then adds another tensor 'inp2', which is optional as well.
+        return v1
+
+
+# Initializing the model:
+m = Model()
+
+# Inputs to the model:
+x1 = torch.randn(3, 64) # Tensor of shape (3, 64). 'x1' is not mandatory positional argument.
+inp2 = torch.randn(8, 2560)
+
+ __output__  = m(x1, inp2=inp2)
+
+

@@ -1,0 +1,15 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.split_sizes = [1, 8]
+ 
+    def forward(self, x1):
+        split_tensors = torch.split(x1, self.split_sizes[i], dim=0) # Split the input tensor into several tensors along a given dimension
+        concatenated_tensor = torch.cat([split_tensors[j] for j in range(len(split_sizes))], dim=0) # Concatenate the split tensors along the same dimension
+        return concatenated_tensor
+
+# Initializing the model
+m = Model()
+
+

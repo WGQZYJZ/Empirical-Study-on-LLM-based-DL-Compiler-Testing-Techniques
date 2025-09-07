@@ -1,0 +1,1 @@
+This pattern characterizes the Scaled Dot-Product Attention mechanism in a sequence-to-sequence setting. The attention weights are computed as the softmax of the scaled dot product of the query and key tensors. These weights are then used to compute a weighted sum of the value tensor.

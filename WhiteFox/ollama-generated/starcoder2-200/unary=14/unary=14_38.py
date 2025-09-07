@@ -1,0 +1,9 @@
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+ 
+    def forward(self, x1):
+        v1 = torch.nn.functional.conv_transpose2d(x1) # Apply the pointwise transposed convolution to the input tensor
+        v2  = torch.nn.functional.sigmoid(v1)
+        v3  = v1 * v2
+        return v3

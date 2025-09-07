@@ -1,0 +1,21 @@
+
+```
+class FuseBnConvModel(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+
+        self._conv = torch.nn.Conv2d(1, 32, 5)
+        self._bn   = torch.nn.BatchNorm2d(32)
+
+    @torch.no_grad() # Disable gradient calculation for memory savings
+    def forward(self, x):
+        conv = self._conv(x)
+
+        conv = torch.nn.functional.relu(conv)  # Apply activation function
+        bn   = self._bn(conv)                 # Apply batch norm layer
+
+        return conv + bn
+```
+# Initializing the model
+m1 = FuseBnConvModel()
+

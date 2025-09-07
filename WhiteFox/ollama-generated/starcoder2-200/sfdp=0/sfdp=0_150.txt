@@ -1,0 +1,20 @@
+
+```
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.layer1  = torch.nn.Linear(32, 64) 
+        self.layer2  = torch.nn.Linear(32, 3) 
+        self.layer3  = torch.nn.Tanh()
+        self.layer4  = torch.nn.ReLU()
+
+    def forward(self):
+        t1075 = self.layer1(torch.randn(8)) 
+        t1076 = self.layer2(t1075)
+        t1077 = self.layer3(t1076)
+        t1079 = torch.softmax(t1077, dim=-1)
+        t1081 = self.layer4(t1079) 
+        return t1081 
+```
+# Initializing the model
+model_instance = Model()

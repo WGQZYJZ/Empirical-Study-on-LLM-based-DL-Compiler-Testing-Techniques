@@ -1,0 +1,11 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.linear = torch.nn.Linear(2, 2)
+
+    def forward(self, x1):
+        v1 = x1.permute(0, 2, 1)
+        return torch.sigmoid(torch.matmul(v1, self.linear.weight))
+```
+This pattern characterizes scenarios where the permute method is invoked first on an input tensor with more than 2 dimensions, and then `torch.nn.functional.linear` function is invoked on the output tensor of the linear function.

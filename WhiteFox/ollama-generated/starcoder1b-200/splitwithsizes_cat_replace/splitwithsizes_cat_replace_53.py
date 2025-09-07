@@ -1,0 +1,1 @@
+The input `is_valid_splitwithsizes_cat` function takes the input tensor as its only parameter, and then checks if there are any `torch.nn.Split` operations in the input tensor, and if so, whether they share a parent (i.e., `torch.nn.Conv2d`). If not, there is exactly one `torch.cat`, and all the split tensors used within that `torch.cat` must also be used in it.

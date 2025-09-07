@@ -1,0 +1,1 @@
+This pattern characterizes scenarios where the dot product of a query and a key is computed, then flattened (i.e. unpooling) to a vector length of `2048`, then linear transformation is applied to the flattened vector output (up-sampled from 512 units) to compute a new value of shape `[batch_size, seq_len, feat_dim]`.

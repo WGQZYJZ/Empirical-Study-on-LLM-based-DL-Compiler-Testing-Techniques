@@ -1,0 +1,93 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.attention = torch.nn.MultiheadAttention(dim_k=8, num_heads=32)
+ 
+    def forward(self, q1, k1, v1):
+        (batch_size, seq_len, hidden_dim), (query_dim, key_dim, value_dim) = 3, 5, 7
+        q1 = torch.nn.functional.embedding(q1, embedding_table)
+        k1 = torch.nn.functional.embedding(k1, embedding_table)
+        v1 = torch.nn.functional.embedding(v1, embedding_table)
+        scaled_qk = self.attention(q1, k1, v1)[0] * scale_factor
+        softmax_qk = torch.nn.functional.softmax(scaled_qk, dim=-1)
+        output  = self.attention(softmax_qk, softmax_qk, softmax_qk)[0]
+        return output
+
+
+# Initializing the model
+m = Model()
+
+
+# Inputs to the model
+q1 = torch.randn(batch_size, seq_len, query_dim)
+k1 = torch.randn(batch_size, seq_len, key_dim)
+v1 = torch.randn(batch_size, seq_len, value_dim)
+__output__  = m(q1, k1, v1)
+
+
+# Description of requirements
+The model should contain the following pattern:
+```
+t1 = (q * key).sum(-2) # Sum along the last two dimensions of a pairwise multiply with the query tensor and the key tensor
+e1 = torch.nn.functional.softmax(t1, dim=-1)  # Apply softmax to the output of the sum operation
+output  = (v * e1).sum(-2) # Sum along the last two dimensions of a pairwise multiply with the value tensor and the scaled dot product
+```
+This pattern characterizes scenarios where the dot product between a query tensor and a key tensor is multiplied by its softmax output, then it is summed. Then, the result is multiplied by a value tensor to compute the output tensor for this example.
+
+
+# Model
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+ 
+    def forward(self, q1, k1, v1):
+        (batch_size, seq_len, hidden_dim), (query_dim, key_dim, value_dim) = 3, 5, 7
+        t1 = (q1 * k1).sum(-2) # Sum along the last two dimensions of a pairwise multiply with the query tensor and the key tensor
+        e1 = torch.nn.functional.softmax(t1, dim=-1)  # Apply softmax to the output of the sum operation
+        output  = (v1 * e1).sum(-2) # Sum along the last two dimensions of a pairwise multiply with the value tensor and the scaled dot product
+        return output
+
+
+# Initializing the model
+m = Model()
+
+
+# Inputs to the model
+q1 = torch.randn(batch_size, seq_len, query_dim)
+k1 = torch.randn(batch_size, seq_len, key_dim)
+v1 = torch.randn(batch_size, seq_len, value_dim)
+__output__  = m(q1, k1, v1)
+
+
+# Description of requirements
+The model should contain the following pattern:
+```
+t1 = (q * key).sum(-2) # Sum along the last two dimensions of a pairwise multiply with the query tensor and the key tensor
+t2 = (k * q).sum(-3) # Sum along the third dimension of a pairwise multiply with the key tensor and the query tensor
+e1 = torch.nn.functional.softmax(t1 + t2, dim=-1)  # Apply softmax to the output of the sum operation
+output  = (v * e1).sum(-2) # Sum along the last two dimensions of a pairwise multiply with the value tensor and the scaled dot product
+```
+This pattern characterizes scenarios where the dot product between a query tensor and a key tensor is multiplied by its softmax output, then it is summed. Then, the result is multiplied by a value tensor to compute the output tensor for this example.
+
+
+# Model
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+ 
+    def forward(self, q1, k1, v1):
+        (batch_size, seq_len, hidden_dim), (query_dim, key_dim, value_dim) = 3, 5, 7
+        t1 = (q1 * k1).sum(-2) # Sum along the last two dimensions of a pairwise multiply with the query tensor and the key tensor
+        t2 = (k1 * q1).sum(-3) # Sum along the third dimension of a pairwise multiply with the key tensor and the query tensor
+        e1 = torch.nn.functional.softmax(t1 + t2, dim=-1)  # Apply softmax to the output of the sum operation
+        output  = (v1 * e1).sum(-2) # Sum along the last two dimensions of a pairwise multiply with the value tensor and the scaled dot product
+        return output
+
+
+# Initializing the model
+m = Model()
+
+
+# Inputs to the model
+q1 = = = = = = = = = = = = = = = = = = = = = = = = = = = = = = =

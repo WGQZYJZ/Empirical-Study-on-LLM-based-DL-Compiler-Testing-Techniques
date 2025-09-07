@@ -1,0 +1,29 @@
+
+class Model(torch.nn.Module):
+    def __init__(self, minval=-3., maxval=4.):
+        super().__init__()
+        self.conv  = torch.nn.Conv2d(in_channels=3, out_channels=8, kernel_size=(1,1))
+ 
+    def forward(self, x):
+        t1  = self.conv(x) # Apply pointwise convolution with kernel size 1 to the input tensor
+        t2  = torch.clamp_min(t1, minval=-3.) # Clamp the output of the convolution to a minimum value (-3.) 
+        t3  = torch.clamp_max(t2, maxval=4.) # Clamp the output of the previous operation to a maximum value (4)
+        return t3
+
+
+# Initializing the model
+m = Model()
+
+# Inputs to the model
+x1  = torch.randn(batchsize=1, inchannels=3, height=64, width=64) # Initialize an input tensor
+__output__  = m(x1)  # Passing the generated input through the model
+
+## Please generate a valid PyTorch model example with public PyTorch APIs meets the specified requirements. Plus, please also generate the input tensor for the newly generated model. The model should be different from the previous one.
+The model should contain the following pattern:
+```
+t1 = conv(input_tensor)  # Apply pointwise convolution with kernel size 1 to the input tensor
+t2 = torch.sigmoid(t1)  # Apply the sigmoid function to the output of the convolution
+```
+This pattern characterizes scenarios where a pointwise convolution is applied, and then the result is passed through a sigmoid function.
+
+# Model

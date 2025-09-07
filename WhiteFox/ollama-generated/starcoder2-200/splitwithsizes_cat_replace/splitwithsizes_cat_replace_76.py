@@ -1,0 +1,4 @@
+m = torch.nn.Sequential(
+    torch.nn.Conv2d(3, 8, 1, padding=0), 
+    torch.nn.Conv2d(8, 4, 1) # A Conv that has a stride of 2
+)

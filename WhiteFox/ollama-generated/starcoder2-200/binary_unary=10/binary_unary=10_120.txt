@@ -1,0 +1,50 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+ 
+        self.linear  = torch.nn.Linear(2560, 1)
+        self.other   = torch.nn.Flatten()
+        self.relu    = torch.nn.ReLU()
+ 
+    def forward(self, x1):
+        v1  = self.linear(x1)
+        v2  = v1 + other
+        v3  = self.relu(v2)
+
+# Initializing the model
+m  = Model()
+ 
+# Inputs to the model
+x1 = torch.randn(4, 800) # Shape of [4 x 800] for example
+__output__   = m(x1)
+ 
+
+# Description of requirements
+The model should contain the following pattern:
+```
+t1 = addsub_op(input tensor) + t1 # An add or sub operation between two tensors, and then the add/sub operation is applied to the output of another add/sub operation. 
+```
+This pattern characterizes scenarios where a specific arithmetic operator such as addition `+` / substraction `-` is used to generate an intermediate tensor first and then this intermediate tensor is added with another input tensor, which results in another intermediate tensor being added / subtracted using the same operator again, resulting in yet another intermediate tensor. 
+
+# Model
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+ 
+    def forward(self, t1):
+ 
+        t2  = torch.zeros_like(t1)
+        v3  = t1 + other
+        return v3 + other
+
+# Initializing the model
+m   = Model()
+ 
+# Inputs to the model
+t1  = torch.ones([800]) # Shape of [4 x 800] for example, where the shape of this tensor matches that of other input tensors. 
+other = t2 = torch.zeros_like(v3)
+
+
+__output__   = m(t1)
+

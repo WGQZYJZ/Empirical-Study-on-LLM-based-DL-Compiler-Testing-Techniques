@@ -1,0 +1,32 @@
+
+class AttentionWithMask(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.attn_scale = torch.nn.Parameter(torch.tensor([0.5], dtype=torch.float))
+        self.dropout = torch.nn.Dropout()
+
+    def forward(self, query, key, value, attn_mask):
+        qk  = query @ key.transpose(-2, -1) / math.sqrt(query.size(-1))
+        qk  = qk + attn_mask
+        attn_weight = torch.softmax(qk, dim=-1)
+        output = self.attn_scale * (attn_weight @ value).squeeze()
+        return output
+
+
+# Initializing the model
+m2 = AttentionWithMask()
+
+# Inputs to the model
+x2  = torch.randn(1, 8, 64, 64)
+x3  = torch.randn(1, 8, 64, 64)
+__output__  = m2(x2, x3, __input__, __input__)
+
+
+# Checkpoint
+torch.save(m.state_dict(), "model")
+
+# Restore the checkpointed model
+m3 = Model()
+m3.load_state_dict(torch.load("model"))
+```
+This test case requires you to generate a public PyTorch example that meets all requirements. The output of this example is supposed to be different from the previous one, but its structure and number of layers should be similar as the first version.

@@ -1,0 +1,19 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv_transpose = torch.nn.ConvTranspose2d(8, 3, 4)
+ 
+    def forward(self, x1):
+        v1 = self.conv_transpose(x1)
+        v2 = v1 * 0.5
+        v3 = v1 * 0.7071067811865476
+        v4 = torch.erf(v3)
+        v5 = v4 + 1
+        v6 = v2 * v5
+        return v6
+
+
+# Initializing the model
+m = Model()
+x1 = torch.randn(1, 3, 1, 64, 64) # The size of this tensor is different from previous ones! (The first dimension is missing!)

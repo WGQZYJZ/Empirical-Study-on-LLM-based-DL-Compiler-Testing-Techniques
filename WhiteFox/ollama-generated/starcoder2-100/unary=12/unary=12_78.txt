@@ -1,0 +1,77 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv  = torch.nn.Conv2d(3, 8, 1, stride=1, padding=1)
+ 
+    def forward(self, x1):
+        v1  = self.conv(x1)
+        v2  = F.sigmoid(v1) # applying the sigmoid function
+        v4  = v2 * v1       # multiplying the output of the conv by the output of the sigmoid function 
+        return v4
+ 
+# Initializing the model  
+m  = Model()
+
+# Inputs to the model
+x1  = torch.randn(1, 3, 64, 64)
+__output__  = m(x1)
+
+# Description of requirements
+The model should contain the following pattern:
+```
+t1 = conv(input_tensor) # Apply pointwise convolution with kernel size 1 to the input tensor.
+t2 = t1 * 0.5           # Multiply the output of the convolution by 0.5.
+t3 = maxpool(t2, 1)     # Apply 1x1 max pooling operation on the output of the convolution.
+```
+This pattern characterizes scenarios where the output of a pointwise convolution is multiplied by a constant `0.5`, and then the result of the max-pooing operation with kernel size 1 is calculated from it.
+
+
+# Model
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv = torch.nn.Conv2d(3,8,1)
+ 
+    def forward(self, x1):
+        v0 = self.conv(x1) # Applying pointwise convolution on the input tensor.
+        v2 =  F.adaptive_max_pool2d(v0, (1)) # Calculating max-pooing with kernel size 1 from the output of the convolution
+        return v2
+
+# Initializing model    
+m=Model() 
+
+# Inputs to the model
+x1 = torch.randn(1,3,64,64) # input tensor for the model. 
+__output__  = m(x1)
+
+# Description of requirements
+The model should contain the following pattern:
+```
+t1 = conv(input_tensor)        # Applying pointwise convolution on an input tensor.
+t2 = tanh(t1)                  # Applying tanh activation function to output of the convolution.
+t3 = maxpool(t2, 4)            # Calculating max-pooing operation with kernel size 4 from the output of the convolution.
+```
+This pattern characterizes scenarios where a pointwise convolution is applied to an input tensor and then passed through the hyperbolic tangent (tanh) activation function, followed by performing a max pooling operation using a 2x2 window with a stride of 1.
+
+
+# Model
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv = torch.nn.Conv2d(3,8,1)
+ 
+    def forward(self, x1):
+        v0 = self.conv(x1) # applying pointwise convolution on an input tensor. 
+        v1  = F.tanh(v0) # applying tanh function to the output of the conv layer.
+        v2  = F.adaptive_max_pool2d(v1, (4))# performing max-pooing operation with kernel size 4 from the output of the tanh activation 
+        return v2
+
+# Initializing model  
+m=Model() 
+
+# Inputs to the model
+x1 = torch.randn(1,3,64,64) # input tensor for the model. 
+
+ __output__  = m(x1)
+

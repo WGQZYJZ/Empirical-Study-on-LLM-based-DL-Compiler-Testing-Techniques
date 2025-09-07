@@ -1,0 +1,14 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.linear = torch.nn.Linear(4096, 512)
+        self.clamp = torch.nn.Clamp()
+ 
+    def forward(self, x):
+        v  = self.linear(x) + 3 * self.clamp(min=0, max=6, l1=v) / 6
+        return v
+```
+```
+# Inputs to the model
+input_tensor = torch.randn(batch_size=1, channel_num=3, width=64, height=64)

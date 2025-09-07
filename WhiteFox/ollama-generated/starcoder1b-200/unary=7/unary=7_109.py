@@ -1,0 +1,18 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv = torch.nn.Conv2d(3, 8, 1, stride=1, padding=1)
+        self.linear = torch.nn.Linear(64 * 64, 100)
+ 
+    def forward(self, x1):
+        l1 = self.conv(x1)
+        l2 = l1 * clamp(min=0, max=6, l1 + 3)
+        l3 = l2 / 6
+        return l3
+
+
+# Initializing the model
+m = Model()
+
+

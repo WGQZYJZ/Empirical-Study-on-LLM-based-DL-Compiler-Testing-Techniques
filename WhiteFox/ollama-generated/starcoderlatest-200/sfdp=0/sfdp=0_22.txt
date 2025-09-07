@@ -1,0 +1,19 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.qkv = torch.nn.Linear(128, 3 * 8)
+
+    def forward(self, q, k, v):
+        # Reshape the query and key to be compatible with the input tensor of Scaled Dot-Product Attention mechanism
+        b, n, _, _ = q.shape
+        q = q.view(b * n, -1, q.size(-1))
+        k = k.view(b * n, -1, k.size(-1))
+        v = v.view(b * n, -1, v.size(-1))
+        scaled_dot_product = torch.matmul(q, k.transpose(-2, -1)) / math.sqrt(v.size(-1))
+
+        attention_weights = scaled_dot_product.softmax(dim=-1)
+        output = attention_weights.matmul(v)
+        return output
+```
+

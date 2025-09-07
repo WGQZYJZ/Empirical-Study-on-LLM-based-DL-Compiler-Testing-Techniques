@@ -1,0 +1,32 @@
+from torch import nn
+import torch
+
+class Transformer(nn.Module):
+    def __init__(self):
+        super().__init__()
+        self._embedder = nn.Embedding(32, 16)
+        self._position_embedding = nn.Parameter(torch.zeros(5120))
+
+        # ...
+
+    def forward(self, x):
+        N = len(x)
+        inv_scale = torch.exp(-(torch.arange(N) / float(N)))
+        embedding  = self._embedder(x) + self._position_embedding.view(-1)[None]
+        query  = embedding[:, None, :, :] * inv_scale.view(
+            -1,
+            1,
+            1,
+            device=inv_scale.device
+        )[None]
+
+        key  = embedding[:, :, None, :]
+        scaled_dot_product = torch.matmul(query, key.transpose(-2, -1)) / inv_scale
+
+        # ...
+
+        return output
+
+
+m = Transformer()
+__output__  = m(x)

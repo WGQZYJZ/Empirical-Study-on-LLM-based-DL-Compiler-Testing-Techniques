@@ -1,0 +1,45 @@
+
+class Model(torch.nn.Module):
+    def __init__(self, num_layers=2, hidden_size=64, emb_dim=100):
+        super().__init__()
+        self.num_layers = num_layers
+        self.hidden_size = hidden_size
+        self.emb_dim    = emb_dim
+        self.query      = torch.nn.Linear(emb_dim, emb_dim)
+        self.key        = torch.nn.Linear(emb_dim, emb_dim)
+        self.value      = torch.nn.Linear(emb_dim, emb_dim)
+ 
+    def forward(self, x1, x2):
+        # Initialize hidden state and attention weights
+        q  = self.query(x1).view(-1, 1, self.hidden_size)
+        k  = self.key   (x2).transpose(-2, -1).contiguous().view(-1, 1, self.hidden_size)
+ 
+        # Calculate the attention weights
+        attn  = torch.bmm(q, k).squeeze(dim=-1)
+        attn_weight  = F.softmax(attn, dim=-1)
+        # Apply dropout to the softmax output
+        attn_weight  = F.dropout(attn_weight, p=self.dropout_p)
+ 
+        v   = self.value (x2).transpose(-2, -1).contiguous().view(-1, 1, self.hidden_size)
+        # Calculate the output of the model
+        o   = torch.bmm(attn_weight, v)
+        return o
+```
+The `forward()` function is where you write your logic, and this can be implemented as:
+```
+# Initialize hidden state and attention weights
+q  = self.query(x1).view(-1, 1, self.hidden_size)
+k  = self.key   (x2).transpose(-2, -1).contiguous().view(-1, 1, self.hidden_size)
+ 
+# Calculate the attention weights
+attn  = torch.bmm(q, k).squeeze(dim=-1)
+attn_weight  = F.softmax(attn, dim=-1)
+ 
+# Apply dropout to the softmax output
+attn_weight  = F.dropout(attn_weight, p=self.dropout_p)
+ 
+v   = self.value (x2).transpose(-2, -1).contiguous().view(-1, 1, self.hidden_size)
+# Calculate the output of the model
+o   = torch.bmm(attn_weight, v)
+```
+

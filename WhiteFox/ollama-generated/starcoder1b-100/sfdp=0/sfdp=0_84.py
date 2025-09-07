@@ -1,0 +1,16 @@
+# Description of requirements
+The model should contain the following pattern:
+This pattern characterizes the generalized Dot-Product Attention mechanism, which is a key component of Deep and Wide Transformer models. The attention weights are computed as the softmax of the dot product of the query and key tensors. The dot product between two tensors `x1` and `x2`, denoted as `x1 * x2`, represents the scaled dot product between these two vectors, where `*` is the tensor product operator. These weights are then used to compute a weighted sum of the value tensor.
+
+
+# Model
+class Model(torch.nn.Module):
+    def __init__(self, hparams: HParams):
+        super().__init__()
+        self.w = torch.randn((hparams.n_heads * hparams.dim_key), (hparams.dim_key, hparams.dim_value))
+
+    def forward(self, x1):
+        x2 = torch.matmul(x1, self.w)
+        return x2
+
+

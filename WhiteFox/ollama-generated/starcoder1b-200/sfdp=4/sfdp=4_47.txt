@@ -1,0 +1,20 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.query = torch.nn.Linear(256, 1024)
+        self.key   = torch.nn.Linear(1024, 1024)
+        self.value = torch.nn.Linear(1024, 256)
+ 
+    def forward(self, x):
+        q = self.query(x).view(-1, 256)
+        k = self.key(x).view(-1, 1024)
+        v = self.value(x).view(-1, 1024)
+ 
+        attn_weights = torch.bmm(q, k.transpose(-2, -1)) / (math.sqrt(k.size(-1)) * math.sqrt(v.size(-1)))
+        output = torch.sum(attn_weights @ v, dim=-1)  # Sum the weighted sum of the value tensor to compute the output
+        return output
+```
+
+# Reference
+https://arxiv.org/abs/1706.03762

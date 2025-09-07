@@ -1,0 +1,30 @@
+
+class ScaledDotProductAttention(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+
+    def forward(self, query, key, value):
+        dot_product = torch.matmul(query, key) / math.sqrt(key.size(-1))
+        attention_weights = torch.softmax(dot_product, dim=-1)
+        return attention_weights.matmul(value), attention_weights
+
+
+# Initializing the model
+m = ScaledDotProductAttention()
+
+
+# Inputs to the model
+x1  = torch.randn(32, 8, 64, 64)
+y1  = torch.randn(1, 8, 64, 64)
+__output__, _  = m(x1, y1, x1)
+
+
+# Description of requirements
+The model should contain the following pattern:
+```
+scaled_dot_product = torch.matmul(query, key) / math.sqrt(key.size(-1))
+attention_weights = torch.softmax(scaled_dot_product, dim=-1)
+output = torch.matmul(value, attention_weights).squeeze(-2)  # Reshape the output to match the shape of the input to prevent gradient vanishing
+```
+This pattern characterizes the Residual Scale-Shift Attention mechanism, which is a key component of Transformer models. In this mechanism, `scaled_dot_product` computes the dot product between `query` and `key`, with an additional linear layer applied afterward. During training, we use `attention_weights` to scale and shift the attention weights from `scaled_dot_product` to the input values before feeding them into a subsequent linear layer for computation of the output tensor value. In order to reduce the gradient vanishing problem, it is recommended that the values are shifted down by at least one scale factor (e.g., `scale = 1.0 / sqrt(key.size(-1))`), since these values can be very large and cause numerical errors when rescaling.
+

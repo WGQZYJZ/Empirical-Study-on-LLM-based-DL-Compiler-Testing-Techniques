@@ -1,0 +1,14 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.linear = torch.nn.Linear(2, 2)
+
+    def forward(self, x1):
+        v1 = x1.permute(0, 2, 1)  # Permute the input tensor (first permute to 2nd dimension).
+        v2 = torch.cat([v1, v1], dim=1)
+        v3 = self.linear(torch.tanh(v2))  # Perform tanh operation on concatenated tensor v1 and v1 again.
+        return v3
+```
+The optimization `sink_cat_after_pointwise` is triggered when such a pattern is detected in the model.
+

@@ -1,0 +1,19 @@
+import torch
+from torch import nn as nn  # noqa: E402
+class DotProductAttention(nn.Module):
+    def __init__(self) -> None:
+        super().__init__()
+ 
+    @staticmethod
+    def attention(query, key, value, mask=None, dropout=None):
+        # Implementation of scaled dot product self-attention
+        d_k = query.size(-1)  # -1 for dynamic size
+        n_head = torch.chunk(torch.matmul(query, key), -2)[0] / math.sqrt(d_k).to(torch.float32()) 
+        n_head *= mask[:, None, None].type_as(n_head)  # Prevent the model from paying attention to irrelevant parts of the input
+        weights = nn.softmax(n_head, dim=-1)
+        if dropout is not None:
+            dropout(weights)
+        return torch.matmul(weights, value), weights
+ 
+    def forward(self, query, key, value):  # noqa: D102
+        return self.attention(query, key, value)

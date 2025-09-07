@@ -1,0 +1,30 @@
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+
+    def forward(self, x1):
+      v3  = torch.nn.functional.dropout(x1, p=0.4) 
+      return v3
+      
+  class Model(torch.nn.Module):
+  	def __init__(self):
+  		super().__init__()
+
+  	def forward(self, x1):
+	    v2  = torch.rand_like(x1, dtype=x1.dtype)
+	    return v2
+import torch, sys
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.linear = torch.nn.Linear(2, 2)
+    def forward(self, input1_tensor):
+        v1 = torch.randn(3,4,5).to('cpu')
+        t1 = torch.nn.functional.dropout(v1, p=0.4, inplace=False)
+        t2 = torch.nn.functional.dropout(t1, p=0.6797833260076599,  inplace=True)
+	# TODO: add dropout(p=0.4,inplace=false) here 
+        return t2
+
+m_initial = Model()
+
+

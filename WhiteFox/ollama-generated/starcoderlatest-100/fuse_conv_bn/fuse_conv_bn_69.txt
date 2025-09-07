@@ -1,0 +1,15 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv = torch.nn.Conv2d(...)
+        self.bn = torch.nn.BatchNorm2d(...)
+
+    def forward(self, x1):
+        v1  = x1.permute(0, 3, 1, 2)
+        v2  = torch.nn.functional.conv2d(v1, self.conv.weight, self.conv.bias)
+        v3  = torch.nn.functional.batch_norm(v2, self.bn.weight, self.bn.bias, self.bn.running_mean, self.bn.running_var, False)
+        return v3
+```
+The `fuse_conv_bn` optimization is triggered when the batch normalization layer has not been fused to a convolution layer and the input tensor is smaller than 4 dimensions (not in training mode).
+

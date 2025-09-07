@@ -1,0 +1,66 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.linear  = torch.nn.Linear(20, 1)
+        self.negative_slope = -3
+
+    def forward(self, x1):
+        v1  = self.linear(x1)
+        v2  = (v1 > 0).float()
+        v3  = v1 * (-3) if v2 else v1
+        return torch.where(v2, v1, v3)
+
+
+# Initializing the model
+m  = Model()
+ 
+# Inputs to the model
+x1  = torch.randn(80, 20).cuda()
+ 
+ 
+ 
+
+# Finalize the model
+torch.jit.export(m)(x1)
+
+<div style="padding-top: 2em"></div>
+
+# Description of requirements
+The model should contain the following pattern:
+```
+t1 = tanh(input_tensor) # Apply the hyperbolic tangent to each element in the input tensor.
+t2 = torch.exp(torch.tanh(t1)) # Apply exponentiation to the output of the hyperbolic tangent function on each element, resulting in the output of the exponential function. 
+t3 = tanh(input_tensor) * (2 * t1 + 4 * t2 - 10 * torch.exp(-torch.tanh(t1)**2)) # Apply the hyperbolic tangent to each element in the input tensor, then multiply by a constant.
+```
+This pattern characterizes scenarios where the hyperbolic tangent is applied to an input tensor, and exponentiation is applied to the output of the hyperbolic tangent function on each element, resulting in the output of the exponential function. Then, the hyperbolic tangent is applied again to each element in the input tensor and then multiply by a constant that contains tanh(input_tensor), which corresponds to the summation of several powers of torch.tanh(), multiplied by 2 and exp(torch.tanh()**2), resulting in the second summation in the equation, multiplied by -10 and exponentiated again to produce a third summation, finally multiplying by 4.
+
+# Model
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.tanh = torch.nn.Tanh()
+ 
+    def forward(self, x1):
+        v1 = self.tanh(x1)
+        v2 = torch.exp(v1)
+        v3  = self.tanh(x1)*(4*torch.exp(v2)+torch.tensor(-2, device='cuda:0').view(1))
+        return v3
+
+
+# Initializing the model
+m = Model()
+ 
+# Inputs to the model
+x1 = torch.ones((16, 5), dtype=torch.float)
+ 
+ 
+ 
+
+# Finalize the model
+torch.jit.export(m)(x1)
+
+
+<div style="padding-top: 2em"></div>
+

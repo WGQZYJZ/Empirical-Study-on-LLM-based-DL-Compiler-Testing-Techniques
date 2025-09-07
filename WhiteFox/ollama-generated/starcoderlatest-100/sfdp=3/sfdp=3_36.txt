@@ -1,0 +1,79 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.layer_norm = torch.nn.LayerNorm(3)
+ 
+    def forward(self, query, key, value):
+        qk  = torch.matmul(query, key.transpose(-2, -1)) # Compute the dot product of the query and key tensors
+        scaled_qk  = qk.mul(scale_factor) # Scale the dot product by a factor
+        softmax_qk  = scaled_qk.softmax(dim=-1) # Apply softmax to the scaled dot product
+        dropout_qk  = torch.nn.functional.dropout(softmax_qk, p=dropout_p) # Apply dropout to the softmax output
+        output = dropout_qk.matmul(value) # Compute the dot product of the dropout output and the value tensor
+        attn_output = self.layer_norm(query + output)
+        return attn_output
+
+
+# Description of requirements
+The model should contain the following pattern:
+```
+t1  = self.relu(self.fc0(x)) # Apply a relu non-linearity with input tensor `x` to the fc0
+t2  = t1 * t2_scale # Scale the output of the relu non-linearity by `t2_scale`
+t3  = self.dropout1(torch.sigmoid(self.fc1(t2))) # Apply a sigmoid non-linearity with input tensor `t2` to the fc1 and apply dropout to the output
+t4  = torch.mul(t3, x) # Multiply the output of the sigmoid non-linearity by the input tensor
+return t4 # Return the output of the final convolutional layer.
+```
+This pattern characterizes scenarios where `x` is multiplied by a constant `t2_scale`, then the result is passed through a sigmoid non-linearity and its output multiplied by `x`. The output of this layer is used in subsequent layers that have different input and output sizes to reduce compute cost.
+
+
+# Model
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.layer_norm = torch.nn.LayerNorm(3)
+ 
+    def forward(self, x1):
+        t1  = self.relu(self.fc0(x)) # Apply a relu non-linearity with input tensor `x` to the fc0
+        t2  = t1 * t2_scale # Scale the output of the relu non-linearity by `t2_scale`
+        t3  = self.dropout1(torch.sigmoid(self.fc1(t2))) # Apply a sigmoid non-linearity with input tensor `t2` to the fc1 and apply dropout to the output
+        t4  = torch.mul(t3, x) # Multiply the output of the sigmoid non-linearity by the input tensor
+        return t4 # Return the output of the final convolutional layer.
+
+# Description of requirements
+The model should contain the following pattern:
+```
+t1 = self.conv(input_tensor) # Apply pointwise convolution with kernel size 3 to the input tensor
+t2 = torch.tanh(self.fc0(x)) # Apply a tanh non-linearity with input tensor `x` to the fc0 and apply dropout to the output
+output = self.fc1(torch.cat((input_tensor, t2), dim=-1)) # Concatenate the input tensor and the output of the tanh non-linearity and apply the fully connected layer to concatenate two tensors
+return torch.add(t1, output) 
+```
+This pattern characterizes scenarios where a pointwise convolution is applied with kernel size `3` times stride `1` and zero padding `1`, then the output of this layer is used in subsequent layers that have different input and output sizes to reduce compute cost.
+
+
+# Model
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv = torch.nn.Conv2d(3, 8, 1, stride=1, padding=1)
+ 
+    def forward(self, x1):
+        t1 = self.conv(x1) # Apply pointwise convolution with kernel size 1 to the input tensor
+        return torch.tanh(self.fc0(t1)) # Return the output of a tanh non-linearity with input tensor `t1`
+
+
+# Description of requirements
+The model should contain the following pattern:
+```
+qk = torch.matmul(query, key.transpose(-2, -1))  # Compute the dot product of the query and key tensors
+scaled_qk = qk.mul(scale_factor)  # Scale the dot product by a factor
+softmax_qk = scaled_qk.softmax(dim=-1)  # Apply softmax to the scaled dot product
+dropout_qk = torch.nn.functional.dropout(softmax_qk, p=dropout_p)  # Apply dropout to the softmax output
+output = self.fc0(dropout_qk.matmul(value))  # Compute the dot product of the dropout output and the value tensor
+attn_output = self.layer_norm(query + output) # Add the attention output to the query input
+return attn_output
+
+
+# Description of requirements
+The model should contain the following pattern:
+```
+t1 = torch.mul(self.conv(input_tensor), self.fc0(x)) # Multiply the output of pointwise convolution with the output: 12300 

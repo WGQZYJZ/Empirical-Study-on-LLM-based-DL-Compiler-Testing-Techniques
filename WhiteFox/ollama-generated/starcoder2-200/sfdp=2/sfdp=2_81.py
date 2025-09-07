@@ -1,0 +1,8 @@
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.q = torch.nn.Linear(64, 1)
+ 
+    def forward(self, x201):
+        v75  =  self.q(x201[:, :, :]).mean()
+        return v75

@@ -1,0 +1,13 @@
+q_dot_k  = torch.matmul(query, key.transpose(-2, -1))  # Compute the dot product of the query and the key
+k_dot_v  = torch.matmul(key, value.transpose(-2, -1))  # Compute the dot product of the key and the value
+q_dot_k_scaled = q_dot_k.div(scale)  # Scale the dot product by the scale factor
+k_dot_v_scaled = k_dot_v.div(scale)  # Scale the dot product by the scale factor
+product = torch.matmul(qk, k_dot_v_scaled) + vq - k_dot_v_scaled * math.exp(-q_dot_k_scaled / scale))  # Compute the value of the scaled dot product
+output = (scale * product) + bias  # Add the offset to the scaled dot product
+q_dot_k  = torch.matmul(query, key.transpose(-2, -1))  # Compute the dot product of the query and the key
+scaled_qk  = q_dot_k / scale  # Scale the dot product by the scale factor
+k_dot_v  = torch.matmul(key, value.transpose(-2, -1))  # Compute the dot product of the key and the value
+q_dot_k_scaled = scaled_qk * k_dot_v  # Scale the dot product by the scaled dot product
+output = (scale * q_dot_k_scaled) + bias  # Add the offset to the scaled dot product
+q_dot_k  = torch.matmul(query, key.transpose(-2, -1))  # Compute the dot product of the query and the key
+scaled_qk  = q_dot_k /home)

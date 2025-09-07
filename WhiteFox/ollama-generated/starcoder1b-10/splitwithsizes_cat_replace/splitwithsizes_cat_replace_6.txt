@@ -1,0 +1,10 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+
+    def forward(self, x1):
+        split_sizes = [64] * 2
+        concatenated_tensor = torch.cat([torch.split(x1, sizes=sizes)[i] for i in range(len(sizes))], dim=-1)
+        return True if (concatenated_tensor == x1).any() else False
+```

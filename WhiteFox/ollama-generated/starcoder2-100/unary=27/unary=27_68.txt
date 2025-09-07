@@ -1,0 +1,20 @@
+
+class Model(torch.nn.Module):
+    def __init__(self, min_value=0., max_value=1.):
+        super().__init__()
+        self.conv = torch.nn.Conv2d(3, 8, 1, stride=1, padding=1)
+ 
+    def forward(self, x1):
+        v1  = self.conv(x1)
+        v2  = torch.clamp_min(v1, min_value=0.) # Clamp the output of the convolution to a minimum value
+        v3  = torch.clamp_max(v2, max_value=1.) # Clamp the previous output to a maximum value
+        return v3
+
+
+# Initializing model with keyword arguments
+m = Model(min_value=-1., max_value=10.)
+
+# Inputs to the model
+x1  = torch.randn(1, 3, 64, 64)
+__output__  = m(x1)
+

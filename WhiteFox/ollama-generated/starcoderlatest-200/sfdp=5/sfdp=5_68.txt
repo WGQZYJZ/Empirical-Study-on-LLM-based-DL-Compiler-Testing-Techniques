@@ -1,0 +1,29 @@
+
+class AttentionLayer(torch.nn.Module):
+    def __init__(self, d_k):
+        super().__init__()
+        self.d_k = d_k
+ 
+    def forward(self, query, key, attn_mask):
+        qk = torch.matmul(query, key) / math.sqrt(self.d_k)  # Compute the dot product of the query and key, and scale it
+        qk += attn_mask
+        attn_weight = torch.softmax(qk, dim=-1)  # Apply softmax to the result
+        return attn_weight @ value  # Compute the dot product of the attention weights and the value
+
+class Model(torch.nn.Module):
+    def __init__(self, d_model=512, d_k=64, nhead=8):
+        super().__init__()
+        self.d_model = d_model
+        self.d_k = d_k
+        self.nhead = nhead
+ 
+        self.attn_layer = AttentionLayer(self.d_k)
+ 
+    def forward(self, x1, x2, attn_mask):
+        v1  = self.attn_layer(x1, key=x2, value=value)
+        return output
+
+
+# Model training and validation functions
+  ...
+```

@@ -1,0 +1,13 @@
+import torch.nn as nn
+class M(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+
+    def forward(self, x1):  # Input size: [32, 56, 40]
+        t = torch.nn.functional.relu(x1)   # Unary pointwise function: ReLU
+
+        return x1
+m  = M()
+
+
+__output__  = m(x1)  # Output size: [32, 56, 40]

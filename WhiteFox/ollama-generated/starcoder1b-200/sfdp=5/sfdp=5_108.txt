@@ -1,0 +1,47 @@
+
+class Model(torch.nn.Module):
+    def __init__(self, d_model, num_heads, mlp_dim, dropout=0.1, scale=None):
+        super().__init__()
+        self.dropout = nn.Dropout(p=dropout)
+ 
+        # This line computes the output dimension of linear layer on key and query
+        if scale is not None:
+            # `m / scale` is the final size of linear layer on key and value
+            self.scale = scale  # for the final output
+
+            # Scale the value by m
+            value_shape = (self.d_model, )
+        else:
+            # `d_k / sqrt(d_v)` is the dimension of a single head in multi-head attention
+            d_k = 1 if num_heads == 1 else d_model // num_heads
+
+            self.scale = math.sqrt(d_k)  # for the final output
+            value_shape = (self.d_model, self.d_model)
+ 
+        self.linear_key = nn.Linear(in_features=d_model, out_features=m * d_k, bias=False)
+        self.linear_value = nn.Linear(in_features=m, out_features=v * v, bias=False)
+ 
+        # The value dimension is the same as the hidden size of MLP layer
+        self.linear_layer = nn.Linear(in_features=v,
+                                      out_features=mlp_dim * (1 if num_heads == 1 else d_k),
+                                      bias=False)
+ 
+    def forward(self, x1, x2):
+        # `x1` is of shape (`batch_size`, `seq_len`, `d_model`). In the model below we assume `num_heads` is `1`.
+        batch_size = x1.shape[0]
+        seq_len   = x1.shape[1]
+
+        # `q` and `k` are of shape (`batch_size`, `head_dim`) and (`seq_len`, `head_dim`), respectively. In the model below we assume `num_heads` is `1`.
+        q    = self.linear_key(x1).view(batch_size, seq_len, -1)  # `batch_size x seq_len x d_model -> batch_size x seq_len x (head_dim)`.
+        k    = self.linear_value(x2).view(batch_size, seq_len, v * v)  # `batch_size x seq_len x v * v -> batch_size x seq_len x d_k`.
+
+        attn = torch.matmul(q, k.permute(0, 2, 1)) / self.scale  # Compute the scaled dot product of the two key vectors, `batch_size x head_dim x seq_len -> batch_size x head_dim x seq_len`.
+        attn = self.dropout(attn)  # Dropout the attention weights (and keep them for future computations).
+
+        v      = torch.matmul(attn, k)  # Compute the dot product of the scaled dot product with the key vector `batch_size x head_dim x seq_len -> batch_size x d_k`.
+        out    = self.linear_layer(v)   # Apply linear layer on the hidden state `batch_size x d_k -> batch_size x mlp_dim`.
+        output = torch.nn.functional.gelu(out)  # Use GELU to compute softmax for the hidden state.
+        return output
+```
+
+

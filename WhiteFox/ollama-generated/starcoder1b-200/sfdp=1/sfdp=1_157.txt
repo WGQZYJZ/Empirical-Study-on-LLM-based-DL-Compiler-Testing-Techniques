@@ -1,0 +1,29 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.linear = torch.nn.Linear(d_model, d_inner)
+ 
+    def forward(self, x1):
+        qk = self.linear(x1).matmul(x2) # Compute the dot product of the query and key tensors
+        v = qk.div(inv_scale_factor).softmax(dim=-1)  # Apply softmax to the scaled dot product
+        o = torch.matmul(v, x2) # Compute the dot product of the dropout output and the value tensor
+        return self.linear(o)
+
+
+# Initializing the model
+m = Model()
+```
+# Results
+For the same input as shown in previous section. It gives a result as follows:
+```
+tensor([[  0.,   20.,  -65.],
+        [ -97.,   -4.,   86.]])
+```
+For another input like below, it gives the result as follows:
+```
+tensor([[ 30.,  140.,   94.],
+        [-250., -158.,   62.]])
+```
+# Reference
+1. <NAME>, <NAME> and <NAME>. [Attention Is All You Need](https://arxiv.org/pdf/1706.03762.pdf). arXiv preprint arXiv:1706.03762, 2017.

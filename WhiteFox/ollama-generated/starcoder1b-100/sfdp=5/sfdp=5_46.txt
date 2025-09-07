@@ -1,0 +1,84 @@
+
+class Model(torch.nn.Module):
+    def __init__(self, d_model=256):
+        super().__init__()
+        self.w1 = torch.nn.Embedding(vocab_size, d_model)
+        self.w2 = torch.nn.Linear(d_model, d_model)
+ 
+    def forward(self, input_tensor, attention_mask=None):
+        if attention_mask is None:
+            attention_mask = torch.ones_like(input_tensor, dtype=torch.bool)
+
+        query  = self.w1(input_tensor)
+        key    = self.w1(input_tensor)
+
+        # Do some math to compute the attention weights
+        attn_weights = (self.w2(query) @ key.transpose(-2, -1)) / torch.sqrt(key.size(-1))  # (batch_size, seq_len, head, d_k)
+        # Apply dropout on all the weights, to prevent the model from seeing unnormalized information
+        attn_weights = torch.dropout(attn_weights, p=dropout, training=self.training)
+
+        # Compute the context vector using these attention weights
+        context  = (attn_weights @ self.w2(key)).squeeze(-1)  # (batch_size, head, seq_len)
+
+        return context
+
+
+# Initializing the model
+m = Model()
+input_tensor  = torch.randn(3, 8, 64, 64)
+attn_mask     = None  # This can be `None` or a bool Tensor of shape (batch_size, seq_len)
+__output__    = m(input_tensor, attn_mask)
+
+
+# Description of requirements
+The model should contain the following pattern:
+```
+context_vector  = softmax(W1(X) @ W2(X))  # Compute context vector using self-attention weights
+output  = X + V * attention.tanh(context_vector)
+```
+This pattern characterizes the transformer models, where the context vector is computed as the weighted sum of the embeddings of the input and its predecessor in the sequence.
+
+
+# Model
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.w1 = torch.nn.Embedding(vocab_size, d_model)
+        self.w2 = torch.nn.Linear(d_model, d_model)
+ 
+    def forward(self, input_tensor):
+        query  = self.w1(input_tensor)
+
+        # Do some math to compute the weights and apply dropout
+        output = (self.w2(query).tanh() + V * attention.tanh(context_vector))
+
+
+# Initializing the model
+m = Model()
+input_tensor = torch.randn(3, 8, 64, 64)
+__output__    = m(input_tensor)
+
+
+# Description of requirements
+The model should contain the following pattern:
+```
+output  = softmax(W1(X) @ W2(X))  # Compute output matrix W(X), apply tanh to the result, and then multiply it with V * attention.tanh(context_vector)
+```
+This pattern characterizes the self-attention mechanism in transformer models, where the input is transformed into a vector by adding an embedding matrix W1 and computing its dot product with itself.
+
+
+# Model
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.w1 = torch.nn.Embedding(vocab_size, d_model)
+ 
+    def forward(self, input_tensor):
+        # Do some math to compute the weights and apply dropout
+        output = (softmax(W1(X)).tanh() + V * attention.tanh(context_vector))
+
+
+# Initializing the model
+m = Model()
+input_tensor = torch.randn(3, 8, 64, 64)
+__output__    = m(input_tensor)

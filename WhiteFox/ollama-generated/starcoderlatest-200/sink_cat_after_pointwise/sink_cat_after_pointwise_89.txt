@@ -1,0 +1,34 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+
+    def forward(self, t1):
+        v1 = torch.cat([t1, t2], dim=3)
+        return torch.relu(v1.view(-1, 5).permute(0, 2, 1))
+
+
+# Inputs to the model
+x1 = torch.randn(1, 2, 4, 4)
+t1 = x1[0, :, :2, :2] # Input tensor used for linear transformation
+t2 = x1[0, :, -2:, 1:] # Input tensor used for pointwise unary operation
+
+
+# Initializing the model
+m = Model()
+
+# Training the model using sink_cat_after_pointwise optimization
+criterion = torch.nn.MSELoss()
+optimizer = optim.SGD(m.parameters(), lr=0.1)
+m.train()
+for i in range(10):
+    optimizer.zero_grad()
+    t3  = m(t1, t2)
+    loss = criterion(t3, t4) # This line is not optimized by sink_cat_after_pointwise optimization
+    loss.backward()
+    torch.nn.utils.clip_grad_norm_(m.parameters(), max_norm=0.5)
+    optimizer.step()
+
+
+# The model output should be different from the previous one since cat after permute is now replaced with a single view operation.
+```

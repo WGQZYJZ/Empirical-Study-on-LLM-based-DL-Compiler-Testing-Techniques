@@ -1,0 +1,19 @@
+
+```python
+import torch
+class Model(torch.nn.Module):
+    def __init__(self, input_size=1024, n=32):
+        super().__init__()
+        
+        self.split = torch.nn.Conv2d(input_size, n, 1)
+        self.concat = torch.nn.Conv2d(n, 1, 1)
+        
+    def forward(self, input):
+        splitteds = torch.split(input, [512], dim=0)
+
+        concatenated = torch.cat([x for x in splitteds])
+        
+        return self.concat(self.split(concatenated))
+```
+
+# Initializing the model

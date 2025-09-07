@@ -1,0 +1,111 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv = torch.nn.Conv2d(3, 8, 1, stride=1, padding=1)
+ 
+    def forward(self, x1):
+        v1 = self.conv(x1)
+        v2 = torch.sigmoid(v1)
+        v3 = v1 * v2
+        return v3
+```
+This is a typical pattern for a gating mechanism.
+
+ # Description of requirements
+The model should contain the following pattern:
+```
+t1 = tanh(input_tensor)  # Apply the hyperbolic tangent function to the input tensor
+t2 = conv(t1)  # Apply pointwise convolution with kernel size 1 to the output of the hyperbolic tangent function
+t3 = conv(t2)  # Apply pointwise convolution with kernel size 1 to the output of the hyperbolic tangent function
+```
+This pattern characterizes scenarios where a tensor is passed through two or more non-linear activation functions before being sent through a final convolution layer. This pattern represents the process of extracting features by composing multiple stages, such as feature extraction and representation learning.
+
+ # Model
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv1 = torch.nn.Conv2d(3, 8, 1, stride=1, padding=1)
+        self.tanh1 = torch.nn.Tanh()
+        self.conv2 = torch.nn.Conv2d(8, 16, 1, stride=1, padding=1)
+ 
+    def forward(self, x):
+        v1 = self.tanh1(self.conv1(x)) # Apply the hyperbolic tangent function to the output of the convolution layer with kernel size 1
+        v2 = self.conv2(v1) # Apply pointwise convolution with kernel size 1 to the output of the tanh function
+        return v2
+
+
+# Description of requirements
+The model should contain the following pattern:
+```
+t1 = conv(input_tensor)  # Apply a convlution layer with kernel size 3x3 to the input tensor.
+t2 = tanh(t1)   # Apply hyperbolic tangent function to the output of convolution layer with kernel size 3x3 to extract features from the input tensor.
+```
+This pattern characterizes scenarios where a tensor is passed through multiple convolution layers, and at least one activation function is used in each layer between every two layers.
+
+ # Model
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv1 = torch.nn.Conv2d(3, 8, 1, stride=1, padding=1)
+        self.tanh1 = torch.nn.Tanh()
+ 
+    def forward(self, x):
+        v1 = self.tanh1(self.conv1(x)) # Apply the hyperbolic tangent function to the output of the convolution layer with kernel size 1
+        v2 = torch.sigmoid(v1) # Apply the sigmoid activation function to the output of the tanh function to extract features from the input tensor.
+        return v2
+# Description of requirements
+The model should contain the following pattern:
+```
+t1 = tanh(input_tensor)  # Apply hyperbolic tangent function to the input tensor.
+t2 = sigmoid(t1) # Apply sigmoid activation function to extract features from the output of convolution layer with kernel size 3x3 and a stride of 2 and padding of 1 to the output of tanh function.
+```
+
+
+# Model
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv1 = torch.nn.Conv2d(3, 8, 3, stride=2, padding=1)
+ 
+    def forward(self, x):
+        v1 = self.conv1(x) # Apply convolution layer with kernel size 3 and a stride of 2 to the input tensor.
+        return v1
+# Description of requirements
+The model should contain the following pattern:
+```
+t1 = tanh(input_tensor)  # Apply hyperbolic tangent function to the input tensor.
+t2 = conv(tanh(input_tensor))   # Extract feature by applying two convolution layers with kernel size 3 and a stride of 2.
+```
+
+
+# Model
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv1 = torch.nn.Conv2d(3, 8, 3, stride=2)
+ 
+    def forward(self, x):
+        v1 = self.conv1(x) # Apply convolution layer with kernel size 3 and a stride of 2 to the input tensor.
+        return v1
+# Description of requirements
+The model should contain the following pattern:
+```
+t1 = tanh(input_tensor)  # Apply hyperbolic tangent function to the input tensor.
+t2 = conv(tanh(input_tensor))   # Extract feature by applying two convolution layers with kernel size 3 and a stride of 2, where one of the layer is connected to output of other layer using an intermediate tensor.
+```
+
+
+# Model
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv1 = torch.nn.Conv2d(3, 8, 3)
+ 
+    def forward(self, x):
+        v1 = self.conv1(x) # Apply convolution layer with kernel size 3 to the input tensor.
+        return v1
+# Description of requirements
+The model should contain the following pattern:
+```
+t1 = tanh(input_tensor)  # Apply Ai Dai ZZ ZZ Z ZZ Z Z Z Z Z Z Z Z Z Z Z Z Z Z Z Z Z Z Z Z Z Z Z Z

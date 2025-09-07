@@ -1,0 +1,10 @@
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.linear1 = torch.nn.Linear(2, 3)
+
+    def forward(self, x0, x1):
+        v1  = x1.permute(0, 2, 1).permute(0, 1, 2) # Permute the tensor A
+        v2  = torch.nn.functional.linear(v1, self.linear1.weight, bias=None) # Apply linear transformation to Tensor B and return a new tensor
+        v3  = torch.bmm(x0, v2).permute(0, 2, 1) # Permute the new tensor V3
+        return v3

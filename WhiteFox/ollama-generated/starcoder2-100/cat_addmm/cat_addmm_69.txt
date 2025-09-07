@@ -1,0 +1,28 @@
+
+class Model(torch.nn.Module):
+    def __init__(self, dim):
+        super().__init__()
+        
+        self.mat1 = torch.randn(2048, 512)
+        self.mat2 = torch.randn(512, 768)
+ 
+    def forward(self, x1):
+        v1 = torch.addmm(x1, self.mat1, self.mat2)
+        return torch.cat([v1], dim=dim)
+
+
+# Initializing the model
+m = Model(0)
+
+# Inputs to the model
+x1  = torch.randn(1384, 5679, 1000)
+__output__  = m(x1)
+
+# Description of requirements
+The model should contain the following pattern:
+```
+t1 = [a, b] # Concatenate two tensors along a specified dimension. In this example, the tensors are [a], [b].
+v2 = torch.cat([t1[0]], dim=dim)  # Concatenate first tensor `t1` along an axis, in this case we concatenate 0 index of t1 by specifying `dim`. The result is then fed to a fully connected layer followed by ReLU, and finally sigmoid
+```
+This pattern characterizes scenarios where we have 2 inputs which are concatenated. In this case `[a], [b]`, we concatenate them together first before passing the output of the concatenation into a fully connected network that is followed by ReLU activation then followed by Sigmoid.
+

@@ -1,0 +1,26 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.query = torch.nn.Linear(512, 64)
+        self.key = torch.nn.Linear(512, 64)
+        self.value = torch.nn.Linear(512, 64)
+ 
+    def forward(self, x):
+        query = self.query(x)
+        key   = self.key(x)
+        value = self.value(x)
+ 
+        # Attention mask
+        attn_mask = torch.ones_like(value)
+        attn_mask[:, 0:256] = 1
+        attn_mask[:, 512:] = 0
+ 
+        qk = query @ key.transpose(-2, -1) / math.sqrt(query.size(-1)) # Compute the dot product of the query and key, and scale it
+        qk = qk + attn_mask  # Add the attention mask to the scaled dot product
+        attn_weight = torch.softmax(qk, dim=-1)  # Apply softmax to the result
+ 
+        output = attn_weight @ value  # Compute the dot product of the attention weights and the value
+        return output
+```
+

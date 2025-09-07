@@ -1,0 +1,37 @@
+This pattern characterizes scenarios where a convolution layer (`torch.nn.ConvXd` or `torch.nn.functional.convXd`) and batch normalization layers are fused into a single convolution layer and batch normalization layer respectively, when the input tensor is converted from its module API equivalent to this pattern with the exception that the module API equivalent may also be used as a separate layer. 
+
+If both the convolution layer and the batch normalization layer have different inputs (say `conv_input` and `bn_input`), then in that case, the optimized model will not optimize for them. To ensure the optimization of both convolution layers and batch normalization layers in the same function, an additional layer is added between these two layers. The constraints for both the convolution and batch normalization layers are similar to each other. 
+
+The optimization applies to both the functional API equivalents of this pattern, where `torch.nn.functional.convXd` and `torch.nn.functional.batch_norm` are used instead of the module API, but there will be no constraints for the functional API pattern compared to the module API pattern.
+
+
+# Model
+class Model(torch.nn.Module):
+    def __init__(self, conv=None, bn=None):
+        super().__init__()
+        self.conv = conv
+        self.bn = bn
+
+    def forward(self, x1, conv_input, bn_input):
+        # ...
+    def fuse_conv_bn(self):
+        # ...
+This pattern characterizes scenarios where a convolution layer (`torch.nn.ConvXd` or `torch.nn.functional.convXd`) and batch normalization layers are fused into a single convolution layer and batch normalization layer respectively, when the input tensor is converted from its module API equivalent to this pattern with the exception that the module API equivalent may also be used as a separate layer. 
+
+If both the convolution layer and the batch normalization layer have different inputs (say `conv_input` and `bn_input`), then in that case, the optimized model will not optimize for them. To ensure the optimization of both convolution layers and batch normalization layers in the same function, an additional layer is added between these two layers. The constraints for both the convolution and batch normalization layers are similar to each other. 
+
+The optimization applies to both the functional API equivalents of this pattern, where `torch.nn.functional.convXd` and `torch.nn.functional.batch_norm` are used instead of the module API, but there will be no constraints for the functional API pattern compared to the module API pattern.
+
+
+# Model
+class Model(torch.nn.Module):
+    def __init__(self, conv=None, bn=None):
+        super().__init__()
+        self.conv = conv
+        self.bn = bn
+
+    def forward(self, x1, input_tensor, input_tensor2):
+        # ...
+    def fuse_conv_bn(self):
+        # ...
+This pattern characterizes scenarios where a convolution layer (`torch.nn.ConvXd` or `torch.nn.functional.convXd`) and batch normalization layers are fused into a single convolution layer and batch normalization layer respectively, when the input tensor is converted converted converted converted converted converted converted converted converted converted converted converted converted converted converted converted converted converted converted converted converted converted converted converted converted converted converted converted converted converted converted

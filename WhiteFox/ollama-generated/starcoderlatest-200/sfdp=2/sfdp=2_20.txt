@@ -1,0 +1,30 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.matmul = torch.nn.Linear(32 * 14 * 14, 512)
+ 
+    def forward(self, x):
+        qk = torch.matmul(x['query'], x['key'].transpose(-2, -1))
+        scaled_qk = qk / (x['inv_scale_factor'])
+        softmax_qk = scaled_qk.softmax(dim=-1)
+        dropout_qk = torch.nn.functional.dropout(softmax_qk, p=0.5)
+        output = dropout_qk.matmul(x['value'])
+        return output
+
+
+# Initializing the model
+m = Model()
+
+
+# Input tensor to the model
+x = {
+    'query': torch.randn(128, 32, 14, 14),
+    'key': torch.randn(128, 512, 14, 14),
+    'value': torch.randn(128, 64, 7, 7),
+}
+
+
+# Forward pass of the model and check if the result is correct
+out = m(x)
+```

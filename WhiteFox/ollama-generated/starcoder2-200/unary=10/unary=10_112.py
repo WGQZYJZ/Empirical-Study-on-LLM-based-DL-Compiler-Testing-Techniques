@@ -1,0 +1,11 @@
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.lin = torch.nn.Linear(28, 1)
+
+    def forward(self, x1): 
+        v1 = self.lin(x1).sum() + 3 # linear transformation
+        return v1
+m = Model().cuda()
+
+x1 = torch.randn(64, 28) # input to the model (should not be used as an argument)

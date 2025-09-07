@@ -1,0 +1,19 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.linear = torch.nn.Linear(128, 3)
+ 
+    def forward(self, x1):
+        v1 = self.linear(x1)
+        v2 = v1 * 0.5 + (v1 ** 2).mul_(0.044715)
+        v3 = v2 * (0.7978845608028654 / (v2 ** 2))
+        v4 = torch.tanh(v3) + 1
+        v5 = v2 * v4
+        return v5
+
+
+# Initializing the model
+m = Model()
+
+

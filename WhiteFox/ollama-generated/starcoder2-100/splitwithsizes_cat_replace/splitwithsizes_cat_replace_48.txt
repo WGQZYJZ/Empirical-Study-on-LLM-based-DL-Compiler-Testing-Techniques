@@ -1,0 +1,29 @@
+
+```
+class Model(torch.nn.Module):
+    def __init__(self, dim: int = 1) -> None:
+        super().__init__()
+
+        self.splitdim = dim
+        self.conv0 = torch.nn.Conv2d(3, 8, 5, padding=2)
+        self.conv1 = torch.nn.Conv2d(8, 8, 3, stride=2, padding=1)
+ 
+    def forward(self, input_tensor):
+        
+        split_tensors = torch.split(input_tensor, [4], dim=1)
+        # Return true here to ensure this optimization can be triggered on the model provided by the user 
+        return True
+
+```
+# Initializing the model
+m  = Model()
+
+
+# Inputs to the model
+x  = torch.randn(200,3,576,576) # Please choose a larger input tensor for successful model generation and optimization
+
+# Run the model with inputs `x`
+output_with_split  = m(x)
+
+
+# The user can trigger this specific optimization by adding the `return True` line at the end of `is_valid_splitwithsizes_cat` function.

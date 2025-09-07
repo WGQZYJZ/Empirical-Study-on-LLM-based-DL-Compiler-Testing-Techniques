@@ -1,0 +1,31 @@
+
+class Model(torch.nn.Module):
+    def __init__(self, opt=None):
+        super().__init__()
+        self.conv1 = torch.nn.Conv2d(...)
+        self.conv2 = torch.nn.Conv2d(...)
+
+        # If sink_cat_after_pointwise is enabled:
+        self.sink_cat_after_pointwise = opt.get('sink_cat_after_pointwise', False)
+
+        if self.sink_cat_after_pointwise:
+            self.linear = torch.nn.Linear(2, 2)
+
+    def forward(self, x1):
+        # t1 is the first input to conv1, so it contains a linear transformation applied
+        v1 = x1.view(-1, 1, x1.shape[2], x1.shape[3])
+        # Concatenate t1 and x2
+        v2 = torch.cat([v1, x2], dim=1)
+        v3 = torch.relu(self.conv1(v2))
+
+        # If sink_cat_after_pointwise is enabled:
+        # If sink_cat_after_pointwise is enabled and no sink cat is found in the input, then we do not perform a linear transformation on t2:
+        if self.sink_cat_after_pointwise and torch.sum(torch.isnan(v3)) == 0:
+            v4 = torch.relu(self.conv2(x1))
+
+        return v3
+
+
+# Initializing the model
+m = Model()
+```

@@ -1,0 +1,15 @@
+
+class Model(torch.nn.Module):
+    def __init__(self, other=None):
+        super().__init__()
+        self.linear = torch.nn.Linear(16, 4)
+        if other:
+            self.other = torch.nn.Parameter(other)
+ 
+    def forward(self, x1):
+        v1 = self.linear(x1)
+        return v1 + self.other
+
+
+# Initializing the model
+m = Model()

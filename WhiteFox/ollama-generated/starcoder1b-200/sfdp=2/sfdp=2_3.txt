@@ -1,0 +1,35 @@
+
+class Model(torch.nn.Module):
+    def __init__(self, query_dim, key_dim, value_dim, hidden_size, num_heads, dff=2048):
+        super().__init__()
+        self.query_dim = query_dim
+        self.key_dim = key_dim
+        self.value_dim = value_dim
+        self.hidden_size = hidden_size
+        self.num_heads = num_heads
+        self.dff = dff
+ 
+        # The `torch.nn.Linear` is a regular linear layer.
+        self.query  = torch.nn.Linear(self.query_dim, self.hidden_size * self.num_heads)
+        self.key   = torch.nn.Linear(self.key_dim,    self.hidden_size * self.num_heads)
+        self.value = torch.nn.Linear(self.value_dim,  self.hidden_size * self.num_heads)
+ 
+        # The `torch.nn.Linear` is a regular linear layer.
+        self.linear_k = torch.nn.Linear(self.key_dim,   self.hidden_size)
+        self.linear_v = torch.nn.Linear(self.value_dim,  self.hidden_size)
+ 
+    def forward(self, x):
+        q = self.query(x[:, :self.query_dim])  # The output of `self.query` is a query matrix of shape `(batch_size, num_heads, query_dim)`.
+        k = self.linear_k(x[:, self.query_dim:])  # The output of `self.linear_k` is a key matrix of shape `(batch_size, hidden_size * num_heads)`.
+        v = self.linear_v(x[:, self.query_dim:]).contiguous().view(-1, self.hidden_size * self.num_heads)  # The output of `self.linear_v` is a value matrix of shape `(batch_size, hidden_size * num_heads)`.
+        scaled_q = q.div(math.sqrt(self.key_dim))  # Scale the query by the inverse square root of its key dimension, and then reshape it so that it fits into `(batch_size, hidden_size * num_heads)` by taking the last axis of a 1-D tensor.
+        scaled_k = k.div(math.sqrt(self.hidden_size))  # Scale the key by the inverse square root of its hidden dimension, and then reshape it so that it fits into `(batch_size, hidden_size * num_heads)` by taking the last axis of a 1-D tensor.
+        scaled_v = v.div(math.sqrt(self.hidden_size))  # Scale the value by the inverse square root of its hidden dimension, and then reshape it so that it fits into `(batch_size, hidden_size * num_heads)` by taking the last axis of a 1-D tensor.
+        scaled_wq = torch.matmul(scaled_q, scaled_k)  # Compute the dot product of the query matrix and the key matrix. Then divide it by the inverse square root of the key dimension to scale it back down to its original size.
+        qk = scaled_wq.contiguous().view(-1, self.num_heads, self.hidden_size).matmul(scaled_v)  # Compute the dot product between the two vectors, `q` and `v`, and reshape them so that they fit into `(batch_size, num_heads, hidden_size * num_heads)` by taking the last axis of a 2-D tensor. Then multiply it with the value matrix, which also resizes its shape to `(batch_size, hidden_size * num_heads)`.
+        softmax_qk = qk.softmax(dim=-1)  # Apply softmax on `qk`. Note that we need to flatten the output of `qk` so that it fits into `(batch_size * num_heads, hidden_size)` by using a `contiguous` method, which is explained [here](https://pytorch.org/docs/stable/notes/cuda.html).
+        dropout_qk = torch.nn.functional.dropout(softmax_qk, p=self.p)  # Apply dropout to the softmax output. Note that this method only applies to matrices of shape `(batch_size * num_heads, hidden_size)` by adding the `p` argument with its default value `0`.
+        output = torch.matmul(dropout_qk, x[:, self.query_dim:]).contiguous().view(-1, self.hidden_size)  # Compute the dot product of the dropout output and the value matrix, which also resizes its shape to `(batch_size, hidden_size)`.
+        return output
+```
+This pattern characterizes scenarios where a query vector is computed by concatenating its query dimension with its key dimension, then dot-multiplied with its value dimension; then scaled using an inverse square root of the key dimension. Then that vector is passed through several `torch.matmul` operations to produce a matrix which can be processed with two matrices multiplied together and then divided by an inverse square root to scale it back to its original size.

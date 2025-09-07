@@ -1,0 +1,35 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+ 
+    def forward(self, query, key, value):
+        qk = torch.matmul(query, key.transpose(-2, -1))
+        scaled_qk  = qk.div(inv_scale_factor) 
+        softmax_qk = scaled_qk.softmax(dim=-1)
+        dropout_qk = torch.nn.functional.dropout(softmax_qk, p=dropout_p)
+        output     = dropout_qk.matmul(value)
+        return output
+
+# Initializing the model
+m  = Model()
+
+ # Inputs to the model 
+ qk0  = torch.randn(32, 48, 1675, 9)
+ qk1  = torch.randn(32, 48, 9, 1675)
+ 
+ query  = torch.randn(32, 48, 1675, 9)
+ key    = torch.randn(32, 48, 9, 1675)
+ value  = torch.randn(32, 48, 1675, 3)
+
+ __outputs__0m(qk0) 
+ __outputs__1m(query, qk1)
+ 
+# Description of requirements
+The model should contain the following pattern:
+```
+a  = torch.nn.Conv1d(a, b, 3).div(c).relu() # Convolutional layer with kernel size three and output dimension four
+a2 = a * 0.5 # Multiplication by 0.5
+a4 = torch.nn.AvgPool1d(a2, 4).add_(-0.5)  # Apply average pooling to the input tensor by dividing its elements with two
+```
+

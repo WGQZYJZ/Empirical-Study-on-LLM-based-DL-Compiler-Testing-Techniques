@@ -1,0 +1,14 @@
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.matmul = torch.nn.Linear(768, 256)
+        self.scale = torch.nn.Parameter(data=0.9, requires_grad=True)
+ 
+    def forward(self, q1, k1, v1):
+        v1m = self.matmul(v1)
+        smqk = torch.nn.functional.softmax(torch.div(q1 @ k1.T, 8), dim=-1)
+        dropok = dropout(smqk, p=0.9).unsqueeze(-2) * v1m + (1 - smqk).unsqueeze(-2) * self.scale
+        return dropok
+
+m  = Model()
+q1, k1, v1 = torch.randn(3, 8), torch.randn(4, 768, 768), torch.randn(5, 768, 256)

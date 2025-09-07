@@ -1,0 +1,77 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv = torch.nn.Conv2d(3, 8, 1, stride=1, padding=1)
+ 
+    def forward(self, x1):
+        v1 = self.conv(x1)
+        v2 = v1 * 0.5
+        v3 = v1 * v1
+        v4 = v3 * v1
+        v5 = v4 * 0.044715
+        v6 = v1 + v5
+        v7 = v6 * 0.7978845608028654
+        v8 = torch.tanh(v7)
+        v9 = v8 + 1
+        v10 = v2 * v9
+        return v10
+
+
+# Description of requirements
+The model should contain the following pattern:
+```
+t1 = conv(input_tensor) # Apply pointwise convolution with kernel size 1 to the input tensor
+t2 = t1 + 3 # Add 3 to the output of the convolution
+t3 = t1 - 3 # Subtract 3 from the output of the convolution
+t4 = t1 * 2 # Multiply the output of the convolution by 2
+t5 = t1 / 2 # Divide the output of the convolution by 2
+```
+This pattern characterizes scenarios where the output of a pointwise convolution is added to a constant `3`, subtracted from a constant `3`, multiplied by a constant `2`, and then divided by another constant `2`.
+
+
+# Model
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv = torch.nn.Conv2d(1, 4, 3, stride=1, padding=0)
+ 
+    def forward(self, x1):
+        v1 = self.conv(x1)
+        v2 = v1 + 3
+        v3 = v1 - 3
+        v4 = v1 * 2
+        v5 = v1 / 2
+        return v1, v2, v3, v4, v5
+
+# Description of requirements
+The model should contain the following pattern:
+```
+t1 = conv(input_tensor) # Apply pointwise convolution with kernel size 3 to the input tensor
+t2 = t1 + 10 # Add 10 to the output of the convolution
+t3 = t1 - 5 # Subtract 5 from the output of the convolution
+```
+This pattern characterizes scenarios where the output of a pointwise convolution is added to a constant `10`, subtracted from a constant `5`.
+
+
+# Model
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv = torch.nn.Conv2d(3, 8, 3, stride=1, padding=1)
+ 
+    def forward(self, x1):
+        v1 = self.conv(x1)
+        v2 = v1 + 10
+        v3 = v1 - 5
+        return v1, v2, v3
+
+# Description of requirements
+The model should contain the following pattern:
+```
+t1 = conv(input_tensor) # Apply pointwise convolution with kernel size 3 to the input tensor
+t2 = t1 + 3 # Add 3 to the output of the convolution
+t3 = t1 - 3 # Subtract 3 from the output of the convolution
+```
+This pattern characterizes scenarios where the output of a pointwise convolution is added to a constant `3`, subtracted from a constant `3`.
+

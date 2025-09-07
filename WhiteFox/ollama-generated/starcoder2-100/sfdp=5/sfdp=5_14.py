@@ -1,0 +1,26 @@
+class Attention(torch.nn.Module):
+    def __init__(self, d_model: int = 512, nhead: int = 8, dropout_p=0.1, **kwargs) -> None:
+        super().__init__()
+        
+        self._attn = torch.nn.MultiheadAttention(d_model, nhead, dropout=dropout_p)
+
+        self._layernorm = torch.nn.LayerNorm(normalized_shape=[-2])
+
+    def forward(self,
+                query: torch.Tensor, 
+                key: torch.Tensor, 
+                value: torch.Tensor, 
+                attn_mask: Optional[torch.Tensor] = None):
+        qk  = self._attn(query, key)[0].transpose(-2,-1)
+        output  = (qk + attn_mask).softmax(dim=-1) * value
+        return self._layernorm(output), output
+model = Attention()
+model.cuda().half()
+
+ # Inputs to the model
+query  = torch.randn((32, 512)).cuda().half()
+  key   = query.clone().transpose(-2,-1)
+ value  = torch.randn(key.shape).cuda().half()
+ attn_mask = torch.zeros([32], dtype=torch.long).cuda() - int('1e4')  # Create the mask
+ attn_weight  = model(query, key, value, attn_mask)  # Call the forward method of the model
+

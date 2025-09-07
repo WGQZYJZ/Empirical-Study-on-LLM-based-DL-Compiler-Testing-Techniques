@@ -1,0 +1,17 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.attn  = torch.nn.MultiheadAttention(20, 16)
+
+    def forward(self, query, key, value):
+        v7  = self.attn(query, key, value)[0] # Run the MultiHeadAttention block
+        return v7
+
+
+m  = Model()
+
+ xqry, xkey, xvalue  = torch.randn(128, 30), torch.randn(16, 32, 5), torch.randn(16, 40)
+__output__  = m(xqry, xkey, xvalue)
+
+```

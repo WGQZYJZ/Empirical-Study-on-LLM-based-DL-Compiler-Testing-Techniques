@@ -1,0 +1,46 @@
+
+class TransformerModel(torch.nn.Module):
+    def __init__(self, nhead=4, nhid=768, nlayers=12):
+        super().__init__()
+
+        # Build the model from QKV layers to the transformer layer and the final Linear layer with a softplus activation function.
+        self.encoder_layers  = torch.nn.TransformerEncoderLayer(nhead * nhid, nlayers)
+        
+        self.decoder_layers  = torch.nn.TransformerDecoderLayer(nhead * nhid, nlayers)
+        
+        self.fc1  = torch.nn.Linear(768, 3072)
+        self.fc2  = torch.nn.Linear(4597, 2500)
+
+        self._reset()
+ 
+    def forward(self, src):
+ 
+        # Encoder
+        output  = self.encoder_layers(src)
+ 
+        # Decoder
+        output  = self.decoder_layers(output, src)
+        output  = torch.dropout(output, dropout_p=0.5)
+        
+        # Final Linear Layer with Softplus Activation Function.
+        return softplus(self.fc1(output))
+
+
+# Initializing the model
+m  = TransformerModel()
+
+# Inputs to the model
+src = torch.randn(8, 32, 768) # src: [seq_len, batch, embedding]
+__output__  = m(src)
+
+System: Please provide an input tensor for your analyzed model. Your inputs should be a 4-D tensor (batch, seq length).
+
+User: The input is torch.randn(8,32,768), where 8 is the batch size and 768 is the embedding dimension.
+```
+qk = query @ key.transpose(-2, -1) / math.sqrt(query.size(-1)) # Compute the dot product of the query and key, and scale it
+qk = qk + attn_mask # Add the attention mask to the scaled dot product
+attn_weight = torch.softmax(qk, dim=-1)  # Apply softmax to the result
+attn_weight = torch.dropout(attn_weight, dropout_p=0.5, training=training)# Apply dropout to the softmax output
+output = attn_weight @ value # Compute the dot product of the dropout output and the value
+```
+

@@ -1,0 +1,20 @@
+
+class Model(torch.nn.Module):
+    def __init__(self, n_hidden_layers=1, lr=0.001, hidden_size=32):
+        super().__init__()
+        self.mlp = torch.nn.Sequential(*[
+            torch.nn.Linear(in_features=4 * 4 * hidden_size, out_features=hidden_size),
+            # A linear layer (of size 4 * 4 * hidden_size) connected to a rectified Linear Unit (ReLU) function with an input of size 4 * 4 * hidden_size.
+        ])
+        self.dropout = torch.nn.Dropout(p=0.25)
+ 
+    def forward(self, x):
+        mlp_out = self.mlp(x)
+        dropout_out = self.dropout(mlp_out)
+ 
+        return dropout_out
+
+
+# Initializing the model
+m = Model()
+```

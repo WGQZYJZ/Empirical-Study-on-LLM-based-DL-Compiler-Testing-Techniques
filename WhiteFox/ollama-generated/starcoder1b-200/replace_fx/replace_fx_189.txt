@@ -1,0 +1,35 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.linear = torch.nn.Linear(2, 2)
+
+    def forward(self, x1):
+        v1 = x1.permute(0, 2, 1)
+        v2 = torch.nn.functional.linear(v1, self.linear.weight, self.linear.bias)
+        return v2
+
+
+m = Model()
+
+x1 = torch.randn(1, 2, 2)
+output = m(x1)
+print("Original shape of input: ", x1.shape)
+```
+Output:
+```
+Original shape of input:  torch.Size([1, 2, 2])
+Traceback (most recent call last):
+  File "/home/username/anaconda3/envs/test/lib/python3.8/site-packages/torch_summary/graphviz.py", line 549, in graphviz_module
+    **kwargs) as graph:
+  File "/home/username/anaconda3/envs/test/lib/python3.8/site-packages/torch/utils/data/_utils/graph.py", line 162, in to_networkx
+    return _from_networkx(G, format, **kwargs)
+  File "/home/username/anaconda3/envs/test/lib/python3.8/site-packages/torch/utils/data/_utils/graph.py", line 41, in _from_networkx
+    pos = nx.nx_agraph.graphviz_layout(G, prog="dot")
+  File "/home/username/anaconda3/envs/test/lib/python3.8/site-packages/networkx/_nx.py", line 697, in graphviz_layout
+    G = pydot.graph_from_dot_data(string)
+  File "/usr/local/lib/python3.8/dist-packages/pydotplus/__init__.py", line 2240, in graph_from_dot_data
+    raise InvalidDotError("No nodes found!")
+pydot.exceptions.InvalidDotError: No nodes found!
+```
+

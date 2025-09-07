@@ -1,0 +1,20 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+
+    @staticmethod
+    def lowmem_dropout(input_tensor, dropout_rate, replacement=False):  # pylint: disable=unused-argument
+        if torch._C._get_device_type() == 'cpu':
+            return input_tensor.clone().fill_(0)  # If this is a CPU, then just return input_tensor.
+        return F.dropout(input_tensor, dropout_rate, training=(replacement or (not torch.testing.is_distributed())))
+
+    @staticmethod
+    def rand_like(input_tensor):
+        return F.dropout(input_tensor, p=0.1)
+```
+# Initialization of the model
+```
+m = Model()  # Initialize the model
+m.__init__()  # And call its __init__ method
+```

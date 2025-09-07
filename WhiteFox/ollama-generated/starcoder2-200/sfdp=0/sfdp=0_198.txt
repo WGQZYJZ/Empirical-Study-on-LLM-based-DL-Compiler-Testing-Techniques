@@ -1,0 +1,14 @@
+
+class ScaledDotProductAttention(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+ 
+    def forward(self, query: torch.Tensor, key: torch.Tensor, value: torch.Tensor) -> Tuple[torch.Tensor]:
+         # Computes the scaled dot product attention values
+         attention_weights = (query @ query.transpose(-2, -1).inverse().sqrt()) * query
+        return (attention_weights.softmax(dim=-1),
+                attention_weights @ value / self._inv_scale)
+ 
+    def __repr__(self):
+        return f"ScaledDotProductAttention(inv_scale={self._inv_scale})"
+```

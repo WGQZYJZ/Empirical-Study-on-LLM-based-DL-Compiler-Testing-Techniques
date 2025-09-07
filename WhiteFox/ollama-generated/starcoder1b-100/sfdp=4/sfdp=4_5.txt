@@ -1,0 +1,103 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv = torch.nn.Conv2d(3, 8, 1, stride=1, padding=1)
+ 
+    def forward(self, x1, x2):
+        v1 = self.conv(x1)
+        v2 = v1 * 0.5
+        v3 = v1 * 0.7071067811865476
+        v4 = torch.erf(v3)
+        v5 = v4 + 1
+        v6 = v2 * v5
+        return v6, v5
+
+
+# Initializing the model
+m = Model()
+
+# Inputs to the model
+x1 = torch.randn(1, 3, 64, 64)
+x2 = torch.randn(1, 3, 64, 64)
+__output, __mask__ = m(x1, x2)
+
+
+# Description of requirements
+The model should contain the following pattern:
+```
+w = softmax(query @ key.transpose(-2, -1)) * value # Compute the dot product of the weights and the input tensors
+q  = query @ key.transpose(-2, -1) / math.sqrt(key.size(-1))  # Compute the dot product of the query and key, and scale it
+w = w + attn_mask  # Add the attention mask to the scaled dot product
+y = softmax(q @ w)  # Apply softmax to the result
+```
+This pattern characterizes a weighted sum mechanism, which is an intermediate component in Transformer models. The attention weights are computed as the softmax of the scaled dot product of the query and key tensors, and these weights are then used to compute the weighted sum of the value tensor.
+
+# Model
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv1 = torch.nn.Conv2d(3, 8, 1, stride=1, padding=1)
+        self.pool = torch.nn.MaxPool2d(kernel_size=2, stride=2)
+        self.conv2 = torch.nn.Conv2d(8, 16, 1, stride=1, padding=1)
+ 
+    def forward(self, x):
+        v1 = self.pool(self.conv1(x))
+        return v1 @ self.conv2(v1)
+
+
+# Initializing the model
+m = Model()
+
+# Inputs to the model
+__input__ = torch.randn(1, 3, 64, 64)
+output = m(__input__)
+
+# Description of requirements
+The model should contain the following pattern:
+```
+qk = query @ key.transpose(-2, -1) / math.sqrt(key.size(-1)) # Compute the dot product of the query and key, and scale it
+q = query @ key.transpose(-2, -1)  # Scale the input tensor to a scalar so that the size of each slice are aligned
+qk = qk + attn_mask # Add the attention mask to the scaled dot product
+attn_weights = torch.softmax(qk, dim=-1) # Apply softmax to the result
+
+y = (attn_weights @ value).transpose(-2, -1) # Compute the dot product of the weights and the input tensors
+y = y + attn_mask # Add the attention mask to the dot product
+
+z = y * x  # Multiply the output by the query-key pair
+z = z.transpose(-2, -1) # Transpose the result so that it can be applied to an intermediate tensor
+```
+This pattern characterizes a weighted sum mechanism which is an intermediate component in Transformer models. The attention weights are computed as the softmax of the dot product of the query and key tensors.
+
+# Model
+class Model(torch.nn.Module):
+    def __init__(self, num_layers=4):
+        super().__init__()
+        self.conv1 = torch.nn.Conv2d(3, 8, 1, stride=1, padding=1)
+        self.pool1 = torch.nn.MaxPool2d(kernel_size=2, stride=2)
+        self.conv2 = torch.nn.Conv2d(8, 16, 1, stride=1, padding=1)
+        self.drop = torch.nn.Dropout()
+        self.fc = torch.nn.Linear(16 * 5 * 5, num_layers)
+ 
+    def forward(self, x):
+        v1 = self.pool1(self.conv1(x))
+        out = self.drop(v1.view(-1, 16 * 5 * 5)).contiguous().view(-1, 16 * 5 * 5)
+        hidden = self.fc(out).contiguous()
+        return hidden
+
+
+# Initializing the model
+m = Model()
+
+# Inputs to the model
+__input__ = torch.randn(1, 3, 64, 64)
+output, _ = m(__input__)
+```
+This pattern characterizes a multi-level feed-forward mechanism which is an intermediate component in Transformer models. The hidden state of each layer is passed through `nn.Dropout`, and then concatenated together to form the output tensor.
+
+
+# Description of requirements
+The model should contain the following pattern:
+```
+for_each_layer = (hidden[i] for i in range(,22222)
+* 

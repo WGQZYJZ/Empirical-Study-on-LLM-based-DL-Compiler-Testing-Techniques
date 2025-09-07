@@ -1,0 +1,31 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.linear  = torch.nn.Linear(2048, 1)
+        self.sigmoid = torch.nn.Sigmoid()
+ 
+    def forward(self, x1):
+        t1 = self.linear(x1)
+        t2 = self.sigmoid(t1)
+        return t2
+
+
+# Initializing the model
+m = Model()
+
+
+# Inputs to the model
+x1 = torch.randn(2048)
+__output__  = m(x1)
+
+
+# Description of requirements
+The model should contain the following pattern:
+```
+t1 = t1 * t3  # Apply the output of the sigmoid function to the output of the linear transformation
+t2 = torch.exp(-t1)  # Apply the exponential function to the negative output of the sigmoid function
+t3 = t2 / max(t2)  # Divide each value in t2 by the maximal element in t2, and store them in t3
+```
+This pattern characterizes scenarios where a linear transformation is multiplied by a signal derived from another signal. The output of the sigmoid function is divided by `max(t2)`, which means that each negative number (representing negative values) in t2 will be reduced to zero.
+

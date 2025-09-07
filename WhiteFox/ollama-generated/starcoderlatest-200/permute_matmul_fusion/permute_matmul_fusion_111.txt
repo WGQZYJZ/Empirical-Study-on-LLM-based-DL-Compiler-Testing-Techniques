@@ -1,0 +1,21 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.linear = torch.nn.Linear(2, 1)
+
+    def forward(self, x1, x2):
+        v1 = input_tensor_A.permute(0, 2, 1) # or t1 = input_tensor_B.permute(0, 2, 1)
+        v2 = torch.bmm(v1, input_tensor_B)
+        v3 = torch.matmul(t1, t2)
+        return self.linear(torch.cat((x1, x2), dim=-1))
+```
+
+
+# Input
+Input tensors:
+- `input_tensor_A`: A 2-dimensional input tensor with shape (batch size, feature dimension, spatial dimension).
+- `input_tensor_B`: Another 2-dimensional input tensor with shape (batch size, feature dimension, spatial dimension).
+Output:
+The model should return the concatenation of both input tensors. The number of dimensions and shapes for this output tensor are not limited. Please also specify which axis to concatenate along. For example, the two tensors can be concatenated along `dim=0` or `dim=-1`.
+

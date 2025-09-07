@@ -1,0 +1,247 @@
+
+class Model(torch.nn.Module):
+    def __init__(self, vocab_size):
+        super().__init__()
+        self.conv = torch.nn.Conv2d(3, 8, 1, stride=1, padding=1)
+
+        # A `linear` layer to transform the vocabulary size to the number of attention heads (i.e., self-attention).
+        self.linear_qkv = torch.nn.Linear(vocab_size, vocab_size * 3)
+
+        # The scale factor for the linear transformation from the vocabulary size to the number of attention heads. This is equivalent to the output size of `linear` (128) multiplied by 3 (query and key dimension).
+        self.scale = torch.nn.Parameter(torch.ones([vocab_size, vocab_size]), requires_grad=False)
+
+    def forward(self, x1):
+        # Query-key-value (QKV) Tensor:
+        query = self.linear_qkv(x1)  # [batch_size, seq_len, embedding_dim]
+
+        # Attention weights (after the softmax and dropout):
+        # This operation can also be written as:
+        # attn_weights = torch.softmax((query @ key).div(self.scale), dim=-1)
+        qk = query @ key.transpose(-2, -1) / math.sqrt(query.size(-1))
+
+        # Output Tensor (shape [batch_size, seq_len, embedding_dim]):
+        output = attn_weights @ value  # [batch_size, seq_len, embedding_dim]
+```
+This pattern characterizes the Transformer encoder.
+
+
+# Model
+class Model(torch.nn.Module):
+    def __init__(self, vocab_size):
+        super().__init__()
+
+        self.embedding = torch.nn.Embedding(vocab_size, 64)
+        self.conv1 = torch.nn.Conv2d(64, 32, 5, stride=2)
+
+        self.linear_qkv = torch.nn.Linear(128, 256)
+
+        self.scale = torch.nn.Parameter(torch.ones([256]), requires_grad=False)
+
+    def forward(self, x):
+        batch_size, seq_len, embedding_dim = x.shape
+        # Embedding layer:
+        # [batch_size, seq_len, embedding_dim]
+        embedded = self.embedding(x)  # [batch_size, seq_len, embedding_dim]
+
+        # Convolutional Layer:
+        # [batch_size, seq_len, input_channels * filter_height * filter_width]
+        conv1 = F.leaky_relu(self.conv1(embedded), inplace=True)  # [batch_size, seq_len, output_channel]
+
+        # Linear transformation from input size (256) to hidden size (128):
+        # [batch_size, seq_len, output_channel]
+        hidden = F.leaky_relu(self.linear_qkv(conv1))  # [batch_size, seq_len, output_channel]
+
+        # Final Linear transformation from hidden size (128) to desired output size (vocab_size):
+        # [batch_size, seq_len, vocab_size]
+        linear = torch.matmul(hidden, self.scale.view([self.scale.shape[0], 1, -1]))
+
+        return linear
+```
+This pattern characterizes the transformer model, which is similar to Transformer encoder (see above). In a traditional Transformer, the self-attention mechanism is computed as:
+```
+softmax(QK^T @ K + softmax(QK^T @ V)) = softmax(QK^T @ K) / sqrt(N * hidden_size) * V
+```
+The attention weights are computed by using [Bahdanau's theorem](https://en.wikipedia.org/wiki/Bahdanau%27s_theorem), and then used as the projection vectors from the linear transformation from the last layer to the desired output size, to compute the output of a pointwise convolution:
+```
+conv = torch.matmul(attn_weights @ value, self.scale)  # [batch_size, seq_len, embedding_dim]
+```
+
+
+# Description of requirements
+The model should contain at least three different patterns, where each pattern is unique for the particular task. The first one concerns the implementation of a multi-head attention mechanism to compute the softmax for the scaled dot product between two tensors `Q` and `K`. Please notice that the size of the query (`Q`) and key (`K`) should be equal and must share the same dimension. Please also generate an input tensor as specified in the first pattern for testing (if applicable).
+The second one concerns the implementation of a pointwise convolution to transform the output from the encoder into an output of desired shape, where `N` is the embedding dimension. Please notice that this pattern characterizes scenarios where the output of a pointwise convolution is multiplied by a constant `1`, and then added `1`.
+The third one concerns the implementation of a dropout layer. Please also generate an input tensor as specified in the first pattern for testing (if applicable).
+
+
+# Description of requirements
+The model should contain at least two different patterns, where each pattern is unique for the particular task. The first pattern characterizes the output from a multi-head attention mechanism to compute the softmax for the scaled dot product between two tensors `Q` and `K`, where the size of the query (`Q`) and key</h2>
+# + [ ] [[]]
+# + + + + + []
+# + + + + []
+# + + []
+# + []
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+# + [[]][]
+##//////////////////////////////////////////////////////////////

@@ -1,0 +1,15 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv = torch.nn.Conv2d(3, 8, 1, stride=1, padding=1)
+ 
+    def forward(self, x1, x2):
+        k1 = self.conv(x1)
+        k2 = k1 * 0.5 + x2  # Apply pointwise convolution with kernel size 1 to the input tensors
+        qk = torch.bmm(k1, k2.transpose(-2, -1)) / math.sqrt(x1.size(-1))  # Compute the dot product of the query and key, and scale it
+        attn_weight = torch.softmax(qk, dim=-1)
+        v = self.conv(value)
+        return attn_weight @ value
+```
+

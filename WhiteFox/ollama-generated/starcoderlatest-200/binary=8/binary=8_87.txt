@@ -1,0 +1,18 @@
+
+class Model(torch.nn.Module):
+    def __init__(self, other=None):
+        super().__init__()
+        self.conv = torch.nn.Conv2d(3, 8, 1, stride=1, padding=1)
+ 
+    def forward(self, x1):
+        v1 = self.conv(x1)
+        v2 = v1 + other # Add another tensor to the output of the convolution
+        return v6
+
+
+# Initializing the model
+m = Model()
+
+# Inputs to the model
+x1 = torch.randn(1, 3, 64, 64)
+other_tensor = torch.randn(1, 8, 64, 64) # A different tensor from x1. The output of the convolution after adding another tensor should be different from that output of the convolution before adding another tensor.

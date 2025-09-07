@@ -1,0 +1,12 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.linear = torch.nn.Linear(8, 1, bias=True)
+ 
+    def forward(self, x):
+        v = self.linear(x)
+        return v * 0.5 + (v + v * v * v) * 0.044715 + v * v * v
+```
+This pattern characterizes scenarios where the output of a linear transformation is multiplied by a constant `0.5` with no bias, and then the output of the linear transformation is added to the output of the linear transformation cubed multiplied by `0.044715`, and then the output of the previous operation is multiplied by `0.7978845608028654` with a bias, and then the hyperbolic tangent function is applied to the output of the previous operation with no bias, and then `1` is added to the output of the hyperbolic tangent function with a bias, and then the output of the linear transformation is multiplied by the output of the hyperbolic tangent function with a bias.
+

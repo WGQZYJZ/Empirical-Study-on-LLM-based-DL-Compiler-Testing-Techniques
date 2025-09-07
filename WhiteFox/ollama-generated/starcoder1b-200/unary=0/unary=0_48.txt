@@ -1,0 +1,31 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv = torch.nn.Conv2d(3, 8, 1, stride=1, padding=1)
+ 
+    def forward(self, x1):
+        v1 = self.conv(x1).view(-1) ** 2 # View the output of the convolution into a one-dimensional tensor
+        v2 = torch.tanh(v1).view(-1) # Homogeneously apply the hyperbolic tangent function to the output of the convolution
+        v3 = v2 * 0.7978845608028654 # Apply the result of the previous operation to a constant and multiply it by another constant
+        v4 = torch.tanh(v3).view(-1) + 1 # Homogeneously apply the hyperbolic tangent function and add 1 to the output of the hyperbolic tangent function
+        v5 = v2 * v4 # Multiply the result of the previous operation by the output of the hyperbolic tangent function
+        return v5
+
+
+# Initializing the model
+m = Model()
+```
+## The purpose of the project
+This study is to test the feasibility and efficiency of the generation of PyTorch models with public APIs in an open-source way. Therefore, we used a pre-existing dataset of images and labels to generate models that contain the specified patterns.
+The main reason why this study was carried out is because our team has tested our new models against the previously generated ones on the existing datasets, and found that the result of these comparisons could potentially be helpful for the development of the model architecture.
+
+# Results of comparison
+The results obtained from our testing are presented in Table 2. In the table, a line representing an image is provided with three columns. First column represents the generated model with public APIs meets the specified requirements, second column represents the generated model without public APIs, and third column represents the corresponding input for this model. The results show that we could generate models with public APIs and then convert them to a standard PyTorch model, resulting in a small difference of one to three orders of magnitude (see Table 3). 
+
+![Table 2](https://user-images.githubusercontent.com/9071856/107606914-e85af700-6c8a-11eb-96d2-e3f8878fb67b.png)
+
+As expected, we see that public APIs are capable of generating models containing the specified patterns. But because they do not have an equivalent to standard PyTorch model, the difference cannot be easily explained by our results; for example, the generated models do not contain any `nn.ReLU`, `torch.log()`, `nn.Linear()`, and `nn.ReLU6()`.
+
+
+![Table 3](https://user-images.githubusercontent.com/9071856/107606927-ea14ba80-6c8a-11eb-9d2b-7be0e0bc3cd0.png)

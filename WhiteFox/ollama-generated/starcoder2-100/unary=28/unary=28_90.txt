@@ -1,0 +1,36 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.linear  = torch.nn.Linear(12, 3)
+
+    def forward(self, x1):
+        v0 = self.__output__  # Initialize v0 to the initial value of __output__
+
+        # Add new tensor v7
+        v4  = x1 / 5 
+        v5  = x1 * 6.895289 + 3.4 
+        v6  = torch.clamp(v5, min_value) 
+
+        # Replace existing tensor v0 with v6
+        v0  = v6
+
+        return v0
+
+
+# Initializing the model
+m = Model()
+
+
+# Inputs to the model
+x1  = torch.randn(2, 12)
+__output__  = m(x1).sum().item()
+```
+
+# Initializing the model
+m = Model()
+
+
+# Inputs to the model
+x1 = torch.randn(50, 64, 387, 389)
+__output__  = m(x1)

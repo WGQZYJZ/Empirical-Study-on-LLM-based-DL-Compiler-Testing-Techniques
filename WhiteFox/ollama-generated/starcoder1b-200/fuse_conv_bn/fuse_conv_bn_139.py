@@ -1,0 +1,52 @@
+This pattern characterizes scenarios where the batch normalization layer is used as a residual in a `torch.nn.Sequential` module that consists of a convolution and a batch normalization layer.
+The `fuse_conv_bn` optimization applies to this scenario if the input tensor is used by other nodes.
+# Model
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.fc = torch.nn.Linear(...)  # X should be a vector or matrix with two dimensions, and its shape is [batch_size, sequence_len]
+        self.conv = ...
+
+    def forward(self, x):
+        seq_len = x.shape[1]
+        return torch.cat([self.conv(x[:, t]), ...], dim=-1)
+
+
+# Description of requirements
+The model should contain the following pattern:
+This pattern characterizes scenarios where an input tensor is used as input of a Convolutional layer (such as `torch.nn.ConvXd`) and is converted into a matrix with two dimensions before the permuted tensor. This matrix will be fed to an input tensor of shape [batch_size, sequence_len, num_channels, height, width] before applying the convolution layer. The height and width dimension are removed from the matrix representation. After the convolution operation on the input matrix is applied to the permuted tensor (such as `torch.nn.functional.convXd`) and back to a vector tensor (such as `torch.Tensor.view`), the back-to-vector transformation is done, which can be converted into an input tensor that represents a sequence of 3 vectors in the same order as [c1, c2, ..., cn].
+This pattern characterizes a linear layer followed by a pooling operation. After applying these operations to the permuted vector representation, the back-to-vector transformation is done, which can be converted into an input tensor that represents a sequence of 3 vectors in the same order as [c1, c2, ..., cn].
+# Model
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv = torch.nn.Conv2d(...) # X should be a vector or scalar representing the height and width of the input image (the first dimension). For example, it can be 14x20 for an input image of size (20x14) or 120x30 for an input image of size (56x180).
+        self.bn = torch.nn.BatchNorm1d(...)
+        self.relu = torch.nn.ReLU(...)
+        self.maxpool2d = torch.nn.MaxPool2d(...)
+
+    def forward(self, x): # x can be a vector or scalar representing the height and width of an input image
+        _, h, w = x.shape
+        return self.conv(x), self.bn(self.relu(self.maxpool2d(self.conv(x)))))
+
+
+# Description of requirements
+The model should contain the following pattern:
+This pattern characterizes scenarios where `torch.nn.functional.linear` is invoked on the input tensor and is followed by a back-to-vector transformation on the result of linear layer. The input tensor has one or more dimensions, so it needs to be converted into a matrix with two dimensions before the invocation. For example, a linear transformation could have an input shape of [128, 5] for a batch size of 40, and the resulting linear transformation is [batch_size, sequence_len, num_features]. The back-to-vector transformation then converts the matrix into a tensor with one dimension (a vector).
+
+
+# Model
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv = ... # X is either scalar or a 3D tensor representing the height and width of input image, which can be 20x14 for an input image of size (56x180) or 14x18 for an input image of size (18x56).
+        self.linear = ... # X is a matrix, which can represent 2D or 3D. For example, the linear transformation can be [num_nodes, num_features], and the resulting linear transformation will be [batch_size * sequence_len, num_features].
+
+    def forward(self, x):
+        h = torch.nn.functional.linear(x[...,0:-2].contiguous().view(-1, 4), self.conv)
+        w = x[...,2].contiguous()
+        return torch.cat([h, ...], dim=1)
+
+
+# Description of requirements
+The model should contain the following pattern:

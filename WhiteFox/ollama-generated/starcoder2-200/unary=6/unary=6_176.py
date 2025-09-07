@@ -1,0 +1,17 @@
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+ 
+    def forward(self, x1):
+        v1  = self.conv(x1) # Apply pointwise convolution with kernel size 3 to the input tensor
+        v2  = v1 + 3        # Add 3 to the output of the convolution
+        v3  = torch.clamp_min(v2, 0)   # Clamp the result to a minimum value of 0
+        v4  = torch.clamp_max(v3, 6)  # Set the maximum value to 6
+        v5  = v1 * v4              # Multiply the output by the clamped result
+        v6  = v5 / 6               # Divide the result of the multiplication operation by 6
+ 
+        return v6
+
+
+# Initializing the model
+m  = Model()

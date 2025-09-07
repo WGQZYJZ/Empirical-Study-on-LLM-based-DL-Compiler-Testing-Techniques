@@ -1,0 +1,18 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv1 = torch.nn.Conv2d(3, 8, 1, stride=1, padding=1)
+        self.conv2 = torch.nn.Conv2d(8, 8, 1, stride=1, padding=1)
+        self.fc   = torch.nn.Linear(512, 512)
+        self.out  = torch.nn.Linear(512, 40)
+ 
+    def forward(self, x1):
+        x1 = self.conv1(x1).view(-1, 3 * 64 * 64)
+        x2 = self.conv2(x1).view(-1, 8 * 32 * 32)
+        h   = F.relu(self.fc(x2))
+        out = torch.softmax(self.out(h), dim=-1)
+        return out
+```
+# Input: `torch.randn(1, 3, 64, 64)`
+## Output: `torch.Tensor([[0.8645, -0.2970,  0.8540], [ 0.0000, -0.5984, -0.5645]])`

@@ -1,0 +1,28 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.linear = torch.nn.Linear(3, 1)
+ 
+    def forward(self, x1):
+        v1 = self.linear(x1)
+        return torch.tanh(v1)
+
+
+# Inputs to the model
+inputs  = torch.randn(4, 128, requires_grad=True)
+__output__  = m(inputs)
+__output__.backward()
+grads  = __output__.grad.data
+__output__  = None
+inputs.data.add_(0.3*grads)
+
+
+# Description of requirements
+The model should contain the following pattern:
+```
+t1 = tanh(x) # Apply the hyperbolic tangent function to the input tensor x
+t2 = linear(t1) # Apply a linear transformation to the output of the hyperbolic tangent function
+```
+This pattern characterizes scenarios where activation functions like tanh are applied before any other linear transformations.
+

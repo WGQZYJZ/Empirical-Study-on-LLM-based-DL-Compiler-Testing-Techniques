@@ -1,0 +1,27 @@
+
+class AttentionBlock:
+    def forward(self, query: torch.Tensor) -> torch.Tensor:
+        key = torch.transpose(key, -2, -1) / math.sqrt(query.size(-1)) + attn_mask  # Compute the dot product of the query and key, and scale it by dividing by a constant sqrt(query size (dim (-1)))
+        key = torch.softmax(key, dim=-1) + dropout(attn_weight, True)  # Apply dropout to the softmax output
+        value = torch.dropout(attn_weight, dropout_p, True) @ torch.transpose(value, -2, -1)  # Compute the dot product of the dropout output and the value
+
+# Initializing the model
+model  = AttentionBlock()
+
+
+# Inputs to the model
+x1  = torch.randn([4096, 512])  
+__output__  = model(torch.randn([384, 768]))
+
+# Description of requirements
+The model should contain the following pattern:
+```
+output_tensor[i] = math.sqrt(input1_tensor[i][j]) * input2_tensor[j] # Apply Euclidean norm to the rows and columns of the first tensor, then multiply them by the elements in each row of the second tensor 
+output_tensor = input3_tensor.max(axis=0) > 0  # Select the maximum values across dimensions zero from the third tensor (assuming the third tensor is three-dimensional). Store it as a boolean value indicating whether there was at least one positive element in each row of this tensor.
+output1, output2 = input4_tensor[:, 0:64], input5_tensor[:, :64] # Select the first 64 columns from both tensors to make two new tensors. The resulting shape will be (batch size, 64) for the first and  (batch size, 64) for the second tensor.
+output1 = output1 / torch.norm(output2[0]) # Divide each row of the first tensor by its Euclidean norm to make it a unit vector. The resulting shape will be 384 x 512 in the first tensor and batch size x 64 for the second tensor.
+output_tensor = output1[i] * output2[:, i] # Apply element-wise multiplication to each row of one tensor by the corresponding column from another tensor to make a new output tensor.
+output_tensor = (output3 > 0) * output5 + math.sqrt(0.9876) * ((1 - torch.tanh(-input2)) + input2 - 4.1) # Select the maximum value of each row from the third tensor, then multiply it by a constant sqrt(0.9876). Add this to the first two tensors using Euclidean norms and element-wise multiplication as long as there are positive values in each row of the third tensor.
+``` 
+This pattern characterizes scenarios where two tensors need to be normalized along different axes according to their dimensions, and then combined using element-wise multiplication with Euclidean norms (assuming they all have three dimensions).
+

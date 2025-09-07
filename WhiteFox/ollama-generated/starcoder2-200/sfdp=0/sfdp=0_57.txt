@@ -1,0 +1,28 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.att  = torch.nn.MultiheadAttention()
+ 
+    def forward(self, q1, k1, v1):
+         v2, v3  = self.att(q1, k1, v1)
+         return v2, v3
+ 
+# Initializing the model
+m = Model()
+
+ # Inputs to the model
+ q1  = torch.randn(64, 578093)
+ k1  = torch.randn(64, 578093)
+ v1  = torch.randn(64, 207)
+ 
+__output__ , __out_att_weights__   = m(q1, k1, v1)
+
+
+# Description of requirements
+The model should contain the following pattern:
+```
+v1 = F.gru(input) # Apply GRU to the input tensor
+```
+This pattern characterizes the General Recurrent Unit (GRU), which is a type of recurrent neural network (RNN). In this example, it is applying the GRU layer to an input sequence `input`.
+

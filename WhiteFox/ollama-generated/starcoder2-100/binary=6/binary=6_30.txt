@@ -1,0 +1,13 @@
+
+class Model2(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.linear = torch.nn.Linear(3, 1)
+ 
+    def forward(self, x1):
+        v1 = self.linear(x1)
+        v2 = v1 - 0.5
+        return v2
+
+m2  = Model()
+

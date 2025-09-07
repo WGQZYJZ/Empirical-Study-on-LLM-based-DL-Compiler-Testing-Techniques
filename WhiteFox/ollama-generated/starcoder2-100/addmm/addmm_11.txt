@@ -1,0 +1,24 @@
+
+```python
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+
+    def forward(self, input1, input2, inp): 
+        t1 = torch.mm(input1, input2) # Matrix multiplication on two inputs
+        t2 = t1 + inp  # Add the result of matrix multiplication to another tensor 'inp'
+        return t2
+```
+
+# Initializing the model
+m = Model()
+
+
+# Inputs to the model (all tensors must have a dynamic shape)
+input1 = torch.randn(4, 50, 36)
+input2 = torch.randn(72, 48)
+inp  = torch.randn(4, 72)
+
+
+# Execution of the model with input tensors and 'inp' tensor passed as keyword argument
+output  = m(input1, input2, inp=inp)

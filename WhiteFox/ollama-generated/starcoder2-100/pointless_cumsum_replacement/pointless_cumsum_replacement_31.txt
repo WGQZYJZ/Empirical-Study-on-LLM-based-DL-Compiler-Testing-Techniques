@@ -1,0 +1,27 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+ 
+    def forward(self, x1):  # Input argument x1 is a placeholder for the first input of the model
+        return torch.cumsum(convert_element_type(torch.full([arg1, arg2], 1, dtype=dtype, layout=layout, device=device), dtype), dim)
+
+
+# Initializing the model
+m = Model()
+# Inputs to the model
+__input__  = torch.randn(3072, 96, 96, requires_grad=True, device="cpu")
+__output__  = m(__input__)
+```
+
+<br>
+
+# Description of requirements
+The model should contain the following pattern:
+```
+t1 = arg1 / arg2 # Divide argument 1 by argument 2. This pattern is valid even when argument 2 equals to zero
+```
+This pattern characterizes scenarios where a division operator is used on two placeholders and a placeholder, and it assumes that the second argument has not been modified in any way after being assigned to `t1`
+
+
+# Model

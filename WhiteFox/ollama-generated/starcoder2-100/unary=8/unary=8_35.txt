@@ -1,0 +1,51 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv_t = torch.nn.ConvTranspose2d(3, 10, 5)
+
+    def forward(self, x):
+        v1 = self.conv_t(x) 
+        v2 = v1 + 3   
+        v3 = torch.clamp(v2, min=0)
+        v4 = torch.clamp(v3, max=6)
+        v5 = v1 * v4 
+        return v5 / 6
+
+# Initializing the model
+m = Model()
+
+ # Inputs to the model
+x1 = torch.randn(1, 8, 720 // 6 - 4 + 3 , 90)
+
+ __output__  = m(x1)
+ 
+# Description of requirements
+The model should contain the following pattern:
+```
+t1  =  conv_transpose(input_tensor)# Apply pointwise transposed convolution to the input tensor 
+t2  = t1 * 4 # Multiply the output of the transposed convolution by 4.
+t3  =  torch.sigmoid(t2) # Apply sigmoid function to the output of the multiplication operation
+t4  = t3 + 10 # Add 10 to the output of the sigmoid operation 
+```
+This pattern characterizes scenarios where the output of a pointwise transposed convolution is multiplied by `4`, and then the sigmoid function is applied to the output of the multiplication operation, and then 10 is added to the output of the sigmoid operation.
+
+ # Model
+ class Model(torch.nn.Module):
+     def __init__(self):
+         super().__init__()
+          self.conv = torch.nn.ConvTranspose2d(3,8,5)
+        
+     def forward(self, x1):
+         v1 = self.conv(x1) 
+         v2 = 4 * v1  
+         return torch.sigmoid(v2) + 10
+ 
+# Initializing the model
+ m = Model()
+
+ # Inputs to the model
+ x1 = torch.randn(1, 8, 720//6-4+3 , 90)
+ __output__  = m(x1)
+ 
+ 

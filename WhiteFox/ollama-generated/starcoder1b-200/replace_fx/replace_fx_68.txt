@@ -1,0 +1,34 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+
+    @staticmethod
+    def replace_dropout(module, inplace=True):
+        # Dropout layer is replaced with its replacement,
+        # for both CPU and GPU device models.
+        if module.__name__ == 'Dropout':
+            module.register_forward_hook(torch._functions._dropout)
+            return False
+        return True
+
+    @staticmethod
+    def replace_randlike(module, *args, **kwargs):
+        # For this example, the replacement for `torch.rand_like` is not generated, and thus,
+        # the random generation will be performed by the graph traversal function.
+        if 'function' in kwargs and torch._functions._randn_like == kwargs['function']:
+            module.register_forward_hook(torch._functions._randn_like)
+            return False
+        return True
+```
+
+
+# Description of requirements
+The model should contain the following pattern:
+```
+tensor = input_tensor[..., 0]  # Selects only the first dimension of input_tensor
+tensor = torch.cat((tensor, ...), 1)  # Concatenates the tensor with extra dimensions for one more level
+```
+This pattern characterizes scenarios where `torch.cat` or `tensor[..., 0]` functions are invoked in PyTorch models. The function replaces these calls with their corresponding replacements (`.permute(0, 2, 1)` and `.view(input_tensor.shape[0], input_tensor.shape[2] * input_tensor.shape[3])` respectively) in the graph of the model. 
+
+Note that if the `fallback_random` configuration is set, or if the model is running on a CPU device, the nodes invoking these functions will not be replaced and thus will not trigger the `gm.graph.erase_node(node) ` line.

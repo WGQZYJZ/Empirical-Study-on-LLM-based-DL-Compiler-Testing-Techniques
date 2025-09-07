@@ -1,0 +1,27 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.linear = torch.nn.Linear(128, 5)
+ 
+    def forward(self, x0, x1):
+        v1 = self.linear(x0 + x1)
+        return v1
+
+
+# Initializing the model
+m  = Model()
+ 
+ # Inputs to the model 
+ x0 = torch.randn(3, 128)  
+ x1 = torch.randn(3, 5) 
+ 
+ __output__  = m(x0, x1)
+
+# Description of requirements
+The model should contain the following pattern: 
+```
+t1 = linear(input_tensor +  other_tensor) # Apply a linear transformation to the sum of two input tensors.
+```
+This pattern characterizes scenarios where `input_tensor` and `other_tensor` are both passed as arguments to `linear`, and then a linear transformation is applied to their sum.
+

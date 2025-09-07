@@ -1,0 +1,24 @@
+
+```
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.scale  = torch.nn.Parameter(torch.randn(1))
+        self.inv_scale  = inv_scale
+ 
+        self.qk = torch.nn.Linear(in_features, query)
+        self.dropout_p = dropout 
+        self.query  = torch.nn.Linear(in_features + query, key + 1).reshape(-1, key, in_features).transpose(-2,-3)
+ 
+    def forward(self, input):
+      k = self.qk(input)
+      k  = k.div(self.scale)
+      k  = k.softmax(dim=-1) 
+      v = torch.nn.functional.dropout(k, p=self.dropout_p)
+      return v @ k
+```
+
+# Initializing the model
+m = Model()
+
+# Inputs to the model

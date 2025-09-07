@@ -1,0 +1,24 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+
+    def forward(self, t1, t2):
+        # Concatenate t1 and t2 to form t3
+        t3 = torch.cat([t1, t2], dim=0)
+
+        # Reshape t3 to [2 * batch_size]
+        t4 = t3.view(-1)
+
+        # Perform the pointwise operation on t4
+        output = t4 ** 2
+        return output
+```
+
+
+# Initializing the model
+m = Model()
+
+# Input tensor(s) to the model
+t1 = torch.randn(8, 20)
+t2 = torch.randn(8, 20)

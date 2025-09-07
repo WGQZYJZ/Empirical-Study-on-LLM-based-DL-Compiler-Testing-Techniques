@@ -1,0 +1,27 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+
+    def forward(self, x1):
+         v1 = self.linear(x1)
+         v2  = torch.clamp(v1 , min=min_value)
+         return  torch.clamp(v2 , max=max_value)
+
+ # Initializing the model
+m = Model()
+
+ # Inputs to the model
+x1  = torch.randn(5, 3074)
+ 
+ __output__   = m(x1)
+ 
+# Description of the first requirement (inclusion of a new operator): clamp_max
+The model should contain the following pattern:
+```
+t1 = clamp(input1, max=maxvalue) # Clamps values to a maximum value. The maximum is provided as a keyword argument.
+return t1 + 3
+```
+
+
+# Model

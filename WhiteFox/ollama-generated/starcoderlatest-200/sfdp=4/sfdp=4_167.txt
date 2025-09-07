@@ -1,0 +1,39 @@
+
+class SelfAttention(torch.nn.Module):
+    def __init__(self, query_size, num_keys, num_values, attn_dim, attn_dropout=0.,
+                 relu_dropout=0., initializer="glorot"):
+        super().__init__()
+        self.query = torch.nn.Linear(query_size, attn_dim)
+        self.key = torch.nn.Linear(num_keys, attn_dim)
+        self.value = torch.nn.Linear(num_values, attn_dim)
+ 
+        self.attn_dropout = torch.nn.Dropout(p=attn_dropout)
+        self.relu_dropout = torch.nn.Dropout(p=relu_dropout)
+ 
+        if initializer == "glorot":
+            init = torch.nn.init.xavier_uniform_()
+        elif initializer == "kaiming":
+            init = torch.nn.init.kaiming_normal_(torch.ones([attn_dim]))
+ 
+        self._apply(init)
+ 
+    def forward(self, query, key, value, attn_mask=None):
+        qk = self.query(query).view(-1, query.size(-2), query.size(-3), -1)
+        kq = self.key(key).view(-1, key.size(-2), key.size(-3), -1)
+        v  = self.value(value).view(-1, value.size(-2), value.size(-3), -1)
+ 
+        qk_v  = torch.matmul(qk, v)   # Compute the dot product of the query and key, and scale it
+ 
+        attn_weight = torch.softmax(qk_v, dim=-1)     # Apply softmax to the result
+        output  = torch.matmul(attn_weight, v)    # Compute the dot product of the attention weights and the value
+        output = output.view(-1, query.size(-2), query.size(-3), -1)
+ 
+        attn_output = self.attn_dropout(output)   # Apply dropout to the output
+ 
+       # ReLU Dropout with probability relu_dropout
+        x1  = torch.nn.functional.relu(attn_output)     # Apply ReLU function
+        x2  = self.relu_dropout(x1)                  # Apply dropout
+ 
+        return x2
+```
+

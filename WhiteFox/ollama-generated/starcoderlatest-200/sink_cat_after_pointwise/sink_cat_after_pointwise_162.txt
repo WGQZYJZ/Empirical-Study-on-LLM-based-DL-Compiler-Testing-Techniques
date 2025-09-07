@@ -1,0 +1,17 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.linear = torch.nn.Linear(2, 2)
+
+    def forward(self, x1, x2):
+        # This method does not apply a pointwise operation so it cannot be optimized
+        v1 = torch.cat([x1, x2], dim=1)
+
+        # This is the only use of v1 and could trigger `sink_cat_after_pointwise` optimization
+        v2 = torch.relu(v1).permute(0, 2, 1)
+
+        # This method triggers `sink_cat_after_pointwise` again
+        return self.linear(torch.cat([v2, v2], dim=1))
+```
+

@@ -1,0 +1,13 @@
+class M(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+ 
+    def forward(self, query_, key_, value_):
+        v1  = torch.matmul(query_, key_.transpose(-2,-1))
+        v2  = v1.div_(scale_)
+        v3  = v2.softmax(dim=-1)
+        v4  = dropout(v3, p=dropOut_p)
+        return v4 @ value_
+
+
+m1  = M()

@@ -1,0 +1,35 @@
+
+class Model(torch.nn.Module):
+    def __init__(self, qkv_size, hidden_dim=128, nhead=4, dropout_p=0.5):
+        super().__init__()
+
+        self.qkv = torch.nn.Linear(qkv_size[0], qkv_size[1]*3)
+        self.key = torch.nn.Linear(qkv_size[1], qkv_size[1])
+        self.value = torch.nn.Linear(qkv_size[2], qkv_size[2])
+
+        self.fc_q  = torch.nn.Linear(hidden_dim, hidden_dim)
+        self.fc_k  = torch.nn.Linear(hidden_dim, hidden_dim)
+        self.fc_v  = torch.nn.Linear(hidden_dim, hidden_dim)
+
+        self.attn_dropout  = nn.Dropout(p=dropout_p)
+        self.out_dropout   = nn.Dropout(p=dropout_p)
+
+        self.scale = nn.Parameter(torch.Tensor([1./math.sqrt(qkv_size[1])]))
+
+    def forward(self, x1, x2):
+        vq  = self.qkv(x1)  # Compute the query tensor from the input of the transformer layer
+        vk  = self.key(x2)  # Compute the key tensor from the second input
+        vv  = self.value(x2)  # Compute the value tensor from the second input
+        vq  = vq.reshape(-1, *vq.shape[:-1])
+        vk  = vk.reshape(-1, *vk.shape[:-1])
+        vv  = vv.reshape(-1, *vv.shape[:-1])
+
+        qk    = torch.matmul(vq, vk.transpose(-2, -1))  # Compute the dot product of the query and key tensors
+        attn  = self.attn_dropout(softmax(qk / self.scale)) # Apply softmax to the scaled dot product
+        v     = attn.matmul(vv)                               # Compute the dot product of the dropout output and the value tensor
+
+        return self.out_dropout(v)
+```
+# Training
+We used the default parameters (e.g., `model_type='transformer'; batch_size=128`; `learning_rate=5e-5`; `train_for=20`.) for training the transformer model.
+

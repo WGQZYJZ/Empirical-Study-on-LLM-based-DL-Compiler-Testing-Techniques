@@ -1,0 +1,8 @@
+class ScaledDotProductAttention(torch.nn.Module):
+    def __init__(self, scale=None):
+        super().__init__()
+
+        self.scale = 1.0 / math.sqrt(scale) if scale else None
+
+    def forward(self, query, key, value, mask=None, dropout_layer=None):
+        

@@ -1,0 +1,38 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.slice = torch.ops.aten.slice.__defaults__[0]
+ 
+    def forward(self, *args, **kwargs):
+        v1  = [
+            self.slice(arg) for arg in args
+        ]
+        v2 = self.slice(torch.cat([*v1], dim=1))
+        v3 = torch.cat((v2, 4), dim=1)
+
+        return (v3,)
+
+
+# Initializing the model
+m = Model()
+
+
+# Inputs to the model
+args = [
+    torch.randn(10, 56, 197).long(),
+    torch.randn(10, 5847233453)
+]
+
+__output__  = m(*args)
+
+The final model would have 3 inputs and a single output:
+```
+t0  =  [input_tensor]  # Input tensors to the model
+t1  =  torch.ops.aten.slice(arg[0]) for arg in t0  # Slices of each input tensor along dimension 2 with upper bound size set to -1 (default) and lower bound 56, starting from index 0
+t2  =  torch.ops.aten.slice(arg[1]) for arg in t0  # Further slices of each sliced input tensors along dimension 3 with upper bound size set to 49837219 (default) and lower bound -56, starting from index 58
+t3 = [torch.cat([arg[j] , torch.ops.aten.slice(t2[i], size=[-1, t0[j].size(-1)]) for i in range(len(args))], dim=1) for j in range(len(args))]  # Concatenate the original concatenated tensors and the sliced tensors along dimension 1
+```
+
+The final output would be a tuple with shape: (torch.Size([5, -1, size]),) where size is 98473219
+

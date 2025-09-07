@@ -1,0 +1,45 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.convT = torch.nn.ConvTranspose2d(3, 8, 1, stride=1, padding=0)
+ 
+    def forward(self, x1):
+        v1  = self.convT(x1) # Apply pointwise transposed convolution to the input tensor
+        v2  = torch.sigmoid(v1) # Apply the sigmoid function to the output of the transposed convolution
+        return v2
+# Initializing the model
+m  = Model()
+ 
+# Inputs to the model
+x1  = torch.randn(1, 3, 64, 64)
+__output__  = m(x1)
+
+
+# Description of requirements
+The model should contain the following pattern:
+```
+t0  = conv_transpose(input_tensor) # Apply pointwise transposed convolution to the input tensor.
+t1  = t0 + 1                       # Add one to the output of the transposed convolution.
+t2  = t0 - 37                      # Subtract 37 from the output of the transposed convolution.
+```
+This pattern characterizes scenarios where a pointwise transposed convolution is applied to an input tensor, and then one or more operations are applied to the output of the transposed convolution: addition with a constant `1`, subtraction by a constant `37`. These operations can be useful in certain types of generative models that require performing arithmetic operations on the generated images.
+
+# Model
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.convT  = torch.nn.ConvTranspose2d(3, 8, 1)
+ 
+    def forward(self, x0):
+        v0   = self.convT(x0) 
+        v0_plus1 = v0 + 1 # Add one to the output of the transposed convolution.
+        v0_minus37 = v0 - 37 # Subtract 37 from the output of the transposed convolution.
+        return v0, v0_plus1, v0_minus37
+# Initializing the model
+m   = Model()
+ 
+# Inputs to the model
+x0  = torch.randn(256, 8, 4, 4)
+__output__, __output_plusone__, __output_minus37__ = m(x0)
+

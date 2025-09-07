@@ -1,0 +1,21 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv1 = torch.nn.Conv2d(3, 8, 1, stride=1, padding=1)
+        self.conv2 = torch.nn.Conv2d(8, 4, 1, stride=1, padding=0)
+ 
+    def forward(self, x1):
+        v1 = self.conv1(x1)
+        v2 = torch.mm(v1, x1) # Matrix multiplication between input1 and input1
+        v3 = torch.conv2d(v1, x1, 4, stride=1, padding=0) # Convolution using the output of previous matrix multiplication as an input
+        v4 = torch.mm(v3, x1) # Matrix multiplication between input1 and input1
+        return v4
+
+
+# Initializing the model
+m = Model()
+
+
+# Inputs to the model
+x1 = torch.randn(1, 3, 64, 64)

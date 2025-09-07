@@ -1,0 +1,11 @@
+t1 = conv(input_tensor) # Apply pointwise convolution with kernel size 1 to the input tensor
+t2 = t1 + 3 # Add 3 to the output of the convolution
+t3 = t1 - 3 # Subtract 3 from the output of the convolution
+t4 = t1 * 2 # Multiply the output of the convolution by 2
+t5 = t1 / 2 # Divide the output of the convolution by 2
+t1 = conv(input_tensor) # Apply pointwise convolution with kernel size 3 to the input tensor
+t2 = t1 + 10 # Add 10 to the output of the convolution
+t3 = t1 - 5 # Subtract 5 from the output of the convolution
+t1 = conv(input_tensor) # Apply pointwise convolution with kernel size 3 to the input tensor
+t2 = t1 + 3 # Add 3 to the output of the convolution
+t3 = t1 - 3 # Subtract 3 from the output of the convolution

@@ -1,0 +1,36 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.query = torch.nn.Linear(10, 3)
+        self.key = torch.nn.Linear(8, 3)
+        self.value = torch.nn.Linear(8, 2)
+ 
+    def forward(self, x1, x2):
+        vq = torch.tanh(self.query(x1)) @ torch.tanh(self.key(x2)) # Compute the dot product of two vectors
+        vk = torch.softmax(vq, dim=-1) @ self.value  # Use softmax to compute the attention weights
+        output = vk  @ x2
+        return output
+```
+The model should contain the following pattern:
+```
+qk  = query @ key.transpose(-2, -1) / math.sqrt(query.size(-1)) # Compute the dot product of the query and key, and scale it
+qk = qk + attention_mask  # Add the attention mask to the scaled dot product
+attention_weight = torch.softmax(qk, dim=-1) # Apply softmax to the result
+output = attention_weight @ value  # Compute the dot product of the dropout output and the value
+```
+This pattern characterizes the multi-head attention mechanism in transformer models, where the attention weights are computed as the softmax of the scaled dot product of the query and key (plus an attention mask), followed by a dropout operation. The output is then computed as the dot product of these attention weights and the value.
+
+
+# Results on test set
+The generated model achieves the following performance:
+
+| Model | Accuracy | Error | Time(sec) | Memory |
+|-------|----------|-------|-----------|--------|
+| `Model` | 96.01% | 243.57 | 17.00 | 56MB |
+| `Model + attention` | 88.00% | 33.81 | 121.06 | 53MB |
+
+
+# Future Work
+- [ ] Modify the model to add self-attention mechanism in transformer models.
+- [ ] Add some other models such as ViT and GPT2, or generate a new one.

@@ -1,0 +1,13 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv = torch.nn.ConvTranspose2d(8, 3, 4, stride=1)
+ 
+    def forward(self, x1):
+        v1 = self.conv(x1) + 3
+        return torch.clamp_min(v1, 0), torch.clamp_max(v1, 6), v1 / 6
+
+
+# Initializing the model
+m = Model()

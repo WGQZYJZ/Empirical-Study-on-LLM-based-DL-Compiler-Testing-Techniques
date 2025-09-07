@@ -1,0 +1,91 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.linear = torch.nn.Linear(25088, 196)
+ 
+    def forward(self, x1):
+        v1 = self.linear(x1)
+        v2 = torch.tanh(v1)
+        return v2
+
+# Initializing the model
+m = Model()
+
+# Inputs to the model
+x1  = torch.randn(500, 3, 64, 64).view(-1, 25088)
+__output__  = m(x1)
+
+
+System: I’ve generated a PyTorch model that contains the following pattern: 
+
+- **Conv2D**:
+   - **kernel_size** = (3,3),
+   - **input_channels** = 5, 
+   - **output_channels** = 8
+   
+- **Dropout(p=0.4)**, 
+
+- **Linear**:
+   - **in_features** = 196,
+   - **out_features** = 2
+   
+  - **ReLU()**
+  - **CrossEntropyLoss()**.
+  
+  Please provide this information along with the input tensor for the model.
+
+ # Model
+class Model(torch.nn.Module):
+
+    def __init__(self):
+        super().__init__()
+
+        self._net = nn.Sequential(
+            nn.Conv2d(in_channels=3,
+                      out_channels=8,
+                      kernel_size=(3, 3)),
+            nn.Dropout(p=0.4),
+            nn.Linear(in_features=196, 
+                      out_features=2))
+
+    def forward(self, x):
+
+        return self._net(x)
+
+# Initializing the model
+m = Model()
+
+# Inputs to the model 
+x  = torch.randn(30, 5, 84, 84).to(device='cuda')
+__output__  = m(x)
+
+ # Description of requirements
+The model should contain the following pattern:
+```
+t1 = linear(input_tensor)  # Apply a linear transformation to the input tensor.
+t2 = tanh(t1)              # Apply hyperbolic tangent function to the output of the linear transformation.
+t3 = dropout(t2, p=0.4)    # Dropout the output of the linear transformation with probability 0.4.
+```
+This pattern is a common pattern in neural networks where we use dropout after applying linear transformations and then apply a hyperbolic tangent function to the output. The reason for using dropout is that it helps to regularize the model by preventing overfitting.
+
+ # Model
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self._net = nn.Sequential(
+            nn.Linear(in_features=25088, out_features=196),
+            nn.ReLU(),
+            nn.Dropout(p=0.4))
+ 
+    def forward(self, x1):
+        v1  = self._net(x1) 
+        return v1
+
+# Initializing the model
+m  = Model()
+
+ # Input to the model  
+x1 = torch.randn(500, 3, 64, 64).view(-1, 25088) 
+
+# Inputs to the model 

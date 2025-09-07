@@ -1,0 +1,29 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv  = torch.nn.Conv2d(3, 8, 1, stride=1, padding=1)
+ 
+    def forward(self, x1):
+        v1  = self.conv(x1)
+        v2  = torch.clamp_min(v1, -50.)
+        v3  = torch.clamp_max(v2, 45.)
+        return v3
+
+# Initializing the model
+m  = Model()
+
+ # Inputs to the model
+ x1  = torch.randn(1, 3, 64, 64)
+ __output__  = m(x1)
+
+
+# Description of requirements
+The model should contain the following pattern:
+```
+t1 = conv(input_tensor)# Apply pointwise convolution with kernel size 1 to the input tensor
+t2 = max(t1, 0.5)# Take the maximum of the output of the convolution and a constant value `0.5`
+t3 = min(max(t2), 4.5) # Take the minimum between the maximum operation and another constant `4.5`
+```
+This pattern characterizes scenarios where the output of a pointwise convolution is first compared with a constant value, then the minimum between it and another constant value is taken.
+

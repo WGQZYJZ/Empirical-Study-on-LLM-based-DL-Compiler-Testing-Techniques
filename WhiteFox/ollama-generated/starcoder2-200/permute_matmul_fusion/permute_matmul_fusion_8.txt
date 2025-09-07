@@ -1,0 +1,33 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+
+    def forward(self, x1):
+        v1  = x1.permute(0, 2, 1)
+        v3  = torch.bmm(v1, input_tensor_B) # or torch.matmul(input_tensorA, v2) 
+        return v3
+
+
+# Initializing the model
+m = Model()
+
+# Inputs to the model
+x1  = torch.randn(5, 4, 8) # 5 instances with 4 rows and 8 columns
+x2  = torch.randn(6, 7, 9) # 6 instances with 7 rows and 9 columns 
+
+## Please generate a valid PyTorch model example with public PyTorch APIs meets the specified requirements. Plus, please also generate the input tensor for the newly generated model. The model should be different from the previous one.
+# Description of requirements
+The model should contain the following pattern:
+```
+t1 = input_tensorA.permute(...)  # Permute the input tensor A
+t2 = input_tensorB.permute(...)  # Permute the input tensor B
+t3 = torch.bmm(input_tensorA, t2)  # or torch.matmul(input_tensorA, t1) 
+```
+or
+```
+t1 = input_tensorA.permute(...)  # Permute the input tensor A
+t2 = torch.bmm(input_tensorB, t1)  # or torch.matmul(input_tensorB, t2) 
+```
+The permute method is invoked on an input tensor with more than 2 dimensions, and it swaps the last two dimensions of this tensor. This modified tensor is then used as the main input for the `torch.bmm` or `torch.matmul` function.
+

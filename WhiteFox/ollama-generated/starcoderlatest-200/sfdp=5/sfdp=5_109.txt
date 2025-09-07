@@ -1,0 +1,23 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.attn_linear = torch.nn.Linear(768, 32)
+        self.v = torch.nn.Conv1d(32, 768, 1, stride=1, padding=0)
+ 
+    def forward(self, x):
+        q = k = v = x  # Initializing the query key and value as inputs
+        qk = torch.einsum('bnqjd,bc->bdnqj', [v, self.attn_linear]) 
+        qk = torch.softmax(qk / math.sqrt(qk.size(-1)), dim=-1)
+        v *= attn_weight[:, :, :, None]  # Applying the attention weights to the value (q@k)
+        output = torch.einsum('bdnqj,bc->bnqjd', [v, self.v])
+        return output
+
+
+# Inputs to the model
+q = k = v = x1_attn  # Initializing the query key and value as inputs
+query_key_value_attn_weight = m(x1)
+output = torch.einsum('bnqjd,bc->bdnqj', [v, self.attn_linear])
+# output: 768 x 64 x 64
+```
+

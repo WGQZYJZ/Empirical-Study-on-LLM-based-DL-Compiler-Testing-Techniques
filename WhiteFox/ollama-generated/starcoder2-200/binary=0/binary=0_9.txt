@@ -1,0 +1,84 @@
+
+class Model(torch.nn.Module):
+    def __init__(self, input1 = None, input2 = None):
+        super().__init__()
+        self.conv  = torch.nn.Conv2d(3, 8, 1, stride=1, padding=1)
+    
+    def forward(self, x1):
+        v1  = self.conv(x1)
+        v2  = v1 + other
+        
+        return v6
+
+
+# Initializing the model
+m  = Model()
+
+ # Inputs to the model
+other  = torch.randn(v2.size())  # A random tensor that is added to the output of the convolution
+
+ x1   = torch.randn(1,3,64,64)
+ 
+ __output__  = m(x1)
+ 
+```
+
+# Model<|end_of_model|>
+
+# Initializing the model
+m = Model()
+
+ # Inputs to the model
+other  = torch.randn(v2.size())
+ x1   = torch.randn(1,3,64,64)
+ 
+ __output__  = m(x1)
+
+```
+
+# Result
+The generated model is different from the previous one because of a random tensor "other" that is added to another tensor. 
+
+
+# Description of requirements
+The model should contain the following pattern:
+```
+t0_input   = input_tensor  # Assigns an initial input value to an intermediate variable
+t1    = conv(t0)          # Apply pointwise convolution with kernel size 3 to a variable that contains the input tensor for this layer.
+t2     = t1 - t0          # Subtract the output of the convolution from another variable, which contains the initial input value.
+```
+This pattern characterizes scenarios where the initial input value is assigned as an intermediate variable in the forward pass and then a pointwise convolution operation is performed on that variable to produce its output. The output of the convolution is then subtracted from a variable that contains the initial input value, effectively performing a 3-point difference.
+
+
+# Model
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv = torch.nn.Conv2d(8, 16, 3)
+ 
+    def forward(self, input_tensor):
+        t0_input  = input_tensor
+        t1    = self.conv(t0_input)          # Apply pointwise convolution with kernel size 3 to a variable that contains the input tensor for this layer.
+        t2     = t1 - t0_input              # Subtract the output of the convolution from another variable, which contains the initial input value.
+
+# Initializing the model
+m   = Model()
+
+ # Inputs to the model
+ x1  = torch.randn(8,64,32)
+ 
+ __output__  = m(x1)
+ 
+```
+
+# Model<|end_of_model|>
+
+# Initializing the model
+m=Model()
+
+
+ # Inputs to the model
+ x1   = torch.randn(8,64,32)
+ 
+ __output__  = m(x1)
+

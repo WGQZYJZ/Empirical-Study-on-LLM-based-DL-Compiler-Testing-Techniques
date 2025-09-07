@@ -1,0 +1,11 @@
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+ 
+        self.lin1 = torch.nn.Linear(32 * 64, 5000)
+ 
+    def forward(self, x1):
+        v1 = self.lin1(x1)
+        v2 = v1  + torch.clamp(v1, min=3, max=torch.max(v1).item() - 3) 
+        v3 = (v2 / 50.).ceil().to(dtype=torch.int64)
+        return v3

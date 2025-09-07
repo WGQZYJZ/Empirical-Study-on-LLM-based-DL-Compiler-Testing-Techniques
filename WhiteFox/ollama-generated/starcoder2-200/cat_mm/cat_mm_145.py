@@ -1,0 +1,9 @@
+class Model(torch.nn.Module):
+    def __init__(self, input1, input2):
+        super().__init__()
+        self.conv  = torch.nn.Conv2d(3, 8, 5)
+ 
+    def forward(self, x1):
+        v1  = torch.mm(x1, input2) # Matrix multiplication of two tensors
+        v2  = torch.cat([v1] * len(input1), dim=0) # Concatenation along the specified dimension
+        return v2

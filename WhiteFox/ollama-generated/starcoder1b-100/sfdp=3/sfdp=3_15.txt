@@ -1,0 +1,17 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv = torch.nn.Conv2d(3, 8, 1)
+ 
+    def forward(self, x1):
+        k = x1  # Use a placeholder tensor for computing the key tensor of the attention
+        q = x1  # Use a placeholder tensor for computing the query tensor of the attention
+        v = x1  # Use a placeholder tensor for computing the value tensor of the attention
+        qk = torch.matmul(q, k.transpose(-2, -1))
+        scaled_qk = qk.mul(0.2)
+        softmax_qk = scaled_qk.softmax(dim=-1)
+        dropout_qk = torch.nn.functional.dropout(softmax_qk, p=0.5)
+        output = dropout_qk.matmul(v)  # Compute the dot product of the dropout output and the value tensor
+```
+This pattern characterizes scenarios where the attention mechanism is applied to different types of data tensors with different shapes. This is a typical pattern found in the attention mechanism of transformer models, where a query, key and value tensor are passed separately as input.

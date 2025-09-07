@@ -1,0 +1,48 @@
+
+class Attention(torch.nn.Module):
+    def __init__(self, dim):
+        super().__init__()
+        self.dim = dim
+ 
+    def forward(self, query, key, value, scale_factor, dropout_p):
+        v1  = torch.matmul(query, key.transpose(-2, -1)) # Compute the dot product of the query and key tensors
+        scaled_qk  = v1.mul(scale_factor)  # Scale the dot product by a factor
+        softmax_qk  = scaled_qk.softmax(dim=-1)  # Apply softmax to the scaled dot product
+        dropout_qk  = torch.nn.functional.dropout(softmax_qk, p=dropout_p)  # Apply dropout to the softmax output
+        output = dropout_qk.matmul(value)  # Compute the dot product of the dropout output and the value tensor
+        return output
+
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv1 = torch.nn.Conv2d(3, 64, 7, stride=2, padding=3)
+        self.bn1 = torch.nn.BatchNorm2d(64)
+        self.conv2 = torch.nn.Conv2d(64, 64, 5, stride=2, padding=2)
+        self.attn = Attention(dim=64)
+ 
+    def forward(self, x1):
+        v1 = self.bn1(F.relu(self.conv1(x1)))
+        v2 = F.max_pool2d(v1, kernel_size=3, stride=2, padding=1) # Apply max pooling layer to the input tensor
+        v3 = self.attn(v2, v2, v2, scale_factor=0.1, dropout_p=0.5)  # Apply the attention mechanism to the input tensor
+        v4 = F.max_pool2d(v3, kernel_size=3, stride=2, padding=1) # Apply max pooling layer to the input tensor
+        output = self.conv2(v4)
+        return output
+
+
+# Initializing the model
+m = Model()
+
+
+def prepare_data(model):
+    # Input shape: [batch_size, 3, sequence_length]
+    query_shape = (1, 3, 128)
+
+    x1 = torch.randn(*query_shape)
+    out1 = model(x1)
+    assert tuple(out1.shape) == query_shape
+```
+
+
+# Description of requirements
+The model should be different from the previous one. The input tensor has three channels, and the sequence length is 128. After performing forward propagation on the example image, we are supposed to get a batch of shape `[1,3,128]`. For the newly generated examples in this section, make sure that the input tensors have only one channel (the first dimension) and the batch size is `1`, and the sequence length should be different than in the previous example.

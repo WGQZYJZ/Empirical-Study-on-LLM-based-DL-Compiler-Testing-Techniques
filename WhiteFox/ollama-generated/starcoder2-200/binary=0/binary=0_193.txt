@@ -1,0 +1,23 @@
+
+class Model(torch.nn.Module):
+    def __init__(self, conv=None):
+        super().__init__()
+        self.conv = torch.nn.Conv2d(3, 8, 1, stride=1, padding=1)
+        if conv is not None:
+            self.conv += conv
+ 
+    def forward(self, x1):
+        v1  = self.conv(x1)
+        return v1
+
+
+# Initializing the model
+m = Model()
+conv_tensor = torch.nn.Conv2d(3, 8, 4, stride=1, padding=0).double().requires_grad_()
+ 
+# Inputs to the model
+x1 = torch.randn(1, 3, 64, 64)
+
+# Set the convolution layer as a constant parameter of the model.
+# Note that conv can also be a constant parameter.
+m.__conv__ = conv_tensor

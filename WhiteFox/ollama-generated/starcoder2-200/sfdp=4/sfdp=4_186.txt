@@ -1,0 +1,26 @@
+
+```
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+
+    def forward(self, query, key, value):
+        v1  = torch.einsum('b...k,bk...->b...k',query,key) 
+        v2 = v1 / math.sqrt(key.size(-1))
+        v3  = v2 + attn_mask
+        v4  = torch.softmax(v3, dim=-1)
+        v5 = torch.einsum('...a,...a->...',value,v4) # Compute the dot product of the value tensor and the attention weights
+```
+ 
+# Initializing the model
+m  = Model()
+
+ # Inputs to the model 
+ query  = torch.randn(64,8,1025)  
+ key =  <KEY> 
+ value= torch.randn(64,8,793)   
+ attn_mask=torch.ones((query.size(-2),key.size(-2)),dtype=query.dtype,device=query.device).triu_()
+ 
+ __output__  = m(query, key, value, attn_mask)
+
+

@@ -1,0 +1,13 @@
+class Model(torch.nn.Module):
+    def __init__(self, dim=320):
+        super().__init__()
+        self.query = torch.randn(16, 512, 4) # query matrix with dimension (batch size, key/value length, vector length), here batch size is 16 and key/value length is 512
+        self.key = torch.randn(16, dim // 320, 320) + torch.zeros(48).normal_(std=0.02) # key matrix with dimension (batch size, key/value length, vector length), here batch size is 16 and key/value length is the third component of input vector dim
+        self.value = torch.randn(16, 512 // 320 * dim, dim//320) # value matrix with dimension (batch size, key/value length, vector length), here batch size is 16 and key/value length is the first component of input vector dim, which equals to the third component of input vector div 4
+        self.scale = torch.tensor(math.sqrt(320)) # scaling factor
+ 
+    def forward(self):
+        scaled_dot_product = torch.matmul(query, key.transpose(-2, -1)) / scale # compute the scaled dot product between query and key matrices
+        attention_weights  = scaled_dot_product.softmax(dim=-1) # compute the softmax of the scaled dot product
+        output = attention_weights.matmul(value) # compute a weighted sum of value tensor with respect to the calculated weights
+        return output

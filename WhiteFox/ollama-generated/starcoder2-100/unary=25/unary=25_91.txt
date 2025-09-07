@@ -1,0 +1,67 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+
+    def forward(self, x1):
+        v1  = torch.nn.functional.linear(x1, weight=torch.zeros(8), bias=[-0.7])
+        v2  = v1 > 0
+        v3  = v1 * negative_slope  # TODO: The actual name of this constant may not be 'negative slope' in your model's forward function implementation.
+        v4  = torch.where(v2, v1, v3)
+        return v4
+
+
+# Initializing the model
+m  = Model()
+
+
+# Inputs to the model
+x1 = torch.randn(80, 8)
+
+
+
+# Please generate a valid PyTorch model example with public PyTorch APIs meets the specified requirements. Plus, please also generate the input tensor for the newly generated model. The model should be different from the previous one.
+
+
+# Description of requirements
+The model should contain the following pattern:
+```
+t1 = torch.nn.functional.linear(input_tensor)  # Apply a linear transformation to an input tensor
+t2 = t1 < 0                                    # Create a boolean tensor where each element is True if the corresponding element in t1 is less than 0, and False otherwise
+```
+This pattern characterizes scenarios where the output of a linear transformation applied to an input tensor is compared with `0` using the `<` operator. A boolean tensor is created where each element is True if the corresponding element in the output of the linear transformation is less than 0, and False otherwise.
+
+
+# Model
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.linear = torch.nn.Linear(32, 64)
+ 
+    def forward(self, x1):
+        v1 = torch.nn.functional.linear(x1)
+        v2 = v1 < 0
+        return v2
+
+
+# Initializing the model
+m  = Model()
+
+
+
+# Inputs to the model
+x1 = torch.randn(384, 32)
+
+
+# Please generate a valid PyTorch model example with public PyTorch APIs meets the specified requirements. Plus, please also generate the input tensor for the newly generated model. The model should be different from the previous one.
+
+
+# Description of requirements
+The model should contain the following pattern:
+```
+t1 = tanh(conv_layer(input)) # Apply a hyperbolic tangent to an output of a convolutional layer applied to an input tensor
+t2 = tanh(pooling(t1))  # Apply a hyperbolic tangent to an output of a max pooling operation applied on the output of applying a hyperbolic tangent function.
+```
+
+
+# Model

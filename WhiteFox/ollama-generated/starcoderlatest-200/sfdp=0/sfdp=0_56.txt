@@ -1,0 +1,60 @@
+
+class MultiHeadAttention(torch.nn.Module):
+    def __init__(self, num_heads=8):
+        super().__init__()
+        self.num_heads = num_heads
+ 
+    def forward(self, q1, k1, v1, scale=None):
+        if scale is not None:
+            scale = torch.sqrt(scale)
+ 
+        # Split the input tensors into heads and combine them again at the end to compute outputs
+        head_dim = q1.shape[-1] // self.num_heads
+        head_q = torch.cat([head_k * head_dim for head_k in q1], dim=-1).reshape(q1.shape[:-2] + (-1, ))
+        head_k = torch.cat([head_v * head_dim for head_v in k1], dim=-1).reshape(q1.shape[:-2] + (-1, ))
+        head_v = torch.cat([head_v * head_dim for head_v in v1], dim=-1).reshape(q1.shape[:-2] + (-1, ))
+ 
+        # Compute the attention weights as softmax over the heads and combine them again to compute outputs
+        scaled_dot_product = torch.matmul(head_q, head_k.transpose(-2, -1)) / scale
+        attention_weights = scaled_dot_product.softmax(dim=-1)
+        output  = attention_weights.matmul(head_v)
+ 
+        # Combine the heads for computing outputs
+        return (output.reshape(*output.shape[:-2], self.num_heads * head_dim).permute(0, 3, 1, 2))
+ 
+class MultiHeadSelfAttention(torch.nn.Module):
+    def __init__(self, num_heads=8, hidden_dim=768, embed_dim=None):
+        super().__init__()
+ 
+        if embed_dim is None:
+            self.embed_dim = hidden_dim
+        else:
+            self.embed_dim = embed_dim
+ 
+        head_dim = self.embed_dim // num_heads
+ 
+        # Attention mechanism for self-attention layer
+        self.self_attention = MultiHeadAttention(num_heads=num_heads)
+ 
+    def forward(self, x1):
+        q1, k1, v1 = self._get_inputs_and_weights(x1)
+        scaled_dot_product = self.self_attention(q1, k1, v1)
+        return (scaled_dot_product + x1)
+ 
+    def _get_inputs_and_weights(self, input):
+        q1 = input
+        k1 = input[:, :-1, :]
+        v1 = input[:, 1:, :]
+        scale = self.embed_dim ** -0.5
+ 
+        return (q1, k1, v1, scale)
+
+# Initializing the model
+m2 = MultiHeadSelfAttention(num_heads=8)
+ 
+# Inputs to the model
+x2 = torch.randn(16, 32, 768)
+__output__  = m2(x2)
+
+
+```

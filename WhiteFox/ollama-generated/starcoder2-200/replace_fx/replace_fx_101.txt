@@ -1,0 +1,14 @@
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+
+    def forward(self, x1):
+        v1  = torch.nn.functional.dropout(x1, p=0.2) 
+        # or v1  = lowmem_dropout(x1, p=0.2) 
+        return torch.rand_like(v1)
+
+
+m = Model()
+
+x1  = torch.randn(3, 4)

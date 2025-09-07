@@ -1,0 +1,15 @@
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+ 
+    def forward(self, x1):
+        v1 = torch.split(x1, [32], dim=0)  # Split the input tensor into three tensors along dimension 0
+        v2 = torch.cat([v1[i] for i in range(len(v1))], dim=0)
+        return v2
+
+
+# Initializing the model
+m = Model()
+ 
+# Inputs to the model
+x1 = torch.randn(96, 3, 32, 32) # Randomly generated input tensor with shape (96 x 3 x 32 x 32)
