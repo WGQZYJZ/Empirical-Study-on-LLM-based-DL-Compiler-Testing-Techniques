@@ -1,0 +1,9 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+input_data = np.random.rand(2, 2, 2)
+input_data = torch.tensor(input_data, dtype=torch.float32)
+output = torch.fft.ifft2(input_data)
+output = torch.fft.ifft2(input_data, norm='ortho')
+output = torch.fft.ifft2(input_data, s=[4, 4])
+output = torch.fft.ifft2(input_data, dim=(1, 2))

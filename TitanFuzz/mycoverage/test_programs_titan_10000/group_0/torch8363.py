@@ -1,0 +1,9 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+
+x = torch.randn(10)
+y = torch.clip(x, 0, 1)
+y = torch.clip(x, (- 1), 1)
+y = torch.clip(x, 0.5, 1)
+y = torch.clip(x, 0, 0.5)

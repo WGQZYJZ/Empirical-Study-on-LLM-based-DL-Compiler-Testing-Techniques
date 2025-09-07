@@ -1,0 +1,14 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+x = torch.randint(10, (3, 3))
+torch.prod(x, dim=0)
+torch.prod(x, dim=1)
+torch.prod(x, dim=0, keepdim=True)
+torch.prod(x, dim=1, keepdim=True)
+x = torch.randint(10, (3, 3, 3))
+torch.prod(x, dim=0)
+torch.prod(x, dim=1)
+torch.prod(x, dim=2)
+torch.prod(x, dim=0, keepdim=True)
+torch.prod(x, dim=1, keepdim=True)

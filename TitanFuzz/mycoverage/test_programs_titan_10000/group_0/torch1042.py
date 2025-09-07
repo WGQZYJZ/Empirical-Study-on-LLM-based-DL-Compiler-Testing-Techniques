@@ -1,0 +1,11 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+
+input_tensor = torch.randn(4, 4)
+torch.Tensor.quantile(input_tensor, 0.5, dim=None, keepdim=False)
+torch.Tensor.quantile(input_tensor, 0.5, dim=0, keepdim=False)
+torch.Tensor.quantile(input_tensor, 0.5, dim=1, keepdim=False)
+torch.Tensor.quantile(input_tensor, 0.5, dim=None, keepdim=True)
+torch.Tensor.quantile(input_tensor, 0.5, dim=0, keepdim=True)
+torch.Tensor.quantile(input_tensor, 0.5, dim=1, keepdim=True)

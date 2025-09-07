@@ -1,0 +1,9 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+
+input = torch.randn(3, 10)
+hx = torch.randn(3, 20)
+cx = torch.randn(3, 20)
+lstm_cell = torch.nn.LSTMCell(10, 20)
+(hx, cx) = lstm_cell(input, (hx, cx))

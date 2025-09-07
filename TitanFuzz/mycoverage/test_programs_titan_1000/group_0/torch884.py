@@ -1,0 +1,9 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+input_data = torch.randn(3, 3)
+diagonal_data = torch.diagonal(input_data)
+diagonal_data = torch.diagonal(input_data, offset=1)
+diagonal_data = torch.diagonal(input_data, offset=(- 1))
+diagonal_data = torch.diagonal(input_data, dim1=1, dim2=0)
+diagonal_data = torch.diagonal(input_data, dim1=0, dim2=1)

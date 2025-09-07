@@ -1,0 +1,9 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+
+input = torch.rand(2, 3, 4)
+output = torch.broadcast_to(input, (4, 2, 3, 4))
+input1 = torch.rand(2, 3, 4)
+input2 = torch.rand(3, 4)
+output = torch.broadcast_tensors(input1, input2)

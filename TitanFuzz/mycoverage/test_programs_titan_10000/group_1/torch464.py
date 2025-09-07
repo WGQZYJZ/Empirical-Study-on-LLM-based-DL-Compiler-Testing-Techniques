@@ -1,0 +1,12 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+
+x = torch.arange(0, 3, 1)
+y = torch.arange(0, 3, 1)
+(x, y) = torch.meshgrid(x, y)
+x = torch.arange(0, 3, 1)
+y = torch.arange(0, 3, 1)
+(x, y) = torch.meshgrid(x, y)
+xy = torch.stack((x, y), dim=2)
+random_tensor = torch.rand(3, 3)

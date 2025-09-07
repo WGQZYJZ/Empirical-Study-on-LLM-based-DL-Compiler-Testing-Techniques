@@ -1,0 +1,8 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+input_data = torch.arange(0, 10, 0.5)
+boundaries = torch.tensor([1, 3, 5, 7, 9])
+result = torch.bucketize(input_data, boundaries, out_int32=True, right=True)
+input_data = torch.randn(3, 4)
+result = torch.cumsum(input_data, dim=1)

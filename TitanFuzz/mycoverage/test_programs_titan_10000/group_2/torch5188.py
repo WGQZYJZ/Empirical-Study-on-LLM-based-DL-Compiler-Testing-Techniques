@@ -1,0 +1,12 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+
+A = torch.randn(2, 3)
+B = torch.randn(2, 1)
+X = torch.linalg.lstsq(A, B)
+A = torch.randn(2, 2)
+B = torch.randn(2, 1)
+X = torch.linalg.solve(A, B)
+A = torch.randn(2, 3)
+(U, S, V) = torch.linalg.svd(A)

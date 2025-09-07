@@ -1,0 +1,10 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+
+x = torch.arange(3)
+y = torch.arange(3)
+(grid_x, grid_y) = torch.meshgrid(x, y)
+x = torch.arange(3)
+y = torch.arange(3)
+(grid_x, grid_y) = torch.meshgrid(x, y)

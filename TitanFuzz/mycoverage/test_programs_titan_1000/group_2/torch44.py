@@ -1,0 +1,9 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+input_data = torch.tensor([(- 1.0), 0, 1.0])
+softplus_fn = torch.nn.Softplus(beta=1, threshold=20)
+output = softplus_fn(input_data)
+input_data = torch.tensor([(- 1.0), 0, 1.0])
+elu_fn = torch.nn.ELU(alpha=1.0)
+output = elu_fn(input_data)

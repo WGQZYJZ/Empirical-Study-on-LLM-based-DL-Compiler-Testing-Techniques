@@ -1,0 +1,9 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+
+input_tensor = torch.randn(4, 4)
+output_tensor = torch.ceil(input_tensor)
+output_tensor = torch.Tensor.ceil_(input_tensor)
+output_tensor = input_tensor.ceil()
+output_tensor = input_tensor.ceil_()

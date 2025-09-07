@@ -1,0 +1,8 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+x = torch.tensor([[1, 2, 3], [1, 2, 3]], dtype=torch.float)
+y = torch.tensor([[1, 2, 3], [1, 2, 3]], dtype=torch.float)
+loss = torch.nn.functional.l1_loss(x, y)
+loss = torch.nn.functional.l1_loss(x, y, reduction='sum')
+loss = torch.nn.functional.l1_loss(x, y, reduction='none')

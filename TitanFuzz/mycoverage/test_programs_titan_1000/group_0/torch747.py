@@ -1,0 +1,12 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+x = torch.arange(1, 3, dtype=torch.float)
+y = torch.vander(x, 3, increasing=True)
+y = torch.vander(x, 3, increasing=False)
+y = torch.vander(x, 2, increasing=True)
+y = torch.vander(x, 2, increasing=False)
+y = torch.vander(x, 1, increasing=True)
+y = torch.vander(x, 1, increasing=False)
+y = torch.vander(x, 4, increasing=True)
+y = torch.vander(x, 4, increasing=False)

@@ -1,0 +1,10 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+
+input = torch.randn(3, 3, dtype=torch.float64)
+input2 = torch.randn(3, 3, dtype=torch.float64)
+torch.cholesky_solve(input, input2, upper=False)
+input = torch.randn(3, 3, dtype=torch.float64)
+input2 = torch.randn(3, 3, dtype=torch.float64)
+torch.cholesky_solve(input, input2, upper=False)

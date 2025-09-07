@@ -1,0 +1,9 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+
+_input_tensor = torch.randn(2, 3)
+_output_tensor = torch.Tensor.multinomial(_input_tensor, 2, replacement=False)
+_output_tensor_2 = torch.Tensor.multinomial(_input_tensor, 2, replacement=True)
+_input_tensor_2 = torch.randn(2, 3)
+_output_tensor_3 = torch.Tensor.cumsum(_input_tensor_2, dim=1)

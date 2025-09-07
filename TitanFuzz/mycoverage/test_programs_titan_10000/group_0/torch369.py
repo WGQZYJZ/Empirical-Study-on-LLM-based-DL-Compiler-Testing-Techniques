@@ -1,0 +1,9 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+
+input1 = torch.randn(3, requires_grad=True)
+input2 = torch.randn(3, requires_grad=True)
+target = torch.empty(3).random_(2)
+m = torch.nn.MarginRankingLoss(margin=0.0)
+output = m(input1, input2, target)

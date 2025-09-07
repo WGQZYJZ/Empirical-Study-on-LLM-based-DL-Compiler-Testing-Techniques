@@ -1,0 +1,9 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+
+input_tensor = torch.randn(3, 3)
+output_tensor = torch.Tensor.diff(input_tensor, n=1, dim=(- 1), prepend=None, append=None)
+output_tensor = torch.Tensor.diff(input_tensor, n=2, dim=(- 1), prepend=None, append=None)
+output_tensor = torch.Tensor.diff(input_tensor, n=1, dim=0, prepend=None, append=None)
+output_tensor = torch.Tensor.diff(input_tensor, n=1, dim=0, prepend=1, append=1)

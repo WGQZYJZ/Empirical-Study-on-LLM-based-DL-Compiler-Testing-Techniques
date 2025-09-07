@@ -1,0 +1,9 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+
+input_data = torch.randn(2, 3, 4, 5)
+output_data = torch.fft.ifft2(input_data)
+output_data = torch.fft.ifft2(input_data, dim=(0, 1))
+output_data = torch.fft.ifft2(input_data, dim=(1, 2))
+output_data = torch.fft.ifft2(input_data, dim=(0, 2))

@@ -1,0 +1,14 @@
+import torch
+from torch import nn
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.features = torch.nn.Sequential(torch.nn.Conv2d(32, 32, 3, 1), torch.nn.AdaptiveAvgPool2d(1))
+    def forward(self, v1):
+        split_tensors = torch.split(v1, [32, 8, 8], dim=1)
+        concatenated_tensor = torch.cat(split_tensors[::-1], dim=1)
+        return (concatenated_tensor, torch.split(v1, [32, 8, 8], dim=1))
+m = Model()
+# Inputs to the model
+x1 = torch.randn(1, 64, 64, 32)

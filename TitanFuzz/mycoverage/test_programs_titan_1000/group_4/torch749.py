@@ -1,0 +1,9 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+in_data = np.random.randn(2, 3, 4, 5)
+in_data = torch.tensor(in_data, dtype=torch.float32)
+out_data = torch.fft.fft2(in_data)
+in_data = np.random.randn(2, 3, 4, 5)
+in_data = torch.tensor(in_data, dtype=torch.float32)
+out_data = torch.fft.fftn(in_data)

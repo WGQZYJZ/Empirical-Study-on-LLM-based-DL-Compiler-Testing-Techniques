@@ -1,0 +1,19 @@
+import torch
+from torch import nn
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.linear = torch.nn.Linear(13, 5)
+ 
+    def forward(self, x):
+        t1 = self.linear(x)
+        t2 = torch.tanh(t1)
+        return t2
+
+m = Model()
+# Initializing the model
+m = Model()
+
+# Inputs to the model
+x = torch.randn(1, 13)

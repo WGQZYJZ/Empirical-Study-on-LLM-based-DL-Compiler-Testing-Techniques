@@ -1,0 +1,9 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+
+x = torch.arange(12).view(3, 2, 2)
+flatten = torch.nn.Flatten()
+y = flatten(x)
+flatten = torch.nn.Flatten(start_dim=1, end_dim=(- 1))
+y = flatten(x)

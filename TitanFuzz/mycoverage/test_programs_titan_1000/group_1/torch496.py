@@ -1,0 +1,9 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+input_data = torch.tensor([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+tril_indices = torch.tril_indices(row=3, col=3)
+tril_indices_offset = torch.tril_indices(row=3, col=3, offset=1)
+tril_indices_offset_2 = torch.tril_indices(row=3, col=3, offset=2)
+tril_indices_offset_3 = torch.tril_indices(row=3, col=3, offset=3)
+tril_indices_offset_4 = torch.tril_indices(row=3, col=3, offset=4)

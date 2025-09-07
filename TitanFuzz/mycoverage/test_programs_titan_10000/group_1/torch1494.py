@@ -1,0 +1,6 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+
+input_data = torch.randn(3, 4)
+logsumexp_output = torch.logsumexp(input_data, dim=1)

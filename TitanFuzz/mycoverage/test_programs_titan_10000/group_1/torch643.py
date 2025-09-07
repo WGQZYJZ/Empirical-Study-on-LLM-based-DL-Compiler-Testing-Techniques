@@ -1,0 +1,9 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+
+input = torch.randn(2, 3)
+torch.scatter(input, 0, torch.tensor([[0, 1, 0], [1, 0, 0]]), 1)
+input = torch.randn(2, 3)
+torch.gather(input, 0, torch.tensor([[0, 1, 0], [1, 0, 0]]))
+input = torch.randn(2, 3)

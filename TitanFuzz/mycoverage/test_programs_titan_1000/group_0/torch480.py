@@ -1,0 +1,10 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+torch.seed()
+np.random.seed(1)
+torch.rand(3, 3)
+torch.randn(3, 3)
+torch.randperm(5)
+torch.normal(torch.arange(1.0, 11.0), torch.arange(1, 0, (- 0.1)))
+torch.bernoulli(torch.arange(0.1, 1.0, 0.1))

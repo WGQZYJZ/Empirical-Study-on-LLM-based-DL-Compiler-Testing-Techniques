@@ -1,0 +1,10 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+
+input_data = torch.tensor([[0.5, 0.5, 0.5, 0.5]])
+target_data = torch.tensor([[0.5, 0.5, 0.5, 0.5]])
+var_data = torch.tensor([[0.5, 0.5, 0.5, 0.5]])
+loss = torch.nn.functional.gaussian_nll_loss(input_data, target_data, var_data)
+loss = torch.nn.functional.gaussian_nll_loss(input_data, target_data, var_data, reduction='none')
+loss = torch.nn.functional.gaussian_nll_loss(input_data, target_data, var_data, full=True)

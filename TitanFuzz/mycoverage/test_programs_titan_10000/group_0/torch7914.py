@@ -1,0 +1,14 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+
+x = torch.tensor([2.0], requires_grad=True)
+y = torch.tensor([3.0])
+optimizer = torch.optim.Adamax([x], lr=0.1)
+for i in range(10):
+    y_pred = (x * x)
+    loss = ((y_pred - y) ** 2)
+    optimizer.zero_grad()
+    loss.backward()
+    optimizer.step()
+    print('Step {}, x = {}, loss = {}'.format(i, x.item(), loss.item()))

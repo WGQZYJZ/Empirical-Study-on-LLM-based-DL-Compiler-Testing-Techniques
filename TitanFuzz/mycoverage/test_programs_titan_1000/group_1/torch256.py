@@ -1,0 +1,8 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+_input_tensor = torch.randn(2, 3)
+_output_tensor = torch.Tensor.amax(_input_tensor)
+_output_tensor = torch.Tensor.amax(_input_tensor, dim=0)
+_output_tensor = torch.Tensor.amax(_input_tensor, dim=1)
+_output_tensor = torch.Tensor.amax(_input_tensor, dim=1, keepdim=True)

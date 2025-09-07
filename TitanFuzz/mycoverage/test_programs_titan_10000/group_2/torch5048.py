@@ -1,0 +1,9 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+
+input_tensor = torch.tensor([[4.0, 6.0], [6.0, 10.0]])
+input2 = torch.tensor([[2.0], [3.0]])
+torch.Tensor.cholesky_solve(input_tensor, input2, upper=False)
+input_tensor = torch.tensor([[4.0, 6.0], [6.0, 10.0]])
+torch.Tensor.inverse(input_tensor)

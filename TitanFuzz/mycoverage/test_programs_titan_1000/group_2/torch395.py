@@ -1,0 +1,8 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+A = torch.randn(3, 3)
+norm_fro = torch.linalg.matrix_norm(A, ord='fro')
+norm_fro_dim = torch.linalg.matrix_norm(A, ord='fro', dim=((- 2), (- 1)))
+norm_fro_keepdim = torch.linalg.matrix_norm(A, ord='fro', keepdim=True)
+norm_fro_dim_keepdim = torch.linalg.matrix_norm(A, ord='fro', dim=((- 2), (- 1)), keepdim=True)

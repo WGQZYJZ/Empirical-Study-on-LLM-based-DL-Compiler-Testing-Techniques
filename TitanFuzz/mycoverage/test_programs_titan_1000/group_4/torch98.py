@@ -1,0 +1,9 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+_input_tensor = torch.randn(2, 3)
+other = torch.randn(3, 2)
+torch.Tensor.dot(_input_tensor, other)
+torch.dot(_input_tensor.view((- 1)), other.view((- 1)))
+torch.matmul(_input_tensor, other)
+torch.mm(_input_tensor, other)

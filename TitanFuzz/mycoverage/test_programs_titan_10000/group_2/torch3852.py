@@ -1,0 +1,10 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+
+input1 = Variable(torch.randn(1, 1))
+input2 = Variable(torch.randn(1, 1))
+input3 = Variable(torch.randn(1, 1))
+loss = torch.nn.MarginRankingLoss(margin=0.0)
+output = loss(input1, input2, input3)
+input1 = Variable(torch.randn(1, 3))

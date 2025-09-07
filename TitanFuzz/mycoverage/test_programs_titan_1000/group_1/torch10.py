@@ -1,0 +1,8 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+input1 = torch.tensor([[True, False, True], [False, True, False]], dtype=torch.bool)
+input2 = torch.tensor([[True, True, True], [False, False, False]], dtype=torch.bool)
+torch.bitwise_or(input1, input2)
+input1 = torch.tensor([[True, False, True], [False, True, False]], dtype=torch.bool)
+input2 = torch.tensor([[True, True, True], [False, False, False]], dtype=torch.bool)

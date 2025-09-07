@@ -1,0 +1,19 @@
+import torch
+from torch import nn
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.convtran = torch.nn.ConvTranspose2d(8, 3, 4, stride=2, padding=1)
+ 
+    def forward(self, x):
+        v1 = self.convtran(x)
+        v2 = torch.tanh(v1)
+        return v2
+
+m = Model()
+# Initializing the model
+m = Model()
+
+# Inputs to the model
+x = torch.randn(1, 8, 64, 64)

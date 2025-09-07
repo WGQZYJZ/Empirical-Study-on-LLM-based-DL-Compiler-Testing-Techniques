@@ -1,0 +1,8 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+input_data = torch.rand(5, 3)
+input_data[0][0] = float('nan')
+input_data[0][1] = float('inf')
+input_data[0][2] = float('-inf')
+output = torch.nan_to_num(input_data)

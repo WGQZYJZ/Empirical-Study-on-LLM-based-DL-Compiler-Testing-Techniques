@@ -1,0 +1,6 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+
+input_data = torch.tensor([(- 1), (- 2), 3, 4])
+abs_output = torch.abs(input_data)

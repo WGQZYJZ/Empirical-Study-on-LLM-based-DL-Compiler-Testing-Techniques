@@ -1,0 +1,8 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+input_data = np.random.randn(5, 3)
+input_data_tensor = torch.from_numpy(input_data).float()
+torch.nn.init.xavier_uniform_(input_data_tensor, gain=1.0)
+torch.nn.init.xavier_uniform_(input_data_tensor, gain=0.5)
+torch.nn.init.xavier_uniform_(input_data_tensor, gain=2.0)

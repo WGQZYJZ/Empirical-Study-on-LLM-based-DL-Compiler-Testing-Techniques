@@ -1,0 +1,9 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+
+input = torch.randn(3)
+other = torch.randn(3)
+out = torch.empty(3)
+torch.special.gammaincc(input, other, out=out)
+torch.special.gammaincc(input, other)

@@ -1,0 +1,8 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+input = torch.randn(3, 3)
+diagonal = torch.diag(input)
+diagonal_1 = torch.diag(input, diagonal=1)
+diagonal_2 = torch.diag(input, diagonal=2)
+diagonal_3 = torch.diag(input, diagonal=3)

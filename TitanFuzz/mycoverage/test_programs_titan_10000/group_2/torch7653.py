@@ -1,0 +1,9 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+
+input_tensor = torch.rand(4, 4)
+torch.Tensor.sign_(input_tensor)
+out_tensor = torch.rand(4, 4)
+torch.Tensor.sign_(input_tensor, out=out_tensor)
+torch.sign(input_tensor)

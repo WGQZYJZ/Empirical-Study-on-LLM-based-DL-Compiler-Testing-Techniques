@@ -1,0 +1,10 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+
+x = torch.tensor([[(- 3), (- 2), (- 1), 0, 1, 2, 3]])
+torch.nn.functional.threshold_(x, 0, 0)
+torch.nn.functional.threshold_(x, 0, 1)
+torch.nn.functional.threshold_(x, 0, 2)
+torch.nn.functional.threshold_(x, 0, 3)
+torch.nn.functional.threshold_(x, 0, 4)

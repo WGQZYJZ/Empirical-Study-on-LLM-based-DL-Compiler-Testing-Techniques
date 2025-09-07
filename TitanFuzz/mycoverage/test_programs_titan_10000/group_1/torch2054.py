@@ -1,0 +1,13 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+
+x = torch.rand(2, 3)
+y = torch.rand(2, 3)
+z = torch.rand(2, 3)
+w = torch.cat((x, y, z), dim=0)
+x = torch.rand(2, 3)
+y = torch.rand(2, 3)
+z = torch.rand(2, 3)
+w = torch.stack((x, y, z), dim=0)
+x = torch.rand(2, 3)

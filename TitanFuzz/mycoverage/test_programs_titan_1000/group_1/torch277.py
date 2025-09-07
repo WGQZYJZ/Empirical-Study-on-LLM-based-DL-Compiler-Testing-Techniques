@@ -1,0 +1,12 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+a = torch.randn(3, requires_grad=True)
+b = torch.randn(3, requires_grad=True)
+c = torch.cross(a, b)
+a = torch.randn(4, 3, requires_grad=True)
+b = torch.randn(4, 3, requires_grad=True)
+c = torch.cross(a, b, dim=1)
+a = torch.randn(4, 3, 5, requires_grad=True)
+b = torch.randn(4, 3, 5, requires_grad=True)
+c = torch.cross(a, b, dim=1)

@@ -1,0 +1,15 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+
+x = torch.randn(2, 3)
+y = torch.randn(2, 3)
+z = torch.cat([x, y])
+z = torch.cat([x, y], dim=0)
+z = torch.cat([x, y], dim=1)
+x = torch.randn(2, 3, 4)
+y = torch.randn(2, 3, 4)
+z = torch.cat([x, y], dim=2)
+x = torch.randn(2, 3, 4, 5)
+y = torch.randn(2, 3, 4, 5)
+z = torch.cat([x, y], dim=3)

@@ -1,0 +1,7 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+
+size = (2, 2, 2)
+stride = (1, 2, 3)
+output = torch.empty_strided(size, stride)

@@ -1,0 +1,15 @@
+import torch
+from torch import nn
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv = torch.nn.Conv1d(5, 6, 2)
+        self.bn = torch.nn.BatchNorm1d(6, affine=False)
+    def forward(self, x):
+        x = self.conv(x)
+        x = self.bn(x)
+        return x
+m = Model()
+# Inputs to the model
+x = torch.randn(1, 5, 6)

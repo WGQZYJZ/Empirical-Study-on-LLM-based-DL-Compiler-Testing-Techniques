@@ -1,0 +1,9 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+
+a = torch.rand(2, 3)
+b = torch.rand(4, 5)
+c = torch.rand(6, 7)
+d = torch.rand(8, 9)
+torch.block_diag(a, b, c, d)

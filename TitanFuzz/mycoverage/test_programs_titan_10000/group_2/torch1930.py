@@ -1,0 +1,12 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+
+x = torch.ones(2, 2)
+y = torch.ones(2, 2)
+future = torch.jit._fork(torch.add, x, y)
+torch.jit.wait(future)
+x = torch.ones(2, 2)
+y = torch.ones(2, 2)
+future = torch.jit._fork(torch.add, x, y)
+torch.jit.wait(future)

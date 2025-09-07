@@ -1,0 +1,6 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+
+input_data = torch.randn(1, 1, 3, requires_grad=True)
+conv_transpose1d = torch.nn.LazyConvTranspose1d(1, 2, stride=2, padding=0, output_padding=0, groups=1, bias=True, dilation=1, padding_mode='zeros', device=None, dtype=None)

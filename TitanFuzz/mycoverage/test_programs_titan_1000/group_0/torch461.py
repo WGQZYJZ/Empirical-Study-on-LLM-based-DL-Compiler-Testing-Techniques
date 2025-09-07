@@ -1,0 +1,8 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+A = torch.randn(3, 3)
+B = torch.linalg.matrix_norm(A, ord='fro')
+C = torch.linalg.matrix_norm(A, ord=2)
+D = torch.linalg.matrix_norm(A, ord=1)
+E = torch.linalg.matrix_norm(A, ord=float('inf'))

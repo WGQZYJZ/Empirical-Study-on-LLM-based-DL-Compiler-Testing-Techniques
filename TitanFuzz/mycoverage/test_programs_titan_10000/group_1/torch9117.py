@@ -1,0 +1,11 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+
+x = Variable(torch.randn(1, 2))
+torch.nn.functional.elu(x)
+torch.nn.functional.elu(x, alpha=0.5)
+torch.nn.functional.elu(x, alpha=0.5, inplace=True)
+torch.nn.functional.elu(x, inplace=True)
+torch.nn.functional.elu(x, alpha=0.5, inplace=False)
+torch.nn.functional.elu(x, alpha=0.5)

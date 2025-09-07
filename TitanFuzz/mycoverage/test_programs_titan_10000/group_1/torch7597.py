@@ -1,0 +1,9 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+
+x = torch.randn(10)
+torch.nn.functional.leaky_relu_(x)
+torch.nn.functional.leaky_relu_(x, negative_slope=0.5)
+torch.nn.functional.leaky_relu_(x, negative_slope=1)
+torch.nn.functional.leaky_relu_(x, negative_slope=2)

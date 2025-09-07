@@ -1,0 +1,11 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+
+x = torch.linspace(0, 1, 10, requires_grad=True)
+y = torch.sin(x)
+x = torch.linspace(0, 1, 10, requires_grad=True)
+y = torch.sin(x)
+result = torch.trapz(y, x=x)
+result.backward()
+x = torch.linspace(0, 1, 10, requires_grad=True)

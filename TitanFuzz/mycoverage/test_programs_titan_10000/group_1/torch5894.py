@@ -1,0 +1,10 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+
+input_data = torch.randn(2, 3)
+torch.triu(input_data, diagonal=0)
+torch.tril(input_data, diagonal=0)
+input_data = torch.randn(2, 3)
+torch.tril(input_data, diagonal=0)
+input_data = torch.randn(2, 3)

@@ -1,0 +1,13 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+
+input_data = torch.rand(10, 2)
+indices = torch.tensor([3, 5, 7])
+input_data = torch.rand(10, 2)
+indices = torch.tensor([3, 5, 7])
+output_data = torch.utils.data.Subset(input_data, indices)
+input_data = torch.rand(10, 2)
+indices = torch.tensor([3, 5, 7])
+input_data = torch.rand(10, 2)
+indices = torch

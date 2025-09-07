@@ -1,0 +1,10 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+
+x = torch.tensor([[1, 2, 3], [4, 5, 6]], dtype=torch.float32)
+y = torch.diff(x)
+y = torch.diff(x, dim=0)
+y = torch.diff(x, dim=1)
+y = torch.diff(x, n=2)
+y = torch.diff(x, n=2, dim=0)

@@ -1,0 +1,9 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+
+input_data = torch.randn(2, 3, 4)
+torch.aminmax(input_data, dim=1)
+torch.aminmax(input_data, dim=1, keepdim=True)
+torch.aminmax(input_data, dim=2)
+torch.aminmax(input_data, dim=2, keepdim=True)

@@ -1,0 +1,10 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+
+input = torch.randn(2, 3, requires_grad=True)
+other = torch.randn(3, 3, requires_grad=True)
+bias = torch.randn(2, 3, requires_grad=True)
+output = torch.linalg.matmul(input, other)
+output = (output + bias)
+output.backward(torch.ones(output.shape))

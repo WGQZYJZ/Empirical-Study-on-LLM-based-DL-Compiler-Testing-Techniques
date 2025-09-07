@@ -1,0 +1,16 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+
+input = torch.randn(3, 5, requires_grad=True)
+target = torch.randn(3, 5)
+loss = torch.nn.functional.l1_loss(input, target)
+input = torch.randn(3, 5, requires_grad=True)
+target = torch.randn(3, 5)
+loss = torch.nn.functional.l1_loss(input, target, reduction='sum')
+input = torch.randn(3, 5, requires_grad=True)
+target = torch.randn(3, 5)
+loss = torch.nn.functional.l1_loss(input, target, size_average=False)
+input = torch.randn(3, 5, requires_grad=True)
+target = torch.randn(3, 5)
+loss = torch.nn.functional.l1_loss(input, target, reduce=False)

@@ -1,0 +1,8 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+a = torch.randn(3, 3)
+b = torch.randn(3, 1)
+c = torch.randn(1, 3)
+result1 = torch.broadcast_tensors(a, b)
+result2 = torch.broadcast_tensors(a, c)

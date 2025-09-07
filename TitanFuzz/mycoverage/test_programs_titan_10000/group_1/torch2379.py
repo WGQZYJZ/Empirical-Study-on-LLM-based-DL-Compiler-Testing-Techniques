@@ -1,0 +1,6 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+
+input_data = torch.tensor([[0, 0, 0, 0, 0, 0], [1, 1, 1, 1, 1, 1], [2, 2, 2, 2, 2, 2], [3, 3, 3, 3, 3, 3], [4, 4, 4, 4, 4, 4], [5, 5, 5, 5, 5, 5]])
+output = torch.nonzero(input_data)

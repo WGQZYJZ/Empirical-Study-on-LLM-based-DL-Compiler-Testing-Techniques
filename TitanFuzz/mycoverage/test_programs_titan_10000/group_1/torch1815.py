@@ -1,0 +1,6 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+
+input = torch.rand(1, 1, 3, 3)
+output = torch.nn.functional.threshold(input, 0.5, 0.5)

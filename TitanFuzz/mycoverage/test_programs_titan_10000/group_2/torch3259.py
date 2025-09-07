@@ -1,0 +1,9 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+
+x = torch.rand(4, 4, dtype=torch.float32)
+y = torch.rand(4, 4, dtype=torch.float32)
+out = torch.special.xlog1py(x, y)
+x = torch.rand(4, 4, dtype=torch.float32)
+y = torch.rand(4, 4, dtype=torch.float32)

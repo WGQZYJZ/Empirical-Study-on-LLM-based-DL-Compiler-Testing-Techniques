@@ -1,0 +1,14 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+
+input = torch.randn(1, 1)
+end = torch.randn(1, 1)
+weight = torch.randn(1, 1)
+output = torch.lerp(input, end, weight)
+input = torch.randn(1, 1)
+end = torch.randn(1, 1)
+weight = torch.randn(1, 1)
+output = torch.lerp(input, end, weight)
+input = torch.randn(1, 1)
+end = torch.randn(1, 1)

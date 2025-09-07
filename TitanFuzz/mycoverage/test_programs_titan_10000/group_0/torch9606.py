@@ -1,0 +1,10 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+
+A = torch.randn(2, 3, 4, 5)
+torch.linalg.svdvals(A)
+A = torch.randn(2, 3, 4, 5)
+torch.linalg.svdvals(A, out=None)
+A = torch.randn(2, 3, 4, 5)
+torch.linalg.svdvals(A, out=None)

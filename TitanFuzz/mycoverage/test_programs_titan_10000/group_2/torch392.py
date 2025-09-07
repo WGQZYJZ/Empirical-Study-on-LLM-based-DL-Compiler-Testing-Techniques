@@ -1,0 +1,9 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+
+x = torch.rand(3, 3)
+torch.random.seed()
+y = torch.rand(3, 3)
+torch.random.seed()
+z = torch.rand(3, 3)

@@ -1,0 +1,13 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+
+A = torch.rand(3, 3)
+torch.linalg.inv(A)
+out = torch.empty(3, 3)
+torch.linalg.inv(A, out=out)
+torch.linalg.pinv(A)
+out = torch.empty(3, 3)
+torch.linalg.pinv(A, out=out)
+torch.linalg.svd(A)
+out = torch.empty(3, 3)

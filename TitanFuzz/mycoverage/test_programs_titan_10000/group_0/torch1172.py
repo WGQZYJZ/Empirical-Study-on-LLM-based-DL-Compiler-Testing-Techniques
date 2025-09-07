@@ -1,0 +1,10 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+
+input = torch.randn(3, 4)
+other = torch.randn(4, 5)
+torch.linalg.matmul(input, other)
+input = torch.randn(3, 4)
+other = torch.randn(4, 5)
+torch.linalg.matmul(input, other)

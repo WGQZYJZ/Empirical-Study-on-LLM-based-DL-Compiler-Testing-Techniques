@@ -1,0 +1,6 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+
+A = torch.rand(2, 2)
+eigen_values = torch.linalg.eigvals(A)

@@ -1,0 +1,5 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+input_data = torch.randn(8, 8)
+output_data = torch.fft.fftfreq(input_data.size(0))

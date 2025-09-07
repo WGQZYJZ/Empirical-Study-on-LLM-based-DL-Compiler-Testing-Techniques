@@ -1,0 +1,9 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+
+input = torch.rand(3, requires_grad=True)
+input_log_softmax = torch.nn.functional.log_softmax(input, dim=0)
+target = torch.rand(3)
+target_log_softmax = torch.nn.functional.log_softmax(target, dim=0)
+loss = torch.nn.functional.kl_div(input_log_softmax, target_log_softmax, reduction='batchmean')

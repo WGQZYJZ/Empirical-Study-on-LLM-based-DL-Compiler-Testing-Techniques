@@ -1,0 +1,10 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+
+a = torch.tensor([[1, 2, 3], [4, 5, 6], [7, 8, 9]])
+torch.topk(a, k=2, dim=0)
+torch.topk(a, k=2, dim=1)
+torch.topk(a, k=2, dim=0, largest=False)
+torch.topk(a, k=2, dim=1, largest=False)
+a = torch.tensor([[1, 2, 3], [4, 5, 6], [7, 8, 9]])

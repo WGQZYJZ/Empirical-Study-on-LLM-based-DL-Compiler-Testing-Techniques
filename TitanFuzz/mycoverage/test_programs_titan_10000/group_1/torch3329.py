@@ -1,0 +1,9 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+
+x = torch.randint(low=0, high=10, size=(4, 4))
+x = torch.randint(3, 5, (4, 4))
+x = torch.randint(3, 5, (4, 4), dtype=torch.int64)
+x = torch.randint(3, 5, (4, 4), dtype=torch.int32)
+x = torch.randint(3, 5, (4, 4), dtype=torch.int16)

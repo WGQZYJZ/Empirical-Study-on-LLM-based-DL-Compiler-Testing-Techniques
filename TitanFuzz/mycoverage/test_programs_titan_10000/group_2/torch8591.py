@@ -1,0 +1,14 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+
+a = torch.rand(3, 3, requires_grad=True)
+b = torch.rand(3, 3, requires_grad=True)
+c = torch.true_divide(a, b)
+a = torch.rand(3, 3, requires_grad=True)
+b = torch.rand(3, 3, requires_grad=True)
+c = torch.empty(3, 3)
+torch.true_divide(a, b, out=c)
+a = torch.rand(3, 3, requires_grad=True)
+b = torch.rand(3, 3, requires_grad=True)
+c = torch.true_divide(a, b, out=c)

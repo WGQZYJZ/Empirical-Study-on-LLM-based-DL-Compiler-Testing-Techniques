@@ -1,0 +1,9 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+x = torch.tensor([[True, True], [False, False]], dtype=torch.bool)
+y = torch.tensor([[True, False], [False, False]], dtype=torch.bool)
+torch.bitwise_and(x, y)
+torch.bitwise_and(x, y, out=torch.empty(2, 2, dtype=torch.bool))
+torch.bitwise_and(x, y, out=torch.empty(2, 2, dtype=torch.bool))
+torch.bitwise_and(x, y, out=torch.empty(2, 2, dtype=torch.bool))

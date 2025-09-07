@@ -1,0 +1,6 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+
+input_data = np.random.randn(1, 16000)
+stft_result = torch.stft(torch.from_numpy(input_data), n_fft=512, hop_length=256, win_length=512, window=torch.hann_window(512), center=True, pad_mode='reflect', normalized=False, onesided=True, return_complex=True)

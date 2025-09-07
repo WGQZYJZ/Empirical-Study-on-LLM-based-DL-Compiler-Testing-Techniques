@@ -1,0 +1,14 @@
+import torch
+from torch import nn
+
+class Model(torch.nn.Module):
+    def __init__(self):
+        super().__init__()
+        self.conv = torch.nn.Conv2d(1, 256, 1, padding=0, dilation=1, stride=1, groups=1, bias=False)
+    def forward(self, x):
+        t1 = self.conv(x)
+        t2 = t1 - -256
+        return t2
+m = Model()
+# Inputs to the model
+x = torch.randn(1, 1, 28, 28)

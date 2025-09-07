@@ -1,0 +1,8 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+x = torch.rand(1000, 1000)
+relu = torch.nn.SiLU(inplace=False)
+y = relu(x)
+relu = torch.nn.SiLU(inplace=True)
+y = relu(x)

@@ -1,0 +1,13 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+a = np.array([1, 2, 3])
+b = torch.from_numpy(a)
+c = np.array([1, 2, 3])
+d = torch.from_numpy(c)
+e = np.array([1, 2, 3])
+f = torch.from_numpy(e)
+g = np.array([1, 2, 3])
+h = torch.from_numpy(g)
+i = np.array([1, 2, 3])
+j = torch.from_numpy(i)

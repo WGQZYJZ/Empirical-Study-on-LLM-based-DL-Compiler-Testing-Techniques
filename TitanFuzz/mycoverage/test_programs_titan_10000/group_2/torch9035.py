@@ -1,0 +1,12 @@
+import torch
+from torch import nn
+from torch.autograd import Variable
+
+input = torch.rand(3, 3)
+output = torch.diagonal(input)
+output = torch.diagonal(input, offset=1)
+output = torch.diagonal(input, offset=(- 1))
+input = torch.rand(3, 3, 3)
+output = torch.diagonal(input, dim1=1, dim2=2)
+input = torch.rand(3, 3, 3, 3)
+output = torch.diagonal(input, dim1=1, dim2=3)
